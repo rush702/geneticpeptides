@@ -10,6 +10,7 @@ export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const supabase = createClient();
 
   useEffect(() => {
@@ -19,7 +20,18 @@ export default function Nav() {
   }, []);
 
   useEffect(() => {
-    supabase.auth.getUser().then((res: any) => setUser(res.data?.user ?? null));
+    supabase.auth.getUser().then((res: any) => {
+      const u = res.data?.user ?? null;
+      setUser(u);
+      if (u) {
+        supabase
+          .from("profiles")
+          .select("is_admin")
+          .eq("user_id", u.id)
+          .single()
+          .then((r: any) => setIsAdmin(r.data?.is_admin ?? false));
+      }
+    });
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event: any, session: any) => {
@@ -38,6 +50,7 @@ export default function Nav() {
     { href: "/", label: "Home" },
     { href: "/for-vendors", label: "For Vendors" },
     ...(user ? [{ href: "/dashboard", label: "Dashboard" }] : []),
+    ...(isAdmin ? [{ href: "/admin", label: "Admin" }] : []),
   ];
 
   return (
