@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, Shield, LogOut, LayoutDashboard } from "lucide-react";
+import { Menu, X, Shield, LogOut, LayoutDashboard, User as UserIcon, BookOpen } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
 
@@ -49,6 +49,7 @@ export default function Nav() {
   const links = [
     { href: "/", label: "Home" },
     { href: "/for-vendors", label: "For Vendors" },
+    { href: "/blog", label: "Blog" },
     ...(user ? [{ href: "/dashboard", label: "Dashboard" }] : []),
     ...(isAdmin ? [{ href: "/admin", label: "Admin" }] : []),
   ];
@@ -91,6 +92,12 @@ export default function Nav() {
               >
                 <LayoutDashboard className="w-4 h-4" />
                 Dashboard
+              </Link>
+              <Link
+                href="/account"
+                className="flex items-center gap-2 px-3 py-2 text-sm text-gray-400 hover:text-white transition-colors"
+              >
+                <UserIcon className="w-4 h-4" />
               </Link>
               <button
                 onClick={handleSignOut}
