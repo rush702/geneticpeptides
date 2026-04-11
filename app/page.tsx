@@ -412,7 +412,7 @@ export default function HomePage() {
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.95 }}
                       transition={{ duration: 0.2 }}
-                      className={`card-glow group p-6 bg-ink-2 border rounded-xl relative ${
+                      className={`card-glow group bg-ink-2 border rounded-xl relative ${
                         isSelected
                           ? "border-emerald/40 ring-1 ring-emerald/20"
                           : "border-white/5"
@@ -420,8 +420,12 @@ export default function HomePage() {
                     >
                       {/* Compare checkbox */}
                       <button
-                        onClick={() => toggleCompare(v.slug)}
-                        className={`absolute top-3 right-3 w-6 h-6 rounded-md border flex items-center justify-center transition-all ${
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          toggleCompare(v.slug);
+                        }}
+                        className={`absolute top-3 right-3 z-10 w-6 h-6 rounded-md border flex items-center justify-center transition-all ${
                           isSelected
                             ? "bg-emerald border-emerald text-white"
                             : "border-white/10 text-transparent hover:border-white/30 hover:text-gray-600"
@@ -437,9 +441,10 @@ export default function HomePage() {
                         <GitCompareArrows className="w-3.5 h-3.5" />
                       </button>
 
+                      <Link href={`/vendors/${v.slug}`} className="block p-6">
                       <div className="flex items-start justify-between mb-4 pr-8">
                         <div>
-                          <h3 className="text-base font-semibold text-white mb-1">
+                          <h3 className="text-base font-semibold text-white mb-1 group-hover:text-emerald transition-colors">
                             {v.name}
                           </h3>
                           <div className="flex items-center gap-3">
@@ -502,6 +507,7 @@ export default function HomePage() {
                           ))}
                         </div>
                       </div>
+                      </Link>
                     </motion.div>
                   );
                 })}
