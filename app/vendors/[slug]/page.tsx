@@ -22,6 +22,7 @@ import {
   FileText,
 } from "lucide-react";
 import { vendors, getVendor } from "@/lib/vendors";
+import { getPeptideSlug } from "@/lib/peptides";
 import VendorDetailClient from "./client";
 
 export function generateStaticParams() {
@@ -222,27 +223,39 @@ export default async function VendorDetailPage({
                 </span>
               </h2>
               <div className="space-y-2">
-                {vendor.recentCOAs.map((coa) => (
-                  <div
-                    key={coa.batchId}
-                    className="flex items-center justify-between p-3 bg-ink rounded-lg hover:bg-ink-3/50 transition-colors group"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-lg bg-emerald/10 flex items-center justify-center flex-shrink-0">
-                        <FileText className="w-4 h-4 text-emerald" />
+                {vendor.recentCOAs.map((coa) => {
+                  const peptideSlug = getPeptideSlug(coa.peptide);
+                  return (
+                    <div
+                      key={coa.batchId}
+                      className="flex items-center justify-between p-3 bg-ink rounded-lg hover:bg-ink-3/50 transition-colors group"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-9 h-9 rounded-lg bg-emerald/10 flex items-center justify-center flex-shrink-0">
+                          <FileText className="w-4 h-4 text-emerald" />
+                        </div>
+                        <div>
+                          {peptideSlug ? (
+                            <Link
+                              href={`/peptides/${peptideSlug}`}
+                              className="text-sm text-white font-medium hover:text-emerald transition-colors"
+                            >
+                              {coa.peptide}
+                            </Link>
+                          ) : (
+                            <p className="text-sm text-white font-medium">{coa.peptide}</p>
+                          )}
+                          <p className="text-xs text-gray-500 font-mono">{coa.batchId}</p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-sm text-white font-medium">{coa.peptide}</p>
-                        <p className="text-xs text-gray-500 font-mono">{coa.batchId}</p>
+                      <div className="flex items-center gap-4">
+                        <span className="text-xs text-gray-500">{coa.method}</span>
+                        <span className="text-sm text-emerald font-medium">{coa.purity}</span>
+                        <span className="text-xs text-gray-600 hidden sm:inline">{coa.date}</span>
                       </div>
                     </div>
-                    <div className="flex items-center gap-4">
-                      <span className="text-xs text-gray-500">{coa.method}</span>
-                      <span className="text-sm text-emerald font-medium">{coa.purity}</span>
-                      <span className="text-xs text-gray-600 hidden sm:inline">{coa.date}</span>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </section>
 
@@ -329,14 +342,25 @@ export default async function VendorDetailPage({
                 Peptide Catalog
               </h3>
               <div className="flex flex-wrap gap-2">
-                {vendor.peptideCatalog.map((p) => (
-                  <span
-                    key={p}
-                    className="px-2.5 py-1 bg-emerald/5 text-emerald text-xs rounded-full border border-emerald/10"
-                  >
-                    {p}
-                  </span>
-                ))}
+                {vendor.peptideCatalog.map((p) => {
+                  const slug = getPeptideSlug(p);
+                  return slug ? (
+                    <Link
+                      key={p}
+                      href={`/peptides/${slug}`}
+                      className="px-2.5 py-1 bg-emerald/5 text-emerald text-xs rounded-full border border-emerald/10 hover:bg-emerald/15 hover:border-emerald/30 transition-all"
+                    >
+                      {p}
+                    </Link>
+                  ) : (
+                    <span
+                      key={p}
+                      className="px-2.5 py-1 bg-emerald/5 text-emerald/60 text-xs rounded-full border border-emerald/10"
+                    >
+                      {p}
+                    </span>
+                  );
+                })}
               </div>
             </section>
 
