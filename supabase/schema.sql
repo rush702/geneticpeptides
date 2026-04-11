@@ -195,6 +195,39 @@ create trigger on_reviews_update
   execute function public.handle_updated_at();
 
 -- ============================================================
+-- Newsletter subscribers (footer signup)
+-- ============================================================
+create table if not exists public.newsletter_subscribers (
+  id           uuid primary key default gen_random_uuid(),
+  email        text not null unique,
+  subscribed   boolean not null default true,
+  source       text default 'footer',
+  confirmed_at timestamptz,
+  created_at   timestamptz default now()
+);
+
+create index if not exists idx_newsletter_email on public.newsletter_subscribers(email);
+
+alter table public.newsletter_subscribers enable row level security;
+
+-- Anyone can subscribe
+create policy "Anyone can subscribe"
+  on public.newsletter_subscribers for insert
+  to anon, authenticated
+  with check (true);
+
+-- Only admins can read the list
+create policy "Admins manage subscribers"
+  on public.newsletter_subscribers for all
+  to authenticated
+  using (
+    exists (
+      select 1 from public.profiles p
+      where p.user_id = auth.uid() and p.is_admin = true
+    )
+  );
+
+-- ============================================================
 -- Contact messages (from /contact form)
 -- ============================================================
 create table if not exists public.contact_messages (

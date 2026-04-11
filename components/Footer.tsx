@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Shield, Mail, ExternalLink } from "lucide-react";
+import NewsletterSignup from "./NewsletterSignup";
 
 const columns = [
   {
@@ -44,9 +45,9 @@ export default function Footer() {
   return (
     <footer className="relative border-t border-white/5 bg-ink-2 molecular-bg">
       <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
-          {/* Brand column */}
-          <div className="col-span-2 md:col-span-1">
+        {/* Top section: brand + newsletter */}
+        <div className="grid md:grid-cols-2 gap-10 mb-12 pb-12 border-b border-white/5">
+          <div>
             <Link href="/" className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 rounded-lg bg-emerald/10 border border-emerald/20 flex items-center justify-center">
                 <Shield className="w-4 h-4 text-emerald" />
@@ -55,9 +56,8 @@ export default function Footer() {
                 PepAssure
               </span>
             </Link>
-            <p className="text-sm text-gray-500 mb-4 leading-relaxed">
-              Independent peptide vendor verification.
-              No paid placements — ever.
+            <p className="text-sm text-gray-500 mb-4 leading-relaxed max-w-sm">
+              Independent peptide vendor verification. No paid placements — ever.
             </p>
             <div className="flex items-center gap-2 text-sm text-gray-500">
               <Mail className="w-4 h-4" />
@@ -67,7 +67,13 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Link columns */}
+          <div className="md:max-w-md md:ml-auto md:w-full">
+            <NewsletterSignup />
+          </div>
+        </div>
+
+        {/* Link columns */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {columns.map((col) => (
             <div key={col.title}>
               <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-4">
