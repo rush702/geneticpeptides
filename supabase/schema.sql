@@ -123,6 +123,78 @@ create trigger on_profiles_update
 -- ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS stripe_subscription_id text;
 
 -- ============================================================
+-- Reviews (community reviews on vendor pages)
+-- ============================================================
+create table if not exists public.reviews (
+  id            uuid primary key default gen_random_uuid(),
+  vendor_slug   text not null,
+  user_id       uuid references auth.users(id) on delete cascade not null,
+  author_name   text not null,
+  rating        integer not null check (rating between 1 and 5),
+  title         text not null,
+  body          text not null,
+  verified      boolean not null default false,
+  helpful_count integer not null default 0,
+  status        text not null default 'pending'
+                check (status in ('pending', 'approved', 'rejected', 'hidden')),
+  created_at    timestamptz default now(),
+  updated_at    timestamptz default now(),
+
+  -- One review per user per vendor
+  constraint reviews_user_vendor_unique unique (user_id, vendor_slug)
+);
+
+create index if not exists idx_reviews_vendor_slug on public.reviews(vendor_slug);
+create index if not exists idx_reviews_status on public.reviews(status);
+create index if not exists idx_reviews_user_id on public.reviews(user_id);
+
+alter table public.reviews enable row level security;
+
+-- Anyone can read approved reviews
+create policy "Public can view approved reviews"
+  on public.reviews for select
+  using (status = 'approved');
+
+-- Users can read their own reviews (any status)
+create policy "Users can view own reviews"
+  on public.reviews for select
+  to authenticated
+  using (auth.uid() = user_id);
+
+-- Authenticated users can insert their own reviews
+create policy "Users can insert own reviews"
+  on public.reviews for insert
+  to authenticated
+  with check (auth.uid() = user_id);
+
+-- Users can update/delete their own reviews
+create policy "Users can update own reviews"
+  on public.reviews for update
+  to authenticated
+  using (auth.uid() = user_id);
+
+create policy "Users can delete own reviews"
+  on public.reviews for delete
+  to authenticated
+  using (auth.uid() = user_id);
+
+-- Admins have full access
+create policy "Admins manage all reviews"
+  on public.reviews for all
+  to authenticated
+  using (
+    exists (
+      select 1 from public.profiles p
+      where p.user_id = auth.uid() and p.is_admin = true
+    )
+  );
+
+create trigger on_reviews_update
+  before update on public.reviews
+  for each row
+  execute function public.handle_updated_at();
+
+-- ============================================================
 -- Contact messages (from /contact form)
 -- ============================================================
 create table if not exists public.contact_messages (
