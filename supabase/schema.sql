@@ -121,3 +121,38 @@ create trigger on_profiles_update
 -- If upgrading an existing schema, add the Stripe columns:
 -- ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS stripe_customer_id text;
 -- ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS stripe_subscription_id text;
+
+-- ============================================================
+-- Contact messages (from /contact form)
+-- ============================================================
+create table if not exists public.contact_messages (
+  id         uuid primary key default gen_random_uuid(),
+  name       text not null,
+  email      text not null,
+  subject    text,
+  message    text not null,
+  category   text not null default 'general'
+             check (category in ('general', 'vendor', 'enterprise', 'press', 'bug')),
+  status     text not null default 'new'
+             check (status in ('new', 'replied', 'resolved', 'spam')),
+  created_at timestamptz default now()
+);
+
+alter table public.contact_messages enable row level security;
+
+-- Anyone can insert (contact form is public)
+create policy "Anyone can submit contact message"
+  on public.contact_messages for insert
+  to anon, authenticated
+  with check (true);
+
+-- Only admins can read/update
+create policy "Admins manage contact messages"
+  on public.contact_messages for all
+  to authenticated
+  using (
+    exists (
+      select 1 from public.profiles p
+      where p.user_id = auth.uid() and p.is_admin = true
+    )
+  );
