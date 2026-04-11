@@ -18,6 +18,8 @@ create table if not exists public.profiles (
   is_admin      boolean not null default false,
   pvs_score     numeric,
   rank          integer,
+  stripe_customer_id     text,
+  stripe_subscription_id text,
   claimed_at    timestamptz default now(),
   verified_at   timestamptz,
   upgraded_at   timestamptz,
@@ -97,9 +99,25 @@ create trigger on_profiles_update
 -- 3. Fill in SUPABASE_SERVICE_ROLE_KEY (Settings → API → service_role)
 -- 4. To make a user admin: UPDATE profiles SET is_admin = true WHERE user_id = '<uuid>';
 --
--- Stripe webhook setup:
--- 1. In Stripe Dashboard → Developers → Webhooks, add endpoint:
---    https://yourdomain.com/api/stripe/webhook
--- 2. Listen for: checkout.session.completed
--- 3. Copy webhook signing secret to STRIPE_WEBHOOK_SECRET in .env.local
+-- Stripe setup:
+-- 1. Create products + prices in Stripe Dashboard (one-time setup):
+--    - Pro Monthly ($199/mo)
+--    - Pro Yearly ($1,990/yr)
+--    - Enterprise Monthly ($599/mo)
+--    - Enterprise Yearly ($4,792/yr)
+-- 2. Copy each price ID (price_xxx) to env vars:
+--    - STRIPE_PRICE_PRO_MONTHLY
+--    - STRIPE_PRICE_PRO_YEARLY
+--    - STRIPE_PRICE_ENT_MONTHLY
+--    - STRIPE_PRICE_ENT_YEARLY
+-- 3. Copy STRIPE_SECRET_KEY from Developers → API keys
+-- 4. In Stripe Dashboard → Developers → Webhooks → Add endpoint:
+--    https://pepassure.com/api/stripe/webhook
+--    Listen for: checkout.session.completed, customer.subscription.deleted,
+--    invoice.payment_failed
+-- 5. Copy webhook signing secret to STRIPE_WEBHOOK_SECRET
 -- ============================================================
+
+-- If upgrading an existing schema, add the Stripe columns:
+-- ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS stripe_customer_id text;
+-- ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS stripe_subscription_id text;
