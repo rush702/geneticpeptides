@@ -6,8 +6,8 @@ const columns = [
     title: "Product",
     links: [
       { label: "Vendor Rankings", href: "/" },
+      { label: "Peptide Library", href: "/peptides" },
       { label: "Verification API", href: "#" },
-      { label: "COA Database", href: "#" },
       { label: "Batch Lookup", href: "#" },
     ],
   },
