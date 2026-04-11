@@ -24,6 +24,7 @@ import {
 import { vendors, getVendor } from "@/lib/vendors";
 import { getPeptideSlug } from "@/lib/peptides";
 import VendorDetailClient from "./client";
+import WriteReviewButton from "./review-button";
 
 export function generateStaticParams() {
   return vendors.map((v) => ({ slug: v.slug }));
@@ -261,25 +262,28 @@ export default async function VendorDetailPage({
 
             {/* Reviews */}
             <section className="p-6 bg-ink-2 border border-white/5 rounded-xl">
-              <div className="flex items-center justify-between mb-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
                 <h2 className="text-lg font-semibold text-white flex items-center gap-2">
                   <Star className="w-5 h-5 text-emerald" />
                   Community Reviews
                 </h2>
-                <div className="flex items-center gap-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className={`w-4 h-4 ${
-                        i < Math.round(avgRating)
-                          ? "text-yellow-400 fill-yellow-400"
-                          : "text-gray-700"
-                      }`}
-                    />
-                  ))}
-                  <span className="ml-2 text-sm text-gray-300">
-                    {avgRating.toFixed(1)} ({vendor.reviews.length})
-                  </span>
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className={`w-4 h-4 ${
+                          i < Math.round(avgRating)
+                            ? "text-yellow-400 fill-yellow-400"
+                            : "text-gray-700"
+                        }`}
+                      />
+                    ))}
+                    <span className="ml-2 text-sm text-gray-300">
+                      {avgRating.toFixed(1)} ({vendor.reviews.length})
+                    </span>
+                  </div>
+                  <WriteReviewButton vendorSlug={vendor.slug} vendorName={vendor.name} />
                 </div>
               </div>
               <div className="space-y-4">
