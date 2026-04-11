@@ -23,19 +23,19 @@ const columns = [
   {
     title: "Company",
     links: [
-      { label: "About", href: "#" },
+      { label: "About", href: "/about" },
       { label: "Methodology", href: "/methodology" },
       { label: "Blog", href: "/blog" },
-      { label: "Contact", href: "#" },
+      { label: "Contact", href: "/contact" },
     ],
   },
   {
     title: "Legal",
     links: [
-      { label: "Privacy Policy", href: "#" },
-      { label: "Terms of Service", href: "#" },
-      { label: "Cookie Policy", href: "#" },
-      { label: "DMCA", href: "#" },
+      { label: "Privacy Policy", href: "/privacy" },
+      { label: "Terms of Service", href: "/terms" },
+      { label: "Cookie Policy", href: "/privacy#6" },
+      { label: "Contact Legal", href: "/contact" },
     ],
   },
 ];
