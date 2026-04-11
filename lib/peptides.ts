@@ -176,6 +176,21 @@ export function getPeptide(slug: string): Peptide | undefined {
   return peptides.find((p) => p.slug === slug);
 }
 
+/**
+ * Map a peptide display name (e.g. "BPC-157", "NAD+") to its URL slug.
+ * Returns undefined if the peptide isn't in the library.
+ */
+export function getPeptideSlug(name: string): string | undefined {
+  const normalized = name.toLowerCase().trim();
+  const p = peptides.find(
+    (p) =>
+      p.name.toLowerCase() === normalized ||
+      p.slug === normalized ||
+      p.synonyms.some((s) => s.toLowerCase() === normalized)
+  );
+  return p?.slug;
+}
+
 // Return vendors that sell a given peptide, sorted by score
 export function getVendorsForPeptide(peptideName: string) {
   return vendors
