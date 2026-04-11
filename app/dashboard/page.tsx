@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { Suspense, useState, useEffect, useMemo } from "react";
+import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Shield,
@@ -160,7 +161,12 @@ const tabs: { key: Tab; label: string; icon: typeof LayoutGrid }[] = [
 /* ═══════════════════════════════════════════════
    VENDOR DASHBOARD
    ═══════════════════════════════════════════════ */
-export default function DashboardPage() {
+function DashboardContent() {
+  const searchParams = useSearchParams();
+  const upgradedPlan = searchParams.get("upgraded") === "true" ? searchParams.get("plan") : null;
+  const isStub = searchParams.get("stub") === "true";
+  const [upgradeBanner, setUpgradeBanner] = useState(!!upgradedPlan);
+
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<Tab>("overview");
@@ -250,6 +256,40 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen molecular-bg pb-20">
       <div className="max-w-7xl mx-auto px-6 pt-8">
+        {/* ─── Upgrade Success Banner ─── */}
+        <AnimatePresence>
+          {upgradeBanner && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="mb-6 p-4 bg-emerald/10 border border-emerald/30 rounded-xl flex items-center justify-between"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-emerald/20 flex items-center justify-center">
+                  <Crown className="w-5 h-5 text-emerald" />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-white">
+                    {isStub ? "Upgrade simulation complete" : "Welcome to your new plan!"}
+                  </p>
+                  <p className="text-xs text-gray-400">
+                    {isStub
+                      ? "Stripe isn't configured yet — add your keys in Vercel to enable real checkout."
+                      : "Your subscription is active. Pro/Enterprise features are now unlocked."}
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setUpgradeBanner(false)}
+                className="text-gray-500 hover:text-white transition-colors text-sm"
+              >
+                Dismiss
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* ─── Header ─── */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -681,5 +721,19 @@ export default function DashboardPage() {
         onUpload={handleCOAUpload}
       />
     </div>
+  );
+}
+
+export default function DashboardPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="w-8 h-8 border-2 border-emerald border-t-transparent rounded-full animate-spin" />
+        </div>
+      }
+    >
+      <DashboardContent />
+    </Suspense>
   );
 }
