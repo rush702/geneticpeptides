@@ -35,16 +35,16 @@ const tiers = [
     period: "forever",
     yearlyPrice: null,
     yearlySavings: null,
-    description: "Get listed and start building trust",
+    description: "Get listed instantly — no documents needed",
     cta: "Claim Free Listing",
     ctaStyle: "border" as const,
     stripePlan: null,
     features: [
-      "Basic vendor profile",
-      "PVS Score display",
-      "Community reviews",
-      "Public COA badge",
-      "Basic analytics",
+      "Vendor profile in 30 seconds",
+      "PVS Score — auto-calculated",
+      "Community reviews + nominations",
+      "No COAs required to start",
+      "Basic analytics dashboard",
     ],
   },
   {
@@ -137,22 +137,22 @@ const enterpriseFeatures = [
   },
 ];
 
-/* ─── 3-step timeline ─── */
+/* ─── 3-step timeline — frictionless onboarding ─── */
 const steps = [
   {
     icon: Shield,
-    title: "Verify Identity",
-    description: "Create your account and confirm your company details securely.",
+    title: "Create Your Account",
+    description: "Sign up in 30 seconds with just your email. No documents, no paperwork.",
   },
   {
-    icon: FileCheck,
-    title: "Submit COAs",
-    description: "Upload your certificates of analysis — we verify purity, identity, and sterility.",
+    icon: Zap,
+    title: "Claim Your Listing",
+    description: "Enter your vendor name and website — that's it. Your profile goes live immediately.",
   },
   {
     icon: Rocket,
-    title: "Go Live",
-    description: "Your verified listing goes live with a PVS score, badges, and full profile.",
+    title: "Grow Your Score",
+    description: "Upload COAs, collect reviews, and earn badges to boost your PVS score over time. Optional but powerful.",
   },
 ];
 
@@ -268,8 +268,9 @@ export default function ForVendorsPage() {
             </h1>
 
             <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-              Join the most trusted peptide vendor verification platform. Get your
-              PVS score, verified badges, and real-time analytics — starting at $0.
+              Claim your free listing in 30 seconds — no documents required. Get a PVS
+              score, community visibility, and real-time analytics as you grow. COAs are
+              optional but boost your score.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -695,10 +696,10 @@ export default function ForVendorsPage() {
             <div className="absolute inset-0 bg-gradient-to-br from-emerald/5 to-transparent pointer-events-none" />
             <div className="relative z-10">
               <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">
-                Ready to Get Verified?
+                Ready to Get Listed?
               </h2>
               <p className="text-gray-400 mb-8 max-w-md mx-auto">
-                Join 148+ vendors who trust PepAssure to showcase their quality. Free forever — upgrade anytime.
+                Claim your free listing in 30 seconds. No documents, no hassle — your score builds automatically as the community grows.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <button

@@ -140,7 +140,7 @@ export default function ClaimModal({ open, onClose }: ClaimModalProps) {
                   Claim Your Free Listing
                 </h2>
                 <p className="text-sm text-gray-500">
-                  Takes less than 2 minutes
+                  30 seconds — no documents needed
                 </p>
               </div>
             </div>
@@ -159,15 +159,19 @@ export default function ClaimModal({ open, onClose }: ClaimModalProps) {
                   <PartyPopper className="w-10 h-10 text-emerald" />
                 </div>
                 <h3 className="text-xl font-display font-bold text-white mb-2">
-                  Claim Submitted!
+                  You&apos;re Listed!
                 </h3>
-                <p className="text-gray-400 mb-6 max-w-sm mx-auto">
-                  Your listing for <strong className="text-emerald">{vendorName}</strong> is
-                  pending review. We&apos;ll verify your details and notify you within 24-48 hours.
+                <p className="text-gray-400 mb-4 max-w-sm mx-auto">
+                  <strong className="text-emerald">{vendorName}</strong> is now on PepAssure.
+                  Your PVS score will be calculated automatically from community data.
+                </p>
+                <p className="text-sm text-gray-500 mb-6 max-w-sm mx-auto">
+                  Want to boost your score? Upload COAs, respond to reviews, and earn
+                  verified badges from your vendor dashboard.
                 </p>
                 <div className="flex items-center gap-2 justify-center text-sm text-gray-500">
                   <CheckCircle2 className="w-4 h-4 text-emerald" />
-                  Confirmation sent to {contactEmail}
+                  Dashboard access sent to {contactEmail}
                 </div>
                 <button
                   onClick={() => { resetForm(); onClose(); }}
@@ -271,7 +275,7 @@ export default function ClaimModal({ open, onClose }: ClaimModalProps) {
                 </button>
 
                 <p className="text-xs text-gray-600 text-center">
-                  Free tier &middot; No credit card required &middot; Review within 48h
+                  Free forever &middot; No documents needed &middot; Live instantly
                 </p>
               </form>
             )}
