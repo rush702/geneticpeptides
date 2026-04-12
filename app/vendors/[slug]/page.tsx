@@ -14,15 +14,24 @@ import {
   ThumbsUp,
   FileCheck,
   TrendingUp,
+  TrendingDown,
   Award,
   MessageSquare,
   ShieldCheck,
   Bookmark,
   Share2,
   FileText,
+  Zap,
+  AlertTriangle,
+  BarChart3,
+  Target,
+  Activity,
+  Droplets,
 } from "lucide-react";
 import { vendors, getVendor } from "@/lib/vendors";
 import { getPeptideSlug } from "@/lib/peptides";
+import { computeVendorMetrics } from "@/lib/scrapers/scoring";
+import { getVendorGrades, GRADE_VALUES } from "@/lib/scrapers/finnrick";
 import VendorDetailClient from "./client";
 import WriteReviewButton from "./review-button";
 
@@ -59,6 +68,10 @@ export default async function VendorDetailPage({
     .slice()
     .sort((a, b) => b.score - a.score)
     .findIndex((v) => v.slug === slug) + 1;
+
+  // Compute 12-metric trust dashboard
+  const metrics = computeVendorMetrics(vendor);
+  const finnrickGrades = getVendorGrades(vendor.slug);
 
   const avgRating =
     vendor.reviews.reduce((acc, r) => acc + r.rating, 0) / vendor.reviews.length;
@@ -160,10 +173,10 @@ export default async function VendorDetailPage({
       <div className="max-w-5xl mx-auto px-6 -mt-6 relative z-20">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { icon: FlaskConical, label: "Purity", value: vendor.purity, color: "text-emerald" },
-            { icon: FileCheck, label: "COAs Verified", value: String(vendor.coaCount), color: "text-white" },
+            { icon: Shield, label: "PVS Score", value: String(metrics.finalScore), color: "text-emerald" },
+            { icon: FlaskConical, label: "Purity", value: vendor.purity, color: "text-white" },
             { icon: MessageSquare, label: "Sentiment", value: `${vendor.sentiment}%`, color: "text-emerald" },
-            { icon: Star, label: "Reviews", value: `${avgRating.toFixed(1)}/5`, color: "text-yellow-400" },
+            { icon: Zap, label: "Consistency", value: String(metrics.consistencyIndex), color: metrics.consistencyIndex >= 80 ? "text-emerald" : "text-yellow-400" },
           ].map((s) => (
             <div
               key={s.label}
@@ -184,35 +197,217 @@ export default async function VendorDetailPage({
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Left column */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Score breakdown */}
+            {/* Trust Analytics — 12-metric dashboard */}
             <section className="p-6 bg-ink-2 border border-white/5 rounded-xl">
               <h2 className="text-lg font-semibold text-white mb-6 flex items-center gap-2">
-                <Shield className="w-5 h-5 text-emerald" />
-                PVS Score Breakdown
+                <BarChart3 className="w-5 h-5 text-emerald" />
+                Trust Analytics
               </h2>
-              <div className="space-y-4">
-                {Object.entries(pillarLabels).map(([key, info]) => {
-                  const score = vendor.pillars[key as keyof typeof vendor.pillars];
-                  return (
-                    <div key={key}>
-                      <div className="flex items-center justify-between mb-1.5">
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm text-gray-300">{info.label}</span>
-                          <span className="text-xs text-gray-600">({info.weight})</span>
-                        </div>
-                        <span className="text-sm font-semibold text-white">{score}</span>
-                      </div>
-                      <div className="h-2 bg-ink rounded-full overflow-hidden">
-                        <div
-                          className="h-full rounded-full transition-all duration-1000"
-                          style={{ width: `${score}%`, backgroundColor: info.color }}
-                        />
-                      </div>
-                    </div>
-                  );
-                })}
+
+              {/* Top row: Final score + key metrics */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+                <div className="p-3 bg-ink rounded-lg text-center">
+                  <p className="text-xs text-gray-500 mb-1">Final PVS</p>
+                  <p className="text-2xl font-bold text-emerald">{metrics.finalScore}</p>
+                  {metrics.riskAdjustment < 0 && (
+                    <p className="text-[10px] text-red-400">Risk: {metrics.riskAdjustment}</p>
+                  )}
+                </div>
+                <div className="p-3 bg-ink rounded-lg text-center">
+                  <p className="text-xs text-gray-500 mb-1">Consistency</p>
+                  <p className="text-2xl font-bold text-white">{metrics.consistencyIndex}</p>
+                  <p className="text-[10px] text-gray-500">
+                    {metrics.consistencyIndex >= 90 ? "⚡ Highly Stable" : metrics.consistencyIndex >= 70 ? "📈 Stable" : "⚠ Volatile"}
+                  </p>
+                </div>
+                <div className="p-3 bg-ink rounded-lg text-center">
+                  <p className="text-xs text-gray-500 mb-1">30d Trend</p>
+                  <div className="flex items-center justify-center gap-1">
+                    {metrics.trend30d > 0 ? (
+                      <TrendingUp className="w-4 h-4 text-emerald" />
+                    ) : metrics.trend30d < 0 ? (
+                      <TrendingDown className="w-4 h-4 text-red-400" />
+                    ) : (
+                      <Activity className="w-4 h-4 text-gray-500" />
+                    )}
+                    <p className={`text-2xl font-bold ${metrics.trend30d > 0 ? "text-emerald" : metrics.trend30d < 0 ? "text-red-400" : "text-gray-400"}`}>
+                      {metrics.trend30d > 0 ? "+" : ""}{metrics.trend30d}
+                    </p>
+                  </div>
+                </div>
+                <div className="p-3 bg-ink rounded-lg text-center">
+                  <p className="text-xs text-gray-500 mb-1">Liquidity</p>
+                  <p className="text-2xl font-bold text-white">{metrics.liquidityScore}</p>
+                  <p className="text-[10px] text-gray-500">{metrics.alternativeVendors} alternatives</p>
+                </div>
               </div>
+
+              {/* Event risk warning */}
+              {metrics.eventRisk && (
+                <div className="mb-4 p-3 bg-yellow-500/5 border border-yellow-500/10 rounded-lg flex items-center gap-2">
+                  <AlertTriangle className="w-4 h-4 text-yellow-400 flex-shrink-0" />
+                  <p className="text-sm text-yellow-400">{metrics.eventRisk}</p>
+                </div>
+              )}
+
+              {/* Risk flags */}
+              {metrics.riskFlags.length > 0 && (
+                <div className="mb-4 space-y-2">
+                  <p className="text-xs text-gray-500 uppercase tracking-wider">Risk Flags</p>
+                  {metrics.riskFlags.map((flag, i) => (
+                    <div key={i} className="flex items-center gap-2 p-2 bg-red-500/5 border border-red-500/10 rounded-lg">
+                      <AlertTriangle className="w-3.5 h-3.5 text-red-400 flex-shrink-0" />
+                      <span className="text-xs text-red-400">{flag.description}</span>
+                      <span className="ml-auto text-xs text-red-400/60">{flag.penalty}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Defect rate */}
+              {metrics.defectRate !== null && (
+                <div className="mb-4 p-3 bg-ink rounded-lg">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs text-gray-500">Defect Rate (Finnrick D/E grades)</span>
+                    <span className={`text-sm font-bold ${
+                      metrics.defectRate <= 3 ? "text-emerald" :
+                      metrics.defectRate <= 10 ? "text-yellow-400" :
+                      "text-red-400"
+                    }`}>
+                      {metrics.defectRate}%
+                    </span>
+                  </div>
+                  <div className="h-1.5 bg-ink-3 rounded-full overflow-hidden">
+                    <div
+                      className={`h-full rounded-full ${
+                        metrics.defectRate <= 3 ? "bg-emerald" :
+                        metrics.defectRate <= 10 ? "bg-yellow-400" :
+                        "bg-red-400"
+                      }`}
+                      style={{ width: `${Math.min(100, metrics.defectRate * 4)}%` }}
+                    />
+                  </div>
+                  <p className="text-[10px] text-gray-600 mt-1">
+                    {metrics.defectCount} of {metrics.totalTested} tested batches
+                  </p>
+                </div>
+              )}
+
+              {/* Pillar breakdown (compact) */}
+              <div>
+                <p className="text-xs text-gray-500 uppercase tracking-wider mb-3">Pillar Scores</p>
+                <div className="space-y-2.5">
+                  {Object.entries(pillarLabels).map(([key, info]) => {
+                    const score = vendor.pillars[key as keyof typeof vendor.pillars];
+                    return (
+                      <div key={key}>
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-xs text-gray-400">{info.label} ({info.weight})</span>
+                          <span className="text-xs font-semibold text-white">{score}</span>
+                        </div>
+                        <div className="h-1.5 bg-ink rounded-full overflow-hidden">
+                          <div
+                            className="h-full rounded-full"
+                            style={{ width: `${score}%`, backgroundColor: info.color }}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Peer ranks */}
+              {metrics.peerRanks.length > 0 && (
+                <div className="mt-4 pt-4 border-t border-white/5">
+                  <p className="text-xs text-gray-500 uppercase tracking-wider mb-2">Peer Ranking</p>
+                  <div className="flex flex-wrap gap-2">
+                    {metrics.peerRanks.slice(0, 6).map((pr) => (
+                      <span
+                        key={pr.peptide}
+                        className={`text-xs px-2.5 py-1 rounded-full border ${
+                          pr.rank === 1
+                            ? "bg-yellow-500/10 text-yellow-400 border-yellow-500/20"
+                            : pr.rank <= 3
+                            ? "bg-emerald/10 text-emerald border-emerald/20"
+                            : "bg-ink-3 text-gray-400 border-white/5"
+                        }`}
+                      >
+                        {pr.peptide}: #{pr.rank}/{pr.total}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
             </section>
+
+            {/* Finnrick Grades */}
+            {finnrickGrades.length > 0 && (
+              <section className="p-6 bg-ink-2 border border-white/5 rounded-xl">
+                <h2 className="text-lg font-semibold text-white mb-2 flex items-center gap-2">
+                  <Shield className="w-5 h-5 text-emerald" />
+                  Finnrick Independent Test Results
+                </h2>
+                <p className="text-xs text-gray-500 mb-5">
+                  Letter grades from{" "}
+                  <a href="https://finnrick.com" target="_blank" rel="noopener noreferrer" className="text-emerald hover:text-emerald-light">
+                    finnrick.com
+                  </a>
+                  {" "}— independent peptide testing
+                </p>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {finnrickGrades.map((g) => {
+                    const gradeColor =
+                      g.grade === "A" ? "bg-emerald/20 text-emerald border-emerald/30" :
+                      g.grade === "B" ? "bg-green-500/20 text-green-400 border-green-500/30" :
+                      g.grade === "C" ? "bg-yellow-500/20 text-yellow-400 border-yellow-500/30" :
+                      g.grade === "D" ? "bg-orange-500/20 text-orange-400 border-orange-500/30" :
+                      "bg-red-500/20 text-red-400 border-red-500/30";
+                    const peptideLink = getPeptideSlug(g.peptideSlug) || getPeptideSlug(g.peptideSlug.replace(/-/g, " "));
+                    return (
+                      <div key={g.peptideSlug} className="p-3 bg-ink rounded-lg">
+                        <div className="flex items-center justify-between mb-1">
+                          {peptideLink ? (
+                            <Link href={`/peptides/${peptideLink}`} className="text-xs text-white font-medium hover:text-emerald transition-colors">
+                              {g.peptideSlug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
+                            </Link>
+                          ) : (
+                            <span className="text-xs text-white font-medium">
+                              {g.peptideSlug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
+                            </span>
+                          )}
+                          <span className={`text-lg font-bold px-2 py-0.5 rounded-md border ${gradeColor}`}>
+                            {g.grade}
+                          </span>
+                        </div>
+                        <p className="text-[10px] text-gray-600">{g.gradeLabel} · Rank #{g.rankInPeptide}</p>
+                        {g.badges.length > 0 && (
+                          <div className="flex gap-1 mt-1">
+                            {g.badges.map((b) => (
+                              <span key={b} className={`text-[9px] px-1.5 py-0.5 rounded ${
+                                b === "premium" ? "bg-emerald/10 text-emerald" :
+                                b === "fraud_warning" ? "bg-red-500/10 text-red-400" :
+                                "bg-ink-3 text-gray-500"
+                              }`}>
+                                {b === "premium" ? "🏆 Premium" : b === "fraud_warning" ? "⚠ Warning" : b}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+                <a
+                  href={`https://finnrick.com/vendors`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 inline-flex items-center gap-1 text-xs text-emerald hover:text-emerald-light transition-colors"
+                >
+                  View on Finnrick <ExternalLink className="w-3 h-3" />
+                </a>
+              </section>
+            )}
 
             {/* Recent COAs */}
             <section className="p-6 bg-ink-2 border border-white/5 rounded-xl">
@@ -339,6 +534,35 @@ export default async function VendorDetailPage({
 
           {/* Right column */}
           <div className="space-y-6">
+            {/* Finnrick summary card */}
+            {metrics.finnrickSummary && (
+              <section className="p-6 bg-ink-2 border border-emerald/10 rounded-xl">
+                <h3 className="text-base font-semibold text-white mb-3 flex items-center gap-2">
+                  <Shield className="w-4 h-4 text-emerald" />
+                  Finnrick Grade
+                </h3>
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-2xl font-bold text-emerald font-mono tracking-wider">
+                    {metrics.finnrickSummary}
+                  </span>
+                </div>
+                {metrics.finnrickNumericScore !== null && (
+                  <div className="flex items-center gap-2 text-xs text-gray-500">
+                    <span>Numeric: {metrics.finnrickNumericScore}/100</span>
+                    <span>&middot;</span>
+                    <a
+                      href="https://finnrick.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-emerald hover:text-emerald-light inline-flex items-center gap-0.5"
+                    >
+                      Verified by Finnrick <ExternalLink className="w-2.5 h-2.5" />
+                    </a>
+                  </div>
+                )}
+              </section>
+            )}
+
             {/* Peptide catalog */}
             <section className="p-6 bg-ink-2 border border-white/5 rounded-xl">
               <h3 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
