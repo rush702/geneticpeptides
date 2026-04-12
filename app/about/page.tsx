@@ -74,11 +74,11 @@ export default function AboutPage() {
             <span className="text-sm text-emerald font-medium">About PepAssure</span>
           </div>
           <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
-            Trust in Peptide Research,{" "}
-            <span className="text-gradient">Verified</span>
+            The Trust Infrastructure for the{" "}
+            <span className="text-gradient">Peptide Economy</span>
           </h1>
           <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
-            We built PepAssure because researchers deserve transparent, independent quality data on the peptide vendors they rely on.
+            We built PepAssure because the peptide industry is evolving from gray market to mainstream medicine — and whoever owns the verification layer shapes the future.
           </p>
         </div>
       </section>

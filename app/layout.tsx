@@ -4,17 +4,20 @@ import Footer from "@/components/Footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "PepAssure — Independent Peptide Vendor Verification",
+  title: "PepAssure — Verified. Every Batch. Every Source.",
   description:
-    "Unbiased peptide vendor rankings, COA verification, and quality scores across 148+ vendors and 12+ research peptides. No paid placements — ever.",
+    "The trust infrastructure for the peptide economy. Independent verification, 12-metric PVS scoring, Finnrick lab grades, and community-driven vendor rankings across 200+ vendors and 15+ peptides. No paid placements — ever.",
   keywords: [
-    "peptide vendors",
     "peptide verification",
+    "peptide vendor rankings",
     "COA verification",
+    "Finnrick grades",
+    "PVS score",
     "peptide quality",
     "research peptides",
-    "PVS score",
-    "vendor rankings",
+    "compounding pharmacy verification",
+    "peptide trust",
+    "batch verification",
   ],
 };
 
