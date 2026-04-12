@@ -214,11 +214,11 @@ export default function ClaimModal({ open, onClose }: ClaimModalProps) {
                   <div className="relative">
                     <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
                     <input
-                      type="url"
+                      type="text"
                       required
                       value={website}
                       onChange={(e) => setWebsite(e.target.value)}
-                      placeholder="https://yourcompany.com"
+                      placeholder="yourcompany.com"
                       className="w-full pl-10 pr-4 py-3 bg-ink border border-white/10 rounded-lg text-white placeholder-gray-600 focus:outline-none focus:border-emerald/50 focus:ring-1 focus:ring-emerald/20 transition-all"
                     />
                   </div>
