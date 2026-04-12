@@ -49,6 +49,7 @@ export default function Nav() {
   const links = [
     { href: "/", label: "Home" },
     { href: "/peptides", label: "Peptides" },
+    { href: "/most-wanted", label: "Most Wanted" },
     { href: "/for-vendors", label: "For Vendors" },
     { href: "/blog", label: "Blog" },
     ...(user ? [{ href: "/dashboard", label: "Dashboard" }] : []),
