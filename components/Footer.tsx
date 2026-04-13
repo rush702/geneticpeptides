@@ -57,7 +57,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-sm text-gray-500 mb-4 leading-relaxed max-w-sm">
-              Independent peptide vendor verification. No paid placements — ever.
+              Independent peptide vendor verification. Zero affiliate links. Zero commissions. No paid placements — ever.
             </p>
             <div className="flex items-center gap-2 text-sm text-gray-500">
               <Mail className="w-4 h-4" />
@@ -99,7 +99,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="mt-12 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs text-gray-600">
-            &copy; {new Date().getFullYear()} PepAssure. All rights reserved. Not affiliated with any vendor.
+            &copy; {new Date().getFullYear()} PepAssure. All rights reserved. Not affiliated with any vendor. We earn zero commissions and use zero affiliate links.
           </p>
           <p className="text-xs text-gray-600">
             Data updated daily &middot; Independent &middot; Unbiased

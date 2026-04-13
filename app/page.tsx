@@ -59,7 +59,7 @@ const features = [
   {
     icon: Shield,
     title: "Independent & Unbiased",
-    description: "No paid placements. Rankings based on data alone.",
+    description: "Zero affiliate links. Zero commissions. No paid placements. Rankings based on data alone.",
   },
 ];
 
@@ -99,7 +99,8 @@ const fallbackAlerts: VendorAlert[] = [
 
 /* ─── Trust badges ─── */
 const trustBadges = [
-  { icon: Ban, label: "No paid placements" },
+  { icon: Ban, label: "Zero affiliate links" },
+  { icon: Ban, label: "Zero commissions" },
   { icon: TestTubes, label: "6,102 Lab Tests" },
   { icon: MessageSquare, label: "2.4M Reddit Posts" },
   { icon: RefreshCw, label: "24h Data Refresh" },
@@ -320,7 +321,7 @@ export default function HomePage() {
             <span className="text-gradient">Rank Before You&apos;re Ranked.</span>
           </h1>
           <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-            The only independent peptide vendor ranking engine — powered by real lab data, community intelligence, and AI-verified COAs, refreshed every 24 hours.
+            The only independent peptide vendor ranking engine — powered by real lab data, community intelligence, and AI-verified COAs. Zero affiliate links. Zero commissions. Refreshed every 24 hours.
           </p>
 
           {/* ─── Hero Search Bar ─── */}

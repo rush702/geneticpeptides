@@ -7,7 +7,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "PepAssure — Independent Peptide Vendor Verification",
   description:
-    "Unbiased peptide vendor rankings, COA verification, and quality scores. No paid placements — ever.",
+    "Unbiased peptide vendor rankings powered by lab data and community intelligence. Zero affiliate links. Zero commissions. No paid placements — ever.",
 };
 
 export default function RootLayout({

@@ -263,7 +263,7 @@ export default function ForVendorsPage() {
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald/10 border border-emerald/20 rounded-full mb-8">
               <Crown className="w-4 h-4 text-emerald" />
               <span className="text-sm text-emerald font-medium">
-                No paid placements — ever
+                Zero affiliate links &middot; Zero commissions &middot; Ever
               </span>
             </div>
 
