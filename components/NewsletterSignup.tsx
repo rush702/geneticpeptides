@@ -21,6 +21,8 @@ export default function NewsletterSignup() {
     } else {
       setSuccess(true);
       setEmail("");
+      // Auto-reset success state after 4 seconds
+      setTimeout(() => setSuccess(false), 4000);
     }
     setLoading(false);
   };

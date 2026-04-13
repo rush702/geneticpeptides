@@ -2,8 +2,8 @@ import Link from "next/link";
 import { FileText, ArrowLeft } from "lucide-react";
 
 export const metadata = {
-  title: "Terms of Service — PepAssure",
-  description: "Terms and conditions for using PepAssure.",
+  title: "Terms of Service",
+  description: "Terms and conditions for using PepAssure, including vendor listing claims, subscription billing, and prohibited uses.",
 };
 
 export default function TermsPage() {

@@ -13,7 +13,9 @@ import {
   Shield,
   ChevronUp,
   Globe,
+  Loader2,
 } from "lucide-react";
+import { upvoteNomination } from "@/app/actions/nominations";
 
 // Mock leaderboard data — in production, this reads from Supabase `nominations` table
 // with vote counts from `nomination_votes` join
@@ -118,12 +120,16 @@ const statusConfig: Record<string, { label: string; color: string }> = {
 export default function MostWantedPage() {
   const [nominations, setNominations] = useState(initialNominations);
   const [votedIds, setVotedIds] = useState<Set<string>>(new Set());
+  const [votingId, setVotingId] = useState<string | null>(null);
 
   const totalVotes = nominations.reduce((sum, n) => sum + n.voteCount, 0);
 
-  function handleVote(id: string) {
-    if (votedIds.has(id)) return; // already voted
+  async function handleVote(id: string) {
+    if (votedIds.has(id) || votingId) return;
 
+    setVotingId(id);
+
+    // Optimistic update
     setVotedIds((prev) => new Set(prev).add(id));
     setNominations((prev) =>
       [...prev]
@@ -131,7 +137,24 @@ export default function MostWantedPage() {
         .sort((a, b) => b.voteCount - a.voteCount)
     );
 
-    // TODO: In production, POST to /api/nominations/[id]/vote
+    // Persist to Supabase
+    const result = await upvoteNomination(id);
+
+    if (result.error) {
+      // Revert optimistic update on error
+      setVotedIds((prev) => {
+        const next = new Set(prev);
+        next.delete(id);
+        return next;
+      });
+      setNominations((prev) =>
+        [...prev]
+          .map((n) => (n.id === id ? { ...n, voteCount: n.voteCount - 1 } : n))
+          .sort((a, b) => b.voteCount - a.voteCount)
+      );
+    }
+
+    setVotingId(null);
   }
 
   return (
@@ -246,7 +269,7 @@ export default function MostWantedPage() {
                 <div className="flex sm:flex-col items-center gap-2 sm:gap-1 flex-shrink-0">
                   <button
                     onClick={() => handleVote(nom.id)}
-                    disabled={hasVoted}
+                    disabled={hasVoted || votingId === nom.id}
                     className={`w-10 h-10 rounded-xl border flex items-center justify-center transition-all ${
                       hasVoted
                         ? "bg-emerald/20 border-emerald/40 text-emerald cursor-default"
@@ -254,7 +277,11 @@ export default function MostWantedPage() {
                     }`}
                     aria-label={hasVoted ? `Voted for ${nom.nomineeName}` : `Vote for ${nom.nomineeName}`}
                   >
-                    <ChevronUp className="w-5 h-5" />
+                    {votingId === nom.id ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <ChevronUp className="w-5 h-5" />
+                    )}
                   </button>
                   <span className="text-sm font-bold text-white">{nom.voteCount}</span>
                   <span className="text-[10px] text-gray-600">votes</span>

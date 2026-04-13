@@ -8,8 +8,8 @@ const columns = [
     links: [
       { label: "Vendor Rankings", href: "/" },
       { label: "Peptide Library", href: "/peptides" },
-      { label: "Verification API", href: "/api-docs" },
-      { label: "Batch Lookup", href: "#" },
+      { label: "Most Wanted", href: "/most-wanted" },
+      { label: "Methodology", href: "/methodology" },
     ],
   },
   {
@@ -35,8 +35,8 @@ const columns = [
     links: [
       { label: "Privacy Policy", href: "/privacy" },
       { label: "Terms of Service", href: "/terms" },
+      { label: "Refund Policy", href: "/refund-policy" },
       { label: "Cookie Policy", href: "/privacy#6" },
-      { label: "Contact Legal", href: "/contact" },
     ],
   },
 ];

@@ -19,6 +19,7 @@ import {
   Star,
   TrendingUp,
   Phone,
+  Clock,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
@@ -313,6 +314,30 @@ export default function ForVendorsPage() {
                 {scoreCount.count}%
               </div>
               <div className="text-sm text-gray-500 mt-1">Avg Score Lift</div>
+            </div>
+          </motion.div>
+
+          {/* Urgency: verification queue + recent activity */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 text-sm"
+          >
+            <div className="flex items-center gap-2 px-4 py-2 bg-ink-2 border border-white/10 rounded-full">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald opacity-75" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald" />
+              </span>
+              <span className="text-gray-400">
+                Verification queue: <strong className="text-white">~48h</strong>
+              </span>
+            </div>
+            <div className="flex items-center gap-2 px-4 py-2 bg-ink-2 border border-white/10 rounded-full">
+              <Clock className="w-3.5 h-3.5 text-emerald" />
+              <span className="text-gray-400">
+                <strong className="text-white">12 vendors</strong> claimed this week
+              </span>
             </div>
           </motion.div>
         </div>
@@ -697,8 +722,11 @@ export default function ForVendorsPage() {
               <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">
                 Ready to Get Verified?
               </h2>
-              <p className="text-gray-400 mb-8 max-w-md mx-auto">
+              <p className="text-gray-400 mb-4 max-w-md mx-auto">
                 Join 148+ vendors who trust PepAssure to showcase their quality. Free forever — upgrade anytime.
+              </p>
+              <p className="text-xs text-gray-500 mb-8">
+                Your competitors are already building trust scores. Don&apos;t let them get ahead.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <button
@@ -726,9 +754,19 @@ export default function ForVendorsPage() {
         open={authOpen}
         onClose={() => setAuthOpen(false)}
         onAuth={() => {
-          // After auth, if they were trying to claim, open claim modal
           setAuthOpen(false);
-          setTimeout(() => setClaimOpen(true), 300);
+          // Wait for auth state to propagate before opening claim modal
+          const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+            if (event === "SIGNED_IN") {
+              setClaimOpen(true);
+              subscription.unsubscribe();
+            }
+          });
+          // Fallback: open after brief delay if event doesn't fire (already signed in)
+          setTimeout(() => {
+            subscription.unsubscribe();
+            setClaimOpen(true);
+          }, 500);
         }}
       />
       <ClaimModal open={claimOpen} onClose={() => setClaimOpen(false)} />

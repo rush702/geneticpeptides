@@ -18,6 +18,8 @@ import { submitClaim } from "@/app/actions/claims";
 interface ClaimModalProps {
   open: boolean;
   onClose: () => void;
+  prefillVendorName?: string;
+  prefillWebsite?: string;
 }
 
 // Confetti component for success state
@@ -53,7 +55,7 @@ function Confetti() {
   );
 }
 
-export default function ClaimModal({ open, onClose }: ClaimModalProps) {
+export default function ClaimModal({ open, onClose, prefillVendorName, prefillWebsite }: ClaimModalProps) {
   const [vendorName, setVendorName] = useState("");
   const [website, setWebsite] = useState("");
   const [contactEmail, setContactEmail] = useState("");
@@ -63,12 +65,14 @@ export default function ClaimModal({ open, onClose }: ClaimModalProps) {
   const [success, setSuccess] = useState(false);
   const supabase = createClient();
 
-  // Pre-fill email from auth session
+  // Pre-fill email from auth session + vendor details from props
   useEffect(() => {
     if (open) {
       supabase.auth.getUser().then((res: any) => {
         if (res.data?.user?.email) setContactEmail(res.data.user.email);
       });
+      if (prefillVendorName && !vendorName) setVendorName(prefillVendorName);
+      if (prefillWebsite && !website) setWebsite(prefillWebsite);
     }
   }, [open]);
 

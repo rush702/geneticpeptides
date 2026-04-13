@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import {
   Shield,
@@ -13,6 +14,12 @@ import {
   CheckCircle2,
   TrendingUp,
 } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "About PepAssure",
+  description:
+    "Learn about PepAssure's mission to make peptide vendor quality verifiable. Independent, transparent, data-driven verification for researchers.",
+};
 
 const values = [
   {
@@ -42,17 +49,15 @@ const values = [
 ];
 
 const team = [
-  { name: "Dr. Elena Marsh", role: "Chief Science Officer", bio: "Former analytical chemist with 12 years of experience in peptide purity testing and mass spectrometry." },
-  { name: "Marcus Chen", role: "Head of Data Science", bio: "Built the PVS scoring pipeline and NLP systems. Previously at a biotech data analytics firm." },
-  { name: "Alex Rivera", role: "Product Lead", bio: "Focused on researcher experience and building tools that actually get used. Former research platform PM." },
-  { name: "Jordan Hayes", role: "Market Analyst", bio: "Tracks industry trends, vendor consolidation, and regulatory changes across global peptide markets." },
+  { name: "Joshua Rush", role: "Co-Founder", bio: "Father, builder, and lifelong optimist. Driven by the belief that transparency can fix broken markets — one verified batch at a time." },
+  { name: "Ike Rush", role: "Co-Founder", bio: "Son, creator, and detail-obsessed. Shares a birthday — and a passion for all things good — with his dad. Brings light one action at a time." },
 ];
 
 const milestones = [
-  { year: "2024", title: "Founded", description: "Started as a Google Doc ranking peptide vendors. Grew into a research community favorite." },
-  { year: "2025", title: "PVS v1 Launched", description: "First data-driven scoring system published with 5-pillar methodology." },
-  { year: "2026 Q1", title: "Platform Launch", description: "Full vendor dashboard, claim system, and API for enterprise researchers." },
-  { year: "2026 Q2", title: "API Access", description: "Public verification API for labs, forums, and research platforms." },
+  { year: "2024", title: "The Idea", description: "A father and son noticed the peptide market had no trust infrastructure. They started building one." },
+  { year: "2025", title: "PVS v1 Launched", description: "First data-driven scoring system published with 5-pillar methodology. Community response was immediate." },
+  { year: "2026 Q1", title: "Platform Launch", description: "Full vendor dashboard, claim system, and 148+ vendors scored — no paid placements." },
+  { year: "2026 Q2", title: "Growing the Light", description: "Public verification API, enterprise tools, and a mission to bring transparency to every corner of the market." },
 ];
 
 const stats = [
@@ -78,7 +83,7 @@ export default function AboutPage() {
             <span className="text-gradient">Verified</span>
           </h1>
           <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
-            We built PepAssure because researchers deserve transparent, independent quality data on the peptide vendors they rely on.
+            A father and son sharing a birthday, a passion for all things good, and a belief that transparency can change an industry.
           </p>
         </div>
       </section>
@@ -96,13 +101,13 @@ export default function AboutPage() {
           </div>
           <div className="max-w-2xl mx-auto space-y-4 text-gray-400 leading-relaxed">
             <p>
-              The research peptide market grew faster than its quality infrastructure. Vendors claim 99% purity, publish screenshots instead of COAs, and community forums cycle through hot takes faster than evidence can catch up. Meanwhile, researchers are left comparing Reddit threads to make critical sourcing decisions.
+              PepAssure started as a father-and-son project — two people who share the same birthday and a passion for all things good. We saw a market where trust was broken: vendors claiming 99% purity with no proof, researchers relying on Reddit threads to make sourcing decisions, and no one holding anyone accountable.
             </p>
             <p>
-              We built PepAssure to fix that. Every vendor listed on our platform is evaluated against the same five-pillar scoring system — from COA verification to community sentiment to order experience. The full methodology is public. The data is updated daily. And we take no money from the vendors we rank.
+              So we built the accountability layer. Every vendor on our platform is evaluated against the same five-pillar scoring system — from COA verification to community sentiment to order experience. The full methodology is public. The data is updated daily. And we take no money from the vendors we rank.
             </p>
             <p className="text-white">
-              Our goal is simple: <strong className="text-emerald">researchers should be able to trust what they order</strong>.
+              Our goal is simple: <strong className="text-emerald">bring light, one action at a time</strong>.
             </p>
           </div>
         </section>
@@ -151,7 +156,7 @@ export default function AboutPage() {
               Who We Are
             </p>
             <h2 className="font-display text-3xl md:text-4xl font-bold text-white">
-              The Team
+              Father &amp; Son
             </h2>
           </div>
           <div className="grid md:grid-cols-2 gap-5">

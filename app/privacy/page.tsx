@@ -2,8 +2,8 @@ import Link from "next/link";
 import { Shield, ArrowLeft } from "lucide-react";
 
 export const metadata = {
-  title: "Privacy Policy — PepAssure",
-  description: "How PepAssure collects, uses, and protects your data.",
+  title: "Privacy Policy",
+  description: "How PepAssure collects, uses, and protects your data. CCPA and GDPR compliant.",
 };
 
 export default function PrivacyPage() {

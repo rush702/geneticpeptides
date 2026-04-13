@@ -1,5 +1,5 @@
 {
-  "name": "peptide-verify",
+  "name": "pepassure",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.17.10",
-    "@types/react": "^18.3.18",
+    "@types/react": "18.3.28",
     "@types/react-dom": "^18.3.5",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.49",

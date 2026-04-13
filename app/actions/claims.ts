@@ -22,6 +22,40 @@ export async function submitClaim(formData: FormData) {
     return { error: "Vendor name and website are required." };
   }
 
+  // Check for existing profile — allow resubmission if rejected
+  const { data: existing } = await supabase
+    .from("profiles")
+    .select("id, status")
+    .eq("user_id", user.id)
+    .maybeSingle();
+
+  if (existing) {
+    if (existing.status === "rejected") {
+      // Allow resubmission: update the existing rejected profile
+      const { error } = await supabase
+        .from("profiles")
+        .update({
+          vendor_name: vendorName,
+          website,
+          contact_email: contactEmail || user.email,
+          message,
+          status: "pending",
+        })
+        .eq("id", existing.id);
+
+      if (error) {
+        return { error: "Failed to resubmit claim. Please try again." };
+      }
+      return { success: true, resubmission: true };
+    }
+
+    if (existing.status === "pending") {
+      return { error: "Your claim is already pending review. We'll notify you within 24-48 hours." };
+    }
+
+    return { error: "You already have an active vendor listing. Visit your dashboard to manage it." };
+  }
+
   const { error } = await supabase.from("profiles").insert({
     user_id: user.id,
     vendor_name: vendorName,
