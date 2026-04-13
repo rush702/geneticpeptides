@@ -42,10 +42,10 @@ interface Profile {
   id: string;
   user_id: string;
   vendor_name: string;
-  website: string;
+  website_url: string;
   contact_email: string;
   message: string;
-  status: "pending" | "approved" | "rejected";
+  status: "pending" | "verified" | "rejected";
   tier: "free" | "pro" | "enterprise";
   is_admin: boolean;
   pvs_score: number | null;
@@ -64,7 +64,7 @@ interface Review {
   title: string;
   body: string;
   author_name: string;
-  status: "pending" | "approved" | "rejected";
+  status: "pending" | "approved" | "rejected"; // reviews use 'approved' not 'verified'
   created_at: string;
 }
 
@@ -81,18 +81,18 @@ interface Nomination {
 }
 
 type Tab = "claims" | "vendors" | "reviews" | "nominations" | "settings";
-type StatusFilter = "all" | "pending" | "approved" | "rejected";
+type StatusFilter = "all" | "pending" | "verified" | "rejected";
 
 /* ─── Mock data ─── */
 const mockProfiles: Profile[] = [
-  { id: "1", user_id: "u1", vendor_name: "NovaPeptides", website: "https://novapeptides.com", contact_email: "admin@novapeptides.com", message: "Leading peptide supplier with ISO certification", status: "approved", tier: "pro", is_admin: false, pvs_score: 96, rank: 1, claimed_at: "2026-01-15T10:00:00Z", verified_at: "2026-01-17T14:00:00Z", upgraded_at: "2026-02-01T10:00:00Z", created_at: "2026-01-15T10:00:00Z" },
-  { id: "2", user_id: "u2", vendor_name: "PeptideWorks", website: "https://peptideworks.com", contact_email: "info@peptideworks.com", message: "Research-grade peptides", status: "approved", tier: "enterprise", is_admin: false, pvs_score: 93, rank: 2, claimed_at: "2026-01-20T08:00:00Z", verified_at: "2026-01-22T11:00:00Z", upgraded_at: "2026-03-01T10:00:00Z", created_at: "2026-01-20T08:00:00Z" },
-  { id: "3", user_id: "u3", vendor_name: "BioSynth Labs", website: "https://biosynthlabs.com", contact_email: "contact@biosynthlabs.com", message: "", status: "approved", tier: "free", is_admin: false, pvs_score: 91, rank: 3, claimed_at: "2026-02-01T12:00:00Z", verified_at: "2026-02-03T09:00:00Z", upgraded_at: null, created_at: "2026-02-01T12:00:00Z" },
-  { id: "4", user_id: "u4", vendor_name: "CorePeptide", website: "https://corepeptide.com", contact_email: "hello@corepeptide.com", message: "Fast domestic shipping, all batches HPLC tested", status: "pending", tier: "free", is_admin: false, pvs_score: null, rank: null, claimed_at: "2026-04-08T15:00:00Z", verified_at: null, upgraded_at: null, created_at: "2026-04-08T15:00:00Z" },
-  { id: "5", user_id: "u5", vendor_name: "Amino Science", website: "https://aminoscience.ca", contact_email: "support@aminoscience.ca", message: "", status: "pending", tier: "free", is_admin: false, pvs_score: null, rank: null, claimed_at: "2026-04-09T10:00:00Z", verified_at: null, upgraded_at: null, created_at: "2026-04-09T10:00:00Z" },
-  { id: "6", user_id: "u6", vendor_name: "PureSequence", website: "https://puresequence.eu", contact_email: "info@puresequence.eu", message: "EU-based supplier with GMP certification", status: "pending", tier: "free", is_admin: false, pvs_score: null, rank: null, claimed_at: "2026-04-10T08:00:00Z", verified_at: null, upgraded_at: null, created_at: "2026-04-10T08:00:00Z" },
-  { id: "7", user_id: "u7", vendor_name: "FakePeptides Inc", website: "https://fakepep.com", contact_email: "scam@fakepep.com", message: "Best peptides guaranteed", status: "rejected", tier: "free", is_admin: false, pvs_score: null, rank: null, claimed_at: "2026-03-20T14:00:00Z", verified_at: null, upgraded_at: null, created_at: "2026-03-20T14:00:00Z" },
-  { id: "8", user_id: "u8", vendor_name: "Admin User", website: "", contact_email: "admin@pepassure.com", message: "", status: "approved", tier: "enterprise", is_admin: true, pvs_score: null, rank: null, claimed_at: "2025-12-01T10:00:00Z", verified_at: "2025-12-01T10:00:00Z", upgraded_at: null, created_at: "2025-12-01T10:00:00Z" },
+  { id: "1", user_id: "u1", vendor_name: "NovaPeptides", website_url: "https://novapeptides.com", contact_email: "admin@novapeptides.com", message: "Leading peptide supplier with ISO certification", status: "verified", tier: "pro", is_admin: false, pvs_score: 96, rank: 1, claimed_at: "2026-01-15T10:00:00Z", verified_at: "2026-01-17T14:00:00Z", upgraded_at: "2026-02-01T10:00:00Z", created_at: "2026-01-15T10:00:00Z" },
+  { id: "2", user_id: "u2", vendor_name: "PeptideWorks", website_url: "https://peptideworks.com", contact_email: "info@peptideworks.com", message: "Research-grade peptides", status: "verified", tier: "enterprise", is_admin: false, pvs_score: 93, rank: 2, claimed_at: "2026-01-20T08:00:00Z", verified_at: "2026-01-22T11:00:00Z", upgraded_at: "2026-03-01T10:00:00Z", created_at: "2026-01-20T08:00:00Z" },
+  { id: "3", user_id: "u3", vendor_name: "BioSynth Labs", website_url: "https://biosynthlabs.com", contact_email: "contact@biosynthlabs.com", message: "", status: "verified", tier: "free", is_admin: false, pvs_score: 91, rank: 3, claimed_at: "2026-02-01T12:00:00Z", verified_at: "2026-02-03T09:00:00Z", upgraded_at: null, created_at: "2026-02-01T12:00:00Z" },
+  { id: "4", user_id: "u4", vendor_name: "CorePeptide", website_url: "https://corepeptide.com", contact_email: "hello@corepeptide.com", message: "Fast domestic shipping, all batches HPLC tested", status: "pending", tier: "free", is_admin: false, pvs_score: null, rank: null, claimed_at: "2026-04-08T15:00:00Z", verified_at: null, upgraded_at: null, created_at: "2026-04-08T15:00:00Z" },
+  { id: "5", user_id: "u5", vendor_name: "Amino Science", website_url: "https://aminoscience.ca", contact_email: "support@aminoscience.ca", message: "", status: "pending", tier: "free", is_admin: false, pvs_score: null, rank: null, claimed_at: "2026-04-09T10:00:00Z", verified_at: null, upgraded_at: null, created_at: "2026-04-09T10:00:00Z" },
+  { id: "6", user_id: "u6", vendor_name: "PureSequence", website_url: "https://puresequence.eu", contact_email: "info@puresequence.eu", message: "EU-based supplier with GMP certification", status: "pending", tier: "free", is_admin: false, pvs_score: null, rank: null, claimed_at: "2026-04-10T08:00:00Z", verified_at: null, upgraded_at: null, created_at: "2026-04-10T08:00:00Z" },
+  { id: "7", user_id: "u7", vendor_name: "FakePeptides Inc", website_url: "https://fakepep.com", contact_email: "scam@fakepep.com", message: "Best peptides guaranteed", status: "rejected", tier: "free", is_admin: false, pvs_score: null, rank: null, claimed_at: "2026-03-20T14:00:00Z", verified_at: null, upgraded_at: null, created_at: "2026-03-20T14:00:00Z" },
+  { id: "8", user_id: "u8", vendor_name: "Admin User", website_url: "", contact_email: "admin@pepassure.com", message: "", status: "verified", tier: "enterprise", is_admin: true, pvs_score: null, rank: null, claimed_at: "2025-12-01T10:00:00Z", verified_at: "2025-12-01T10:00:00Z", upgraded_at: null, created_at: "2025-12-01T10:00:00Z" },
 ];
 
 const mockReviews: Review[] = [
@@ -109,7 +109,7 @@ const mockNominations: Nomination[] = [
 
 const statusConfig = {
   pending: { icon: Clock, label: "Pending", color: "text-yellow-400", bg: "bg-yellow-500/10 border-yellow-500/20" },
-  approved: { icon: CheckCircle2, label: "Approved", color: "text-emerald", bg: "bg-emerald/10 border-emerald/20" },
+  verified: { icon: CheckCircle2, label: "Verified", color: "text-emerald", bg: "bg-emerald/10 border-emerald/20" },
   rejected: { icon: XCircle, label: "Rejected", color: "text-red-400", bg: "bg-red-500/10 border-red-500/20" },
 };
 
@@ -190,8 +190,9 @@ export default function AdminPage() {
       setUser(u);
 
       if (u) {
-        const profileRes = await supabase.from("profiles").select("is_admin").eq("user_id", u.id).single();
-        if (profileRes.data?.is_admin) {
+        // Check admin via user_roles table
+        const roleRes = await supabase.from("user_roles").select("role").eq("user_id", u.id).single();
+        if (roleRes.data?.role === "admin") {
           setIsAdmin(true);
 
           // Load profiles
@@ -222,7 +223,7 @@ export default function AdminPage() {
   const stats = useMemo(() => ({
     total: profiles.filter((p) => !p.is_admin).length,
     pending: profiles.filter((p) => p.status === "pending").length,
-    approved: profiles.filter((p) => p.status === "approved" && !p.is_admin).length,
+    approved: profiles.filter((p) => p.status === "verified" && !p.is_admin).length,
     rejected: profiles.filter((p) => p.status === "rejected").length,
     pro: profiles.filter((p) => p.tier === "pro").length,
     enterprise: profiles.filter((p) => p.tier === "enterprise").length,
@@ -236,12 +237,12 @@ export default function AdminPage() {
     if (statusFilter !== "all") list = list.filter((p) => p.status === statusFilter);
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
-      list = list.filter((p) => p.vendor_name.toLowerCase().includes(q) || p.contact_email?.toLowerCase().includes(q) || p.website?.toLowerCase().includes(q));
+      list = list.filter((p) => p.vendor_name.toLowerCase().includes(q) || p.contact_email?.toLowerCase().includes(q) || p.website_url?.toLowerCase().includes(q));
     }
     return list;
   }, [profiles, statusFilter, searchQuery]);
 
-  const approvedVendors = useMemo(() => profiles.filter((p) => p.status === "approved" && !p.is_admin), [profiles]);
+  const approvedVendors = useMemo(() => profiles.filter((p) => p.status === "verified" && !p.is_admin), [profiles]);
   const adminUsers = useMemo(() => profiles.filter((p) => p.is_admin), [profiles]);
 
   // Claim actions
@@ -253,7 +254,7 @@ export default function AdminPage() {
       action: async () => {
         setActionLoading(profile.id);
         await approveClaim(profile.id);
-        setProfiles((prev) => prev.map((p) => p.id === profile.id ? { ...p, status: "approved" as const, verified_at: new Date().toISOString() } : p));
+        setProfiles((prev) => prev.map((p) => p.id === profile.id ? { ...p, status: "verified" as const } : p));
         setActionLoading(null);
         setConfirm((c) => ({ ...c, open: false }));
       },
@@ -417,12 +418,12 @@ export default function AdminPage() {
               {/* Filters */}
               <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
                 <div className="flex flex-wrap items-center gap-2">
-                  {(["all", "pending", "approved", "rejected"] as StatusFilter[]).map((f) => (
+                  {(["all", "pending", "verified", "rejected"] as StatusFilter[]).map((f) => (
                     <button key={f} onClick={() => setStatusFilter(f)}
                       className={`px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all capitalize ${
                         statusFilter === f
                           ? f === "pending" ? "bg-yellow-500/20 text-yellow-400 border border-yellow-500/30"
-                            : f === "approved" ? "bg-emerald/20 text-emerald border border-emerald/30"
+                            : f === "verified" ? "bg-emerald/20 text-emerald border border-emerald/30"
                             : f === "rejected" ? "bg-red-500/20 text-red-400 border border-red-500/30"
                             : "bg-emerald/20 text-emerald border border-emerald/30"
                           : "bg-ink-2 text-gray-500 border border-white/5 hover:border-white/10"
@@ -470,9 +471,9 @@ export default function AdminPage() {
                               </div>
                               <div className="flex flex-wrap items-center gap-3 text-xs text-gray-500">
                                 <span>{p.contact_email}</span>
-                                {p.website && (
-                                  <a href={p.website} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:text-emerald transition-colors">
-                                    {p.website.replace(/https?:\/\//, "").replace(/\/$/, "")}
+                                {p.website_url && (
+                                  <a href={p.website_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:text-emerald transition-colors">
+                                    {p.website_url.replace(/https?:\/\//, "").replace(/\/$/, "")}
                                     <ExternalLink className="w-3 h-3" />
                                   </a>
                                 )}
@@ -494,7 +495,7 @@ export default function AdminPage() {
                                     className="px-3 py-1.5 bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-medium rounded-lg hover:bg-red-500/20 transition-all disabled:opacity-50">Reject</button>
                                 </>
                               )}
-                              {p.status === "approved" && <span className="text-xs text-gray-600">Verified {p.verified_at ? formatDate(p.verified_at) : ""}</span>}
+                              {p.status === "verified" && <span className="text-xs text-gray-600">Verified {p.verified_at ? formatDate(p.verified_at) : ""}</span>}
                               {p.status === "rejected" && (
                                 <button onClick={() => handleApprove(p)} className="px-3 py-1.5 bg-ink-3 border border-white/10 text-gray-400 text-xs font-medium rounded-lg hover:text-white transition-all">Reconsider</button>
                               )}

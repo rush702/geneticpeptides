@@ -25,11 +25,11 @@ export default function Nav() {
       setUser(u);
       if (u) {
         supabase
-          .from("profiles")
-          .select("is_admin")
+          .from("user_roles")
+          .select("role")
           .eq("user_id", u.id)
           .single()
-          .then((r: any) => setIsAdmin(r.data?.is_admin ?? false));
+          .then((r: any) => setIsAdmin(r.data?.role === "admin"));
       }
     });
     const {

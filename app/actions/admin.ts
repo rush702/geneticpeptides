@@ -6,7 +6,7 @@ export async function approveClaim(profileId: string) {
   const supabase = await createClient();
   const { error } = await supabase
     .from("profiles")
-    .update({ status: "approved", verified_at: new Date().toISOString() })
+    .update({ status: "verified", verified: true })
     .eq("id", profileId);
 
   if (error) return { error: error.message };
@@ -28,7 +28,7 @@ export async function updateVendorTier(profileId: string, tier: "free" | "pro" |
   const supabase = await createClient();
   const { error } = await supabase
     .from("profiles")
-    .update({ tier, upgraded_at: tier !== "free" ? new Date().toISOString() : null })
+    .update({ tier })
     .eq("id", profileId);
 
   if (error) return { error: error.message };
@@ -37,12 +37,21 @@ export async function updateVendorTier(profileId: string, tier: "free" | "pro" |
 
 export async function toggleAdmin(profileId: string, isAdmin: boolean) {
   const supabase = await createClient();
-  const { error } = await supabase
-    .from("profiles")
-    .update({ is_admin: isAdmin })
-    .eq("id", profileId);
 
-  if (error) return { error: error.message };
+  if (isAdmin) {
+    // Add admin role
+    const { error } = await supabase
+      .from("user_roles")
+      .upsert({ user_id: profileId, role: "admin" }, { onConflict: "user_id" });
+    if (error) return { error: error.message };
+  } else {
+    // Remove admin role (set back to vendor)
+    const { error } = await supabase
+      .from("user_roles")
+      .update({ role: "vendor" })
+      .eq("user_id", profileId);
+    if (error) return { error: error.message };
+  }
   return { success: true };
 }
 

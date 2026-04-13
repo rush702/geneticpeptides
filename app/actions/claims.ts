@@ -36,7 +36,7 @@ export async function submitClaim(formData: FormData) {
         .from("profiles")
         .update({
           vendor_name: vendorName,
-          website,
+          website_url: website,
           contact_email: contactEmail || user.email,
           message,
           status: "pending",
@@ -57,9 +57,10 @@ export async function submitClaim(formData: FormData) {
   }
 
   const { error } = await supabase.from("profiles").insert({
+    id: user.id,
     user_id: user.id,
     vendor_name: vendorName,
-    website,
+    website_url: website,
     contact_email: contactEmail || user.email,
     message,
     status: "pending",
