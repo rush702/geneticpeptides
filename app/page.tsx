@@ -21,6 +21,11 @@ import {
   FlaskConical,
   MessageSquare,
   Command,
+  AlertTriangle,
+  Ban,
+  TestTubes,
+  RefreshCw,
+  ExternalLink,
 } from "lucide-react";
 import { vendors, type Vendor } from "@/lib/vendors";
 
@@ -68,6 +73,31 @@ const sortOptions: { key: SortKey; label: string }[] = [
 
 /* ─── Filter options ─── */
 const tagFilters = ["All", "HPLC", "MS", "COA"];
+
+/* ─── Active vendor alerts (in production, fetched from Supabase) ─── */
+const activeAlerts = [
+  {
+    id: "alert-1",
+    vendorName: "PeptideGains.com",
+    type: "shutdown" as const,
+    headline: "Vendor Shutdown Alert — Active",
+    summary:
+      "PeptideGains.com is ceasing operations on May 15, 2026. Customers with open orders should contact them immediately.",
+    alternatives: ["Ascension Peptides", "Limitless Life Nootropics", "Peptide Partners"],
+    link: "/blog/vendor-shutdown-peptidegains",
+    linkText: "View full alert & transfer guide",
+    date: "May 15, 2026",
+  },
+];
+
+/* ─── Trust badges ─── */
+const trustBadges = [
+  { icon: Ban, label: "No paid placements" },
+  { icon: TestTubes, label: "6,102 Lab Tests" },
+  { icon: MessageSquare, label: "2.4M Reddit Posts" },
+  { icon: RefreshCw, label: "24h Data Refresh" },
+  { icon: FlaskConical, label: "Finnrick Certified" },
+];
 
 /* ─── Score circle ─── */
 function ScoreCircle({ score }: { score: number }) {
@@ -224,21 +254,44 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen molecular-bg">
+      {/* ─── Top Alert Banner ─── */}
+      {activeAlerts.length > 0 && (
+        <div className="bg-gradient-to-r from-red-900/80 via-red-800/70 to-red-900/80 border-b border-red-500/30">
+          <div className="max-w-6xl mx-auto px-4 py-2.5 flex items-center justify-center gap-2 text-sm">
+            <AlertTriangle className="w-4 h-4 text-yellow-400 flex-shrink-0" />
+            <span className="text-gray-200">
+              <strong className="text-white">Notice:</strong> {activeAlerts[0].vendorName} is shutting down {activeAlerts[0].date}.
+            </span>
+            <Link
+              href={activeAlerts[0].link}
+              className="text-cyan-400 hover:text-cyan-300 transition-colors flex items-center gap-1 whitespace-nowrap"
+            >
+              See recommended alternatives and transition guide
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        </div>
+      )}
+
       {/* ─── Hero ─── */}
       <section className="relative overflow-hidden">
         <div className="absolute top-0 left-1/3 w-[600px] h-[600px] bg-emerald/5 rounded-full blur-[120px] pointer-events-none" />
         <div className="max-w-6xl mx-auto px-6 pt-20 pb-24 text-center relative z-10">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald/10 border border-emerald/20 rounded-full mb-8">
-            <Shield className="w-4 h-4 text-emerald" />
-            <span className="text-sm text-emerald font-medium">
-              Independent Peptide Verification
-            </span>
+          <div className="inline-flex items-center gap-3 px-5 py-2.5 bg-gradient-to-r from-blue-500/10 to-emerald/10 border border-blue-500/20 rounded-full mb-8">
+            <span className="text-sm text-blue-400 font-medium">AI-POWERED</span>
+            <span className="text-gray-600">&middot;</span>
+            <span className="text-sm text-emerald font-medium">INDEPENDENT</span>
+            <span className="text-gray-600">&middot;</span>
+            <span className="text-sm text-emerald font-medium">TRANSPARENT</span>
           </div>
-          <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6">
-            Trust, <span className="text-gradient">Verified</span>.
+          <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-2">
+            Know Before You Buy.
+          </h1>
+          <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
+            <span className="text-gradient">Rank Before You&apos;re Ranked.</span>
           </h1>
           <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Unbiased peptide vendor rankings powered by COA verification, purity testing, and community sentiment. No paid placements — ever.
+            The only independent peptide vendor ranking engine — powered by real lab data, community intelligence, and AI-verified COAs, refreshed every 24 hours.
           </p>
 
           {/* ─── Hero Search Bar ─── */}
@@ -258,7 +311,7 @@ export default function HomePage() {
                 onChange={(e) => setQuery(e.target.value)}
                 onFocus={() => setSearchFocused(true)}
                 onBlur={() => setSearchFocused(false)}
-                placeholder="Search vendors, peptides, or tags..."
+                placeholder={`Search ${vendors.length} vendors, peptides, or COAs...`}
                 className="w-full pl-12 pr-24 py-4 bg-ink-2 border border-white/10 rounded-xl text-white placeholder-gray-600 focus:outline-none focus:border-emerald/30 transition-all text-base"
               />
               <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
@@ -277,12 +330,12 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
             <a
               href="#vendors"
               className="btn-glow px-8 py-4 bg-emerald text-white font-semibold text-lg rounded-xl hover:bg-emerald-light inline-flex items-center gap-2"
             >
-              Browse Vendors
+              Search
               <ArrowRight className="w-5 h-5" />
             </a>
             <Link
@@ -291,6 +344,51 @@ export default function HomePage() {
             >
               Claim Your Listing
             </Link>
+          </div>
+
+          {/* ─── Vendor Shutdown Alert Card ─── */}
+          {activeAlerts.map((alert) => (
+            <motion.div
+              key={alert.id}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="max-w-xl mx-auto mb-8"
+            >
+              <div className="p-5 bg-red-950/40 border border-red-500/30 rounded-xl text-left">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-red-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <AlertTriangle className="w-4 h-4 text-red-400" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-sm font-bold text-red-400 mb-1.5">{alert.headline}</h3>
+                    <p className="text-sm text-gray-400 leading-relaxed mb-2">
+                      {alert.summary} Top-ranked alternatives: {alert.alternatives.join(", ")}.
+                    </p>
+                    <Link
+                      href={alert.link}
+                      className="inline-flex items-center gap-1.5 text-sm text-cyan-400 hover:text-cyan-300 transition-colors font-medium"
+                    >
+                      {alert.linkText}
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+
+          {/* ─── Trust Badges ─── */}
+          <div className="max-w-2xl mx-auto p-4 bg-ink-2/50 border border-white/5 rounded-xl">
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+              {trustBadges.map((badge, i) => (
+                <span key={badge.label} className="flex items-center gap-1.5 text-xs text-gray-400">
+                  <badge.icon className="w-3.5 h-3.5 text-gray-500" />
+                  {badge.label}
+                  {i < trustBadges.length - 1 && <span className="text-gray-700 ml-4">&middot;</span>}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </section>
