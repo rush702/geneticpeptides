@@ -23,10 +23,37 @@ export async function submitClaim(formData: FormData) {
     return { error: "Vendor name and website are required." };
   }
 
-  // Use service client to bypass RLS recursion on profiles table
+  // Use service client to bypass RLS recursion
   const service = createServiceClient();
   const client = service || supabase;
 
+  // Check if user already has a profile
+  const { data: existing } = await client
+    .from("profiles")
+    .select("id, vendor_name")
+    .eq("user_id", user.id)
+    .maybeSingle();
+
+  if (existing) {
+    // Update existing profile with new vendor claim info
+    const { error } = await client
+      .from("profiles")
+      .update({
+        vendor_name: vendorName,
+        website,
+        contact_email: contactEmail || user.email,
+        message,
+      })
+      .eq("user_id", user.id);
+
+    if (error) {
+      return { error: "Failed to update claim. Please try again." };
+    }
+
+    return { success: true };
+  }
+
+  // Create new profile
   const { error } = await client.from("profiles").insert({
     user_id: user.id,
     vendor_name: vendorName,
