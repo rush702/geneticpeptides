@@ -22,12 +22,28 @@ export async function submitClaim(formData: FormData) {
     return { error: "Vendor name and website are required." };
   }
 
+  // Input length limits
+  if (vendorName.length > 200) return { error: "Vendor name is too long." };
+  if (website.length > 500) return { error: "Website URL is too long." };
+  if (message && message.length > 5000) return { error: "Message is too long." };
+
+  // Sanitize website URL — prevent javascript: XSS
+  const cleanWebsite = website.trim();
+  if (cleanWebsite && !/^https?:\/\//i.test(cleanWebsite)) {
+    // Auto-prepend https:// for bare domains
+    const sanitizedUrl = `https://${cleanWebsite.replace(/^[a-z]+:\/\//i, "")}`;
+    formData.set("website", sanitizedUrl);
+  }
+
+  // Use the sanitized website URL
+  const safeWebsite = (formData.get("website") as string) || cleanWebsite;
+
   const { error } = await supabase.from("profiles").insert({
     user_id: user.id,
-    vendor_name: vendorName,
-    website,
+    vendor_name: vendorName.trim(),
+    website: safeWebsite,
     contact_email: contactEmail || user.email,
-    message,
+    message: message?.trim() || null,
     status: "pending",
     tier: "free",
   });

@@ -21,6 +21,11 @@ export async function submitContactForm(data: ContactSubmission) {
   if (data.message.length < 10) {
     return { error: "Please provide a more detailed message (at least 10 characters)." };
   }
+  // Input length limits — prevent abuse
+  if (data.name.length > 200) return { error: "Name is too long." };
+  if (data.email.length > 320) return { error: "Email is too long." };
+  if (data.subject && data.subject.length > 500) return { error: "Subject is too long." };
+  if (data.message.length > 5000) return { error: "Message is too long (5000 character max)." };
 
   // Store in Supabase contact_messages table (if configured)
   const supabase = await createClient();

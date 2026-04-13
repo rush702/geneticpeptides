@@ -209,9 +209,8 @@ export default function AdminPage() {
           getActiveAlerts().then((a) => setAlerts(a));
         }
       } else {
-        // No user — use mock data for demo
-        setIsAdmin(true);
-        setProfiles(mockProfiles);
+        // No user — redirect to login (middleware should catch this, but double-check)
+        setIsAdmin(false);
       }
       setLoading(false);
     }
