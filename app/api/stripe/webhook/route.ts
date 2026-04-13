@@ -12,9 +12,10 @@ function getStripe(): Stripe | null {
   return new Stripe(key, { apiVersion: "2026-03-25.dahlia" });
 }
 
-function planToTier(plan: string | undefined): "pro" | "enterprise" | null {
+function planToTier(plan: string | undefined): "pro" | "pro_plus" | "enterprise" | null {
   if (!plan) return null;
   if (plan.startsWith("enterprise")) return "enterprise";
+  if (plan.startsWith("pro_plus")) return "pro_plus";
   if (plan.startsWith("pro")) return "pro";
   return null;
 }

@@ -6,9 +6,8 @@ import { createClient } from "@/lib/supabase/server";
 // ─── Price IDs (set in Vercel env vars) ─────────────────────────
 const PRICE_IDS = {
   pro_monthly: process.env.STRIPE_PRICE_PRO_MONTHLY,
-  pro_yearly: process.env.STRIPE_PRICE_PRO_YEARLY,
+  pro_plus_monthly: process.env.STRIPE_PRICE_PRO_PLUS_MONTHLY,
   enterprise_monthly: process.env.STRIPE_PRICE_ENT_MONTHLY,
-  enterprise_yearly: process.env.STRIPE_PRICE_ENT_YEARLY,
 };
 
 type PlanKey = keyof typeof PRICE_IDS;

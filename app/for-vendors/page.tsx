@@ -33,55 +33,61 @@ const tiers = [
     name: "Free",
     price: "$0",
     period: "forever",
-    yearlyPrice: null,
-    yearlySavings: null,
-    description: "Get listed and start building trust",
+    description: "Get listed instantly — no documents needed",
     cta: "Claim Free Listing",
     ctaStyle: "border" as const,
     stripePlan: null,
     features: [
-      "Basic vendor profile",
-      "PVS Score display",
-      "Community reviews",
-      "Public COA badge",
-      "Basic analytics",
+      "Vendor profile in 30 seconds",
+      "PVS Score — auto-calculated",
+      "Community reviews + nominations",
+      "No COAs required to start",
+      "Basic analytics dashboard",
     ],
   },
   {
     name: "Pro",
-    price: "$199",
+    price: "$299",
     period: "/mo",
-    yearlyPrice: "$1,990",
-    yearlySavings: "Save $398",
     description: "Enhanced visibility and insights",
     cta: "Upgrade to Pro",
     ctaStyle: "solid" as const,
-    popular: true,
-    stripePlanMonthly: "pro_monthly" as const,
-    stripePlanYearly: "pro_yearly" as const,
+    stripePlan: "pro_monthly" as const,
     features: [
       "Everything in Free",
       "Priority COA verification",
-      "Competitor benchmarking",
       "Advanced analytics dashboard",
-      "Reddit sentiment tracking",
-      "Monthly PDF reports",
       "Badge: Pro Verified",
     ],
   },
   {
-    name: "Enterprise",
-    price: "$599",
+    name: "Pro+",
+    price: "$499",
     period: "/mo",
-    yearlyPrice: "$4,792",
-    yearlySavings: "Save $1,396",
+    description: "Deep analytics and competitive intelligence",
+    cta: "Upgrade to Pro+",
+    ctaStyle: "solid" as const,
+    popular: true,
+    stripePlan: "pro_plus_monthly" as const,
+    features: [
+      "Everything in Pro",
+      "Reddit sentiment tracking",
+      "Competitor benchmarking",
+      "Monthly PDF reports",
+      "Finnrick grade alerts",
+      "Badge: Pro+ Verified",
+    ],
+  },
+  {
+    name: "Enterprise",
+    price: "$999",
+    period: "/mo",
     description: "Full platform power for market leaders",
     cta: "Contact Sales",
     ctaStyle: "gradient" as const,
-    stripePlanMonthly: "enterprise_monthly" as const,
-    stripePlanYearly: "enterprise_yearly" as const,
+    stripePlan: "enterprise_monthly" as const,
     features: [
-      "Everything in Pro",
+      "Everything in Pro+",
       "Real-time COA monitoring",
       "API access (REST + webhooks)",
       "White-label reports",
@@ -89,6 +95,7 @@ const tiers = [
       "Dedicated account manager",
       "Custom SLA",
       "Bulk batch verification",
+      "Badge: Enterprise Verified",
     ],
   },
 ];
@@ -137,22 +144,22 @@ const enterpriseFeatures = [
   },
 ];
 
-/* ─── 3-step timeline ─── */
+/* ─── 3-step timeline — frictionless onboarding ─── */
 const steps = [
   {
     icon: Shield,
-    title: "Verify Identity",
-    description: "Create your account and confirm your company details securely.",
+    title: "Create Your Account",
+    description: "Sign up in 30 seconds with just your email. No documents, no paperwork.",
   },
   {
-    icon: FileCheck,
-    title: "Submit COAs",
-    description: "Upload your certificates of analysis — we verify purity, identity, and sterility.",
+    icon: Zap,
+    title: "Claim Your Listing",
+    description: "Enter your vendor name and website — that's it. Your profile goes live immediately.",
   },
   {
     icon: Rocket,
-    title: "Go Live",
-    description: "Your verified listing goes live with a PVS score, badges, and full profile.",
+    title: "Grow Your Score",
+    description: "Upload COAs, collect reviews, and earn badges to boost your PVS score over time. Optional but powerful.",
   },
 ];
 
@@ -199,7 +206,7 @@ export default function ForVendorsPage() {
   const [authOpen, setAuthOpen] = useState(false);
   const [claimOpen, setClaimOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
-  const [yearlyBilling, setYearlyBilling] = useState(true);
+  // Monthly billing only — no yearly toggle
   const [checkoutLoading, setCheckoutLoading] = useState<string | null>(null);
   const supabase = createClient();
 
@@ -226,13 +233,13 @@ export default function ForVendorsPage() {
     }
   };
 
-  const handleUpgrade = async (plan: "pro_monthly" | "pro_yearly" | "enterprise_monthly" | "enterprise_yearly") => {
+  const handleUpgrade = async (plan: string) => {
     if (!user) {
       setAuthOpen(true);
       return;
     }
     setCheckoutLoading(plan);
-    const result = await createCheckoutSession(plan);
+    const result = await createCheckoutSession(plan as any);
     if (result.url) {
       window.location.href = result.url;
     }
@@ -268,8 +275,9 @@ export default function ForVendorsPage() {
             </h1>
 
             <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-              Join the most trusted peptide vendor verification platform. Get your
-              PVS score, verified badges, and real-time analytics — starting at $0.
+              Claim your free listing in 30 seconds — no documents required. Get a PVS
+              score, community visibility, and real-time analytics as you grow. COAs are
+              optional but boost your score.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -426,39 +434,12 @@ export default function ForVendorsPage() {
 
           {user ? (
             <>
-              {/* Billing toggle */}
-              <div className="flex items-center justify-center gap-4 mb-12">
-                <span
-                  className={`text-sm ${!yearlyBilling ? "text-white font-medium" : "text-gray-500"}`}
-                >
-                  Monthly
-                </span>
-                <button
-                  onClick={() => setYearlyBilling(!yearlyBilling)}
-                  className={`relative w-14 h-7 rounded-full transition-colors ${
-                    yearlyBilling ? "bg-emerald" : "bg-ink-3 border border-white/10"
-                  }`}
-                >
-                  <div
-                    className={`absolute top-0.5 w-6 h-6 bg-white rounded-full shadow transition-transform ${
-                      yearlyBilling ? "translate-x-7" : "translate-x-0.5"
-                    }`}
-                  />
-                </button>
-                <span
-                  className={`text-sm ${yearlyBilling ? "text-white font-medium" : "text-gray-500"}`}
-                >
-                  Yearly
-                </span>
-                {yearlyBilling && (
-                  <span className="text-xs bg-emerald/20 text-emerald px-2 py-0.5 rounded-full font-medium">
-                    Save 20%
-                  </span>
-                )}
-              </div>
+              {/* Pricing cards — monthly only, cancel anytime */}
+              <p className="text-center text-sm text-gray-500 mb-8">
+                Billed monthly &middot; Cancel anytime &middot; 14-day free trial on paid plans
+              </p>
 
-              {/* Pricing cards */}
-              <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6">
                 {tiers.map((tier, i) => (
                   <motion.div
                     key={tier.name}
@@ -466,7 +447,7 @@ export default function ForVendorsPage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.1 }}
-                    className={`card-glow relative rounded-2xl p-8 ${
+                    className={`card-glow relative rounded-2xl p-7 ${
                       tier.popular
                         ? "bg-ink-2 border-2 border-emerald/30 shadow-lg shadow-emerald-glow"
                         : "bg-ink-2 border border-white/10"
@@ -478,36 +459,30 @@ export default function ForVendorsPage() {
                       </div>
                     )}
 
-                    <div className="mb-6">
+                    <div className="mb-5">
                       <h3 className="text-lg font-semibold text-white mb-1">
                         {tier.name}
                       </h3>
                       <p className="text-sm text-gray-500">{tier.description}</p>
                     </div>
 
-                    <div className="mb-6">
+                    <div className="mb-5">
                       <div className="flex items-baseline gap-1">
-                        <span className="text-4xl font-bold text-white">
-                          {tier.yearlyPrice && yearlyBilling
-                            ? tier.yearlyPrice
-                            : tier.price}
+                        <span className="text-3xl font-bold text-white">
+                          {tier.price}
                         </span>
                         <span className="text-gray-500 text-sm">
-                          {tier.yearlyPrice && yearlyBilling
-                            ? "/yr"
-                            : tier.period}
+                          {tier.period}
                         </span>
                       </div>
-                      {tier.yearlySavings && yearlyBilling && (
-                        <p className="text-xs text-emerald mt-1 font-medium">
-                          {tier.yearlySavings}
-                        </p>
+                      {tier.name !== "Free" && (
+                        <p className="text-xs text-gray-500 mt-1">Cancel anytime</p>
                       )}
                     </div>
 
-                    <ul className="space-y-3 mb-8">
+                    <ul className="space-y-2.5 mb-7">
                       {tier.features.map((f) => (
-                        <li key={f} className="flex items-start gap-3 text-sm text-gray-300">
+                        <li key={f} className="flex items-start gap-2.5 text-sm text-gray-300">
                           <CheckCircle2 className="w-4 h-4 text-emerald flex-shrink-0 mt-0.5" />
                           {f}
                         </li>
@@ -530,17 +505,11 @@ export default function ForVendorsPage() {
                       </button>
                     ) : (
                       <button
-                        onClick={() =>
-                          handleUpgrade(
-                            yearlyBilling
-                              ? tier.stripePlanYearly!
-                              : tier.stripePlanMonthly!
-                          )
-                        }
+                        onClick={() => handleUpgrade(tier.stripePlan!)}
                         disabled={checkoutLoading !== null}
                         className="btn-glow w-full py-3 bg-emerald text-white font-semibold rounded-xl hover:bg-emerald-light disabled:opacity-50"
                       >
-                        {checkoutLoading === (yearlyBilling ? tier.stripePlanYearly : tier.stripePlanMonthly)
+                        {checkoutLoading === tier.stripePlan
                           ? "Redirecting..."
                           : tier.cta}
                       </button>
@@ -695,10 +664,10 @@ export default function ForVendorsPage() {
             <div className="absolute inset-0 bg-gradient-to-br from-emerald/5 to-transparent pointer-events-none" />
             <div className="relative z-10">
               <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">
-                Ready to Get Verified?
+                Ready to Get Listed?
               </h2>
               <p className="text-gray-400 mb-8 max-w-md mx-auto">
-                Join 148+ vendors who trust PepAssure to showcase their quality. Free forever — upgrade anytime.
+                Claim your free listing in 30 seconds. No documents, no hassle — your score builds automatically as the community grows.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <button
