@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PeptideRank — AI-Powered Vendor Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --navy:   #0f1e3d;
+    --navy2:  #162547;
+    --teal:   #00c9b1;
+    --teal2:  #00a896;
+    --accent: #4f8ef7;
+    --gold:   #f5c842;
+    --red:    #ff5c72;
+    --green:  #2ecc8f;
+    --bg:     #f4f7fb;
+    --card:   #ffffff;
+    --text:   #1a2340;
+    --muted:  #7a8499;
+    --border: #e4e9f2;
+    --radius: 16px;
+    --shadow: 0 4px 24px rgba(15,30,61,0.10);
+    --shadow-lg: 0 12px 48px rgba(15,30,61,0.15);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(15,30,61,0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    padding: 0 2rem;
+    height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none;
+  }
+  .nav-logo-icon {
+    width: 34px; height: 34px; border-radius: 9px;
+    background: linear-gradient(135deg, var(--teal), var(--accent));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 900; color: white;
+  }
+  .nav-logo-text {
+    font-size: 1.15rem; font-weight: 800;
+    color: white; letter-spacing: -0.3px;
+  }
+  .nav-logo-text span { color: var(--teal); }
+  .nav-links { display: flex; align-items: center; gap: 2rem; }
+  .nav-links a {
+    color: rgba(255,255,255,0.72); text-decoration: none;
+    font-size: 0.88rem; font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: white; }
+  .nav-cta {
+    background: linear-gradient(135deg, var(--teal), var(--accent));
+    color: white !important; padding: 8px 20px;
+    border-radius: 8px; font-weight: 600 !important;
+    font-size: 0.85rem !important;
+    transition: opacity 0.2s, transform 0.2s !important;
+  }
+  .nav-cta:hover { opacity: 0.9; transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: var(--navy);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 100px 2rem 60px;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,201,177,0.13) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 80%, rgba(79,142,247,0.10) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(0,201,177,0.12); border: 1px solid rgba(0,201,177,0.3);
+    color: var(--teal); padding: 6px 16px; border-radius: 999px;
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 0.5px;
+    text-transform: uppercase; margin-bottom: 1.5rem;
+  }
+  .hero-badge::before { content: '●'; font-size: 8px; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { opacity:1 } 50% { opacity:0.4 } }
+
+  .hero h1 {
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    font-weight: 900; color: white;
+    line-height: 1.08; letter-spacing: -1.5px;
+    max-width: 820px; margin-bottom: 1.4rem;
+  }
+  .hero h1 .grad {
+    background: linear-gradient(90deg, var(--teal), var(--accent));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero-sub {
+    font-size: 1.08rem; color: rgba(255,255,255,0.6);
+    max-width: 600px; margin: 0 auto 2.5rem; font-weight: 400;
+  }
+
+  /* Search bar */
+  .search-wrap {
+    width: 100%; max-width: 580px;
+    background: rgba(255,255,255,0.06);
+    border: 1.5px solid rgba(255,255,255,0.12);
+    border-radius: 14px; display: flex; align-items: center;
+    padding: 8px 8px 8px 20px; gap: 8px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    margin: 0 auto 2rem;
+  }
+  .search-wrap:focus-within {
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px rgba(0,201,177,0.15);
+  }
+  .search-wrap input {
+    flex: 1; background: none; border: none; outline: none;
+    color: white; font-size: 0.95rem; font-family: inherit;
+    placeholder-color: rgba(255,255,255,0.4);
+  }
+  .search-wrap input::placeholder { color: rgba(255,255,255,0.35); }
+  .search-btn {
+    background: linear-gradient(135deg, var(--teal), var(--accent));
+    color: white; border: none; border-radius: 9px;
+    padding: 10px 20px; font-size: 0.88rem; font-weight: 600;
+    cursor: pointer; font-family: inherit;
+    transition: opacity 0.2s, transform 0.2s;
+    white-space: nowrap;
+  }
+  .search-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+  .hero-stats {
+    display: flex; gap: 2.5rem; justify-content: center;
+    flex-wrap: wrap; margin-top: 1rem;
+  }
+  .hero-stat { text-align: center; }
+  .hero-stat-val {
+    font-size: 1.7rem; font-weight: 800; color: white;
+    letter-spacing: -0.5px;
+  }
+  .hero-stat-val span { color: var(--teal); }
+  .hero-stat-label { font-size: 0.75rem; color: rgba(255,255,255,0.45); font-weight: 500; margin-top: 2px; }
+
+  /* scroll indicator */
+  .scroll-indicator {
+    position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    color: rgba(255,255,255,0.3); font-size: 0.72rem; letter-spacing: 1px;
+    text-transform: uppercase; animation: bob 2s ease-in-out infinite;
+  }
+  .scroll-indicator svg { width: 20px; opacity: 0.5; }
+  @keyframes bob { 0%,100% { transform: translateX(-50%) translateY(0) } 50% { transform: translateX(-50%) translateY(6px) } }
+
+  /* ── SECTION SHARED ── */
+  section { padding: 80px 2rem; }
+  .container { max-width: 1120px; margin: 0 auto; }
+  .section-tag {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--teal); margin-bottom: 12px;
+  }
+  .section-title {
+    font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+    font-weight: 800; letter-spacing: -0.5px; color: var(--text);
+    margin-bottom: 14px; line-height: 1.2;
+  }
+  .section-sub {
+    color: var(--muted); font-size: 1rem; max-width: 560px; line-height: 1.7;
+  }
+
+  /* ── TRUST BAR ── */
+  .trust-bar {
+    background: white; border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border); padding: 20px 2rem;
+  }
+  .trust-bar-inner {
+    max-width: 1120px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: center;
+    gap: 3rem; flex-wrap: wrap;
+  }
+  .trust-item {
+    display: flex; align-items: center; gap: 8px;
+    color: var(--muted); font-size: 0.82rem; font-weight: 500;
+  }
+  .trust-item svg { width: 16px; color: var(--teal); }
+
+  /* ── RANKINGS ── */
+  .rankings { background: var(--bg); }
+  .rankings-header {
+    display: flex; align-items: flex-end;
+    justify-content: space-between; gap: 1rem;
+    margin-bottom: 2rem; flex-wrap: wrap;
+  }
+  .filter-tabs {
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .filter-tab {
+    padding: 7px 16px; border-radius: 8px; border: 1.5px solid var(--border);
+    background: white; color: var(--muted); font-size: 0.82rem; font-weight: 600;
+    cursor: pointer; transition: all 0.2s; font-family: inherit;
+  }
+  .filter-tab.active, .filter-tab:hover {
+    background: var(--navy); color: white; border-color: var(--navy);
+  }
+
+  /* Vendor card */
+  .vendor-grid { display: flex; flex-direction: column; gap: 14px; }
+
+  .vendor-card {
+    background: white; border-radius: var(--radius);
+    border: 1.5px solid var(--border);
+    padding: 20px 24px;
+    display: grid;
+    grid-template-columns: 44px 1fr auto auto auto;
+    align-items: center; gap: 18px;
+    transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
+    cursor: pointer;
+  }
+  .vendor-card:hover {
+    box-shadow: var(--shadow-lg);
+    border-color: rgba(0,201,177,0.3);
+    transform: translateY(-2px);
+  }
+  .vendor-card.top-1 { border-color: rgba(245,200,66,0.5); background: linear-gradient(to right, #fffdf0, white); }
+  .vendor-card.top-2 { border-color: rgba(192,192,192,0.5); background: linear-gradient(to right, #f8f8f8, white); }
+  .vendor-card.top-3 { border-color: rgba(205,127,50,0.4); background: linear-gradient(to right, #fdf6f0, white); }
+
+  .rank-badge {
+    width: 44px; height: 44px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 1rem;
+  }
+  .rank-1 { background: linear-gradient(135deg, #f5c842, #e6a817); color: white; }
+  .rank-2 { background: linear-gradient(135deg, #c0c0c0, #a0a0a0); color: white; }
+  .rank-3 { background: linear-gradient(135deg, #cd7f32, #b56a24); color: white; }
+  .rank-n  { background: var(--bg); color: var(--muted); border: 1.5px solid var(--border); }
+
+  .vendor-info { min-width: 0; }
+  .vendor-name {
+    font-size: 1rem; font-weight: 700; color: var(--text);
+    display: flex; align-items: center; gap: 8px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .badge-verified {
+    background: rgba(0,201,177,0.1); color: var(--teal2);
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.5px;
+    padding: 2px 8px; border-radius: 999px; white-space: nowrap;
+    text-transform: uppercase;
+  }
+  .vendor-meta {
+    font-size: 0.78rem; color: var(--muted); margin-top: 3px;
+    display: flex; gap: 12px; flex-wrap: wrap;
+  }
+  .vendor-meta span { display: flex; align-items: center; gap: 4px; }
+
+  /* Score pillars */
+  .pillar-row {
+    display: flex; flex-direction: column; gap: 5px;
+    min-width: 170px;
+  }
+  .pillar { display: flex; align-items: center; gap: 8px; }
+  .pillar-label { font-size: 0.68rem; color: var(--muted); width: 68px; font-weight: 500; }
+  .pillar-bar {
+    flex: 1; height: 5px; background: var(--border); border-radius: 999px; overflow: hidden;
+  }
+  .pillar-fill { height: 100%; border-radius: 999px; }
+  .fill-teal   { background: var(--teal); }
+  .fill-blue   { background: var(--accent); }
+  .fill-green  { background: var(--green); }
+  .fill-gold   { background: var(--gold); }
+  .fill-purple { background: #a78bfa; }
+  .pillar-val  { font-size: 0.68rem; font-weight: 700; color: var(--text); width: 26px; text-align: right; }
+
+  /* Big score */
+  .score-ring {
+    display: flex; flex-direction: column; align-items: center;
+    min-width: 72px;
+  }
+  .score-circle {
+    width: 60px; height: 60px; border-radius: 50%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 1.2rem; color: white;
+    position: relative;
+  }
+  .score-high   { background: linear-gradient(135deg, var(--teal), var(--teal2)); }
+  .score-mid    { background: linear-gradient(135deg, var(--accent), #3a6edb); }
+  .score-low    { background: linear-gradient(135deg, #f59e0b, #d97706); }
+  .score-label  { font-size: 0.65rem; color: var(--muted); margin-top: 5px; font-weight: 600; }
+
+  .trend-up   { color: var(--green); font-size: 0.75rem; font-weight: 700; }
+  .trend-down { color: var(--red);   font-size: 0.75rem; font-weight: 700; }
+  .trend-flat { color: var(--muted); font-size: 0.75rem; font-weight: 700; }
+
+  .vendor-actions { display: flex; flex-direction: column; gap: 6px; }
+  .btn-view {
+    background: var(--navy); color: white; border: none;
+    border-radius: 8px; padding: 8px 16px;
+    font-size: 0.8rem; font-weight: 600; cursor: pointer;
+    font-family: inherit; white-space: nowrap;
+    transition: background 0.2s;
+  }
+  .btn-view:hover { background: var(--navy2); }
+  .btn-site {
+    background: none; color: var(--teal); border: 1.5px solid var(--teal);
+    border-radius: 8px; padding: 7px 16px;
+    font-size: 0.8rem; font-weight: 600; cursor: pointer;
+    font-family: inherit; white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .btn-site:hover { background: var(--teal); color: white; }
+
+  .updated-tag {
+    font-size: 0.68rem; color: var(--muted); text-align: right;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .dot-live { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); animation: pulse 2s infinite; }
+
+  /* ── HOW IT WORKS ── */
+  .how { background: var(--navy); }
+  .how .section-title { color: white; }
+  .how .section-sub   { color: rgba(255,255,255,0.55); }
+  .how .section-tag   { color: var(--teal); }
+
+  .steps-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px; margin-top: 3rem;
+  }
+  .step-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius); padding: 28px 24px;
+    transition: background 0.2s;
+  }
+  .step-card:hover { background: rgba(255,255,255,0.07); }
+  .step-num {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--teal), var(--accent));
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; color: white; font-size: 1rem;
+    margin-bottom: 16px;
+  }
+  .step-card h3 { color: white; font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+  .step-card p  { color: rgba(255,255,255,0.5); font-size: 0.85rem; line-height: 1.6; }
+
+  /* ── SCORE BREAKDOWN ── */
+  .breakdown { background: white; }
+  .breakdown-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px; margin-top: 3rem;
+  }
+  .pillar-card {
+    border-radius: var(--radius); padding: 24px;
+    border: 1.5px solid var(--border);
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .pillar-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); }
+  .pillar-icon {
+    width: 46px; height: 46px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; margin-bottom: 14px;
+  }
+  .pillar-card h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; }
+  .pillar-card p  { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+  .pillar-weight  {
+    margin-top: 12px; font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.5px; text-transform: uppercase;
+  }
+
+  /* ── CTA ── */
+  .cta-section {
+    background: linear-gradient(135deg, var(--navy), #0a2252);
+    text-align: center; padding: 100px 2rem;
+  }
+  .cta-section h2 {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 900; color: white; letter-spacing: -0.5px;
+    margin-bottom: 16px;
+  }
+  .cta-section p { color: rgba(255,255,255,0.55); max-width: 480px; margin: 0 auto 2.5rem; font-size: 1rem; }
+  .cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--teal), var(--accent));
+    color: white; border: none; border-radius: 10px;
+    padding: 14px 32px; font-size: 0.95rem; font-weight: 700;
+    cursor: pointer; font-family: inherit;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.9; transform: translateY(-2px); }
+  .btn-outline {
+    background: none; color: white; border: 1.5px solid rgba(255,255,255,0.25);
+    border-radius: 10px; padding: 14px 32px;
+    font-size: 0.95rem; font-weight: 600; cursor: pointer; font-family: inherit;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .btn-outline:hover { border-color: white; background: rgba(255,255,255,0.05); }
+
+  /* ── PRICING ── */
+  .pricing { background: var(--bg); }
+  .pricing-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px; margin-top: 3rem; align-items: start;
+  }
+  .price-card {
+    background: white; border-radius: var(--radius);
+    border: 1.5px solid var(--border); padding: 32px 28px;
+    position: relative; transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .price-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); }
+  .price-card.featured {
+    background: var(--navy); border-color: transparent;
+    box-shadow: var(--shadow-lg);
+  }
+  .price-card.featured h3,
+  .price-card.featured .price-amount,
+  .price-card.featured .price-period,
+  .price-card.featured li { color: white; }
+  .price-card.featured .price-sub  { color: rgba(255,255,255,0.5); }
+  .price-card.featured .price-feat { border-color: rgba(255,255,255,0.1); }
+  .popular-tag {
+    position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+    background: linear-gradient(90deg, var(--teal), var(--accent));
+    color: white; font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; padding: 4px 16px; border-radius: 999px;
+    white-space: nowrap;
+  }
+  .price-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+  .price-sub { font-size: 0.82rem; color: var(--muted); margin-bottom: 20px; }
+  .price-amount { font-size: 2.4rem; font-weight: 900; letter-spacing: -1px; }
+  .price-period { font-size: 0.85rem; color: var(--muted); font-weight: 500; }
+  .price-feat { border-top: 1.5px solid var(--border); margin: 20px 0; padding-top: 20px; }
+  .price-feat li { list-style: none; font-size: 0.85rem; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 8px; }
+  .price-feat li::before { content: '✓'; color: var(--teal); font-weight: 800; flex-shrink: 0; }
+  .price-card.featured .price-feat li::before { color: var(--teal); }
+  .price-btn {
+    width: 100%; padding: 13px; border-radius: 10px;
+    font-size: 0.9rem; font-weight: 700; cursor: pointer; font-family: inherit;
+    transition: all 0.2s;
+  }
+  .price-btn-dark {
+    background: var(--navy); color: white; border: none;
+  }
+  .price-btn-dark:hover { background: var(--navy2); }
+  .price-btn-grad {
+    background: linear-gradient(135deg, var(--teal), var(--accent));
+    color: white; border: none;
+  }
+  .price-btn-grad:hover { opacity: 0.9; transform: translateY(-1px); }
+  .price-btn-outline {
+    background: none; color: var(--text); border: 1.5px solid var(--border);
+  }
+  .price-btn-outline:hover { border-color: var(--teal); color: var(--teal); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--navy); color: rgba(255,255,255,0.45);
+    padding: 48px 2rem 32px;
+  }
+  .footer-inner {
+    max-width: 1120px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 16px;
+  }
+  .footer-logo { font-size: 1rem; font-weight: 800; color: white; }
+  .footer-logo span { color: var(--teal); }
+  footer p { font-size: 0.8rem; }
+  .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  .footer-links a { color: rgba(255,255,255,0.45); text-decoration: none; font-size: 0.8rem; transition: color 0.2s; }
+  .footer-links a:hover { color: white; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 800px) {
+    .vendor-card { grid-template-columns: 44px 1fr; gap: 12px; }
+    .pillar-row, .score-ring, .vendor-actions { display: none; }
+    .nav-links { display: none; }
+  }
+  @media (max-width: 500px) {
+    .hero h1 { font-size: 2rem; }
+    .hero-stats { gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ─────────────────────────────────────────────────────────────────── -->
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="nav-logo-icon">P</div>
+    <span class="nav-logo-text">Peptide<span>Rank</span></span>
+  </a>
+  <div class="nav-links">
+    <a href="#rankings">Rankings</a>
+    <a href="#how">How It Works</a>
+    <a href="#scoring">Scoring</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#cta" class="nav-cta">Claim Your Listing →</a>
+  </div>
+</nav>
+
+<!-- ── HERO ─────────────────────────────────────────────────────────────────── -->
+<div class="hero">
+  <div class="hero-badge">Live · Updated Every 24 Hours</div>
+
+  <h1>The <span class="grad">AI-Powered</span> Standard for<br/>Peptide Vendor Trust</h1>
+
+  <p class="hero-sub">
+    We analyze purity records, community sentiment, COAs, customer service, and pricing
+    across every peptide research vendor on the internet — every single day.
+  </p>
+
+  <div class="search-wrap">
+    <svg width="18" height="18" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" viewBox="0 0 24 24">
+      <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+    </svg>
+    <input type="text" placeholder="Search vendors, peptides, or compounds…" id="searchInput" oninput="filterVendors()"/>
+    <button class="search-btn">Search</button>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-val"><span>350</span>+</div>
+      <div class="hero-stat-label">Vendors Indexed</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-val"><span>6,100</span>+</div>
+      <div class="hero-stat-label">COAs Analyzed</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-val"><span>2.4M</span></div>
+      <div class="hero-stat-label">Reddit Posts Scored</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-val"><span>24h</span></div>
+      <div class="hero-stat-label">Data Refresh Cycle</div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+  </div>
+</div>
+
+<!-- ── TRUST BAR ──────────────────────────────────────────────────────────────── -->
+<div class="trust-bar">
+  <div class="trust-bar-inner">
+    <div class="trust-item">
+      <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      No paid rankings
+    </div>
+    <div class="trust-item">
+      <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      AI-verified COAs
+    </div>
+    <div class="trust-item">
+      <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      Live Reddit sentiment
+    </div>
+    <div class="trust-item">
+      <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      Independent &amp; transparent
+    </div>
+    <div class="trust-item">
+      <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      Updated every 24 hours
+    </div>
+  </div>
+</div>
+
+<!-- ── RANKINGS ──────────────────────────────────────────────────────────────── -->
+<section class="rankings" id="rankings">
+  <div class="container">
+    <div class="rankings-header">
+      <div>
+        <div class="section-tag">Live Rankings</div>
+        <div class="section-title">Top Peptide Vendors</div>
+        <p class="section-sub">Ranked by the PeptideRank Score™ — a composite AI index updated daily.</p>
+      </div>
+      <div>
+        <div class="updated-tag">
+          <div class="dot-live"></div>
+          Updated 3 hours ago
+        </div>
+      </div>
+    </div>
+
+    <div class="filter-tabs" style="margin-bottom:1.5rem;">
+      <button class="filter-tab active" onclick="setFilter('all',this)">All Vendors</button>
+      <button class="filter-tab" onclick="setFilter('usa',this)">🇺🇸 USA</button>
+      <button class="filter-tab" onclick="setFilter('eu',this)">🇪🇺 Europe</button>
+      <button class="filter-tab" onclick="setFilter('au',this)">🇦🇺 Australia</button>
+      <button class="filter-tab" onclick="setFilter('verified',this)">✓ Verified Only</button>
+    </div>
+
+    <div class="vendor-grid" id="vendorGrid"></div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ───────────────────────────────────────────────────────────── -->
+<section class="how" id="how">
+  <div class="container">
+    <div class="section-tag">The Process</div>
+    <div class="section-title" style="color:white">How PeptideRank Works</div>
+    <p class="section-sub">Our AI engine runs daily to give you the most current picture of every vendor in the market.</p>
+
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h3>Daily Data Crawl</h3>
+        <p>Automated crawlers scrape all 350+ indexed vendor websites, pulling product pages, COA documents, pricing, and policies every 24 hours.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h3>COA AI Verification</h3>
+        <p>Our OCR + GPT model reads every Certificate of Analysis, extracts purity percentages, validates HPLC/MS data, and flags inconsistencies.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h3>Reddit &amp; Community Scan</h3>
+        <p>We pull posts from r/Peptides, r/nootropics, forums, and Discord every 6 hours, running sentiment classification on vendor mentions.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <h3>Score Computation</h3>
+        <p>All five data pillars are weighted and combined into the PeptideRank Score™ — recalculated daily with anomaly detection alerts.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">5</div>
+        <h3>Publish &amp; Notify</h3>
+        <p>Rankings update live on the platform. Vendors with significant score changes are notified via their dashboard within hours.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SCORING ────────────────────────────────────────────────────────────────── -->
+<section class="breakdown" id="scoring">
+  <div class="container">
+    <div class="section-tag">Methodology</div>
+    <div class="section-title">The PeptideRank Score™</div>
+    <p class="section-sub">Five independently weighted pillars. One trusted number.</p>
+
+    <div class="breakdown-grid">
+      <div class="pillar-card" style="border-color:rgba(0,201,177,0.3)">
+        <div class="pillar-icon" style="background:rgba(0,201,177,0.1)">🔬</div>
+        <h3>Purity / COA Verification</h3>
+        <p>AI-parsed COA documents validated against HPLC and mass spectrometry standards. Cross-referenced with third-party lab databases.</p>
+        <div class="pillar-weight" style="color:var(--teal)">30% weight</div>
+      </div>
+      <div class="pillar-card" style="border-color:rgba(79,142,247,0.3)">
+        <div class="pillar-icon" style="background:rgba(79,142,247,0.1)">🏆</div>
+        <h3>Vendor Reputation</h3>
+        <p>Domain age, business registration status, legal history, and longitudinal community trust signals tracked over time.</p>
+        <div class="pillar-weight" style="color:var(--accent)">25% weight</div>
+      </div>
+      <div class="pillar-card" style="border-color:rgba(46,204,143,0.3)">
+        <div class="pillar-icon" style="background:rgba(46,204,143,0.1)">💬</div>
+        <h3>Customer Service</h3>
+        <p>Response time testing, complaint resolution tracking, and buyer sentiment analysis from verified purchase reviews.</p>
+        <div class="pillar-weight" style="color:var(--green)">20% weight</div>
+      </div>
+      <div class="pillar-card" style="border-color:rgba(245,200,66,0.3)">
+        <div class="pillar-icon" style="background:rgba(245,200,66,0.1)">📡</div>
+        <h3>Community Sentiment</h3>
+        <p>Daily Reddit API pulls + forum scraping, scored by a fine-tuned BERT model trained on 2M+ peptide community posts.</p>
+        <div class="pillar-weight" style="color:#d97706">15% weight</div>
+      </div>
+      <div class="pillar-card" style="border-color:rgba(167,139,250,0.3)">
+        <div class="pillar-icon" style="background:rgba(167,139,250,0.1)">💰</div>
+        <h3>Pricing / COGS</h3>
+        <p>Price per milligram normalized across all indexed vendors, updated daily. Identifies outliers — both suspiciously cheap and overpriced.</p>
+        <div class="pillar-weight" style="color:#a78bfa">10% weight</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRICING ────────────────────────────────────────────────────────────────── -->
+<section class="pricing" id="pricing">
+  <div class="container">
+    <div class="section-tag">For Vendors</div>
+    <div class="section-title">Claim &amp; Manage Your Listing</div>
+    <p class="section-sub">Every vendor is listed automatically. Upgrade to unlock analytics, verification, and growth tools.</p>
+
+    <div class="pricing-grid">
+      <div class="price-card">
+        <h3>Free Listing</h3>
+        <p class="price-sub">Auto-generated from public data</p>
+        <div><span class="price-amount">$0</span><span class="price-period"> / forever</span></div>
+        <ul class="price-feat">
+          <li>Public vendor profile</li>
+          <li>Daily PeptideRank Score</li>
+          <li>Community sentiment summary</li>
+          <li>Basic pricing comparison</li>
+        </ul>
+        <button class="price-btn price-btn-outline">Claim Free Listing</button>
+      </div>
+
+      <div class="price-card featured">
+        <div class="popular-tag">Most Popular</div>
+        <h3>Pro Vendor</h3>
+        <p class="price-sub" style="color:rgba(255,255,255,0.45)">For growing vendors</p>
+        <div><span class="price-amount">$199</span><span class="price-period"> / month</span></div>
+        <ul class="price-feat">
+          <li>✓ Verified Badge on listing</li>
+          <li>COA upload &amp; AI verification</li>
+          <li>Full analytics dashboard</li>
+          <li>Score change alerts</li>
+          <li>Review management tools</li>
+          <li>Priority customer support</li>
+        </ul>
+        <button class="price-btn price-btn-grad">Start Free Trial →</button>
+      </div>
+
+      <div class="price-card">
+        <h3>Enterprise</h3>
+        <p class="price-sub">For established vendors &amp; labs</p>
+        <div><span class="price-amount">$599</span><span class="price-period"> / month</span></div>
+        <ul class="price-feat">
+          <li>All Pro features</li>
+          <li>Competitor benchmarking</li>
+          <li>Full API data access</li>
+          <li>Dedicated account manager</li>
+          <li>Marketing co-op program</li>
+          <li>Custom reports</li>
+        </ul>
+        <button class="price-btn price-btn-dark">Contact Sales</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ───────────────────────────────────────────────────────────────────── -->
+<section class="cta-section" id="cta">
+  <div class="container">
+    <h2>The Research Community<br/>Deserves the Truth</h2>
+    <p>Join thousands of researchers and biohackers who rely on PeptideRank for unbiased, AI-verified vendor intelligence.</p>
+    <div class="cta-btns">
+      <button class="btn-primary">Browse Full Rankings →</button>
+      <button class="btn-outline">Get Vendor API Access</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">Peptide<span>Rank</span> AI</div>
+      <p style="margin-top:6px">© 2026 PeptideRank AI. For research purposes only.</p>
+    </div>
+    <div class="footer-links">
+      <a href="#">Methodology</a>
+      <a href="#">API Docs</a>
+      <a href="#">Blog</a>
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ── DATA + JS ──────────────────────────────────────────────────────────────── -->
+<script>
+const vendors = [
+  {
+    name: "Limitless Life Nootropics", region: "usa", verified: true,
+    score: 94, scoreClass: "score-high",
+    trend: "+2", trendClass: "trend-up",
+    peptides: ["BPC-157","TB-500","Semaglutide"],
+    pillars: [
+      {label:"Purity",    val:97, cls:"fill-teal",   pct:97},
+      {label:"Reputation",val:93, cls:"fill-blue",   pct:93},
+      {label:"Service",   val:91, cls:"fill-green",  pct:91},
+      {label:"Community", val:96, cls:"fill-gold",   pct:96},
+      {label:"Pricing",   val:88, cls:"fill-purple", pct:88},
+    ]
+  },
+  {
+    name: "Ascension Peptides", region: "usa", verified: true,
+    score: 91, scoreClass: "score-high",
+    trend: "+4", trendClass: "trend-up",
+    peptides: ["AOD-9604","CJC-1295","Ipamorelin"],
+    pillars: [
+      {label:"Purity",    val:99, cls:"fill-teal",   pct:99},
+      {label:"Reputation",val:88, cls:"fill-blue",   pct:88},
+      {label:"Service",   val:89, cls:"fill-green",  pct:89},
+      {label:"Community", val:92, cls:"fill-gold",   pct:92},
+      {label:"Pricing",   val:82, cls:"fill-purple", pct:82},
+    ]
+  },
+  {
+    name: "Soma Chems", region: "usa", verified: true,
+    score: 88, scoreClass: "score-high",
+    trend: "−1", trendClass: "trend-down",
+    peptides: ["GHK-Cu","Selank","Epithalon"],
+    pillars: [
+      {label:"Purity",    val:90, cls:"fill-teal",   pct:90},
+      {label:"Reputation",val:87, cls:"fill-blue",   pct:87},
+      {label:"Service",   val:86, cls:"fill-green",  pct:86},
+      {label:"Community", val:91, cls:"fill-gold",   pct:91},
+      {label:"Pricing",   val:84, cls:"fill-purple", pct:84},
+    ]
+  },
+  {
+    name: "Peptide Sciences EU", region: "eu", verified: true,
+    score: 85, scoreClass: "score-mid",
+    trend: "→", trendClass: "trend-flat",
+    peptides: ["GHRP-6","Hexarelin","PT-141"],
+    pillars: [
+      {label:"Purity",    val:88, cls:"fill-teal",   pct:88},
+      {label:"Reputation",val:83, cls:"fill-blue",   pct:83},
+      {label:"Service",   val:82, cls:"fill-green",  pct:82},
+      {label:"Community", val:79, cls:"fill-gold",   pct:79},
+      {label:"Pricing",   val:91, cls:"fill-purple", pct:91},
+    ]
+  },
+  {
+    name: "Swiss Chems", region: "eu", verified: false,
+    score: 79, scoreClass: "score-mid",
+    trend: "+1", trendClass: "trend-up",
+    peptides: ["Melanotan II","KPV","Thymosin Alpha-1"],
+    pillars: [
+      {label:"Purity",    val:78, cls:"fill-teal",   pct:78},
+      {label:"Reputation",val:81, cls:"fill-blue",   pct:81},
+      {label:"Service",   val:77, cls:"fill-green",  pct:77},
+      {label:"Community", val:75, cls:"fill-gold",   pct:75},
+      {label:"Pricing",   val:86, cls:"fill-purple", pct:86},
+    ]
+  },
+  {
+    name: "BPC Labs Australia", region: "au", verified: true,
+    score: 82, scoreClass: "score-mid",
+    trend: "+3", trendClass: "trend-up",
+    peptides: ["BPC-157","DSIP","LL-37"],
+    pillars: [
+      {label:"Purity",    val:85, cls:"fill-teal",   pct:85},
+      {label:"Reputation",val:80, cls:"fill-blue",   pct:80},
+      {label:"Service",   val:84, cls:"fill-green",  pct:84},
+      {label:"Community", val:78, cls:"fill-gold",   pct:78},
+      {label:"Pricing",   val:79, cls:"fill-purple", pct:79},
+    ]
+  },
+  {
+    name: "Pure Rawz", region: "usa", verified: false,
+    score: 73, scoreClass: "score-low",
+    trend: "−3", trendClass: "trend-down",
+    peptides: ["MK-677","IGF-1 LR3","TB-500"],
+    pillars: [
+      {label:"Purity",    val:72, cls:"fill-teal",   pct:72},
+      {label:"Reputation",val:70, cls:"fill-blue",   pct:70},
+      {label:"Service",   val:75, cls:"fill-green",  pct:75},
+      {label:"Community", val:69, cls:"fill-gold",   pct:69},
+      {label:"Pricing",   val:84, cls:"fill-purple", pct:84},
+    ]
+  },
+];
+
+let currentFilter = 'all';
+let currentSearch = '';
+
+function setFilter(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderVendors();
+}
+
+function filterVendors() {
+  currentSearch = document.getElementById('searchInput').value.toLowerCase();
+  renderVendors();
+}
+
+function renderVendors() {
+  const grid = document.getElementById('vendorGrid');
+  let filtered = vendors.filter(v => {
+    const matchFilter =
+      currentFilter === 'all' ||
+      (currentFilter === 'verified' && v.verified) ||
+      v.region === currentFilter;
+    const matchSearch =
+      !currentSearch ||
+      v.name.toLowerCase().includes(currentSearch) ||
+      v.peptides.some(p => p.toLowerCase().includes(currentSearch));
+    return matchFilter && matchSearch;
+  });
+
+  grid.innerHTML = filtered.map((v, i) => {
+    const rank = i + 1;
+    const rankClass = rank <= 3 ? `rank-${rank} top-${rank}` : 'rank-n';
+    const cardClass = rank <= 3 ? `vendor-card top-${rank}` : 'vendor-card';
+    const pillarsHtml = v.pillars.map(p => `
+      <div class="pillar">
+        <span class="pillar-label">${p.label}</span>
+        <div class="pillar-bar"><div class="pillar-fill ${p.cls}" style="width:${p.pct}%"></div></div>
+        <span class="pillar-val">${p.val}</span>
+      </div>`).join('');
+
+    return `
+    <div class="${cardClass}">
+      <div class="rank-badge ${rankClass}">${rank <= 3 ? ['🥇','🥈','🥉'][rank-1] : rank}</div>
+
+      <div class="vendor-info">
+        <div class="vendor-name">
+          ${v.name}
+          ${v.verified ? '<span class="badge-verified">✓ Verified</span>' : ''}
+        </div>
+        <div class="vendor-meta">
+          <span>📍 ${v.region.toUpperCase()}</span>
+          <span>🧬 ${v.peptides.slice(0,2).join(', ')}</span>
+        </div>
+      </div>
+
+      <div class="pillar-row">${pillarsHtml}</div>
+
+      <div class="score-ring">
+        <div class="score-circle ${v.scoreClass}">${v.score}</div>
+        <div class="score-label">PRS Score</div>
+        <div class="${v.trendClass}">${v.trend}</div>
+      </div>
+
+      <div class="vendor-actions">
+        <button class="btn-view">Full Report</button>
+        <button class="btn-site">Visit Site ↗</button>
+      </div>
+    </div>`;
+  }).join('') || '<p style="color:var(--muted);padding:2rem 0;">No vendors match your search.</p>';
+}
+
+renderVendors();
+</script>
+</body>
+</html>

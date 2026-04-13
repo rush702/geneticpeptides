@@ -103,7 +103,7 @@ export default function ReviewModal({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={handleClose}
-          className="absolute inset-0 bg-black/60 modal-overlay"
+          className="absolute inset-0 bg-black/80 modal-overlay"
         />
 
         <motion.div

@@ -1,0 +1,7 @@
+scraper/
+peptide-verify/
+pepassure_deploy/
+*.command
+*.html
+*.sql
+CLAUDE.md

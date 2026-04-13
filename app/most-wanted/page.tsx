@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import {
   TrendingUp,
@@ -14,7 +17,7 @@ import {
 
 // Mock leaderboard data — in production, this reads from Supabase `nominations` table
 // with vote counts from `nomination_votes` join
-const mockNominations = [
+const initialNominations = [
   {
     id: "nom-1",
     nomineeName: "Paradigm Peptides",
@@ -113,7 +116,23 @@ const statusConfig: Record<string, { label: string; color: string }> = {
 };
 
 export default function MostWantedPage() {
-  const totalVotes = mockNominations.reduce((sum, n) => sum + n.voteCount, 0);
+  const [nominations, setNominations] = useState(initialNominations);
+  const [votedIds, setVotedIds] = useState<Set<string>>(new Set());
+
+  const totalVotes = nominations.reduce((sum, n) => sum + n.voteCount, 0);
+
+  function handleVote(id: string) {
+    if (votedIds.has(id)) return; // already voted
+
+    setVotedIds((prev) => new Set(prev).add(id));
+    setNominations((prev) =>
+      [...prev]
+        .map((n) => (n.id === id ? { ...n, voteCount: n.voteCount + 1 } : n))
+        .sort((a, b) => b.voteCount - a.voteCount)
+    );
+
+    // TODO: In production, POST to /api/nominations/[id]/vote
+  }
 
   return (
     <div className="min-h-screen molecular-bg pb-20">
@@ -134,7 +153,7 @@ export default function MostWantedPage() {
           </p>
           <div className="flex items-center justify-center gap-6 text-sm text-gray-500">
             <span>
-              <strong className="text-white">{mockNominations.length}</strong> vendors nominated
+              <strong className="text-white">{nominations.length}</strong> vendors nominated
             </span>
             <span>&middot;</span>
             <span>
@@ -159,8 +178,9 @@ export default function MostWantedPage() {
 
         {/* Leaderboard */}
         <div className="space-y-3">
-          {mockNominations.map((nom, i) => {
+          {nominations.map((nom, i) => {
             const status = statusConfig[nom.status] || statusConfig.pending;
+            const hasVoted = votedIds.has(nom.id);
             return (
               <div
                 key={nom.id}
@@ -204,7 +224,7 @@ export default function MostWantedPage() {
                         <ExternalLink className="w-2.5 h-2.5" />
                       </a>
                     )}
-                    <span className="flex items-center gap-1">
+                    <span className="flex items-center gap-1" suppressHydrationWarning>
                       <Clock className="w-3 h-3" />
                       {nom.latestNomination}
                     </span>
@@ -224,7 +244,16 @@ export default function MostWantedPage() {
 
                 {/* Vote column */}
                 <div className="flex sm:flex-col items-center gap-2 sm:gap-1 flex-shrink-0">
-                  <button className="w-10 h-10 rounded-xl bg-emerald/10 border border-emerald/20 flex items-center justify-center text-emerald hover:bg-emerald/20 transition-all">
+                  <button
+                    onClick={() => handleVote(nom.id)}
+                    disabled={hasVoted}
+                    className={`w-10 h-10 rounded-xl border flex items-center justify-center transition-all ${
+                      hasVoted
+                        ? "bg-emerald/20 border-emerald/40 text-emerald cursor-default"
+                        : "bg-emerald/10 border-emerald/20 text-emerald hover:bg-emerald/20 hover:scale-105 active:scale-95 cursor-pointer"
+                    }`}
+                    aria-label={hasVoted ? `Voted for ${nom.nomineeName}` : `Vote for ${nom.nomineeName}`}
+                  >
                     <ChevronUp className="w-5 h-5" />
                   </button>
                   <span className="text-sm font-bold text-white">{nom.voteCount}</span>
@@ -253,4 +282,3 @@ export default function MostWantedPage() {
     </div>
   );
 }
-

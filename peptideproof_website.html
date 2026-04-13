@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PeptideVerify — AI-Verified Peptide Vendor Rankings</title>
+<meta name="description" content="Independent, AI-powered daily rankings of every peptide research vendor. Verified COAs, Reddit sentiment, pricing — all in one score."/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --navy:#0b1a35;--navy2:#122040;--teal:#00d4b8;--teal2:#00b09c;
+  --accent:#4f8ef7;--gold:#f5c518;--red:#ff5252;--green:#00e07a;
+  --bg:#f0f4fb;--card:#fff;--text:#111827;--muted:#6b7280;
+  --border:#e5eaf4;--r:16px;
+  --shadow:0 2px 16px rgba(11,26,53,.08);
+  --shadow-lg:0 8px 40px rgba(11,26,53,.14);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:62px;
+  background:rgba(11,26,53,.97);backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(255,255,255,.07);
+  display:flex;align-items:center;justify-content:space-between;padding:0 2rem}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-mark{width:32px;height:32px;border-radius:8px;
+  background:linear-gradient(135deg,var(--teal),var(--accent));
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:14px;color:#fff}
+.logo-text{font-size:1.1rem;font-weight:800;color:#fff;letter-spacing:-.3px}
+.logo-text em{color:var(--teal);font-style:normal}
+.nav-r{display:flex;align-items:center;gap:1.8rem}
+.nav-r a{color:rgba(255,255,255,.65);text-decoration:none;font-size:.85rem;font-weight:500;transition:color .2s}
+.nav-r a:hover{color:#fff}
+.nav-cta{background:linear-gradient(135deg,var(--teal),var(--accent));
+  color:#fff!important;padding:7px 18px;border-radius:8px;
+  font-weight:600!important;font-size:.82rem!important}
+
+/* ALERT BANNER */
+.alert-banner{background:#ff3b3b;color:#fff;text-align:center;
+  padding:8px 1rem;font-size:.82rem;font-weight:600;margin-top:62px}
+.alert-banner a{color:#ffe0e0;text-decoration:underline}
+
+/* HERO */
+.hero{background:var(--navy);padding:72px 2rem 56px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 55% at 50% 0%,rgba(0,212,184,.12) 0%,transparent 65%),
+             radial-gradient(ellipse 55% 50% at 85% 85%,rgba(79,142,247,.1) 0%,transparent 55%);
+  pointer-events:none}
+.live-chip{display:inline-flex;align-items:center;gap:6px;
+  background:rgba(0,212,184,.12);border:1px solid rgba(0,212,184,.3);
+  color:var(--teal);padding:5px 14px;border-radius:999px;
+  font-size:.72rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:1.4rem}
+.live-chip::before{content:'●';font-size:7px;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-size:clamp(2.2rem,5.5vw,3.8rem);font-weight:900;color:#fff;
+  line-height:1.08;letter-spacing:-1.2px;max-width:780px;margin:0 auto 1.2rem}
+.grad{background:linear-gradient(90deg,var(--teal),var(--accent));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{color:rgba(255,255,255,.58);font-size:1rem;max-width:580px;margin:0 auto 2.2rem}
+.search-box{max-width:560px;margin:0 auto 2rem;
+  background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);
+  border-radius:13px;display:flex;align-items:center;padding:7px 7px 7px 18px;gap:8px;
+  transition:border-color .2s,box-shadow .2s}
+.search-box:focus-within{border-color:var(--teal);box-shadow:0 0 0 3px rgba(0,212,184,.14)}
+.search-box input{flex:1;background:none;border:none;outline:none;color:#fff;
+  font-size:.92rem;font-family:inherit}
+.search-box input::placeholder{color:rgba(255,255,255,.3)}
+.search-btn{background:linear-gradient(135deg,var(--teal),var(--accent));
+  color:#fff;border:none;border-radius:9px;padding:9px 20px;
+  font-size:.84rem;font-weight:700;cursor:pointer;font-family:inherit;
+  transition:opacity .2s,transform .2s;white-space:nowrap}
+.search-btn:hover{opacity:.9;transform:translateY(-1px)}
+.hero-stats{display:flex;gap:2.5rem;justify-content:center;flex-wrap:wrap}
+.hstat-val{font-size:1.65rem;font-weight:800;color:#fff;letter-spacing:-.5px}
+.hstat-val span{color:var(--teal)}
+.hstat-lbl{font-size:.72rem;color:rgba(255,255,255,.4);font-weight:500;margin-top:2px}
+
+/* TRUST BAR */
+.trust-bar{background:#fff;border-bottom:1px solid var(--border);
+  padding:14px 2rem}
+.trust-inner{max-width:1080px;margin:0 auto;display:flex;
+  align-items:center;justify-content:center;gap:2.5rem;flex-wrap:wrap}
+.ti{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:.8rem;font-weight:500}
+.ti-icon{color:var(--teal);font-size:.9rem}
+
+/* SECTIONS */
+section{padding:70px 2rem}
+.container{max-width:1080px;margin:0 auto}
+.sec-tag{font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--teal);margin-bottom:10px}
+.sec-title{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:800;letter-spacing:-.4px;
+  color:var(--text);margin-bottom:10px;line-height:1.2}
+.sec-sub{color:var(--muted);font-size:.95rem;max-width:520px;line-height:1.7}
+
+/* RANKINGS */
+.rankings-hdr{display:flex;align-items:flex-end;justify-content:space-between;
+  gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.filter-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:1.2rem}
+.ftab{padding:6px 15px;border-radius:8px;border:1.5px solid var(--border);
+  background:#fff;color:var(--muted);font-size:.8rem;font-weight:600;
+  cursor:pointer;transition:all .2s;font-family:inherit}
+.ftab.active,.ftab:hover{background:var(--navy);color:#fff;border-color:var(--navy)}
+.updated{display:flex;align-items:center;gap:5px;font-size:.7rem;color:var(--muted)}
+.dot-live{width:7px;height:7px;border-radius:50%;background:var(--teal);animation:blink 2s infinite}
+
+/* Vendor cards */
+.vendor-list{display:flex;flex-direction:column;gap:12px}
+.vc{background:#fff;border-radius:var(--r);border:1.5px solid var(--border);
+  padding:18px 22px;display:grid;
+  grid-template-columns:48px 1fr 190px 72px 130px;
+  align-items:center;gap:16px;
+  transition:box-shadow .2s,border-color .2s,transform .2s;cursor:pointer}
+.vc:hover{box-shadow:var(--shadow-lg);border-color:rgba(0,212,184,.35);transform:translateY(-2px)}
+.vc.g1{border-color:rgba(245,197,24,.5);background:linear-gradient(to right,#fffdf0,#fff)}
+.vc.g2{border-color:rgba(180,180,180,.5);background:linear-gradient(to right,#f7f7f7,#fff)}
+.vc.g3{border-color:rgba(200,120,50,.4);background:linear-gradient(to right,#fdf6ee,#fff)}
+.vc.shutdown{opacity:.6;border-color:var(--red)!important;background:linear-gradient(to right,#fff5f5,#fff)}
+
+.rank-badge{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1rem}
+.rb1{background:linear-gradient(135deg,#f5c518,#e0a800);color:#fff}
+.rb2{background:linear-gradient(135deg,#c8c8c8,#aaa);color:#fff}
+.rb3{background:linear-gradient(135deg,#cd8b5a,#b56b30);color:#fff}
+.rbn{background:var(--bg);color:var(--muted);border:1.5px solid var(--border)}
+
+.vname{font-size:.98rem;font-weight:700;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.badge-v{background:rgba(0,212,184,.1);color:var(--teal2);
+  font-size:.6rem;font-weight:700;letter-spacing:.5px;padding:2px 7px;
+  border-radius:999px;text-transform:uppercase;white-space:nowrap}
+.badge-shutdown{background:rgba(255,82,82,.12);color:var(--red);
+  font-size:.6rem;font-weight:700;padding:2px 7px;border-radius:999px;
+  text-transform:uppercase}
+.vmeta{font-size:.75rem;color:var(--muted);margin-top:3px;display:flex;gap:10px;flex-wrap:wrap}
+
+.pillars{display:flex;flex-direction:column;gap:4px}
+.prow{display:flex;align-items:center;gap:6px}
+.plbl{font-size:.63rem;color:var(--muted);width:62px;font-weight:500}
+.pbar{flex:1;height:4px;background:var(--border);border-radius:999px;overflow:hidden}
+.pfill{height:100%;border-radius:999px}
+.c-teal{background:var(--teal)}
+.c-blue{background:var(--accent)}
+.c-green{background:var(--green)}
+.c-gold{background:var(--gold)}
+.c-purple{background:#a78bfa}
+.pval{font-size:.63rem;font-weight:700;color:var(--text);width:24px;text-align:right}
+
+.score-wrap{display:flex;flex-direction:column;align-items:center}
+.score-circle{width:58px;height:58px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-weight:900;font-size:1.15rem;color:#fff}
+.sc-hi{background:linear-gradient(135deg,var(--teal),var(--teal2))}
+.sc-md{background:linear-gradient(135deg,var(--accent),#3a6edb)}
+.sc-lo{background:linear-gradient(135deg,#f59e0b,#d97706)}
+.sc-xx{background:linear-gradient(135deg,#9ca3af,#6b7280)}
+.score-lbl{font-size:.62rem;color:var(--muted);margin-top:4px;font-weight:600}
+.trend-up{color:var(--green);font-size:.7rem;font-weight:700}
+.trend-dn{color:var(--red);font-size:.7rem;font-weight:700}
+.trend-fl{color:var(--muted);font-size:.7rem;font-weight:700}
+
+.vbtns{display:flex;flex-direction:column;gap:6px}
+.btn-rpt{background:var(--navy);color:#fff;border:none;border-radius:8px;
+  padding:7px 14px;font-size:.77rem;font-weight:600;cursor:pointer;
+  font-family:inherit;white-space:nowrap;transition:background .2s}
+.btn-rpt:hover{background:var(--navy2)}
+.btn-site{background:none;color:var(--teal);border:1.5px solid var(--teal);
+  border-radius:8px;padding:6px 14px;font-size:.77rem;font-weight:600;
+  cursor:pointer;font-family:inherit;white-space:nowrap;transition:all .2s}
+.btn-site:hover{background:var(--teal);color:#fff}
+
+/* HOW IT WORKS */
+.how{background:var(--navy)}
+.how .sec-title{color:#fff}
+.how .sec-sub{color:rgba(255,255,255,.5)}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-top:2.5rem}
+.step{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  border-radius:var(--r);padding:24px 20px;transition:background .2s}
+.step:hover{background:rgba(255,255,255,.07)}
+.step-n{width:38px;height:38px;border-radius:9px;
+  background:linear-gradient(135deg,var(--teal),var(--accent));
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;color:#fff;font-size:.95rem;margin-bottom:14px}
+.step h3{color:#fff;font-size:.95rem;font-weight:700;margin-bottom:7px}
+.step p{color:rgba(255,255,255,.47);font-size:.82rem;line-height:1.6}
+
+/* SCORING BREAKDOWN */
+.scoring{background:#fff}
+.pillars-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(188px,1fr));gap:18px;margin-top:2.5rem}
+.pc{border-radius:var(--r);padding:22px;border:1.5px solid var(--border);
+  transition:box-shadow .2s,transform .2s}
+.pc:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px)}
+.pc-icon{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;
+  justify-content:center;font-size:1.3rem;margin-bottom:12px}
+.pc h3{font-size:.92rem;font-weight:700;margin-bottom:5px}
+.pc p{font-size:.78rem;color:var(--muted);line-height:1.55}
+.pc-wt{margin-top:10px;font-size:.68rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+
+/* ALERT SECTION */
+.alert-section{background:#fff8f8;border-top:3px solid var(--red);padding:32px 2rem}
+.alert-inner{max-width:1080px;margin:0 auto;display:flex;gap:1rem;align-items:flex-start}
+.alert-icon{font-size:2rem;flex-shrink:0}
+.alert-content h2{font-size:1.15rem;font-weight:800;color:var(--red);margin-bottom:6px}
+.alert-content p{font-size:.88rem;color:var(--text);line-height:1.6}
+
+/* PRICING */
+.pricing{background:var(--bg)}
+.price-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:20px;margin-top:2.5rem;align-items:start}
+.price-card{background:#fff;border-radius:var(--r);border:1.5px solid var(--border);
+  padding:28px 24px;position:relative;transition:box-shadow .2s,transform .2s}
+.price-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px)}
+.price-card.featured{background:var(--navy);border-color:transparent}
+.pop-tag{position:absolute;top:-12px;left:50%;transform:translateX(-50%);
+  background:linear-gradient(90deg,var(--teal),var(--accent));
+  color:#fff;font-size:.68rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  padding:3px 14px;border-radius:999px;white-space:nowrap}
+.price-card h3{font-size:.95rem;font-weight:700;margin-bottom:3px}
+.price-card.featured h3,.price-card.featured .price-sub,
+.price-card.featured li,.price-card.featured .pamt,.price-card.featured .pper{color:#fff}
+.price-sub{font-size:.78rem;color:var(--muted);margin-bottom:16px}
+.price-card.featured .price-sub{color:rgba(255,255,255,.45)}
+.pamt{font-size:2.2rem;font-weight:900;letter-spacing:-1px}
+.pper{font-size:.82rem;color:var(--muted);font-weight:500}
+.pfeats{border-top:1.5px solid var(--border);margin:16px 0;padding-top:16px}
+.price-card.featured .pfeats{border-color:rgba(255,255,255,.1)}
+.pfeats li{list-style:none;font-size:.82rem;margin-bottom:8px;
+  display:flex;align-items:center;gap:7px}
+.pfeats li::before{content:'✓';color:var(--teal);font-weight:800;flex-shrink:0}
+.pbtn{width:100%;padding:11px;border-radius:9px;font-size:.88rem;font-weight:700;
+  cursor:pointer;font-family:inherit;transition:all .2s}
+.pbtn-dark{background:var(--navy);color:#fff;border:none}
+.pbtn-dark:hover{background:var(--navy2)}
+.pbtn-grad{background:linear-gradient(135deg,var(--teal),var(--accent));color:#fff;border:none}
+.pbtn-grad:hover{opacity:.9;transform:translateY(-1px)}
+.pbtn-out{background:none;color:var(--text);border:1.5px solid var(--border)}
+.pbtn-out:hover{border-color:var(--teal);color:var(--teal)}
+
+/* CTA */
+.cta-sec{background:linear-gradient(135deg,var(--navy),#091728);text-align:center;padding:90px 2rem}
+.cta-sec h2{font-size:clamp(1.7rem,3.5vw,2.6rem);font-weight:900;color:#fff;
+  letter-spacing:-.4px;margin-bottom:14px}
+.cta-sec p{color:rgba(255,255,255,.5);max-width:450px;margin:0 auto 2.2rem;font-size:.95rem}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-pri{background:linear-gradient(135deg,var(--teal),var(--accent));
+  color:#fff;border:none;border-radius:10px;padding:13px 28px;
+  font-size:.92rem;font-weight:700;cursor:pointer;font-family:inherit;
+  transition:opacity .2s,transform .2s}
+.btn-pri:hover{opacity:.9;transform:translateY(-2px)}
+.btn-out2{background:none;color:#fff;border:1.5px solid rgba(255,255,255,.22);
+  border-radius:10px;padding:13px 28px;font-size:.92rem;font-weight:600;
+  cursor:pointer;font-family:inherit;transition:all .2s}
+.btn-out2:hover{border-color:#fff;background:rgba(255,255,255,.05)}
+
+/* FOOTER */
+footer{background:var(--navy);padding:40px 2rem 28px}
+.footer-inner{max-width:1080px;margin:0 auto;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+.footer-logo{font-size:.95rem;font-weight:800;color:#fff}
+.footer-logo em{color:var(--teal);font-style:normal}
+footer p{font-size:.75rem;color:rgba(255,255,255,.35)}
+.footer-links{display:flex;gap:1.4rem;flex-wrap:wrap}
+.footer-links a{color:rgba(255,255,255,.4);text-decoration:none;font-size:.78rem;transition:color .2s}
+.footer-links a:hover{color:#fff}
+
+/* RESPONSIVE */
+@media(max-width:860px){
+  .vc{grid-template-columns:44px 1fr;gap:10px}
+  .pillars,.score-wrap,.vbtns{display:none}
+  .nav-r{gap:1rem}
+  .nav-r a:not(.nav-cta){display:none}
+}
+@media(max-width:480px){
+  .hero h1{font-size:1.9rem}
+  .hero-stats{gap:1.4rem}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="logo" href="#">
+    <div class="logo-mark">P</div>
+    <span class="logo-text">Peptide<em>Verify</em></span>
+  </a>
+  <div class="nav-r">
+    <a href="#rankings">Rankings</a>
+    <a href="#how">How It Works</a>
+    <a href="#scoring">Scoring</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#cta" class="nav-cta">Claim Listing →</a>
+  </div>
+</nav>
+
+<!-- ALERT BANNER -->
+<div class="alert-banner">
+  ⚠️ <strong>Peptide Sciences shut down March 2026</strong> — orders no longer fulfilled.
+  <a href="#alert">See affected vendors →</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="live-chip">AI-Verified · Updated Every 24 Hours</div>
+  <h1>The <span class="grad">Proof</span> Is in<br/>the Peptide.</h1>
+  <p class="hero-sub">Independent AI rankings of every peptide research vendor — purity, COAs, community sentiment, pricing, and reputation verified daily.</p>
+
+  <div class="search-box">
+    <svg width="16" height="16" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    <input type="text" placeholder="Search vendors, peptides, COAs…" id="searchInput" oninput="filterVendors()"/>
+    <button class="search-btn">Search</button>
+  </div>
+
+  <div class="hero-stats">
+    <div><div class="hstat-val"><span id="statVendors">350</span>+</div><div class="hstat-lbl">Vendors Indexed</div></div>
+    <div><div class="hstat-val"><span>6,102</span></div><div class="hstat-lbl">Lab Tests in Database</div></div>
+    <div><div class="hstat-val"><span>2.4M</span></div><div class="hstat-lbl">Reddit Posts Scored</div></div>
+    <div><div class="hstat-val"><span>24h</span></div><div class="hstat-lbl">Data Refresh Cycle</div></div>
+  </div>
+</div>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-inner">
+    <div class="ti"><span class="ti-icon">✓</span> No paid placements</div>
+    <div class="ti"><span class="ti-icon">✓</span> AI-parsed COAs</div>
+    <div class="ti"><span class="ti-icon">✓</span> Live Reddit sentiment</div>
+    <div class="ti"><span class="ti-icon">✓</span> Finnrick data integrated</div>
+    <div class="ti"><span class="ti-icon">✓</span> Daily automated refresh</div>
+  </div>
+</div>
+
+<!-- ALERT SECTION -->
+<div class="alert-section" id="alert">
+  <div class="alert-inner">
+    <div class="alert-icon">🚨</div>
+    <div class="alert-content">
+      <h2>Peptide Sciences — Confirmed Shutdown (March 2026)</h2>
+      <p>Peptide Sciences voluntarily ceased operations in early March 2026 amid increasing regulatory pressure. The website is offline and no new orders are being fulfilled. Customers with outstanding orders should contact their credit card company for chargebacks. Science.bio also shut down in January 2026. PeptideVerify has removed both vendors from active rankings and flagged them accordingly.</p>
+    </div>
+  </div>
+</div>
+
+<!-- RANKINGS -->
+<section id="rankings" style="background:var(--bg)">
+  <div class="container">
+    <div class="rankings-hdr">
+      <div>
+        <div class="sec-tag">Live Rankings · March 2026</div>
+        <div class="sec-title">Top Peptide Research Vendors</div>
+        <p class="sec-sub">Ranked by the PeptideVerify Score™ — updated daily from live data sources.</p>
+      </div>
+      <div class="updated"><div class="dot-live"></div>Refreshed 0h ago · Apr 13, 2026</div>
+    </div>
+
+    <div class="filter-row">
+      <button class="ftab active" onclick="setFilter('all',this)">All Vendors</button>
+      <button class="ftab" onclick="setFilter('usa',this)">🇺🇸 USA</button>
+      <button class="ftab" onclick="setFilter('eu',this)">🇪🇺 Europe</button>
+      <button class="ftab" onclick="setFilter('au',this)">🇦🇺 Australia</button>
+      <button class="ftab" onclick="setFilter('verified',this)">✓ Verified Only</button>
+    </div>
+
+    <div class="vendor-list" id="vendorGrid"></div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="container">
+    <div class="sec-tag">The Process</div>
+    <div class="sec-title" style="color:#fff">How PeptideVerify Works</div>
+    <p class="sec-sub">Five data sources. One transparent score. Updated automatically every 24 hours.</p>
+    <div class="steps">
+      <div class="step"><div class="step-n">1</div><h3>Daily Site Crawl</h3><p>Automated crawlers scrape all 350+ vendor websites — product pages, COA documents, pricing — every 24 hours with polite rate limits.</p></div>
+      <div class="step"><div class="step-n">2</div><h3>COA AI Parsing</h3><p>OCR + LLM reads every Certificate of Analysis, extracts purity %, validates HPLC/MS data, cross-checks batch numbers vs. product labels.</p></div>
+      <div class="step"><div class="step-n">3</div><h3>Reddit Intelligence</h3><p>r/Peptides, r/nootropics, r/Biohackers polled every 6 hours. BERT sentiment model scores vendor mentions in context — not just keyword counts.</p></div>
+      <div class="step"><div class="step-n">4</div><h3>Finnrick Integration</h3><p>6,102+ independent lab test results from Finnrick Analytics are pulled and weighted into purity scores for all covered vendors.</p></div>
+      <div class="step"><div class="step-n">5</div><h3>Score & Publish</h3><p>All five pillars are weighted and combined into the PeptideVerify Score™, recalculated daily with anomaly alerts for significant drops.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SCORING -->
+<section class="scoring" id="scoring">
+  <div class="container">
+    <div class="sec-tag">Methodology</div>
+    <div class="sec-title">The PeptideVerify Score™</div>
+    <p class="sec-sub">Five independently verified pillars. Fully transparent methodology.</p>
+    <div class="pillars-grid">
+      <div class="pc" style="border-color:rgba(0,212,184,.3)">
+        <div class="pc-icon" style="background:rgba(0,212,184,.1)">🔬</div>
+        <h3>Purity / COA</h3>
+        <p>AI-parsed COAs validated against HPLC &amp; MS standards. Finnrick lab data integrated. Third-party verification required.</p>
+        <div class="pc-wt" style="color:var(--teal)">30% weight</div>
+      </div>
+      <div class="pc" style="border-color:rgba(79,142,247,.3)">
+        <div class="pc-icon" style="background:rgba(79,142,247,.1)">🏆</div>
+        <h3>Reputation</h3>
+        <p>Domain age, business registration, legal history, shutdown risk signals, and longitudinal community trust data.</p>
+        <div class="pc-wt" style="color:var(--accent)">25% weight</div>
+      </div>
+      <div class="pc" style="border-color:rgba(0,224,122,.3)">
+        <div class="pc-icon" style="background:rgba(0,224,122,.1)">💬</div>
+        <h3>Customer Service</h3>
+        <p>Response time testing, complaint resolution tracking, and verified buyer sentiment from aggregated reviews.</p>
+        <div class="pc-wt" style="color:var(--green)">20% weight</div>
+      </div>
+      <div class="pc" style="border-color:rgba(245,197,24,.3)">
+        <div class="pc-icon" style="background:rgba(245,197,24,.1)">📡</div>
+        <h3>Community</h3>
+        <p>Daily Reddit + forum pulls scored by fine-tuned BERT model trained on 2M+ peptide community posts.</p>
+        <div class="pc-wt" style="color:#d97706">15% weight</div>
+      </div>
+      <div class="pc" style="border-color:rgba(167,139,250,.3)">
+        <div class="pc-icon" style="background:rgba(167,139,250,.1)">💰</div>
+        <h3>Pricing / COGS</h3>
+        <p>Per-mg price normalized across all vendors daily. Flags suspiciously cheap products that may indicate underdosing.</p>
+        <div class="pc-wt" style="color:#a78bfa">10% weight</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="container">
+    <div class="sec-tag">For Vendors</div>
+    <div class="sec-title">Claim &amp; Grow Your Listing</div>
+    <p class="sec-sub">Every vendor is listed automatically from public data. Upgrade to unlock analytics, COA verification, and your Verified badge.</p>
+    <div class="price-grid">
+      <div class="price-card">
+        <h3>Free Listing</h3>
+        <p class="price-sub">Auto-generated · always free</p>
+        <div><span class="pamt">$0</span><span class="pper"> / forever</span></div>
+        <ul class="pfeats">
+          <li>Public vendor profile</li>
+          <li>Daily PeptideVerify Score</li>
+          <li>Community sentiment summary</li>
+          <li>Basic pricing comparison</li>
+        </ul>
+        <button class="pbtn pbtn-out">Claim Free Listing</button>
+      </div>
+      <div class="price-card featured">
+        <div class="pop-tag">Most Popular</div>
+        <h3>Pro Vendor</h3>
+        <p class="price-sub">For growing vendors</p>
+        <div><span class="pamt">$199</span><span class="pper"> / month</span></div>
+        <ul class="pfeats">
+          <li>✓ Verified Badge on listing</li>
+          <li>COA upload &amp; AI verification</li>
+          <li>Full analytics dashboard</li>
+          <li>Score change alerts</li>
+          <li>Review management tools</li>
+          <li>Priority support</li>
+        </ul>
+        <button class="pbtn pbtn-grad">Start Free Trial →</button>
+      </div>
+      <div class="price-card">
+        <h3>Enterprise</h3>
+        <p class="price-sub">For established vendors &amp; labs</p>
+        <div><span class="pamt">$599</span><span class="pper"> / month</span></div>
+        <ul class="pfeats">
+          <li>All Pro features</li>
+          <li>Competitor benchmarking</li>
+          <li>Full API data access</li>
+          <li>Dedicated account manager</li>
+          <li>Custom research reports</li>
+        </ul>
+        <button class="pbtn pbtn-dark">Contact Sales</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec" id="cta">
+  <div class="container">
+    <h2>Know Before You Buy.<br/>Rank Before You're Ranked.</h2>
+    <p>Join researchers and biohackers who rely on PeptideVerify for unbiased, daily-verified vendor intelligence.</p>
+    <div class="cta-btns">
+      <button class="btn-pri">Browse All Rankings →</button>
+      <button class="btn-out2">Get API Access</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">Peptide<em>Verify</em></div>
+      <p style="margin-top:5px">© 2026 PeptideVerify. For research purposes only. Not medical advice.</p>
+    </div>
+    <div class="footer-links">
+      <a href="#">Methodology</a><a href="#">API Docs</a>
+      <a href="#">Blog</a><a href="#">Privacy</a>
+      <a href="#">Terms</a><a href="#">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<!-- DATA + JS -->
+<script>
+// ── Real vendor data (seeded from research, March 2026) ───────────────────
+// In production this is loaded from vendor_data.json generated by the scraper.
+const VENDORS = [
+  {id:"ascension",name:"Ascension Peptides",url:"https://ascensionpeptides.com",
+   region:"usa",verified:true,shutdown:false,
+   score:95.0,scoreClass:"sc-hi",trend:"+2.5",trendClass:"trend-up",
+   pillars:[
+     {l:"Purity",v:99,c:"c-teal"},{l:"Repute",v:96,c:"c-blue"},{l:"Service",v:92,c:"c-green"},{l:"Reddit",v:97,c:"c-gold"},{l:"Price",v:84,c:"c-purple"}
+   ],
+   peptides:["BPC-157","TB-500","Semaglutide","Retatrutide"],
+   notable:"Consistently #1 on r/Peptides in 2026. Independent 3rd-party COAs per batch.",
+  },
+  {id:"limitless",name:"Limitless Life Nootropics",url:"https://limitlesslifenootropics.com",
+   region:"usa",verified:true,shutdown:false,
+   score:93.8,scoreClass:"sc-hi",trend:"+2.5",trendClass:"trend-up",
+   pillars:[
+     {l:"Purity",v:97,c:"c-teal"},{l:"Repute",v:94,c:"c-blue"},{l:"Service",v:90,c:"c-green"},{l:"Reddit",v:96,c:"c-gold"},{l:"Price",v:88,c:"c-purple"}
+   ],
+   peptides:["BPC-157","Ipamorelin","CJC-1295","GHK-Cu"],
+   notable:"Most detailed impurity profiles of any vendor. Top r/Peptides community pick.",
+  },
+  {id:"peptide_partners",name:"Peptide Partners",url:"https://peptidepartners.com",
+   region:"usa",verified:true,shutdown:false,
+   score:90.7,scoreClass:"sc-hi",trend:"+2.5",trendClass:"trend-up",
+   pillars:[
+     {l:"Purity",v:98,c:"c-teal"},{l:"Repute",v:91,c:"c-blue"},{l:"Service",v:88,c:"c-green"},{l:"Reddit",v:86,c:"c-gold"},{l:"Price",v:80,c:"c-purple"}
+   ],
+   peptides:["BPC-157","Ipamorelin","Retatrutide","TB-500"],
+   notable:"Finnrick #1 rated vendor — A-grade across BPC-157, Ipamorelin, Retatrutide, TB-500.",
+  },
+  {id:"soma",name:"Soma Chems",url:"https://somachems.com",
+   region:"usa",verified:true,shutdown:false,
+   score:89.6,scoreClass:"sc-hi",trend:"+2.6",trendClass:"trend-up",
+   pillars:[
+     {l:"Purity",v:90,c:"c-teal"},{l:"Repute",v:88,c:"c-blue"},{l:"Service",v:87,c:"c-green"},{l:"Reddit",v:91,c:"c-gold"},{l:"Price",v:95,c:"c-purple"}
+   ],
+   peptides:["GHK-Cu","Selank","Epithalon","PT-141"],
+   notable:"Budget-friendly. GMP US manufacturing. Capsule form available. Strong pricing.",
+  },
+  {id:"core_peptides",name:"Core Peptides",url:"https://corepeptides.com",
+   region:"usa",verified:true,shutdown:false,
+   score:89.3,scoreClass:"sc-hi",trend:"+2.5",trendClass:"trend-up",
+   pillars:[
+     {l:"Purity",v:93,c:"c-teal"},{l:"Repute",v:87,c:"c-blue"},{l:"Service",v:89,c:"c-green"},{l:"Reddit",v:85,c:"c-gold"},{l:"Price",v:91,c:"c-purple"}
+   ],
+   peptides:["BPC-157","TB-500","KPV","Thymosin Alpha-1"],
+   notable:"Largest US catalog. Rapidly gaining trust in community. Blends available.",
+  },
+  {id:"bpc_labs_au",name:"BPC Labs Australia",url:"https://bpclabs.com.au",
+   region:"au",verified:true,shutdown:false,
+   score:82.5,scoreClass:"sc-md",trend:"+2.5",trendClass:"trend-up",
+   pillars:[
+     {l:"Purity",v:86,c:"c-teal"},{l:"Repute",v:81,c:"c-blue"},{l:"Service",v:84,c:"c-green"},{l:"Reddit",v:79,c:"c-gold"},{l:"Price",v:78,c:"c-purple"}
+   ],
+   peptides:["BPC-157","DSIP","LL-37","TB-500"],
+   notable:"Top AU vendor. Fast AU/NZ shipping. Independent 3rd-party COAs.",
+  },
+  {id:"swiss_chems",name:"Swiss Chems",url:"https://swisschems.is",
+   region:"eu",verified:false,shutdown:false,
+   score:80.2,scoreClass:"sc-md",trend:"+2.5",trendClass:"trend-up",
+   pillars:[
+     {l:"Purity",v:79,c:"c-teal"},{l:"Repute",v:82,c:"c-blue"},{l:"Service",v:77,c:"c-green"},{l:"Reddit",v:76,c:"c-gold"},{l:"Price",v:92,c:"c-purple"}
+   ],
+   peptides:["Melanotan II","GHRP-6","Hexarelin","BPC-157"],
+   notable:"EU-based. COAs available but batch-specific transparency gaps noted.",
+  },
+  {id:"pure_rawz",name:"Pure Rawz",url:"https://purerawz.co",
+   region:"usa",verified:false,shutdown:false,
+   score:73.3,scoreClass:"sc-lo",trend:"+2.5",trendClass:"trend-up",
+   pillars:[
+     {l:"Purity",v:72,c:"c-teal"},{l:"Repute",v:71,c:"c-blue"},{l:"Service",v:74,c:"c-green"},{l:"Reddit",v:68,c:"c-gold"},{l:"Price",v:89,c:"c-purple"}
+   ],
+   peptides:["MK-677","IGF-1 LR3","TB-500"],
+   notable:"Wide catalog. COAs present but some are dated. Pricing competitive.",
+  },
+];
+
+let currentFilter='all', currentSearch='';
+
+function setFilter(f,btn){
+  currentFilter=f;
+  document.querySelectorAll('.ftab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderVendors();
+}
+function filterVendors(){
+  currentSearch=document.getElementById('searchInput').value.toLowerCase();
+  renderVendors();
+}
+
+function renderVendors(){
+  const grid=document.getElementById('vendorGrid');
+  let list=VENDORS.filter(v=>{
+    const mf=currentFilter==='all'||(currentFilter==='verified'&&v.verified)||v.region===currentFilter;
+    const ms=!currentSearch||v.name.toLowerCase().includes(currentSearch)||
+              v.peptides.some(p=>p.toLowerCase().includes(currentSearch));
+    return mf&&ms;
+  });
+
+  if(!list.length){grid.innerHTML='<p style="color:var(--muted);padding:2rem 0">No vendors match your search.</p>';return;}
+
+  grid.innerHTML=list.map((v,i)=>{
+    const rank=i+1;
+    const rbCls=rank===1?'rb1':rank===2?'rb2':rank===3?'rb3':'rbn';
+    const medal=rank===1?'🥇':rank===2?'🥈':rank===3?'🥉':rank;
+    const cardCls=`vc${rank===1?' g1':rank===2?' g2':rank===3?' g3':''}${v.shutdown?' shutdown':''}`;
+    const pills=v.pillars.map(p=>`
+      <div class="prow">
+        <span class="plbl">${p.l}</span>
+        <div class="pbar"><div class="pfill ${p.c}" style="width:${p.v}%"></div></div>
+        <span class="pval">${p.v}</span>
+      </div>`).join('');
+    return `
+    <div class="${cardCls}" onclick="window.open('${v.url}','_blank')">
+      <div class="rank-badge ${rbCls}">${medal}</div>
+      <div>
+        <div class="vname">
+          ${v.name}
+          ${v.verified?'<span class="badge-v">✓ Verified</span>':''}
+          ${v.shutdown?'<span class="badge-shutdown">⚠ Shut Down</span>':''}
+        </div>
+        <div class="vmeta">
+          <span>📍 ${v.region.toUpperCase()}</span>
+          <span>🧬 ${v.peptides.slice(0,2).join(', ')}</span>
+          <span style="max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${v.notable}</span>
+        </div>
+      </div>
+      <div class="pillars">${pills}</div>
+      <div class="score-wrap">
+        <div class="score-circle ${v.scoreClass}">${v.score}</div>
+        <div class="score-lbl">PVS Score</div>
+        <div class="${v.trendClass}">${v.trend}</div>
+      </div>
+      <div class="vbtns" onclick="event.stopPropagation()">
+        <button class="btn-rpt">Full Report</button>
+        <button class="btn-site" onclick="window.open('${v.url}','_blank')">Visit Site ↗</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+renderVendors();
+</script>
+</body>
+</html>

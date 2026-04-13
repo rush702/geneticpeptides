@@ -45,7 +45,7 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={() => { resetForm(); onClose(); }}
-          className="absolute inset-0 bg-black/60 modal-overlay"
+          className="absolute inset-0 bg-black/80 modal-overlay"
         />
 
         <motion.div

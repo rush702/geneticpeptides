@@ -1,0 +1,205 @@
+{
+  "generated_at": "2026-04-13T11:08:11.538202Z",
+  "vendor_count": 8,
+  "vendors": [
+    {
+      "id": "ascension",
+      "name": "Ascension Peptides",
+      "url": "https://ascensionpeptides.com",
+      "region": "usa",
+      "verified": true,
+      "score": 95.0,
+      "pillars": {
+        "purity": 99,
+        "reputation": 96,
+        "service": 92,
+        "community": 97,
+        "pricing": 84
+      },
+      "catalog_size": "85+ peptides",
+      "notable": "Consistently #1 on r/Peptides in 2026. Independent 3rd-party COAs per batch.",
+      "flagship": [
+        "BPC-157",
+        "TB-500",
+        "Semaglutide",
+        "Retatrutide"
+      ],
+      "live_signals": {},
+      "updated_at": "2026-04-13T11:08:03.371082Z"
+    },
+    {
+      "id": "limitless",
+      "name": "Limitless Life Nootropics",
+      "url": "https://limitlesslifenootropics.com",
+      "region": "usa",
+      "verified": true,
+      "score": 93.8,
+      "pillars": {
+        "purity": 97,
+        "reputation": 94,
+        "service": 90,
+        "community": 96,
+        "pricing": 88
+      },
+      "catalog_size": "34+ peptides",
+      "notable": "Most detailed impurity profiles of any vendor. Top r/Peptides community pick.",
+      "flagship": [
+        "BPC-157",
+        "Ipamorelin",
+        "CJC-1295",
+        "GHK-Cu"
+      ],
+      "live_signals": {},
+      "updated_at": "2026-04-13T11:08:04.388812Z"
+    },
+    {
+      "id": "peptide_partners",
+      "name": "Peptide Partners",
+      "url": "https://peptidepartners.com",
+      "region": "usa",
+      "verified": true,
+      "score": 90.7,
+      "pillars": {
+        "purity": 98,
+        "reputation": 91,
+        "service": 88,
+        "community": 86,
+        "pricing": 80
+      },
+      "catalog_size": "60+ peptides",
+      "notable": "Finnrick #1 rated vendor \u2014 A-grade across BPC-157, Ipamorelin, Retatrutide, TB-500.",
+      "flagship": [
+        "BPC-157",
+        "Ipamorelin",
+        "Retatrutide",
+        "TB-500"
+      ],
+      "live_signals": {},
+      "updated_at": "2026-04-13T11:08:05.406743Z"
+    },
+    {
+      "id": "soma",
+      "name": "Soma Chems",
+      "url": "https://somachems.com",
+      "region": "usa",
+      "verified": true,
+      "score": 89.6,
+      "pillars": {
+        "purity": 90,
+        "reputation": 88,
+        "service": 87,
+        "community": 91,
+        "pricing": 95
+      },
+      "catalog_size": "50+ peptides",
+      "notable": "Budget-friendly. GMP US manufacturing. Capsule form available. Strong pricing.",
+      "flagship": [
+        "GHK-Cu",
+        "Selank",
+        "Epithalon",
+        "PT-141"
+      ],
+      "live_signals": {},
+      "updated_at": "2026-04-13T11:08:06.418737Z"
+    },
+    {
+      "id": "core_peptides",
+      "name": "Core Peptides",
+      "url": "https://corepeptides.com",
+      "region": "usa",
+      "verified": true,
+      "score": 89.3,
+      "pillars": {
+        "purity": 93,
+        "reputation": 87,
+        "service": 89,
+        "community": 85,
+        "pricing": 91
+      },
+      "catalog_size": "100+ peptides & blends",
+      "notable": "Largest US catalog. Rapidly gaining trust in community. Blends available.",
+      "flagship": [
+        "BPC-157",
+        "TB-500",
+        "KPV",
+        "Thymosin Alpha-1"
+      ],
+      "live_signals": {},
+      "updated_at": "2026-04-13T11:08:07.446323Z"
+    },
+    {
+      "id": "bpc_labs_au",
+      "name": "BPC Labs Australia",
+      "url": "https://bpclabs.com.au",
+      "region": "au",
+      "verified": true,
+      "score": 82.5,
+      "pillars": {
+        "purity": 86,
+        "reputation": 81,
+        "service": 84,
+        "community": 79,
+        "pricing": 78
+      },
+      "catalog_size": "30+ peptides",
+      "notable": "Top AU vendor. Fast AU/NZ shipping. Independent 3rd-party COAs.",
+      "flagship": [
+        "BPC-157",
+        "DSIP",
+        "LL-37",
+        "TB-500"
+      ],
+      "live_signals": {},
+      "updated_at": "2026-04-13T11:08:10.528470Z"
+    },
+    {
+      "id": "swiss_chems",
+      "name": "Swiss Chems",
+      "url": "https://swisschems.is",
+      "region": "eu",
+      "verified": false,
+      "score": 80.2,
+      "pillars": {
+        "purity": 79,
+        "reputation": 82,
+        "service": 77,
+        "community": 76,
+        "pricing": 92
+      },
+      "catalog_size": "40+ peptides",
+      "notable": "EU-based. COAs available but batch-specific transparency gaps noted.",
+      "flagship": [
+        "Melanotan II",
+        "GHRP-6",
+        "Hexarelin",
+        "BPC-157"
+      ],
+      "live_signals": {},
+      "updated_at": "2026-04-13T11:08:08.470043Z"
+    },
+    {
+      "id": "pure_rawz",
+      "name": "Pure Rawz",
+      "url": "https://purerawz.co",
+      "region": "usa",
+      "verified": false,
+      "score": 73.3,
+      "pillars": {
+        "purity": 72,
+        "reputation": 71,
+        "service": 74,
+        "community": 68,
+        "pricing": 89
+      },
+      "catalog_size": "80+ peptides",
+      "notable": "Wide catalog. COAs present but some are dated. Pricing competitive.",
+      "flagship": [
+        "MK-677",
+        "IGF-1 LR3",
+        "TB-500"
+      ],
+      "live_signals": {},
+      "updated_at": "2026-04-13T11:08:09.491456Z"
+    }
+  ]
+}

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vendor Dashboard — PepAssure</title>
+  <meta name="description" content="Manage your PepAssure vendor listing." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <script>
+    window.SUPABASE_URL      = "%%SUPABASE_URL%%";
+    window.SUPABASE_ANON_KEY = "%%SUPABASE_ANON_KEY%%";
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0b1a35; --navy2: #122040;
+      --blue: #1a56db; --blue2: #3b82f6;
+      --teal: #00d4b8; --teal2: #06b6d4;
+      --green: #10b981; --green2: #34d399;
+      --amber: #f59e0b; --red: #ef4444;
+      --gray1: #f8fafc; --gray2: #e2e8f0; --gray3: #94a3b8; --gray4: #64748b;
+      --white: #fff; --text: #0f172a;
+      --shadow: 0 4px 24px rgba(0,0,0,.08);
+      --r: 14px;
+    }
+    body { font-family: 'Inter', system-ui, sans-serif; background: var(--gray1); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+
+    #header { position: sticky; top: 0; z-index: 200; background: rgba(11,26,53,.97); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,.07); padding: 0 24px; }
+    .header-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; gap: 14px; height: 62px; }
+    .logo { display: flex; align-items: center; gap: 9px; font-size: 1.15rem; font-weight: 800; color: white; }
+    .logo-mark { width: 30px; height: 30px; border-radius: 7px; background: linear-gradient(135deg,var(--teal),var(--blue2)); display: flex; align-items: center; justify-content: center; font-size: .75rem; font-weight: 900; color: white; }
+    .logo .ac { color: var(--teal); }
+    nav { display: flex; align-items: center; gap: 2px; margin-left: 14px; }
+    nav a { font-size: .81rem; font-weight: 500; color: rgba(255,255,255,.68); padding: 5px 11px; border-radius: 7px; transition: all .15s; }
+    nav a:hover, nav a.on { background: rgba(255,255,255,.09); color: white; }
+    .user-chip { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; padding: 5px 11px 5px 5px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 20px; color: rgba(255,255,255,.9); font-size: .78rem; font-weight: 600; }
+    .avatar { width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(135deg, var(--teal), var(--green)); display: flex; align-items: center; justify-content: center; font-size: .7rem; font-weight: 800; color: white; }
+    .signout-btn { margin-left: 8px; background: transparent; color: rgba(255,255,255,.6); border: 1px solid rgba(255,255,255,.14); border-radius: 7px; font-size: .76rem; font-weight: 600; padding: 6px 12px; cursor: pointer; transition: all .15s; font-family: inherit; }
+    .signout-btn:hover { color: white; border-color: rgba(255,255,255,.3); }
+
+    .page-hero { background: linear-gradient(155deg, var(--navy) 0%, #0d1f3c 60%, #081828 100%); padding: 50px 24px 60px; position: relative; overflow: hidden; }
+    .page-hero::before { content:''; position:absolute; inset:0; pointer-events:none; background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(0,212,184,.14) 0%, transparent 60%); }
+    .ph-inner { max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
+    .ph-label { display: inline-flex; align-items: center; gap: 7px; font-size: .73rem; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; color: var(--teal); background: rgba(0,212,184,.12); border: 1px solid rgba(0,212,184,.25); padding: 4px 12px; border-radius: 20px; margin-bottom: 14px; }
+    .ph-title { font-size: 2rem; font-weight: 800; color: white; margin-bottom: 8px; letter-spacing: -.02em; }
+    .ph-sub { font-size: .92rem; color: rgba(255,255,255,.6); max-width: 600px; line-height: 1.6; }
+
+    main { max-width: 1100px; margin: -34px auto 60px; padding: 0 24px; position: relative; z-index: 2; }
+
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 22px; }
+    @media(max-width: 640px) { .stats { grid-template-columns: 1fr; } }
+    .stat { background: white; border: 1px solid var(--gray2); border-radius: 12px; padding: 18px 20px; }
+    .stat-label { font-size: .73rem; font-weight: 700; color: var(--gray4); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 6px; }
+    .stat-value { font-size: 1.6rem; font-weight: 900; line-height: 1; }
+    .sv-green { color: var(--green); } .sv-blue { color: var(--blue); } .sv-amber { color: var(--amber); }
+
+    .card { background: white; border-radius: var(--r); box-shadow: var(--shadow); border: 1px solid var(--gray2); padding: 28px 32px; margin-bottom: 22px; }
+    .card-h { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; gap: 12px; flex-wrap: wrap; }
+    .card h2 { font-size: 1.18rem; font-weight: 800; letter-spacing: -.01em; }
+    .card .sub { font-size: .85rem; color: var(--gray4); margin-bottom: 18px; line-height: 1.55; }
+
+    .empty { text-align: center; padding: 32px 20px; border: 2px dashed var(--gray2); border-radius: 12px; background: var(--gray1); }
+    .empty .ic { font-size: 2.4rem; margin-bottom: 10px; display: block; }
+    .empty h3 { font-size: 1rem; font-weight: 800; margin-bottom: 6px; }
+    .empty p { font-size: .85rem; color: var(--gray4); line-height: 1.55; max-width: 420px; margin: 0 auto 18px; }
+    .btn-primary { display: inline-flex; align-items: center; gap: 7px; background: var(--green); color: white; font-family: inherit; font-size: .87rem; font-weight: 700; padding: 11px 20px; border-radius: 9px; border: none; cursor: pointer; transition: background .15s; text-decoration: none; }
+    .btn-primary:hover { background: #059669; }
+
+    .claim-list { display: flex; flex-direction: column; gap: 12px; }
+    .claim-row { border: 1px solid var(--gray2); border-radius: 12px; padding: 20px 22px; transition: border-color .15s; }
+    .claim-row:hover { border-color: var(--blue2); }
+    .cr-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 4px; }
+    .cr-name { font-size: 1.05rem; font-weight: 800; }
+    .cr-url { font-size: .82rem; color: var(--blue); }
+    .cr-msg { font-size: .82rem; color: var(--text); margin-top: 8px; padding: 9px 13px; background: var(--gray1); border-radius: 8px; border: 1px solid var(--gray2); line-height: 1.5; }
+    .cr-meta { font-size: .76rem; color: var(--gray3); margin-top: 10px; }
+
+    .badge { display: inline-flex; align-items: center; gap: 5px; font-size: .72rem; font-weight: 700; padding: 4px 11px; border-radius: 20px; text-transform: uppercase; letter-spacing: .04em; flex-shrink: 0; }
+    .badge-pending { background: rgba(245,158,11,.12); color: #b45309; border: 1px solid rgba(245,158,11,.3); }
+    .badge-reviewing { background: rgba(6,182,212,.12); color: #0e7490; border: 1px solid rgba(6,182,212,.3); }
+    .badge-approved { background: rgba(16,185,129,.12); color: #047857; border: 1px solid rgba(16,185,129,.3); }
+    .badge-rejected { background: rgba(239,68,68,.12); color: #b91c1c; border: 1px solid rgba(239,68,68,.3); }
+    .badge-verified { background: rgba(16,185,129,.12); color: #047857; border: 1px solid rgba(16,185,129,.3); }
+
+    /* COA upload */
+    .coa-section { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--gray2); }
+    .coa-label { font-size: .8rem; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+    .coa-files { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+    .coa-file { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; background: var(--gray1); border: 1px solid var(--gray2); border-radius: 8px; font-size: .78rem; font-weight: 600; }
+    .coa-file a { color: var(--blue); }
+    .coa-file .del { color: var(--red); cursor: pointer; font-weight: 800; font-size: .9rem; margin-left: 4px; }
+    .coa-file .del:hover { opacity: .7; }
+    .upload-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .upload-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; background: white; border: 1.5px solid var(--blue2); color: var(--blue); font-size: .82rem; font-weight: 700; border-radius: 8px; cursor: pointer; font-family: inherit; transition: all .15s; }
+    .upload-btn:hover { background: var(--blue); color: white; }
+    .upload-btn:disabled { opacity: .5; cursor: not-allowed; }
+    .upload-status { font-size: .78rem; color: var(--gray4); }
+
+    .skeleton { height: 80px; background: linear-gradient(90deg, var(--gray1) 0%, var(--gray2) 50%, var(--gray1) 100%); background-size: 200% 100%; border-radius: 12px; animation: shimmer 1.4s infinite linear; margin-bottom: 10px; }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+  <header id="header">
+    <div class="header-inner">
+      <a href="/" class="logo">
+        <span class="logo-mark">P<span class="ac">A</span></span>
+        Pep<span class="ac" style="color:var(--teal);">Assure</span>
+      </a>
+      <nav>
+        <a href="/dashboard" class="on">Dashboard</a>
+        <a href="/for-vendors">Vendor info</a>
+      </nav>
+      <div class="user-chip" id="userChip" style="display:none;">
+        <span class="avatar" id="avatar">?</span>
+        <span id="userEmail">-</span>
+      </div>
+      <button class="signout-btn" id="signoutBtn" onclick="signOut()" style="display:none;">Sign out</button>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="ph-inner">
+      <span class="ph-label">⚡ Vendor Dashboard</span>
+      <h1 class="ph-title" id="welcomeTitle">Welcome back</h1>
+      <p class="ph-sub">Manage your PepAssure listings, track claim status, and upload COAs.</p>
+    </div>
+  </section>
+
+  <main>
+    <div class="stats">
+      <div class="stat"><div class="stat-label">Claim requests</div><div class="stat-value" id="statTotal">-</div></div>
+      <div class="stat"><div class="stat-label">Verified listings</div><div class="stat-value sv-green" id="statVerified">-</div></div>
+      <div class="stat"><div class="stat-label">Pending review</div><div class="stat-value sv-amber" id="statPending">-</div></div>
+    </div>
+
+    <!-- Verified listings (from vendor_claims) -->
+    <div class="card hidden" id="verifiedCard">
+      <h2>Verified listings</h2>
+      <p class="sub">These listings have been verified and linked to your account. You can upload COAs for each.</p>
+      <div id="verifiedList" class="claim-list"></div>
+    </div>
+
+    <!-- Claim requests (from claim_requests, matched by email) -->
+    <div class="card">
+      <div class="card-h">
+        <h2>Your claim requests</h2>
+        <a href="/for-vendors" class="btn-primary">+ Submit new claim</a>
+      </div>
+      <p class="sub">Claims you've submitted. Our team reviews each within 1-2 business days.</p>
+
+      <div id="loadingState">
+        <div class="skeleton"></div><div class="skeleton"></div>
+      </div>
+
+      <div id="claimsList" class="claim-list hidden"></div>
+
+      <div id="emptyState" class="empty hidden">
+        <span class="ic">📋</span>
+        <h3>No claims yet</h3>
+        <p>You haven't claimed any vendor listings. Submit a claim and our team will verify ownership within 1-2 business days.</p>
+        <a href="/for-vendors" class="btn-primary">Claim your free listing</a>
+      </div>
+    </div>
+  </main>
+
+  <input type="file" id="fileInput" accept=".pdf,.png,.jpg,.jpeg,.webp" style="display:none;" />
+
+  <script>
+    const SUPA_URL = window.SUPABASE_URL;
+    const SUPA_KEY = window.SUPABASE_ANON_KEY;
+    let db = null;
+    let currentUser = null;
+
+    if (SUPA_URL && SUPA_URL.startsWith('https://') && SUPA_KEY && SUPA_KEY.length > 20) {
+      db = window.supabase.createClient(SUPA_URL, SUPA_KEY);
+    }
+
+    function escapeHtml(s) {
+      if (s == null) return '';
+      return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
+    }
+    function fmtDate(iso) {
+      return new Date(iso).toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' });
+    }
+
+    // ── Auth gate ────────────────────────────────────────
+    (async () => {
+      if (!db) {
+        document.getElementById('loadingState').innerHTML =
+          '<p style="color:var(--red);font-size:.85rem;">Auth is not configured. <a href="/login" style="color:var(--blue);">Return to login</a>.</p>';
+        return;
+      }
+
+      const { data: { session } } = await db.auth.getSession();
+      if (!session) { window.location.replace('/login'); return; }
+      currentUser = session.user;
+
+      // Admin? Redirect to admin panel
+      const { data: roleRow } = await db.from('user_roles').select('role').eq('user_id', currentUser.id).maybeSingle();
+      if (roleRow && roleRow.role === 'admin') { window.location.replace('/admin'); return; }
+
+      // Render user chrome
+      document.getElementById('userEmail').textContent = currentUser.email;
+      document.getElementById('avatar').textContent = (currentUser.email || '?')[0].toUpperCase();
+      document.getElementById('userChip').style.display = '';
+      document.getElementById('signoutBtn').style.display = '';
+      document.getElementById('welcomeTitle').textContent = 'Welcome back, ' + currentUser.email.split('@')[0];
+
+      await Promise.all([loadClaimRequests(), loadVerifiedListings()]);
+    })();
+
+    // ── Claim requests (matched by email via RLS) ────────
+    async function loadClaimRequests() {
+      const { data, error } = await db.from('claim_requests').select('*').order('created_at', { ascending: false });
+      if (error) { console.error('[PepAssure] claim_requests error:', error); }
+
+      const list = data || [];
+      document.getElementById('loadingState').classList.add('hidden');
+
+      const pending = list.filter(c => c.status === 'pending' || c.status === 'reviewing').length;
+      document.getElementById('statTotal').textContent = list.length;
+      document.getElementById('statPending').textContent = pending;
+
+      if (list.length === 0) {
+        document.getElementById('emptyState').classList.remove('hidden');
+        return;
+      }
+
+      const container = document.getElementById('claimsList');
+      container.innerHTML = list.map(c => {
+        const msgHtml = c.message ? '<div class="cr-msg">' + escapeHtml(c.message) + '</div>' : '';
+        const statusTip = c.status === 'approved'
+          ? '<div style="font-size:.78rem;color:var(--green);margin-top:8px;font-weight:600;">✅ Approved — sign out and back in to see your verified listing.</div>'
+          : c.status === 'rejected'
+            ? '<div style="font-size:.78rem;color:var(--red);margin-top:8px;">Contact vendors@pepassure.com if you believe this was an error.</div>'
+            : '';
+        return `
+          <div class="claim-row">
+            <div class="cr-top">
+              <div>
+                <div class="cr-name">${escapeHtml(c.vendor_name)}</div>
+                <div class="cr-url">${escapeHtml(c.website_url)}</div>
+              </div>
+              <span class="badge badge-${c.status}">${c.status}</span>
+            </div>
+            ${msgHtml}
+            ${statusTip}
+            <div class="cr-meta">Submitted ${fmtDate(c.created_at)}</div>
+          </div>`;
+      }).join('');
+      container.classList.remove('hidden');
+    }
+
+    // ── Verified listings (from vendor_claims) ───────────
+    async function loadVerifiedListings() {
+      const { data, error } = await db.from('vendor_claims').select('*').order('created_at', { ascending: false });
+      if (error) { console.error('[PepAssure] vendor_claims error:', error); }
+
+      const list = data || [];
+      document.getElementById('statVerified').textContent = list.filter(c => c.status === 'verified').length;
+
+      if (list.length === 0) return;
+
+      const card = document.getElementById('verifiedCard');
+      card.classList.remove('hidden');
+
+      const container = document.getElementById('verifiedList');
+      container.innerHTML = '';
+
+      for (const c of list) {
+        const coaHtml = await renderCoaSection(c);
+        container.innerHTML += `
+          <div class="claim-row" id="vc-${c.id}">
+            <div class="cr-top">
+              <div>
+                <div class="cr-name">${escapeHtml(c.vendor_name)}</div>
+                <div class="cr-url">${escapeHtml(c.website_url)}</div>
+              </div>
+              <span class="badge badge-${c.status}">${c.status}</span>
+            </div>
+            <div class="cr-meta">Verified · Contact: ${escapeHtml(c.contact_email)}</div>
+            ${coaHtml}
+          </div>`;
+      }
+    }
+
+    // ── COA upload section per listing ────────────────────
+    async function renderCoaSection(claim) {
+      const folder = currentUser.id + '/' + claim.id;
+      let files = [];
+      try {
+        const { data, error } = await db.storage.from('vendor-coas').list(folder);
+        if (!error && data) files = data.filter(f => f.name !== '.emptyFolderPlaceholder');
+      } catch (e) { /* bucket may not exist yet */ }
+
+      const fileItems = files.map(f => {
+        const path = folder + '/' + f.name;
+        const { data: urlData } = db.storage.from('vendor-coas').getPublicUrl(path);
+        // Private bucket — use createSignedUrl instead for actual download
+        return `<span class="coa-file">
+          📄 ${escapeHtml(f.name)}
+          <span class="del" onclick="deleteCoa('${claim.id}','${escapeHtml(f.name)}')" title="Remove">×</span>
+        </span>`;
+      }).join('');
+
+      return `
+        <div class="coa-section">
+          <div class="coa-label">Certificates of Analysis (COAs)</div>
+          <div class="coa-files" id="coa-files-${claim.id}">${fileItems || '<span style="font-size:.78rem;color:var(--gray3);">No COAs uploaded yet.</span>'}</div>
+          <div class="upload-row">
+            <button class="upload-btn" onclick="uploadCoa('${claim.id}')">📎 Upload COA</button>
+            <span class="upload-status" id="upload-status-${claim.id}"></span>
+          </div>
+        </div>`;
+    }
+
+    // ── Upload handler ───────────────────────────────────
+    let activeClaimId = null;
+
+    window.uploadCoa = function(claimId) {
+      activeClaimId = claimId;
+      document.getElementById('fileInput').click();
+    };
+
+    document.getElementById('fileInput').addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file || !activeClaimId) return;
+
+      const statusEl = document.getElementById('upload-status-' + activeClaimId);
+      statusEl.textContent = 'Uploading...';
+
+      const folder = currentUser.id + '/' + activeClaimId;
+      const filePath = folder + '/' + file.name;
+
+      const { error } = await db.storage.from('vendor-coas').upload(filePath, file, {
+        upsert: true,
+        contentType: file.type
+      });
+
+      if (error) {
+        statusEl.textContent = 'Upload failed: ' + error.message;
+        console.error('[PepAssure] COA upload error:', error);
+      } else {
+        statusEl.textContent = 'Uploaded!';
+        // Refresh the verified listings to show new file
+        await loadVerifiedListings();
+      }
+
+      // Reset file input
+      e.target.value = '';
+      activeClaimId = null;
+    });
+
+    // ── Delete COA ───────────────────────────────────────
+    window.deleteCoa = async function(claimId, fileName) {
+      if (!confirm('Remove ' + fileName + '?')) return;
+      const path = currentUser.id + '/' + claimId + '/' + fileName;
+      const { error } = await db.storage.from('vendor-coas').remove([path]);
+      if (error) {
+        alert('Delete failed: ' + error.message);
+      } else {
+        await loadVerifiedListings();
+      }
+    };
+
+    // ── Sign out ─────────────────────────────────────────
+    window.signOut = async function() {
+      if (!db) return;
+      await db.auth.signOut();
+      window.location.replace('/login');
+    };
+  </script>
+</body>
+</html>

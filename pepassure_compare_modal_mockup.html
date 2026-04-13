@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PepAssure — Compare Vendors Modal Mockup</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+    background: #060e1a;
+    color: #e2e8f0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ── Fake site header behind modal ── */
+  .site-header {
+    width: 100%;
+    background: linear-gradient(180deg, #0a1428 0%, #0d1a30 100%);
+    border-bottom: 1px solid rgba(0,212,255,0.15);
+    padding: 14px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 1;
+  }
+  .site-header .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+  .site-header .logo .icon {
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg, #10b981, #00d4ff);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; color: #fff; font-weight: 800;
+  }
+  .site-header .logo span { color: #fff; }
+  .site-header .logo .accent { color: #00d4ff; }
+  .site-header nav { display: flex; gap: 28px; }
+  .site-header nav a {
+    color: #94a3b8; font-size: 13.5px; font-weight: 500;
+    text-decoration: none; letter-spacing: 0.2px;
+    transition: color 0.2s;
+  }
+  .site-header nav a:hover, .site-header nav a.active { color: #00d4ff; }
+
+  /* ── Overlay ── */
+  .overlay {
+    position: fixed; inset: 0;
+    background: rgba(4, 8, 16, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 100;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* ── Modal ── */
+  .modal {
+    width: 1120px;
+    max-height: 88vh;
+    background: linear-gradient(170deg, #0c1a2e 0%, #0a1428 40%, #091220 100%);
+    border: 1px solid rgba(0,212,255,0.18);
+    border-radius: 16px;
+    box-shadow:
+      0 0 0 1px rgba(0,212,255,0.06),
+      0 25px 80px rgba(0,0,0,0.6),
+      0 8px 32px rgba(0,0,0,0.4),
+      inset 0 1px 0 rgba(255,255,255,0.04);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* ── Modal Header ── */
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 28px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: linear-gradient(180deg, rgba(0,212,255,0.04) 0%, transparent 100%);
+  }
+  .modal-header .left {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .modal-header h2 {
+    font-size: 18px; font-weight: 700; color: #f1f5f9;
+    letter-spacing: -0.3px;
+  }
+  .modal-header .badge {
+    background: rgba(0,212,255,0.12);
+    color: #00d4ff;
+    font-size: 11px; font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1px solid rgba(0,212,255,0.2);
+  }
+  .modal-header .actions {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .btn-ghost {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #cbd5e1;
+    font-size: 12.5px; font-weight: 500;
+    padding: 7px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 6px;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .btn-ghost:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.18);
+    color: #f1f5f9;
+  }
+  .btn-ghost svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+  .close-btn {
+    width: 34px; height: 34px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    color: #64748b;
+    transition: all 0.2s;
+    margin-left: 6px;
+  }
+  .close-btn:hover { background: rgba(239,68,68,0.12); color: #ef4444; border-color: rgba(239,68,68,0.3); }
+  .close-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+  /* ── Scrollable body ── */
+  .modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0;
+  }
+  .modal-body::-webkit-scrollbar { width: 6px; }
+  .modal-body::-webkit-scrollbar-track { background: transparent; }
+  .modal-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px; }
+
+  /* ── Vendor Column Headers ── */
+  .vendor-headers {
+    display: grid;
+    grid-template-columns: 200px 1fr 1fr 1fr;
+    gap: 0;
+    padding: 24px 28px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: rgba(0,212,255,0.015);
+    position: sticky; top: 0; z-index: 5;
+  }
+  .vendor-headers .label-col {
+    display: flex; align-items: flex-end;
+    padding-bottom: 8px;
+  }
+  .vendor-headers .label-col span {
+    font-size: 11px; font-weight: 600;
+    color: #475569; text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .vendor-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 0 12px;
+  }
+
+  /* ── Score Ring ── */
+  .score-ring {
+    position: relative;
+    width: 88px; height: 88px;
+  }
+  .score-ring svg { width: 88px; height: 88px; transform: rotate(-90deg); }
+  .score-ring .bg {
+    fill: none;
+    stroke: rgba(255,255,255,0.06);
+    stroke-width: 6;
+  }
+  .score-ring .progress {
+    fill: none;
+    stroke-width: 6;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1s ease;
+  }
+  .score-ring .value {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .score-ring .num {
+    font-size: 22px; font-weight: 800;
+    letter-spacing: -0.5px;
+    line-height: 1;
+  }
+  .score-ring .label {
+    font-size: 8px; font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-top: 2px;
+  }
+
+  .vendor-name {
+    font-size: 14px; font-weight: 700;
+    color: #f1f5f9;
+    text-align: center;
+    line-height: 1.3;
+  }
+  .vendor-tags {
+    display: flex; gap: 6px; flex-wrap: wrap; justify-content: center;
+  }
+  .tag {
+    font-size: 10px; font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.3px;
+  }
+  .tag-finnrick {
+    background: rgba(16,185,129,0.12);
+    color: #34d399;
+    border: 1px solid rgba(16,185,129,0.25);
+  }
+  .tag-top-pick {
+    background: rgba(250,204,21,0.12);
+    color: #fbbf24;
+    border: 1px solid rgba(250,204,21,0.25);
+  }
+  .tag-verified {
+    background: rgba(0,212,255,0.1);
+    color: #22d3ee;
+    border: 1px solid rgba(0,212,255,0.2);
+  }
+
+  /* ── Comparison Table ── */
+  .compare-table {
+    width: 100%;
+  }
+  .table-row {
+    display: grid;
+    grid-template-columns: 200px 1fr 1fr 1fr;
+    gap: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    transition: background 0.15s;
+  }
+  .table-row:hover {
+    background: rgba(0,212,255,0.02);
+  }
+  .table-row:last-child { border-bottom: none; }
+
+  .row-label {
+    padding: 16px 28px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #94a3b8;
+  }
+  .row-label .weight {
+    font-size: 10px;
+    font-weight: 500;
+    color: #475569;
+    background: rgba(255,255,255,0.04);
+    padding: 1px 6px;
+    border-radius: 3px;
+  }
+  .row-label .icon-sm {
+    width: 18px; height: 18px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 4px;
+    font-size: 11px;
+  }
+
+  .cell {
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .cell .score-val {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+  .cell .bar-track {
+    width: 100%;
+    max-width: 160px;
+    height: 6px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .cell .bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.8s ease;
+  }
+
+  /* Color tiers */
+  .tier-excellent .score-val { color: #00d4ff; }
+  .tier-excellent .bar-fill { background: linear-gradient(90deg, #00d4ff, #10b981); }
+  .tier-great .score-val { color: #34d399; }
+  .tier-great .bar-fill { background: linear-gradient(90deg, #34d399, #10b981); }
+  .tier-good .score-val { color: #a3e635; }
+  .tier-good .bar-fill { background: linear-gradient(90deg, #a3e635, #22c55e); }
+
+  /* Sentiment cell */
+  .sentiment {
+    font-size: 15px; font-weight: 700;
+  }
+  .sentiment.positive { color: #34d399; }
+  .sentiment.neutral { color: #94a3b8; }
+  .sentiment-sub {
+    font-size: 10.5px; color: #64748b; font-weight: 500;
+  }
+
+  /* Pricing cell */
+  .price-val {
+    font-size: 18px; font-weight: 800;
+    color: #f1f5f9;
+  }
+  .price-sub {
+    font-size: 10.5px; color: #64748b; font-weight: 500;
+  }
+  .price-best {
+    font-size: 9px; font-weight: 700;
+    color: #34d399;
+    background: rgba(16,185,129,0.1);
+    border: 1px solid rgba(16,185,129,0.2);
+    padding: 1px 6px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── Section divider row ── */
+  .section-divider {
+    display: grid;
+    grid-template-columns: 200px 1fr 1fr 1fr;
+    background: rgba(0,212,255,0.03);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .section-divider .section-label {
+    grid-column: 1 / -1;
+    padding: 10px 28px;
+    font-size: 10.5px;
+    font-weight: 700;
+    color: #00d4ff;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+  }
+
+  /* ── PVS Score special row ── */
+  .pvs-row {
+    background: linear-gradient(90deg, rgba(0,212,255,0.04) 0%, rgba(16,185,129,0.03) 100%);
+  }
+  .pvs-row .cell .score-val {
+    font-size: 26px;
+    font-weight: 900;
+  }
+  .pvs-row .cell .bar-track { height: 8px; }
+
+  /* ── Winner indicator ── */
+  .winner-badge {
+    font-size: 9px;
+    font-weight: 700;
+    color: #fbbf24;
+    background: rgba(250,204,21,0.1);
+    border: 1px solid rgba(250,204,21,0.2);
+    padding: 1px 7px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── Modal Footer ── */
+  .modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 28px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    background: linear-gradient(0deg, rgba(0,212,255,0.03) 0%, transparent 100%);
+  }
+  .footer-left { display: flex; align-items: center; gap: 12px; }
+
+  .btn-add {
+    background: rgba(255,255,255,0.04);
+    border: 1px dashed rgba(255,255,255,0.15);
+    color: #94a3b8;
+    font-size: 12.5px; font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 6px;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .btn-add:hover { border-color: rgba(0,212,255,0.3); color: #00d4ff; background: rgba(0,212,255,0.05); }
+  .btn-add svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+  .remove-row {
+    display: grid;
+    grid-template-columns: 200px 1fr 1fr 1fr;
+    padding: 0 0 4px;
+  }
+  .remove-row .spacer { }
+  .remove-cell {
+    display: flex; justify-content: center; padding: 6px 12px;
+  }
+  .btn-remove {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.06);
+    color: #475569;
+    font-size: 11px; font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 4px;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .btn-remove:hover { border-color: rgba(239,68,68,0.3); color: #ef4444; background: rgba(239,68,68,0.06); }
+  .btn-remove svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+  .footer-right { display: flex; align-items: center; gap: 10px; }
+
+  .btn-secondary {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #e2e8f0;
+    font-size: 13px; font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .btn-secondary:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #00d4ff 0%, #10b981 100%);
+    border: none;
+    color: #0a1428;
+    font-size: 13px; font-weight: 700;
+    padding: 10px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 0 20px rgba(0,212,255,0.25), 0 0 40px rgba(16,185,129,0.1);
+    font-family: inherit;
+    letter-spacing: -0.2px;
+  }
+  .btn-primary:hover { box-shadow: 0 0 30px rgba(0,212,255,0.4), 0 0 60px rgba(16,185,129,0.2); transform: translateY(-1px); }
+
+  /* ── Subtle grid lines ── */
+  .vendor-headers > *:not(:first-child),
+  .table-row > .cell {
+    border-left: 1px solid rgba(255,255,255,0.03);
+  }
+
+  /* ── Background elements behind modal ── */
+  .bg-cards {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.3;
+    pointer-events: none;
+  }
+  .bg-cards .fake-card {
+    position: absolute;
+    background: rgba(10,20,40,0.8);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 12px;
+  }
+</style>
+</head>
+<body>
+
+<!-- Faux site header (visible behind overlay) -->
+<div class="site-header">
+  <div class="logo">
+    <div class="icon">P</div>
+    <span>Pep<span class="accent">Assure</span></span>
+  </div>
+  <nav>
+    <a href="#" class="active">Rankings</a>
+    <a href="#">For Vendors</a>
+    <a href="#">Methodology</a>
+    <a href="#">About</a>
+  </nav>
+</div>
+
+<!-- Background hint of vendor cards -->
+<div class="bg-cards">
+  <div class="fake-card" style="top:80px;left:40px;width:320px;height:200px;"></div>
+  <div class="fake-card" style="top:80px;left:380px;width:320px;height:200px;"></div>
+  <div class="fake-card" style="top:80px;left:720px;width:320px;height:200px;"></div>
+  <div class="fake-card" style="top:300px;left:40px;width:320px;height:200px;"></div>
+  <div class="fake-card" style="top:300px;left:380px;width:320px;height:200px;"></div>
+</div>
+
+<!-- Overlay -->
+<div class="overlay">
+  <div class="modal">
+
+    <!-- Header -->
+    <div class="modal-header">
+      <div class="left">
+        <h2>Compare Vendors</h2>
+        <span class="badge">3 selected</span>
+      </div>
+      <div class="actions">
+        <button class="btn-ghost">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Export PDF
+        </button>
+        <button class="btn-ghost">
+          <svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+          Share Link
+        </button>
+        <div class="close-btn">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-body">
+
+      <!-- Vendor Column Headers -->
+      <div class="vendor-headers">
+        <div class="label-col"><span>Metrics</span></div>
+
+        <!-- Vendor 1: Ascension -->
+        <div class="vendor-col">
+          <div class="score-ring">
+            <svg viewBox="0 0 88 88">
+              <circle class="bg" cx="44" cy="44" r="38"/>
+              <circle class="progress" cx="44" cy="44" r="38"
+                stroke="url(#grad1)"
+                stroke-dasharray="238.76"
+                stroke-dashoffset="10.74"/>
+            </svg>
+            <defs style="display:none">
+              <svg><linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#00d4ff"/>
+                <stop offset="100%" style="stop-color:#10b981"/>
+              </linearGradient></svg>
+            </defs>
+            <div class="value">
+              <span class="num" style="color:#00d4ff">95.5</span>
+              <span class="label">PVS Score</span>
+            </div>
+          </div>
+          <div class="vendor-name">Ascension Peptides</div>
+          <div class="vendor-tags">
+            <span class="tag tag-finnrick">✓ Finnrick Tested</span>
+            <span class="tag tag-top-pick">★ Top Pick</span>
+          </div>
+        </div>
+
+        <!-- Vendor 2: Limitless Life -->
+        <div class="vendor-col">
+          <div class="score-ring">
+            <svg viewBox="0 0 88 88">
+              <circle class="bg" cx="44" cy="44" r="38"/>
+              <circle class="progress" cx="44" cy="44" r="38"
+                stroke="#34d399"
+                stroke-dasharray="238.76"
+                stroke-dashoffset="20.29"/>
+            </svg>
+            <div class="value">
+              <span class="num" style="color:#34d399">91.5</span>
+              <span class="label">PVS Score</span>
+            </div>
+          </div>
+          <div class="vendor-name">Limitless Life<br>Nootropics</div>
+          <div class="vendor-tags">
+            <span class="tag tag-verified">✓ Verified</span>
+          </div>
+        </div>
+
+        <!-- Vendor 3: Peptide Partners -->
+        <div class="vendor-col">
+          <div class="score-ring">
+            <svg viewBox="0 0 88 88">
+              <circle class="bg" cx="44" cy="44" r="38"/>
+              <circle class="progress" cx="44" cy="44" r="38"
+                stroke="#a3e635"
+                stroke-dasharray="238.76"
+                stroke-dashoffset="22.68"/>
+            </svg>
+            <div class="value">
+              <span class="num" style="color:#a3e635">90.5</span>
+              <span class="label">PVS Score</span>
+            </div>
+          </div>
+          <div class="vendor-name">Peptide Partners</div>
+          <div class="vendor-tags">
+            <span class="tag tag-verified">✓ Verified</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Core Metrics -->
+      <div class="section-divider">
+        <div class="section-label">Core Scoring Breakdown</div>
+      </div>
+
+      <!-- PVS Score Row -->
+      <div class="table-row pvs-row">
+        <div class="row-label">
+          <span class="icon-sm" style="background:rgba(0,212,255,0.1);color:#00d4ff;">◆</span>
+          PVS Score™
+        </div>
+        <div class="cell tier-excellent">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="score-val">95.5</span>
+            <span class="winner-badge">★ Best</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" style="width:95.5%"></div></div>
+        </div>
+        <div class="cell tier-great">
+          <span class="score-val">91.5</span>
+          <div class="bar-track"><div class="bar-fill" style="width:91.5%"></div></div>
+        </div>
+        <div class="cell tier-good">
+          <span class="score-val">90.5</span>
+          <div class="bar-track"><div class="bar-fill" style="width:90.5%"></div></div>
+        </div>
+      </div>
+
+      <!-- Purity -->
+      <div class="table-row">
+        <div class="row-label">
+          <span class="icon-sm" style="background:rgba(16,185,129,0.1);color:#10b981;">🧪</span>
+          Purity
+          <span class="weight">30%</span>
+        </div>
+        <div class="cell tier-excellent">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="score-val">98</span>
+            <span class="winner-badge">★ Best</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" style="width:98%"></div></div>
+        </div>
+        <div class="cell tier-great">
+          <span class="score-val">94</span>
+          <div class="bar-track"><div class="bar-fill" style="width:94%"></div></div>
+        </div>
+        <div class="cell tier-good">
+          <span class="score-val">92</span>
+          <div class="bar-track"><div class="bar-fill" style="width:92%"></div></div>
+        </div>
+      </div>
+
+      <!-- Reputation -->
+      <div class="table-row">
+        <div class="row-label">
+          <span class="icon-sm" style="background:rgba(99,102,241,0.1);color:#818cf8;">⭐</span>
+          Reputation
+          <span class="weight">25%</span>
+        </div>
+        <div class="cell tier-excellent">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="score-val">95</span>
+            <span class="winner-badge">★ Best</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" style="width:95%"></div></div>
+        </div>
+        <div class="cell tier-good">
+          <span class="score-val">90</span>
+          <div class="bar-track"><div class="bar-fill" style="width:90%"></div></div>
+        </div>
+        <div class="cell tier-great">
+          <span class="score-val">91</span>
+          <div class="bar-track"><div class="bar-fill" style="width:91%"></div></div>
+        </div>
+      </div>
+
+      <!-- Customer Service -->
+      <div class="table-row">
+        <div class="row-label">
+          <span class="icon-sm" style="background:rgba(245,158,11,0.1);color:#f59e0b;">💬</span>
+          Customer Service
+          <span class="weight">20%</span>
+        </div>
+        <div class="cell tier-excellent">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="score-val">96</span>
+            <span class="winner-badge">★ Best</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" style="width:96%"></div></div>
+        </div>
+        <div class="cell tier-great">
+          <span class="score-val">93</span>
+          <div class="bar-track"><div class="bar-fill" style="width:93%"></div></div>
+        </div>
+        <div class="cell tier-good">
+          <span class="score-val">89</span>
+          <div class="bar-track"><div class="bar-fill" style="width:89%"></div></div>
+        </div>
+      </div>
+
+      <!-- Community Sentiment -->
+      <div class="table-row">
+        <div class="row-label">
+          <span class="icon-sm" style="background:rgba(34,211,238,0.1);color:#22d3ee;">📊</span>
+          Community Sentiment
+          <span class="weight">15%</span>
+        </div>
+        <div class="cell">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="sentiment positive">▲ +12%</span>
+            <span class="winner-badge">★ Best</span>
+          </div>
+          <span class="sentiment-sub">89% positive mentions</span>
+        </div>
+        <div class="cell">
+          <span class="sentiment neutral">— Neutral</span>
+          <span class="sentiment-sub">64% positive mentions</span>
+        </div>
+        <div class="cell">
+          <span class="sentiment positive">▲ +8%</span>
+          <span class="sentiment-sub">78% positive mentions</span>
+        </div>
+      </div>
+
+      <!-- Pricing -->
+      <div class="section-divider">
+        <div class="section-label">Pricing Comparison — BPC-157 (5mg)</div>
+      </div>
+
+      <div class="table-row">
+        <div class="row-label">
+          <span class="icon-sm" style="background:rgba(168,85,247,0.1);color:#a855f7;">💰</span>
+          Price per mg
+          <span class="weight">10%</span>
+        </div>
+        <div class="cell">
+          <span class="price-val">$1.89</span>
+          <span class="price-sub">per mg · $9.45 / 5mg vial</span>
+        </div>
+        <div class="cell">
+          <span class="price-val">$2.12</span>
+          <span class="price-sub">per mg · $10.60 / 5mg vial</span>
+        </div>
+        <div class="cell">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="price-val">$1.75</span>
+            <span class="price-best">Best Price</span>
+          </div>
+          <span class="price-sub">per mg · $8.75 / 5mg vial</span>
+        </div>
+      </div>
+
+      <!-- Remove buttons row -->
+      <div class="remove-row">
+        <div class="spacer"></div>
+        <div class="remove-cell">
+          <button class="btn-remove">
+            <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            Remove
+          </button>
+        </div>
+        <div class="remove-cell">
+          <button class="btn-remove">
+            <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            Remove
+          </button>
+        </div>
+        <div class="remove-cell">
+          <button class="btn-remove">
+            <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            Remove
+          </button>
+        </div>
+      </div>
+
+    </div><!-- /modal-body -->
+
+    <!-- Footer -->
+    <div class="modal-footer">
+      <div class="footer-left">
+        <button class="btn-add">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Another Vendor
+        </button>
+      </div>
+      <div class="footer-right">
+        <button class="btn-secondary">View Full Profiles</button>
+        <button class="btn-primary">Buy from All →</button>
+      </div>
+    </div>
+
+  </div><!-- /modal -->
+</div><!-- /overlay -->
+
+<!-- Inline SVG defs for gradients -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00d4ff"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+</body>
+</html>
