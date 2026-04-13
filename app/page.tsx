@@ -28,6 +28,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { vendors, type Vendor } from "@/lib/vendors";
+import { getActiveAlerts, type VendorAlert } from "@/app/actions/alerts";
 
 const features = [
   {
@@ -74,19 +75,25 @@ const sortOptions: { key: SortKey; label: string }[] = [
 /* ─── Filter options ─── */
 const tagFilters = ["All", "HPLC", "MS", "COA"];
 
-/* ─── Active vendor alerts (in production, fetched from Supabase) ─── */
-const activeAlerts = [
+/* ─── Fallback alert (used when Supabase table doesn't exist yet) ─── */
+const fallbackAlerts: VendorAlert[] = [
   {
-    id: "alert-1",
-    vendorName: "PeptideGains.com",
-    type: "shutdown" as const,
+    id: "fallback-1",
+    vendor_name: "PeptideGains.com",
+    vendor_slug: "peptidegains",
+    alert_type: "shutdown",
+    severity: "critical",
     headline: "Vendor Shutdown Alert — Active",
     summary:
       "PeptideGains.com is ceasing operations on May 15, 2026. Customers with open orders should contact them immediately.",
+    banner_text: "PeptideGains.com is shutting down May 15, 2026.",
     alternatives: ["Ascension Peptides", "Limitless Life Nootropics", "Peptide Partners"],
     link: "/blog/vendor-shutdown-peptidegains",
-    linkText: "View full alert & transfer guide",
-    date: "May 15, 2026",
+    link_text: "View full alert & transfer guide",
+    is_active: true,
+    published_at: "2026-04-12T00:00:00Z",
+    expires_at: null,
+    created_at: "2026-04-12T00:00:00Z",
   },
 ];
 
@@ -160,7 +167,18 @@ export default function HomePage() {
   const [compareList, setCompareList] = useState<string[]>([]);
   const [compareOpen, setCompareOpen] = useState(false);
   const [searchFocused, setSearchFocused] = useState(false);
+  const [activeAlerts, setActiveAlerts] = useState<VendorAlert[]>(fallbackAlerts);
   const searchRef = useRef<HTMLInputElement>(null);
+
+  // Fetch alerts from Supabase (falls back to hardcoded if table doesn't exist)
+  useEffect(() => {
+    getActiveAlerts().then((alerts) => {
+      if (alerts.length > 0) {
+        setActiveAlerts(alerts);
+      }
+      // If empty, keep fallback alerts
+    });
+  }, []);
 
   // Cmd+K shortcut to focus search
   useEffect(() => {
@@ -256,19 +274,30 @@ export default function HomePage() {
     <div className="min-h-screen molecular-bg">
       {/* ─── Top Alert Banner ─── */}
       {activeAlerts.length > 0 && (
-        <div className="bg-gradient-to-r from-red-900/80 via-red-800/70 to-red-900/80 border-b border-red-500/30">
-          <div className="max-w-6xl mx-auto px-4 py-2.5 flex items-center justify-center gap-2 text-sm">
-            <AlertTriangle className="w-4 h-4 text-yellow-400 flex-shrink-0" />
+        <div className={`border-b ${
+          activeAlerts[0].severity === "critical"
+            ? "bg-gradient-to-r from-red-900/80 via-red-800/70 to-red-900/80 border-red-500/30"
+            : activeAlerts[0].severity === "warning"
+            ? "bg-gradient-to-r from-yellow-900/60 via-yellow-800/50 to-yellow-900/60 border-yellow-500/30"
+            : "bg-gradient-to-r from-blue-900/60 via-blue-800/50 to-blue-900/60 border-blue-500/30"
+        }`}>
+          <div className="max-w-6xl mx-auto px-4 py-2.5 flex flex-wrap items-center justify-center gap-2 text-sm">
+            <AlertTriangle className={`w-4 h-4 flex-shrink-0 ${
+              activeAlerts[0].severity === "critical" ? "text-yellow-400" : "text-yellow-500"
+            }`} />
             <span className="text-gray-200">
-              <strong className="text-white">Notice:</strong> {activeAlerts[0].vendorName} is shutting down {activeAlerts[0].date}.
+              <strong className="text-white">Notice:</strong>{" "}
+              {activeAlerts[0].banner_text || `${activeAlerts[0].vendor_name} — ${activeAlerts[0].headline}`}
             </span>
-            <Link
-              href={activeAlerts[0].link}
-              className="text-cyan-400 hover:text-cyan-300 transition-colors flex items-center gap-1 whitespace-nowrap"
-            >
-              See recommended alternatives and transition guide
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
+            {activeAlerts[0].link && (
+              <Link
+                href={activeAlerts[0].link}
+                className="text-cyan-400 hover:text-cyan-300 transition-colors flex items-center gap-1 whitespace-nowrap"
+              >
+                See recommended alternatives and transition guide
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            )}
           </div>
         </div>
       )}
@@ -346,37 +375,54 @@ export default function HomePage() {
             </Link>
           </div>
 
-          {/* ─── Vendor Shutdown Alert Card ─── */}
-          {activeAlerts.map((alert) => (
-            <motion.div
-              key={alert.id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="max-w-xl mx-auto mb-8"
-            >
-              <div className="p-5 bg-red-950/40 border border-red-500/30 rounded-xl text-left">
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-red-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <AlertTriangle className="w-4 h-4 text-red-400" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-sm font-bold text-red-400 mb-1.5">{alert.headline}</h3>
-                    <p className="text-sm text-gray-400 leading-relaxed mb-2">
-                      {alert.summary} Top-ranked alternatives: {alert.alternatives.join(", ")}.
-                    </p>
-                    <Link
-                      href={alert.link}
-                      className="inline-flex items-center gap-1.5 text-sm text-cyan-400 hover:text-cyan-300 transition-colors font-medium"
-                    >
-                      {alert.linkText}
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
+          {/* ─── Vendor Alert Cards ─── */}
+          {activeAlerts.map((alert) => {
+            const isShutdown = alert.alert_type === "shutdown";
+            const isCritical = alert.severity === "critical";
+            const cardBg = isCritical
+              ? "bg-red-950/40 border-red-500/30"
+              : alert.severity === "warning"
+              ? "bg-yellow-950/30 border-yellow-500/30"
+              : "bg-blue-950/30 border-blue-500/30";
+            const iconColor = isCritical ? "text-red-400" : alert.severity === "warning" ? "text-yellow-400" : "text-blue-400";
+            const iconBg = isCritical ? "bg-red-500/20" : alert.severity === "warning" ? "bg-yellow-500/20" : "bg-blue-500/20";
+
+            return (
+              <motion.div
+                key={alert.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="max-w-xl mx-auto mb-4"
+              >
+                <div className={`p-5 border rounded-xl text-left ${cardBg}`}>
+                  <div className="flex items-start gap-3">
+                    <div className={`w-8 h-8 rounded-lg ${iconBg} flex items-center justify-center flex-shrink-0 mt-0.5`}>
+                      <AlertTriangle className={`w-4 h-4 ${iconColor}`} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className={`text-sm font-bold mb-1.5 ${iconColor}`}>{alert.headline}</h3>
+                      <p className="text-sm text-gray-400 leading-relaxed mb-2">
+                        {alert.summary}
+                        {alert.alternatives.length > 0 && (
+                          <> Top-ranked alternatives: {alert.alternatives.join(", ")}.</>
+                        )}
+                      </p>
+                      {alert.link && (
+                        <Link
+                          href={alert.link}
+                          className="inline-flex items-center gap-1.5 text-sm text-cyan-400 hover:text-cyan-300 transition-colors font-medium"
+                        >
+                          {alert.link_text || "View full alert"}
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </Link>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
 
           {/* ─── Trust Badges ─── */}
           <div className="max-w-2xl mx-auto p-4 bg-ink-2/50 border border-white/5 rounded-xl">

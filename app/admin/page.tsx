@@ -21,6 +21,8 @@ import {
   Loader2,
   ShieldAlert,
   X,
+  AlertTriangle,
+  Plus,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
@@ -31,6 +33,12 @@ import {
   updateVendorTier,
   toggleAdmin,
 } from "@/app/actions/admin";
+import {
+  getActiveAlerts,
+  createAlert,
+  resolveAlert,
+  type VendorAlert,
+} from "@/app/actions/alerts";
 
 /* ─── Types ─── */
 interface Profile {
@@ -51,7 +59,7 @@ interface Profile {
   created_at: string;
 }
 
-type Tab = "claims" | "vendors" | "settings";
+type Tab = "claims" | "vendors" | "alerts" | "settings";
 type StatusFilter = "all" | "pending" | "approved" | "rejected";
 
 /* ─── Mock data (used when Supabase isn't configured) ─── */
@@ -151,6 +159,9 @@ export default function AdminPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const [alerts, setAlerts] = useState<VendorAlert[]>([]);
+  const [showAlertForm, setShowAlertForm] = useState(false);
+  const [alertFormLoading, setAlertFormLoading] = useState(false);
 
   // Confirm dialog state
   const [confirm, setConfirm] = useState<{
@@ -193,6 +204,9 @@ export default function AdminPage() {
             // Use mock data if no real data
             setProfiles(mockProfiles);
           }
+
+          // Load alerts
+          getActiveAlerts().then((a) => setAlerts(a));
         }
       } else {
         // No user — use mock data for demo
@@ -326,6 +340,7 @@ export default function AdminPage() {
   const tabItems: { key: Tab; label: string; icon: typeof FileText; badge?: number }[] = [
     { key: "claims", label: "Claims", icon: FileText, badge: stats.pending },
     { key: "vendors", label: "Vendors", icon: Users },
+    { key: "alerts", label: "Alerts", icon: AlertTriangle, badge: alerts.length },
     { key: "settings", label: "Settings", icon: Settings },
   ];
 
@@ -699,6 +714,242 @@ export default function AdminPage() {
                   </div>
                 )}
               </div>
+            </motion.div>
+          )}
+
+          {/* ═══ Alerts Tab ═══ */}
+          {activeTab === "alerts" && (
+            <motion.div
+              key="alerts"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+            >
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-lg font-display font-bold text-white">
+                  Vendor Alerts ({alerts.length} active)
+                </h3>
+                <button
+                  onClick={() => setShowAlertForm(!showAlertForm)}
+                  className="btn-glow flex items-center gap-2 px-4 py-2 bg-emerald text-white text-sm font-medium rounded-lg"
+                >
+                  <Plus className="w-4 h-4" />
+                  New Alert
+                </button>
+              </div>
+
+              {/* New Alert Form */}
+              <AnimatePresence>
+                {showAlertForm && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="overflow-hidden mb-6"
+                  >
+                    <form
+                      onSubmit={async (e) => {
+                        e.preventDefault();
+                        setAlertFormLoading(true);
+                        const formData = new FormData(e.currentTarget);
+                        const result = await createAlert(formData);
+                        if (result.success) {
+                          setShowAlertForm(false);
+                          // Refresh alerts
+                          const fresh = await getActiveAlerts();
+                          setAlerts(fresh);
+                        }
+                        setAlertFormLoading(false);
+                      }}
+                      className="p-6 bg-ink-2 border border-white/10 rounded-xl space-y-4"
+                    >
+                      <div className="grid sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-xs text-gray-500 mb-1">Vendor Name *</label>
+                          <input
+                            name="vendor_name"
+                            required
+                            className="w-full px-3 py-2 bg-ink border border-white/10 rounded-lg text-sm text-white placeholder-gray-600 focus:outline-none focus:border-emerald/30"
+                            placeholder="e.g. PeptideGains.com"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs text-gray-500 mb-1">Alert Type</label>
+                          <select
+                            name="alert_type"
+                            className="w-full px-3 py-2 bg-ink border border-white/10 rounded-lg text-sm text-white focus:outline-none focus:border-emerald/30"
+                          >
+                            <option value="shutdown">Vendor Shutdown</option>
+                            <option value="fda_warning">FDA Warning</option>
+                            <option value="fraud_alert">Fraud Alert</option>
+                            <option value="quality_issue">Quality Issue</option>
+                            <option value="domain_change">Domain Change</option>
+                            <option value="acquisition">Acquisition</option>
+                            <option value="general">General</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div className="grid sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-xs text-gray-500 mb-1">Severity</label>
+                          <select
+                            name="severity"
+                            className="w-full px-3 py-2 bg-ink border border-white/10 rounded-lg text-sm text-white focus:outline-none focus:border-emerald/30"
+                          >
+                            <option value="critical">Critical (red banner)</option>
+                            <option value="warning">Warning (yellow)</option>
+                            <option value="info">Info (blue)</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-xs text-gray-500 mb-1">Expires At (optional)</label>
+                          <input
+                            name="expires_at"
+                            type="date"
+                            className="w-full px-3 py-2 bg-ink border border-white/10 rounded-lg text-sm text-white focus:outline-none focus:border-emerald/30"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-xs text-gray-500 mb-1">Headline *</label>
+                        <input
+                          name="headline"
+                          required
+                          className="w-full px-3 py-2 bg-ink border border-white/10 rounded-lg text-sm text-white placeholder-gray-600 focus:outline-none focus:border-emerald/30"
+                          placeholder="e.g. Vendor Shutdown Alert — Active"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs text-gray-500 mb-1">Banner Text (top bar, keep short)</label>
+                        <input
+                          name="banner_text"
+                          className="w-full px-3 py-2 bg-ink border border-white/10 rounded-lg text-sm text-white placeholder-gray-600 focus:outline-none focus:border-emerald/30"
+                          placeholder="e.g. PeptideGains.com is shutting down May 15, 2026."
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs text-gray-500 mb-1">Summary *</label>
+                        <textarea
+                          name="summary"
+                          required
+                          rows={3}
+                          className="w-full px-3 py-2 bg-ink border border-white/10 rounded-lg text-sm text-white placeholder-gray-600 focus:outline-none focus:border-emerald/30 resize-none"
+                          placeholder="Detailed alert description..."
+                        />
+                      </div>
+                      <div className="grid sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-xs text-gray-500 mb-1">Alternatives (comma-separated)</label>
+                          <input
+                            name="alternatives"
+                            className="w-full px-3 py-2 bg-ink border border-white/10 rounded-lg text-sm text-white placeholder-gray-600 focus:outline-none focus:border-emerald/30"
+                            placeholder="Vendor A, Vendor B, Vendor C"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs text-gray-500 mb-1">Link URL</label>
+                          <input
+                            name="link"
+                            className="w-full px-3 py-2 bg-ink border border-white/10 rounded-lg text-sm text-white placeholder-gray-600 focus:outline-none focus:border-emerald/30"
+                            placeholder="/blog/vendor-alert-slug"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-xs text-gray-500 mb-1">Link Text</label>
+                        <input
+                          name="link_text"
+                          className="w-full px-3 py-2 bg-ink border border-white/10 rounded-lg text-sm text-white placeholder-gray-600 focus:outline-none focus:border-emerald/30"
+                          placeholder="View full alert & transfer guide"
+                        />
+                      </div>
+                      <div className="flex items-center justify-end gap-3 pt-2">
+                        <button
+                          type="button"
+                          onClick={() => setShowAlertForm(false)}
+                          className="px-4 py-2 text-sm text-gray-400 hover:text-white transition-colors"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="submit"
+                          disabled={alertFormLoading}
+                          className="btn-glow px-6 py-2 bg-emerald text-white text-sm font-medium rounded-lg disabled:opacity-50 flex items-center gap-2"
+                        >
+                          {alertFormLoading && <Loader2 className="w-4 h-4 animate-spin" />}
+                          Publish Alert
+                        </button>
+                      </div>
+                    </form>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Active Alerts List */}
+              {alerts.length === 0 ? (
+                <div className="text-center py-16">
+                  <AlertTriangle className="w-10 h-10 text-gray-600 mx-auto mb-4" />
+                  <p className="text-gray-400 text-lg mb-2">No active alerts</p>
+                  <p className="text-gray-600 text-sm">
+                    Publish an alert when a vendor shutdown, FDA warning, or quality issue is detected.
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {alerts.map((alert) => {
+                    const severityColors = {
+                      critical: { bg: "bg-red-950/40 border-red-500/30", text: "text-red-400", badge: "bg-red-500/20 text-red-400" },
+                      warning: { bg: "bg-yellow-950/30 border-yellow-500/30", text: "text-yellow-400", badge: "bg-yellow-500/20 text-yellow-400" },
+                      info: { bg: "bg-blue-950/30 border-blue-500/30", text: "text-blue-400", badge: "bg-blue-500/20 text-blue-400" },
+                    };
+                    const colors = severityColors[alert.severity as keyof typeof severityColors] || severityColors.warning;
+
+                    return (
+                      <div
+                        key={alert.id}
+                        className={`p-5 border rounded-xl ${colors.bg}`}
+                      >
+                        <div className="flex items-start justify-between gap-4">
+                          <div className="flex items-start gap-3 flex-1">
+                            <AlertTriangle className={`w-5 h-5 ${colors.text} flex-shrink-0 mt-0.5`} />
+                            <div>
+                              <div className="flex flex-wrap items-center gap-2 mb-1">
+                                <h4 className={`text-sm font-bold ${colors.text}`}>{alert.headline}</h4>
+                                <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${colors.badge}`}>
+                                  {alert.severity.toUpperCase()}
+                                </span>
+                                <span className="text-[10px] px-2 py-0.5 rounded-full bg-ink-3 text-gray-400">
+                                  {alert.alert_type.replace("_", " ")}
+                                </span>
+                              </div>
+                              <p className="text-sm text-gray-400 mb-1">{alert.vendor_name}</p>
+                              <p className="text-xs text-gray-500 line-clamp-2">{alert.summary}</p>
+                              {alert.alternatives.length > 0 && (
+                                <p className="text-xs text-gray-500 mt-1">
+                                  Alternatives: {alert.alternatives.join(", ")}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                          <button
+                            onClick={async () => {
+                              setActionLoading(alert.id);
+                              await resolveAlert(alert.id);
+                              setAlerts((prev) => prev.filter((a) => a.id !== alert.id));
+                              setActionLoading(null);
+                            }}
+                            disabled={actionLoading === alert.id}
+                            className="px-3 py-1.5 text-xs font-medium text-gray-400 border border-white/10 rounded-lg hover:bg-white/5 hover:text-white transition-all flex-shrink-0 disabled:opacity-50"
+                          >
+                            {actionLoading === alert.id ? "..." : "Resolve"}
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </motion.div>
           )}
 
