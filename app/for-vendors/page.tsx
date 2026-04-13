@@ -33,8 +33,6 @@ const tiers = [
     name: "Free",
     price: "$0",
     period: "forever",
-    yearlyPrice: null,
-    yearlySavings: null,
     description: "Get listed instantly — no documents needed",
     cta: "Claim Free Listing",
     ctaStyle: "border" as const,
@@ -51,14 +49,11 @@ const tiers = [
     name: "Pro",
     price: "$199",
     period: "/mo",
-    yearlyPrice: "$1,990",
-    yearlySavings: "Save $398",
     description: "Enhanced visibility and insights",
     cta: "Upgrade to Pro",
     ctaStyle: "solid" as const,
     popular: true,
-    stripePlanMonthly: "pro_monthly" as const,
-    stripePlanYearly: "pro_yearly" as const,
+    stripePlan: "pro_monthly" as const,
     features: [
       "Everything in Free",
       "Priority COA verification",
@@ -73,13 +68,10 @@ const tiers = [
     name: "Enterprise",
     price: "$599",
     period: "/mo",
-    yearlyPrice: "$4,792",
-    yearlySavings: "Save $1,396",
     description: "Full platform power for market leaders",
     cta: "Contact Sales",
     ctaStyle: "gradient" as const,
-    stripePlanMonthly: "enterprise_monthly" as const,
-    stripePlanYearly: "enterprise_yearly" as const,
+    stripePlan: "enterprise_monthly" as const,
     features: [
       "Everything in Pro",
       "Real-time COA monitoring",
@@ -199,7 +191,7 @@ export default function ForVendorsPage() {
   const [authOpen, setAuthOpen] = useState(false);
   const [claimOpen, setClaimOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
-  const [yearlyBilling, setYearlyBilling] = useState(true);
+  // Monthly billing only — no yearly toggle
   const [checkoutLoading, setCheckoutLoading] = useState<string | null>(null);
   const supabase = createClient();
 
@@ -226,7 +218,7 @@ export default function ForVendorsPage() {
     }
   };
 
-  const handleUpgrade = async (plan: "pro_monthly" | "pro_yearly" | "enterprise_monthly" | "enterprise_yearly") => {
+  const handleUpgrade = async (plan: any) => {
     if (!user) {
       setAuthOpen(true);
       return;
@@ -427,38 +419,11 @@ export default function ForVendorsPage() {
 
           {user ? (
             <>
-              {/* Billing toggle */}
-              <div className="flex items-center justify-center gap-4 mb-12">
-                <span
-                  className={`text-sm ${!yearlyBilling ? "text-white font-medium" : "text-gray-500"}`}
-                >
-                  Monthly
-                </span>
-                <button
-                  onClick={() => setYearlyBilling(!yearlyBilling)}
-                  className={`relative w-14 h-7 rounded-full transition-colors ${
-                    yearlyBilling ? "bg-emerald" : "bg-ink-3 border border-white/10"
-                  }`}
-                >
-                  <div
-                    className={`absolute top-0.5 w-6 h-6 bg-white rounded-full shadow transition-transform ${
-                      yearlyBilling ? "translate-x-7" : "translate-x-0.5"
-                    }`}
-                  />
-                </button>
-                <span
-                  className={`text-sm ${yearlyBilling ? "text-white font-medium" : "text-gray-500"}`}
-                >
-                  Yearly
-                </span>
-                {yearlyBilling && (
-                  <span className="text-xs bg-emerald/20 text-emerald px-2 py-0.5 rounded-full font-medium">
-                    Save 20%
-                  </span>
-                )}
-              </div>
+              {/* Pricing cards — monthly only, cancel anytime */}
+              <p className="text-center text-sm text-gray-500 mb-8">
+                Billed monthly &middot; Cancel anytime &middot; 14-day free trial on Pro
+              </p>
 
-              {/* Pricing cards */}
               <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
                 {tiers.map((tier, i) => (
                   <motion.div
@@ -489,20 +454,14 @@ export default function ForVendorsPage() {
                     <div className="mb-6">
                       <div className="flex items-baseline gap-1">
                         <span className="text-4xl font-bold text-white">
-                          {tier.yearlyPrice && yearlyBilling
-                            ? tier.yearlyPrice
-                            : tier.price}
+                          {tier.price}
                         </span>
                         <span className="text-gray-500 text-sm">
-                          {tier.yearlyPrice && yearlyBilling
-                            ? "/yr"
-                            : tier.period}
+                          {tier.period}
                         </span>
                       </div>
-                      {tier.yearlySavings && yearlyBilling && (
-                        <p className="text-xs text-emerald mt-1 font-medium">
-                          {tier.yearlySavings}
-                        </p>
+                      {tier.name !== "Free" && (
+                        <p className="text-xs text-gray-500 mt-1">Cancel anytime</p>
                       )}
                     </div>
 
@@ -531,17 +490,11 @@ export default function ForVendorsPage() {
                       </button>
                     ) : (
                       <button
-                        onClick={() =>
-                          handleUpgrade(
-                            yearlyBilling
-                              ? tier.stripePlanYearly!
-                              : tier.stripePlanMonthly!
-                          )
-                        }
+                        onClick={() => handleUpgrade(tier.stripePlan!)}
                         disabled={checkoutLoading !== null}
                         className="btn-glow w-full py-3 bg-emerald text-white font-semibold rounded-xl hover:bg-emerald-light disabled:opacity-50"
                       >
-                        {checkoutLoading === (yearlyBilling ? tier.stripePlanYearly : tier.stripePlanMonthly)
+                        {checkoutLoading === tier.stripePlan
                           ? "Redirecting..."
                           : tier.cta}
                       </button>
