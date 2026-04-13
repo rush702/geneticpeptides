@@ -1,0 +1,1952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PepAssure — AI-Powered Peptide Vendor Rankings</title>
+
+  <!-- Supabase config — injected by deploy script -->
+  <script>
+    window.SUPABASE_URL      = "https://atyaqyotrntnfchhdzvw.supabase.co";
+    window.SUPABASE_ANON_KEY = "sb_publishable_fQsKvj_UW2Zwcjt0_bb1Tg_Dhjedkht";
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
+  <style>
+    /* ── Claim Modal ── */
+    .modal-overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:16px;}
+    .modal-overlay.open{display:flex;}
+    .modal{background:white;border-radius:20px;width:100%;max-width:500px;box-shadow:0 24px 80px rgba(0,0,0,.25);overflow:hidden;animation:mIn .22s ease;}
+    @keyframes mIn{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+    .modal-hd{background:linear-gradient(135deg,#0a1628 0%,#0d2a4a 100%);padding:26px 28px 20px;position:relative;}
+    .modal-hd h2{font-size:1.2rem;font-weight:900;color:white;margin-bottom:3px;}
+    .modal-hd p{font-size:.8rem;color:rgba(255,255,255,.52);}
+    .modal-x{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.1);border:none;color:white;width:30px;height:30px;border-radius:50%;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;}
+    .modal-x:hover{background:rgba(255,255,255,.2);}
+    .modal-bd{padding:24px 28px;}
+    .f-row{margin-bottom:16px;}
+    .f-row label{display:block;font-size:.79rem;font-weight:700;margin-bottom:5px;}
+    .f-row .req{color:#ef4444;margin-left:2px;}
+    .f-row input,.f-row textarea{width:100%;padding:9px 13px;border:1.5px solid #e2e8f0;border-radius:9px;font-size:.87rem;font-family:inherit;outline:none;transition:border-color .15s,box-shadow .15s;}
+    .f-row input:focus,.f-row textarea:focus{border-color:#3b82f6;box-shadow:0 0 0 3px rgba(59,130,246,.1);}
+    .f-row textarea{resize:vertical;min-height:70px;}
+    .f-row.two{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    .f-note{font-size:.72rem;color:#94a3b8;margin-top:4px;}
+    .f-err{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.24);color:#ef4444;font-size:.8rem;padding:9px 13px;border-radius:8px;margin-bottom:14px;display:none;}
+    .f-err.show{display:block;}
+    .btn-sub{width:100%;padding:13px;border-radius:9px;border:none;background:#10b981;color:white;font-size:.93rem;font-weight:800;cursor:pointer;transition:background .15s;display:flex;align-items:center;justify-content:center;gap:8px;}
+    .btn-sub:hover:not(:disabled){background:#059669;}
+    .btn-sub:disabled{opacity:.6;cursor:not-allowed;}
+    .spin{width:17px;height:17px;border:2.5px solid rgba(255,255,255,.35);border-top-color:white;border-radius:50%;animation:sp .7s linear infinite;}
+    @keyframes sp{to{transform:rotate(360deg)}}
+    .suc-state{display:none;text-align:center;padding:8px 0;}
+    .suc-state.show{display:block;}
+    .suc-icon{width:64px;height:64px;border-radius:50%;background:rgba(16,185,129,.1);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:1.8rem;}
+    .suc-state h3{font-size:1.2rem;font-weight:900;margin-bottom:7px;}
+    .suc-state p{font-size:.83rem;color:#64748b;line-height:1.65;max-width:340px;margin:0 auto 18px;}
+    .btn-suc-close{background:#0a1628;color:white;padding:10px 26px;border-radius:9px;border:none;font-size:.86rem;font-weight:700;cursor:pointer;}
+  </style>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:   #0a1628;
+      --navy2:  #0f2040;
+      --blue:   #1a56db;
+      --blue2:  #3b82f6;
+      --teal:   #06b6d4;
+      --green:  #10b981;
+      --amber:  #f59e0b;
+      --red:    #ef4444;
+      --orange: #f97316;
+      --purple: #8b5cf6;
+      --gray1:  #f8fafc;
+      --gray2:  #e2e8f0;
+      --gray3:  #94a3b8;
+      --gray4:  #64748b;
+      --white:  #ffffff;
+      --text:   #0f172a;
+      --shadow: 0 4px 24px rgba(0,0,0,.10);
+      --radius: 14px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--gray1); color: var(--text); }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── STICKY HEADER ── */
+    #header {
+      position: sticky; top: 0; z-index: 1000;
+      background: rgba(10,22,40,.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      padding: 0 24px;
+    }
+    .header-inner {
+      max-width: 1280px; margin: 0 auto;
+      display: flex; align-items: center; gap: 16px;
+      height: 62px;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 9px;
+      font-size: 1.2rem; font-weight: 800; color: var(--white);
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .logo-icon {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--blue) 0%, var(--teal) 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .78rem; font-weight: 900; color: white;
+    }
+    .logo .brand-accent { color: var(--teal); }
+    nav { display: flex; align-items: center; gap: 2px; margin-left: 12px; }
+    nav a {
+      font-size: .82rem; font-weight: 500; color: rgba(255,255,255,.7);
+      padding: 6px 12px; border-radius: 7px; transition: all .18s; white-space: nowrap;
+    }
+    nav a:hover, nav a.active { background: rgba(255,255,255,.09); color: #fff; }
+    .header-search {
+      flex: 1; max-width: 300px; margin-left: auto; position: relative;
+    }
+    .header-search input {
+      width: 100%; padding: 7px 14px 7px 36px;
+      background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12);
+      border-radius: 8px; color: white; font-size: .82rem; outline: none;
+      transition: border-color .15s;
+    }
+    .header-search input:focus { border-color: var(--blue2); }
+    .header-search input::placeholder { color: rgba(255,255,255,.38); }
+    .search-icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,.38); font-size: .82rem; }
+    .live-badge {
+      display: flex; align-items: center; gap: 6px;
+      font-size: .75rem; color: var(--green); font-weight: 600;
+      background: rgba(16,185,129,.12); border: 1px solid rgba(16,185,129,.25);
+      padding: 4px 11px; border-radius: 20px; white-space: nowrap; flex-shrink: 0;
+    }
+    .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.55;transform:scale(1.35)} }
+
+    /* ── ALERT BAR ── */
+    .alert-bar {
+      background: linear-gradient(90deg, #7c3aed 0%, #4f46e5 100%);
+      padding: 9px 24px; text-align: center;
+    }
+    .alert-bar p { font-size: .81rem; color: white; font-weight: 500; }
+    .alert-bar a { color: #c4b5fd; text-decoration: underline; }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(155deg, var(--navy) 0%, #0d1f3c 55%, #081828 100%);
+      padding: 84px 24px 72px; position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(26,86,219,.22) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content:''; position:absolute; top:0; left:0; right:0; bottom:0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .hero-inner { max-width: 880px; margin: 0 auto; text-align: center; position: relative; z-index: 1; }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(26,86,219,.18); border: 1px solid rgba(59,130,246,.3);
+      color: var(--blue2); font-size: .78rem; font-weight: 700;
+      padding: 5px 15px; border-radius: 20px; margin-bottom: 24px;
+      text-transform: uppercase; letter-spacing: .08em;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; color: white;
+      line-height: 1.1; letter-spacing: -.025em; margin-bottom: 20px;
+    }
+    .hero h1 .accent { color: var(--teal); }
+    .hero-sub {
+      font-size: 1.1rem; color: rgba(255,255,255,.6);
+      max-width: 580px; margin: 0 auto 32px; line-height: 1.68;
+    }
+
+    /* ── GLOBAL SEARCH ── */
+    .global-search {
+      max-width: 760px; margin: 0 auto 18px; position: relative;
+    }
+    .gs-bar {
+      display: flex; align-items: center; gap: 10px;
+      background: rgba(255,255,255,.08);
+      border: 1.5px solid rgba(255,255,255,.18);
+      border-radius: 16px; padding: 8px 8px 8px 20px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 8px 32px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.08);
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .gs-bar:focus-within {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 4px rgba(6,182,212,.18), 0 8px 32px rgba(0,0,0,.3);
+    }
+    .gs-icon { font-size: 1.1rem; opacity: .8; }
+    .gs-input {
+      flex: 1; background: transparent; border: none; outline: none;
+      color: white; font-size: 1.02rem; font-weight: 500; padding: 14px 6px;
+      font-family: inherit;
+    }
+    .gs-input::placeholder { color: rgba(255,255,255,.45); }
+    .gs-filter-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,.08); color: rgba(255,255,255,.85);
+      border: 1px solid rgba(255,255,255,.12); border-radius: 11px;
+      padding: 10px 14px; font-size: .82rem; font-weight: 600;
+      cursor: pointer; transition: all .18s;
+      font-family: inherit;
+    }
+    .gs-filter-btn:hover { background: rgba(255,255,255,.14); border-color: rgba(255,255,255,.22); }
+    .gs-filter-btn .gs-count {
+      background: var(--teal); color: var(--navy);
+      border-radius: 8px; padding: 1px 7px; font-size: .72rem; font-weight: 800;
+      margin-left: 2px;
+    }
+    .gs-submit {
+      background: linear-gradient(135deg, var(--teal), var(--blue2));
+      color: white; border: none; border-radius: 11px;
+      padding: 12px 22px; font-size: .88rem; font-weight: 700;
+      cursor: pointer; transition: transform .15s, box-shadow .15s;
+      font-family: inherit;
+      box-shadow: 0 4px 14px rgba(6,182,212,.35);
+    }
+    .gs-submit:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(6,182,212,.45); }
+
+    /* Advanced filters panel */
+    .gs-filters {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 14px; padding: 18px 20px;
+      margin-top: 10px;
+      max-width: 760px; margin-left: auto; margin-right: auto;
+      display: none; text-align: left;
+      backdrop-filter: blur(8px);
+    }
+    .gs-filters.open { display: block; animation: gsFade .22s ease; }
+    @keyframes gsFade { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+    .gs-filters-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+    }
+    .gs-field label {
+      display: block; font-size: .72rem; font-weight: 700;
+      color: rgba(255,255,255,.55); text-transform: uppercase;
+      letter-spacing: .06em; margin-bottom: 6px;
+    }
+    .gs-field select, .gs-field input[type="text"], .gs-field input[type="number"] {
+      width: 100%; background: rgba(10,22,40,.55);
+      border: 1px solid rgba(255,255,255,.15); border-radius: 9px;
+      padding: 9px 12px; color: white; font-size: .86rem;
+      font-family: inherit; outline: none;
+      transition: border-color .18s;
+    }
+    .gs-field select:focus, .gs-field input:focus { border-color: var(--teal); }
+    .gs-range { display: flex; align-items: center; gap: 8px; }
+    .gs-range span { color: rgba(255,255,255,.4); font-size: .85rem; }
+    .gs-check-row {
+      grid-column: 1 / -1; display: flex; align-items: center;
+      gap: 10px; padding: 10px 12px;
+      background: rgba(245,197,24,.08);
+      border: 1px solid rgba(245,197,24,.25);
+      border-radius: 10px; cursor: pointer;
+      transition: background .18s;
+    }
+    .gs-check-row:hover { background: rgba(245,197,24,.12); }
+    .gs-check-row input[type="checkbox"] {
+      width: 18px; height: 18px; accent-color: #f5c518; cursor: pointer;
+    }
+    .gs-check-row .gs-check-label {
+      color: white; font-size: .88rem; font-weight: 600;
+    }
+    .gs-check-row .gs-check-hint {
+      color: rgba(255,255,255,.5); font-size: .74rem; margin-left: auto;
+    }
+    .gs-filters-actions {
+      display: flex; justify-content: flex-end; gap: 10px;
+      margin-top: 14px; padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .gs-clear {
+      background: transparent; color: rgba(255,255,255,.6);
+      border: 1px solid rgba(255,255,255,.15); border-radius: 9px;
+      padding: 8px 14px; font-size: .8rem; font-weight: 600;
+      cursor: pointer; font-family: inherit;
+    }
+    .gs-clear:hover { color: white; border-color: rgba(255,255,255,.3); }
+    .gs-apply {
+      background: var(--teal); color: var(--navy);
+      border: none; border-radius: 9px;
+      padding: 9px 18px; font-size: .82rem; font-weight: 700;
+      cursor: pointer; font-family: inherit;
+    }
+    @media (max-width: 640px) {
+      .gs-bar { flex-wrap: wrap; padding: 10px; }
+      .gs-input { flex-basis: 100%; padding: 10px 6px; }
+      .gs-filter-btn, .gs-submit { flex: 1; justify-content: center; }
+    }
+
+    /* Shutdown box */
+    .shutdown-box {
+      background: rgba(239,68,68,.1); border: 1px solid rgba(239,68,68,.3);
+      border-radius: 12px; padding: 16px 22px;
+      display: flex; align-items: flex-start; gap: 13px;
+      max-width: 700px; margin: 0 auto 38px; text-align: left;
+    }
+    .sd-icon { font-size: 1.25rem; flex-shrink: 0; margin-top: 1px; }
+    .shutdown-box strong { color: #fca5a5; font-size: .9rem; display: block; margin-bottom: 4px; }
+    .shutdown-box p { color: rgba(255,255,255,.62); font-size: .81rem; line-height: 1.58; }
+    .shutdown-box a { color: #93c5fd; text-decoration: underline; }
+
+    /* Trust bar */
+    .trust-bar {
+      display: inline-flex; align-items: center; flex-wrap: wrap;
+      gap: 8px 20px; padding: 13px 22px;
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+      border-radius: 12px; justify-content: center;
+    }
+    .trust-item { display: flex; align-items: center; gap: 7px; color: rgba(255,255,255,.75); font-size: .79rem; font-weight: 500; }
+    .trust-sep { color: rgba(255,255,255,.2); }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      background: linear-gradient(90deg, #1a3a70 0%, var(--navy2) 100%);
+      border-top: 1px solid rgba(255,255,255,.06);
+      padding: 32px 24px;
+    }
+    .stats-inner { max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; text-align: center; }
+    .stat-n { font-size: 2.1rem; font-weight: 900; color: white; line-height: 1; }
+    .stat-l { font-size: .78rem; color: rgba(255,255,255,.55); margin-top: 6px; }
+
+    /* ── VENDOR RANKINGS ── */
+    .section { padding: 68px 24px; }
+    .section-inner { max-width: 1240px; margin: 0 auto; }
+    .section-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 28px; flex-wrap: wrap; gap: 12px; }
+    .section-title { font-size: 1.65rem; font-weight: 800; }
+    .section-title .accent { color: var(--blue); }
+    .section-sub { font-size: .85rem; color: var(--gray4); margin-top: 5px; }
+    .view-all { font-size: .8rem; font-weight: 700; color: var(--blue); border: 2px solid var(--blue); padding: 6px 16px; border-radius: 7px; transition: all .15s; }
+    .view-all:hover { background: var(--blue); color: white; }
+
+    /* Filter tabs */
+    .filter-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
+    .ftab { font-size: .79rem; font-weight: 600; padding: 6px 16px; border-radius: 20px; border: 1.5px solid var(--gray2); color: var(--gray4); background: white; cursor: pointer; transition: all .15s; }
+    .ftab.active { background: var(--blue); color: white; border-color: var(--blue); }
+    .ftab:hover:not(.active) { border-color: var(--blue); color: var(--blue); }
+
+    /* Vendor grid */
+    .vendor-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; }
+    .vendor-card {
+      background: white; border-radius: var(--radius);
+      border: 1.5px solid var(--gray2); box-shadow: var(--shadow);
+      overflow: hidden; transition: transform .18s, box-shadow .18s;
+    }
+    .vendor-card:hover { transform: translateY(-3px); box-shadow: 0 14px 38px rgba(0,0,0,.13); }
+    .vendor-card.top { border-color: #3b82f6; border-width: 2px; }
+
+    .vc-head { padding: 18px 20px 14px; display: flex; align-items: center; gap: 13px; }
+    .vc-rank {
+      width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .7rem; font-weight: 800; color: white;
+    }
+    .r1 { background: linear-gradient(135deg,#f59e0b,#d97706); }
+    .r2 { background: linear-gradient(135deg,#94a3b8,#64748b); }
+    .r3 { background: linear-gradient(135deg,#cd7c5e,#a85540); }
+    .r-n { background: #64748b; }
+    .vc-emoji { width: 46px; height: 46px; border-radius: 10px; background: var(--gray1); border: 1.5px solid var(--gray2); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
+    .vc-meta { flex: 1; min-width: 0; }
+    .vc-name { font-size: .98rem; font-weight: 800; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .vc-url { font-size: .73rem; color: var(--gray3); }
+    .vc-badges { display: flex; gap: 5px; margin-top: 5px; flex-wrap: wrap; }
+    .badge { font-size: .66rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; text-transform: uppercase; letter-spacing: .04em; }
+    .b-f { background: rgba(139,92,246,.11); color: var(--purple); border: 1px solid rgba(139,92,246,.24); }
+    .b-v { background: rgba(16,185,129,.1); color: var(--green); border: 1px solid rgba(16,185,129,.24); }
+    .b-t { background: rgba(26,86,219,.1); color: var(--blue); border: 1px solid rgba(26,86,219,.2); }
+    .b-n { background: rgba(245,158,11,.1); color: var(--amber); border: 1px solid rgba(245,158,11,.24); }
+
+    /* PVS circle */
+    .pvs-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; flex-shrink: 0; }
+    .pvs-ring {
+      width: 60px; height: 60px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; position: relative;
+    }
+    .pvs-inner {
+      width: 44px; height: 44px; border-radius: 50%; background: white;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .93rem; font-weight: 900; position: absolute;
+    }
+    .pvs-lbl { font-size: .62rem; font-weight: 700; color: var(--gray3); text-transform: uppercase; letter-spacing: .06em; }
+
+    /* Pillar bars */
+    .vc-bars { padding: 12px 20px; }
+    .pb-row { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+    .pb-row:last-child { margin-bottom: 0; }
+    .pb-n { font-size: .71rem; color: var(--gray4); font-weight: 600; width: 98px; flex-shrink: 0; }
+    .pb-track { flex: 1; height: 6px; background: var(--gray2); border-radius: 3px; overflow: hidden; }
+    .pb-fill { height: 100%; border-radius: 3px; }
+    .fp { background: linear-gradient(90deg,#3b82f6,#06b6d4); }
+    .fr { background: linear-gradient(90deg,#10b981,#34d399); }
+    .fc { background: linear-gradient(90deg,#f59e0b,#fbbf24); }
+    .fm { background: linear-gradient(90deg,#8b5cf6,#a78bfa); }
+    .fpr { background: linear-gradient(90deg,#f97316,#fb923c); }
+    .pb-v { font-size: .71rem; font-weight: 700; color: var(--text); width: 30px; text-align: right; flex-shrink: 0; }
+
+    /* Card footer */
+    .vc-foot { padding: 11px 20px; display: flex; gap: 8px; border-top: 1px solid var(--gray2); background: var(--gray1); }
+    .btn-s { flex: 1; padding: 8px; border-radius: 8px; font-size: .77rem; font-weight: 700; cursor: pointer; transition: all .15s; border: 1.5px solid var(--gray2); background: white; color: var(--gray4); }
+    .btn-s:hover { border-color: var(--blue); color: var(--blue); }
+    .btn-v { flex: 1; padding: 8px; border-radius: 8px; font-size: .77rem; font-weight: 700; cursor: pointer; background: var(--navy); color: white; border: none; transition: background .15s; }
+    .btn-v:hover { background: var(--navy2); }
+    .btn-c { flex: 1; padding: 8px; border-radius: 8px; font-size: .77rem; font-weight: 700; cursor: pointer; background: var(--blue); color: white; border: none; transition: background .15s; }
+    .btn-c:hover { background: #1d4ed8; }
+
+    /* ── METHODOLOGY ── */
+    .method-section {
+      background: linear-gradient(155deg, var(--navy) 0%, #0d1f3c 100%);
+      padding: 84px 24px;
+    }
+    .method-inner { max-width: 1100px; margin: 0 auto; }
+    .section-title-white { font-size: 1.65rem; font-weight: 800; color: white; text-align: center; margin-bottom: 8px; }
+    .section-sub-white { font-size: .88rem; color: rgba(255,255,255,.48); text-align: center; }
+
+    /* Timeline */
+    .timeline {
+      display: flex; margin: 52px 0 60px; overflow-x: auto;
+      position: relative; padding-bottom: 4px; gap: 0;
+    }
+    .timeline::before {
+      content:''; position:absolute; top:31px; left:9%; right:9%; height:2px;
+      background: linear-gradient(90deg,var(--blue),var(--teal),var(--green)); z-index:0;
+    }
+    .tl-step {
+      flex: 1; min-width: 155px; display: flex; flex-direction: column;
+      align-items: center; text-align: center; position: relative; z-index: 1; padding: 0 10px;
+    }
+    .tl-icon {
+      width: 62px; height: 62px; border-radius: 50%; flex-shrink: 0;
+      background: var(--navy2); border: 2px solid rgba(255,255,255,.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.45rem; margin-bottom: 16px;
+      box-shadow: 0 0 0 6px var(--navy);
+    }
+    .tl-step.lit .tl-icon {
+      background: var(--blue); border-color: var(--blue2);
+      box-shadow: 0 0 0 6px var(--navy), 0 0 22px rgba(26,86,219,.4);
+    }
+    .tl-num { font-size: .62rem; font-weight: 800; color: var(--teal); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 5px; }
+    .tl-label { font-size: .88rem; font-weight: 700; color: white; margin-bottom: 6px; line-height: 1.28; }
+    .tl-desc { font-size: .74rem; color: rgba(255,255,255,.48); line-height: 1.52; }
+    .tl-arrow { display:flex;align-items:center;flex-shrink:0;color:rgba(255,255,255,.22);font-size:1rem;padding-bottom:46px; }
+
+    /* Pillar weights */
+    .pw-title { font-size: 1.05rem; font-weight: 700; color: white; text-align: center; margin-bottom: 22px; }
+    .pw-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px,1fr)); gap: 14px; }
+    .pw-card {
+      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08);
+      border-radius: 12px; padding: 18px 16px; text-align: center; transition: background .18s;
+    }
+    .pw-card:hover { background: rgba(255,255,255,.08); }
+    .pw-pct { font-size: 2rem; font-weight: 900; margin-bottom: 5px; }
+    .pw-name { font-size: .82rem; font-weight: 700; color: rgba(255,255,255,.8); margin-bottom: 10px; }
+    .pw-bar { height: 5px; border-radius: 3px; background: rgba(255,255,255,.1); overflow:hidden; margin-bottom: 10px; }
+    .pw-fill { height:100%; border-radius:3px; }
+    .pw-desc { font-size: .71rem; color: rgba(255,255,255,.42); line-height: 1.45; }
+
+    /* ── DATA SOURCES ── */
+    .data-section { padding: 68px 24px; background: white; }
+    .data-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px,1fr)); gap: 18px; margin-top: 36px; }
+    .data-card { border: 1.5px solid var(--gray2); border-radius: 12px; padding: 22px; transition: all .18s; }
+    .data-card:hover { border-color: var(--blue2); box-shadow: 0 4px 18px rgba(26,86,219,.08); }
+    .data-icon { font-size: 1.9rem; margin-bottom: 13px; display: block; }
+    .data-title { font-size: .93rem; font-weight: 800; margin-bottom: 7px; }
+    .data-desc { font-size: .79rem; color: var(--gray4); line-height: 1.6; }
+    .data-stat { font-size: 1.3rem; font-weight: 900; color: var(--blue); margin-top: 11px; }
+
+    /* ── CTA ── */
+    .cta-band { padding: 76px 24px; text-align: center; background: var(--gray1); }
+    .cta-band h2 { font-size: 2rem; font-weight: 900; margin-bottom: 12px; }
+    .cta-band p { color: var(--gray4); max-width: 500px; margin: 0 auto 28px; font-size: .92rem; line-height: 1.6; }
+    .cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary { background: var(--blue); color: white; font-weight: 700; padding: 13px 28px; border-radius: 9px; font-size: .93rem; border: none; cursor: pointer; transition: background .15s; }
+    .btn-primary:hover { background: #1d4ed8; }
+    .btn-outline { background: white; color: var(--blue); font-weight: 700; padding: 13px 28px; border-radius: 9px; font-size: .93rem; border: 2px solid var(--blue); cursor: pointer; transition: all .15s; }
+    .btn-outline:hover { background: var(--blue); color: white; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--navy); padding: 52px 24px 28px; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; }
+    .footer-top { display: flex; flex-wrap: wrap; gap: 40px; margin-bottom: 36px; }
+    .footer-brand { flex: 0 0 220px; }
+    .footer-brand p { font-size: .78rem; color: rgba(255,255,255,.5); line-height: 1.65; margin-top: 12px; }
+    .footer-col h4 { color: white; font-size: .8rem; font-weight: 700; margin-bottom: 14px; text-transform: uppercase; letter-spacing: .07em; }
+    .footer-col a { display: block; font-size: .78rem; color: rgba(255,255,255,.48); margin-bottom: 8px; transition: color .15s; }
+    .footer-col a:hover { color: white; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.08); padding-top: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+    .footer-copy { font-size: .72rem; color: rgba(255,255,255,.38); }
+    .footer-links { display: flex; gap: 18px; }
+    .footer-links a { font-size: .72rem; color: rgba(255,255,255,.38); transition: color .15s; }
+    .footer-links a:hover { color: rgba(255,255,255,.8); }
+
+    @media(max-width:768px) {
+      nav { display:none; }
+      .vendor-grid { grid-template-columns:1fr; }
+      .timeline::before { display:none; }
+      .tl-step { min-width:130px; }
+      .hero h1 { font-size:2rem; }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       v3 ENHANCEMENTS — hover, molecular bg, emerald accents,
+       sticky header polish
+    ═══════════════════════════════════════════════════════ */
+
+    /* Molecular SVG background — applied to body, sits behind content */
+    body {
+      position: relative;
+      background-color: var(--gray1);
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-image:
+        radial-gradient(circle at 20% 25%, rgba(16,185,129,0.045) 0%, transparent 38%),
+        radial-gradient(circle at 80% 70%, rgba(6,182,212,0.035) 0%, transparent 42%),
+        url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Cg fill='none' stroke='%2310b981' stroke-width='1' stroke-opacity='0.085'%3E%3Ccircle cx='40' cy='40' r='5'/%3E%3Ccircle cx='110' cy='80' r='5'/%3E%3Ccircle cx='180' cy='40' r='5'/%3E%3Ccircle cx='75' cy='150' r='5'/%3E%3Ccircle cx='165' cy='160' r='5'/%3E%3Cline x1='40' y1='40' x2='110' y2='80'/%3E%3Cline x1='110' y1='80' x2='180' y2='40'/%3E%3Cline x1='110' y1='80' x2='75' y2='150'/%3E%3Cline x1='75' y1='150' x2='165' y2='160'/%3E%3Cline x1='110' y1='80' x2='165' y2='160'/%3E%3C/g%3E%3C/svg%3E");
+      background-repeat: repeat;
+    }
+    /* Make sure sections render above the molecular layer */
+    header, section, .alert-bar, footer { position: relative; z-index: 1; }
+
+    /* ── STICKY HEADER POLISH ── */
+    #header {
+      background: rgba(8, 18, 34, 0.92);
+      backdrop-filter: blur(16px) saturate(140%);
+      -webkit-backdrop-filter: blur(16px) saturate(140%);
+      border-bottom: 1px solid rgba(16,185,129,.18);
+      box-shadow: 0 4px 24px rgba(0,0,0,.35), 0 1px 0 rgba(16,185,129,.08) inset;
+      transition: box-shadow .25s, border-color .25s;
+    }
+    #header::after {
+      content: '';
+      position: absolute; left: 0; right: 0; bottom: -1px; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(16,185,129,.55), rgba(6,182,212,.55), transparent);
+      opacity: .8;
+    }
+    nav { gap: 4px; }
+    nav a {
+      position: relative;
+      font-size: .85rem; font-weight: 600;
+      color: rgba(255,255,255,.78);
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: color .18s, background .18s;
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      left: 14px; right: 14px; bottom: 4px;
+      height: 2px; border-radius: 2px;
+      background: linear-gradient(90deg, var(--green), var(--teal));
+      transform: scaleX(0); transform-origin: left center;
+      transition: transform .25s ease;
+    }
+    nav a:hover, nav a.active {
+      color: #fff;
+      background: rgba(16,185,129,.10);
+    }
+    nav a:hover::after, nav a.active::after { transform: scaleX(1); }
+
+    /* ── CARD HOVER ENHANCEMENTS ── */
+
+    /* Vendor cards: stronger lift, emerald glow, brighten emoji */
+    .vendor-card {
+      transition: transform .28s cubic-bezier(.2,.8,.2,1),
+                  box-shadow .28s cubic-bezier(.2,.8,.2,1),
+                  border-color .28s;
+      will-change: transform;
+    }
+    .vendor-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      border-color: rgba(16,185,129,.55);
+      box-shadow:
+        0 24px 60px -12px rgba(16,185,129,.35),
+        0 10px 30px rgba(0,0,0,.18),
+        0 0 0 1px rgba(16,185,129,.25);
+    }
+    .vendor-card:hover .vc-emoji {
+      transform: scale(1.12) rotate(-3deg);
+      filter: drop-shadow(0 4px 14px rgba(16,185,129,.55)) brightness(1.18);
+      border-color: rgba(16,185,129,.5);
+      background: rgba(16,185,129,.08);
+    }
+    .vc-emoji { transition: transform .3s, filter .3s, border-color .3s, background .3s; }
+    .vendor-card:hover .pvs-ring { filter: drop-shadow(0 0 10px rgba(16,185,129,.5)); }
+    .pvs-ring { transition: filter .3s; }
+
+    /* Pillar weight cards (dark sections) */
+    .pw-card {
+      transition: transform .25s cubic-bezier(.2,.8,.2,1),
+                  background .25s, border-color .25s, box-shadow .25s;
+    }
+    .pw-card:hover {
+      transform: translateY(-4px) scale(1.04);
+      background: rgba(16,185,129,.10);
+      border-color: rgba(16,185,129,.42);
+      box-shadow: 0 18px 42px -10px rgba(16,185,129,.45), 0 0 0 1px rgba(16,185,129,.2);
+    }
+    .pw-card .pw-pct { transition: filter .25s, transform .25s; }
+    .pw-card:hover .pw-pct { filter: drop-shadow(0 0 12px rgba(16,185,129,.55)); transform: scale(1.06); }
+
+    /* Data source cards (light section) */
+    .data-card {
+      transition: transform .28s cubic-bezier(.2,.8,.2,1),
+                  border-color .25s, box-shadow .25s, background .25s;
+    }
+    .data-card:hover {
+      transform: translateY(-5px) scale(1.03);
+      border-color: rgba(16,185,129,.55);
+      background: linear-gradient(180deg, #ffffff 0%, rgba(16,185,129,.04) 100%);
+      box-shadow:
+        0 22px 50px -14px rgba(16,185,129,.32),
+        0 8px 22px rgba(0,0,0,.08);
+    }
+    .data-icon { transition: transform .3s, filter .3s; display: inline-block; }
+    .data-card:hover .data-icon {
+      transform: scale(1.18) rotate(-4deg);
+      filter: drop-shadow(0 6px 14px rgba(16,185,129,.5)) brightness(1.2);
+    }
+
+    /* Timeline icons gain emerald accent on hover */
+    .tl-step .tl-icon { transition: transform .3s, box-shadow .3s, border-color .3s; }
+    .tl-step:hover .tl-icon {
+      transform: scale(1.08);
+      border-color: rgba(16,185,129,.65);
+      box-shadow: 0 0 0 6px var(--navy), 0 0 26px rgba(16,185,129,.55);
+    }
+
+    /* Section dividers / gentle emerald accent stripes */
+    .data-section { border-top: 1px solid rgba(16,185,129,.12); }
+    .method-section { border-top: 1px solid rgba(16,185,129,.18); border-bottom: 1px solid rgba(16,185,129,.18); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .vendor-card, .pw-card, .data-card, .tl-step .tl-icon, .vc-emoji, .data-icon, nav a::after { transition: none !important; }
+      .vendor-card:hover, .pw-card:hover, .data-card:hover { transform: none !important; }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       VENDOR COMPARISON TOOL
+    ═══════════════════════════════════════════════════════ */
+
+    /* Compare checkbox on each card */
+    .cmp-toggle {
+      position: absolute; top: 10px; right: 10px; z-index: 2;
+      display: flex; align-items: center; gap: 5px;
+      background: rgba(255,255,255,.92); border: 1.5px solid var(--gray2);
+      border-radius: 8px; padding: 4px 10px; cursor: pointer;
+      font-size: .68rem; font-weight: 700; color: var(--gray4);
+      transition: all .2s; user-select: none;
+      backdrop-filter: blur(4px);
+    }
+    .cmp-toggle:hover { border-color: var(--green); color: var(--green); background: rgba(16,185,129,.06); }
+    .cmp-toggle.active {
+      background: rgba(16,185,129,.12); border-color: var(--green); color: var(--green);
+    }
+    .cmp-toggle .cmp-box {
+      width: 16px; height: 16px; border-radius: 4px;
+      border: 2px solid var(--gray2); background: white;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .65rem; transition: all .18s;
+    }
+    .cmp-toggle.active .cmp-box {
+      background: var(--green); border-color: var(--green); color: white;
+    }
+    .vendor-card { position: relative; }
+    .vendor-card.cmp-selected {
+      border-color: rgba(16,185,129,.7) !important;
+      box-shadow: 0 0 0 3px rgba(16,185,129,.18), var(--shadow) !important;
+    }
+
+    /* Floating compare bar */
+    .cmp-bar {
+      position: fixed; bottom: -80px; left: 50%; transform: translateX(-50%);
+      z-index: 2000;
+      background: rgba(10,22,40,.96); backdrop-filter: blur(16px);
+      border: 1.5px solid rgba(16,185,129,.4);
+      border-radius: 18px; padding: 10px 18px;
+      display: flex; align-items: center; gap: 14px;
+      box-shadow: 0 -8px 40px rgba(0,0,0,.4), 0 0 0 1px rgba(16,185,129,.15) inset;
+      transition: bottom .35s cubic-bezier(.2,.8,.2,1);
+      max-width: 680px; width: calc(100% - 32px);
+    }
+    .cmp-bar.visible { bottom: 24px; }
+    .cmp-bar-avatars { display: flex; gap: -4px; }
+    .cmp-bar-av {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: rgba(255,255,255,.1); border: 2px solid rgba(16,185,129,.5);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; margin-right: -6px;
+    }
+    .cmp-bar-av:last-child { margin-right: 0; }
+    .cmp-bar-text { flex: 1; color: white; font-size: .85rem; font-weight: 700; }
+    .cmp-bar-text span { color: var(--green); }
+    .cmp-bar-btn {
+      background: linear-gradient(135deg, var(--green), #059669);
+      color: white; border: none; border-radius: 12px;
+      padding: 10px 22px; font-size: .84rem; font-weight: 800;
+      cursor: pointer; transition: transform .15s, box-shadow .15s;
+      white-space: nowrap;
+    }
+    .cmp-bar-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(16,185,129,.5); }
+    .cmp-bar-clear {
+      background: none; border: none; color: rgba(255,255,255,.5);
+      font-size: .76rem; cursor: pointer; padding: 4px 8px;
+      transition: color .15s;
+    }
+    .cmp-bar-clear:hover { color: white; }
+
+    /* Comparison modal overlay */
+    .cmp-overlay {
+      position: fixed; inset: 0; z-index: 3000;
+      background: rgba(10,22,40,.85); backdrop-filter: blur(6px);
+      display: none; align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .cmp-overlay.open { display: flex; }
+
+    /* Comparison modal */
+    .cmp-modal {
+      background: white; border-radius: 20px;
+      max-width: 900px; width: 100%; max-height: 90vh; overflow-y: auto;
+      box-shadow: 0 40px 80px rgba(0,0,0,.35);
+      animation: cmpIn .3s ease;
+    }
+    @keyframes cmpIn { from { opacity:0; transform: translateY(20px) scale(.97); } to { opacity:1; transform: none; } }
+
+    .cmp-modal-head {
+      padding: 24px 28px 18px; border-bottom: 1px solid var(--gray2);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .cmp-modal-title { font-size: 1.15rem; font-weight: 800; color: var(--text); display: flex; align-items: center; gap: 8px; }
+    .cmp-modal-close {
+      width: 36px; height: 36px; border-radius: 10px; border: 1.5px solid var(--gray2);
+      background: var(--gray1); cursor: pointer; font-size: 1rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .15s;
+    }
+    .cmp-modal-close:hover { background: #fee2e2; border-color: #fca5a5; color: #dc2626; }
+
+    /* Vendor columns header */
+    .cmp-vendors-row {
+      display: grid; gap: 0; padding: 20px 28px;
+      border-bottom: 1px solid var(--gray2); background: var(--gray1);
+    }
+    .cmp-vendor-col { text-align: center; padding: 8px; }
+    .cmp-v-emoji { font-size: 1.8rem; margin-bottom: 6px; }
+    .cmp-v-name { font-size: .88rem; font-weight: 800; color: var(--text); margin-bottom: 2px; }
+    .cmp-v-url { font-size: .7rem; color: var(--gray3); }
+    .cmp-v-score {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 52px; height: 52px; border-radius: 50%;
+      font-size: 1.1rem; font-weight: 900; margin-top: 8px;
+    }
+    .cmp-v-winner { position: relative; }
+    .cmp-v-winner::after {
+      content: 'BEST'; position: absolute; top: -8px; right: -8px;
+      background: var(--green); color: white; font-size: .52rem; font-weight: 900;
+      padding: 2px 6px; border-radius: 6px; letter-spacing: .06em;
+    }
+
+    /* Pillar comparison rows */
+    .cmp-pillars { padding: 16px 28px 24px; }
+    .cmp-pillar-row {
+      display: grid; gap: 12px; align-items: center;
+      padding: 14px 0; border-bottom: 1px solid rgba(0,0,0,.05);
+    }
+    .cmp-pillar-row:last-child { border-bottom: none; }
+    .cmp-p-label { font-size: .78rem; font-weight: 700; color: var(--gray4); }
+    .cmp-p-cell { display: flex; align-items: center; gap: 8px; }
+    .cmp-p-bar { flex: 1; height: 8px; border-radius: 4px; background: var(--gray2); overflow: hidden; }
+    .cmp-p-fill { height: 100%; border-radius: 4px; transition: width .6s cubic-bezier(.2,.8,.2,1); }
+    .cmp-p-val { font-size: .82rem; font-weight: 800; min-width: 28px; text-align: right; }
+    .cmp-p-best .cmp-p-val { color: var(--green); }
+    .cmp-p-best .cmp-p-fill { filter: brightness(1.1); }
+
+    /* Verdict footer */
+    .cmp-verdict {
+      padding: 18px 28px; background: linear-gradient(135deg, rgba(16,185,129,.06), rgba(6,182,212,.04));
+      border-top: 1px solid var(--gray2); border-radius: 0 0 20px 20px;
+      text-align: center;
+    }
+    .cmp-verdict-text { font-size: .92rem; font-weight: 700; color: var(--text); }
+    .cmp-verdict-text span { color: var(--green); font-weight: 900; }
+
+    @media(max-width:640px){
+      .cmp-bar { flex-wrap: wrap; gap: 10px; padding: 12px 14px; }
+      .cmp-modal { border-radius: 14px; }
+      .cmp-vendors-row, .cmp-pillar-row { gap: 4px; }
+      .cmp-v-emoji { font-size: 1.3rem; }
+      .cmp-v-name { font-size: .76rem; }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       TESTIMONIALS CAROUSEL
+    ═══════════════════════════════════════════════════════ */
+    .testi-section {
+      background: linear-gradient(180deg, var(--navy) 0%, #0b1a30 100%);
+      padding: 52px 0 56px; overflow: hidden;
+      border-top: 1px solid rgba(16,185,129,.12);
+      border-bottom: 1px solid rgba(16,185,129,.12);
+      position: relative; z-index: 1;
+    }
+    .testi-header {
+      text-align: center; padding: 0 24px; margin-bottom: 32px;
+    }
+    .testi-chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(16,185,129,.12); border: 1px solid rgba(16,185,129,.25);
+      color: var(--green); font-size: .73rem; font-weight: 700;
+      padding: 4px 13px; border-radius: 20px;
+      text-transform: uppercase; letter-spacing: .08em; margin-bottom: 14px;
+    }
+    .testi-title {
+      font-size: 1.4rem; font-weight: 800; color: white; margin-bottom: 6px;
+    }
+    .testi-sub {
+      font-size: .86rem; color: rgba(255,255,255,.42); max-width: 480px; margin: 0 auto;
+    }
+
+    /* Scrolling track */
+    .testi-track {
+      display: flex; gap: 20px;
+      overflow-x: auto; scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding: 4px 24px 16px;
+      scrollbar-width: none;
+    }
+    .testi-track::-webkit-scrollbar { display: none; }
+
+    /* Individual card */
+    .testi-card {
+      flex: 0 0 340px; scroll-snap-align: start;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 16px; padding: 22px 20px 18px;
+      transition: transform .25s, border-color .25s, box-shadow .25s;
+      position: relative;
+    }
+    .testi-card:hover {
+      transform: translateY(-3px) scale(1.02);
+      border-color: rgba(16,185,129,.4);
+      box-shadow: 0 18px 40px -10px rgba(16,185,129,.3);
+    }
+
+    /* Stars */
+    .testi-stars { color: #fbbf24; font-size: .85rem; letter-spacing: 1px; margin-bottom: 12px; }
+
+    /* Quote */
+    .testi-quote {
+      font-size: .88rem; color: rgba(255,255,255,.82);
+      line-height: 1.62; margin-bottom: 18px;
+      font-style: italic;
+    }
+    .testi-quote::before { content: '\201C'; font-size: 1.5rem; color: var(--green); font-weight: 900; margin-right: 2px; vertical-align: -4px; }
+    .testi-quote::after { content: '\201D'; font-size: 1.5rem; color: var(--green); font-weight: 900; margin-left: 2px; vertical-align: -4px; }
+
+    /* Author row */
+    .testi-author { display: flex; align-items: center; gap: 10px; }
+    .testi-avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .72rem; font-weight: 800; color: white;
+      flex-shrink: 0;
+    }
+    .testi-info { flex: 1; min-width: 0; }
+    .testi-name { font-size: .82rem; font-weight: 700; color: white; }
+    .testi-source { font-size: .7rem; color: rgba(255,255,255,.38); margin-top: 1px; }
+    .testi-badge {
+      font-size: .6rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em;
+      padding: 3px 8px; border-radius: 6px;
+      background: rgba(16,185,129,.14); border: 1px solid rgba(16,185,129,.3);
+      color: var(--green); white-space: nowrap;
+    }
+
+    /* Fade edges */
+    .testi-section::before, .testi-section::after {
+      content: ''; position: absolute; top: 0; bottom: 0; width: 60px;
+      z-index: 2; pointer-events: none;
+    }
+    .testi-section::before { left: 0; background: linear-gradient(90deg, var(--navy), transparent); }
+    .testi-section::after { right: 0; background: linear-gradient(-90deg, #0b1a30, transparent); }
+
+    @media(max-width:640px) {
+      .testi-card { flex: 0 0 290px; padding: 18px 16px 15px; }
+      .testi-title { font-size: 1.15rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ALERT BAR -->
+<div class="alert-bar">
+  <p>⚠️ <strong>Notice:</strong> PeptideGains.com is shutting down May 15, 2026. <a href="#">See recommended alternatives and transition guide →</a></p>
+</div>
+
+<!-- STICKY HEADER -->
+<header id="header">
+  <div class="header-inner">
+    <a href="/" class="logo">
+      <div class="logo-icon">PA</div>
+      Pep<span class="brand-accent">Assure</span>
+    </a>
+    <nav>
+      <a href="#rankings" class="active">Rankings</a>
+      <a href="#methodology">Methodology</a>
+      <a href="#resources">Resources</a>
+      <a href="for-vendors.html">For Vendors</a>
+      <a href="#api">API</a>
+      <a href="#about">About</a>
+    </nav>
+    <div class="header-search">
+      <span class="search-icon">🔍</span>
+      <input type="text" placeholder="Search vendors, peptides…" />
+    </div>
+    <div class="live-badge">
+      <span class="live-dot"></span>
+      Updated 3h ago
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">🧬 AI-Powered &nbsp;·&nbsp; Independent &nbsp;·&nbsp; Transparent</div>
+    <h1>Know Before You Buy.<br/><span class="accent">Rank Before You're Ranked.</span></h1>
+    <p class="hero-sub">The only independent peptide vendor ranking engine — powered by real lab data, community intelligence, and AI-verified COAs, refreshed every 24 hours.</p>
+
+    <!-- Global Search -->
+    <form class="global-search" id="globalSearch" role="search" onsubmit="return gsSubmit(event)">
+      <div class="gs-bar">
+        <span class="gs-icon">🔍</span>
+        <input type="text" class="gs-input" id="gsQuery"
+               placeholder="Search 148 vendors, peptides, or COAs…"
+               aria-label="Global vendor search"/>
+        <button type="button" class="gs-filter-btn" id="gsFilterBtn" onclick="gsToggleFilters()" aria-expanded="false" aria-controls="gsFilters">
+          <span>⚙️</span> Filters <span class="gs-count" id="gsCount" hidden>0</span>
+        </button>
+        <button type="submit" class="gs-submit">Search →</button>
+      </div>
+
+      <div class="gs-filters" id="gsFilters" aria-hidden="true">
+        <div class="gs-filters-grid">
+          <div class="gs-field">
+            <label for="gfType">Peptide Type</label>
+            <select id="gfType">
+              <option value="">Any peptide</option>
+              <option>BPC-157</option>
+              <option>TB-500</option>
+              <option>GHK-Cu</option>
+              <option>Semaglutide</option>
+              <option>Tirzepatide</option>
+              <option>Ipamorelin / CJC-1295</option>
+              <option>Epitalon</option>
+              <option>Melanotan II</option>
+              <option>Growth Hormone Peptides</option>
+              <option>Weight Loss / GLP-1</option>
+              <option>Sleep &amp; Recovery</option>
+            </select>
+          </div>
+
+          <div class="gs-field">
+            <label>PVS Score™ Range</label>
+            <div class="gs-range">
+              <input type="number" id="gfScoreMin" min="0" max="100" placeholder="Min" />
+              <span>–</span>
+              <input type="number" id="gfScoreMax" min="0" max="100" placeholder="Max" />
+            </div>
+          </div>
+
+          <div class="gs-field">
+            <label>Price Range (USD)</label>
+            <div class="gs-range">
+              <input type="number" id="gfPriceMin" min="0" placeholder="$ Min" />
+              <span>–</span>
+              <input type="number" id="gfPriceMax" min="0" placeholder="$ Max" />
+            </div>
+          </div>
+
+          <div class="gs-field">
+            <label for="gfLocation">Location / Shipping</label>
+            <select id="gfLocation">
+              <option value="">Any region</option>
+              <option>USA (domestic)</option>
+              <option>USA — Overnight available</option>
+              <option>EU / UK</option>
+              <option>Canada</option>
+              <option>Australia / NZ</option>
+              <option>Worldwide shipping</option>
+              <option>Asia-Pacific</option>
+            </select>
+          </div>
+
+          <label class="gs-check-row" for="gfFinnrick">
+            <input type="checkbox" id="gfFinnrick" />
+            <span class="gs-check-label">🧪 Finnrick Tested Only</span>
+            <span class="gs-check-hint">Independent third-party verified batches</span>
+          </label>
+        </div>
+
+        <div class="gs-filters-actions">
+          <button type="button" class="gs-clear" onclick="gsClearFilters()">Clear all</button>
+          <button type="button" class="gs-apply" onclick="gsApplyFilters()">Apply filters</button>
+        </div>
+      </div>
+    </form>
+
+    <!-- Shutdown Alert -->
+    <div class="shutdown-box">
+      <span class="sd-icon">🚨</span>
+      <div>
+        <strong>Vendor Shutdown Alert — Active</strong>
+        <p>PeptideGains.com is ceasing operations on May 15, 2026. Customers with open orders should contact them immediately. Top-ranked alternatives: Ascension Peptides, Limitless Life Nootropics, Peptide Partners. <a href="#">View full alert & transfer guide →</a></p>
+      </div>
+    </div>
+
+    <!-- Trust Bar -->
+    <div class="trust-bar">
+      <div class="trust-item">🚫 No paid placements</div>
+      <span class="trust-sep">•</span>
+      <div class="trust-item">🔬 6,102 Lab Tests</div>
+      <span class="trust-sep">•</span>
+      <div class="trust-item">💬 2.4M Reddit Posts</div>
+      <span class="trust-sep">•</span>
+      <div class="trust-item">⏱️ 24h Data Refresh</div>
+      <span class="trust-sep">•</span>
+      <div class="trust-item">🧪 Finnrick Certified</div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div><div class="stat-n">148</div><div class="stat-l">Vendors Ranked</div></div>
+    <div><div class="stat-n">6,102</div><div class="stat-l">Lab Tests Parsed</div></div>
+    <div><div class="stat-n">2.4M</div><div class="stat-l">Reddit Posts Indexed</div></div>
+    <div><div class="stat-n">98.7%</div><div class="stat-l">COA Parse Accuracy</div></div>
+    <div><div class="stat-n">24h</div><div class="stat-l">Refresh Cycle</div></div>
+  </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<section class="testi-section">
+  <div class="testi-header">
+    <div class="testi-chip">💬 Community Voices</div>
+    <div class="testi-title">What Researchers Are Saying</div>
+    <div class="testi-sub">Real feedback from verified buyers across Reddit, forums, and direct submissions.</div>
+  </div>
+  <div class="testi-track" id="testiTrack">
+
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-quote">Finally a site that actually uses real lab data instead of paid reviews. Saved me from a bad batch.</div>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:linear-gradient(135deg,#3b82f6,#06b6d4);">RR</div>
+        <div class="testi-info">
+          <div class="testi-name">u/ResearchRat42</div>
+          <div class="testi-source">r/Peptides · 3 days ago</div>
+        </div>
+        <div class="testi-badge">Verified Buyer</div>
+      </div>
+    </div>
+
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-quote">Cross-referenced the PVS score with my own HPLC tests on three vendors. Shockingly accurate — within 2% on all of them.</div>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:linear-gradient(135deg,#10b981,#059669);">LC</div>
+        <div class="testi-info">
+          <div class="testi-name">u/LabCoatLarry</div>
+          <div class="testi-source">r/Peptides · 1 week ago</div>
+        </div>
+        <div class="testi-badge">Verified Buyer</div>
+      </div>
+    </div>
+
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-quote">The Finnrick integration is the game changer. Third-party testing you can actually trust, not just self-reported COAs.</div>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:linear-gradient(135deg,#8b5cf6,#6d28d9);">SP</div>
+        <div class="testi-info">
+          <div class="testi-name">u/SciencePeptide</div>
+          <div class="testi-source">r/Nootropics · 5 days ago</div>
+        </div>
+        <div class="testi-badge">Verified Buyer</div>
+      </div>
+    </div>
+
+    <div class="testi-card">
+      <div class="testi-stars">★★★★☆</div>
+      <div class="testi-quote">Used the comparison tool to pick between two vendors. One had great purity but terrible CS scores — exactly the info I needed before ordering.</div>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:linear-gradient(135deg,#f59e0b,#d97706);">BM</div>
+        <div class="testi-info">
+          <div class="testi-name">u/BPC_Mike</div>
+          <div class="testi-source">r/Peptides · 2 days ago</div>
+        </div>
+        <div class="testi-badge">Verified Buyer</div>
+      </div>
+    </div>
+
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-quote">I was about to order from a vendor with a slick website. PepAssure showed me their purity was 76%. Hard pass. Went with the #1 pick instead.</div>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:linear-gradient(135deg,#ec4899,#be185d);">NR</div>
+        <div class="testi-info">
+          <div class="testi-name">u/NootResearcher</div>
+          <div class="testi-source">r/SARMsourcetalk · 1 week ago</div>
+        </div>
+        <div class="testi-badge">Verified Buyer</div>
+      </div>
+    </div>
+
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-quote">Vendor dashboard is fire. We claimed our listing, uploaded COAs, and saw our score jump 8 points in a week. Transparency actually rewards good vendors.</div>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:linear-gradient(135deg,#06b6d4,#0891b2);">AP</div>
+        <div class="testi-info">
+          <div class="testi-name">Ascension Peptides (Vendor)</div>
+          <div class="testi-source">Direct submission · 4 days ago</div>
+        </div>
+        <div class="testi-badge">Verified Vendor</div>
+      </div>
+    </div>
+
+    <div class="testi-card">
+      <div class="testi-stars">★★★★☆</div>
+      <div class="testi-quote">Only thing I'd improve is more international vendors. But for US-based research, this is now my go-to before every purchase.</div>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:linear-gradient(135deg,#64748b,#475569);">TK</div>
+        <div class="testi-info">
+          <div class="testi-name">u/TB500_King</div>
+          <div class="testi-source">r/Peptides · 6 days ago</div>
+        </div>
+        <div class="testi-badge">Verified Buyer</div>
+      </div>
+    </div>
+
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-quote">The Reddit sentiment analysis alone is worth bookmarking. Caught a vendor getting shredded for shipping delays before I placed my order.</div>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:linear-gradient(135deg,#f97316,#ea580c);">DL</div>
+        <div class="testi-info">
+          <div class="testi-name">u/DueDiligenceDan</div>
+          <div class="testi-source">r/Nootropics · 2 days ago</div>
+        </div>
+        <div class="testi-badge">Verified Buyer</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- VENDOR RANKINGS -->
+<section class="section" id="rankings">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-title">Top Ranked Vendors <span class="accent">— April 2026</span></div>
+        <div class="section-sub">PVS Score™ computed daily from public lab data, Reddit sentiment, and Finnrick testing</div>
+      </div>
+      <a href="#" class="view-all">View All 148 Vendors →</a>
+    </div>
+
+    <div class="filter-row">
+      <div class="ftab active">All Vendors</div>
+      <div class="ftab">🧬 BPC-157</div>
+      <div class="ftab">🏃 TB-500</div>
+      <div class="ftab">💉 GH Peptides</div>
+      <div class="ftab">⚡ Weight Loss</div>
+      <div class="ftab">🌙 Sleep / Recovery</div>
+      <div class="ftab">🔬 Finnrick Tested</div>
+    </div>
+
+    <div class="vendor-grid">
+
+      <!-- Card 1 — Ascension Peptides #1 -->
+      <div class="vendor-card top" data-vendor="ascension">
+        <label class="cmp-toggle" onclick="cmpToggle(this)"><span class="cmp-box"></span>Compare</label>
+        <div class="vc-head">
+          <div class="vc-rank r1">#1</div>
+          <div class="vc-emoji">🧬</div>
+          <div class="vc-meta">
+            <div class="vc-name">Ascension Peptides</div>
+            <div class="vc-url">ascensionpeptides.com</div>
+            <div class="vc-badges">
+              <span class="badge b-f">✓ Finnrick</span>
+              <span class="badge b-v">✓ Verified</span>
+              <span class="badge b-t">⭐ Top Pick</span>
+            </div>
+          </div>
+          <div class="pvs-wrap">
+            <div class="pvs-ring" style="background:conic-gradient(#10b981 calc(95.5% * 1%),#e2e8f0 0);">
+              <div class="pvs-inner" style="color:#10b981;">95.5</div>
+            </div>
+            <div class="pvs-lbl">PVS Score™</div>
+          </div>
+        </div>
+        <div style="height:1px;background:var(--gray2);"></div>
+        <div class="vc-bars">
+          <div class="pb-row"><span class="pb-n">Purity (30%)</span><div class="pb-track"><div class="pb-fill fp" style="width:98%"></div></div><span class="pb-v">98</span></div>
+          <div class="pb-row"><span class="pb-n">Reputation (25%)</span><div class="pb-track"><div class="pb-fill fr" style="width:95%"></div></div><span class="pb-v">95</span></div>
+          <div class="pb-row"><span class="pb-n">Cust. Svc (20%)</span><div class="pb-track"><div class="pb-fill fc" style="width:93%"></div></div><span class="pb-v">93</span></div>
+          <div class="pb-row"><span class="pb-n">Community (15%)</span><div class="pb-track"><div class="pb-fill fm" style="width:96%"></div></div><span class="pb-v">96</span></div>
+          <div class="pb-row"><span class="pb-n">Price/COGS (10%)</span><div class="pb-track"><div class="pb-fill fpr" style="width:91%"></div></div><span class="pb-v">91</span></div>
+        </div>
+        <div class="vc-foot">
+          <button class="btn-s">🔖 Save</button>
+          <button class="btn-v">View Profile</button>
+          <button class="btn-c" onclick="openClaim()">Claim Listing</button>
+        </div>
+      </div>
+
+      <!-- Card 2 — Limitless Life #2 -->
+      <div class="vendor-card" data-vendor="limitless">
+        <label class="cmp-toggle" onclick="cmpToggle(this)"><span class="cmp-box"></span>Compare</label>
+        <div class="vc-head">
+          <div class="vc-rank r2">#2</div>
+          <div class="vc-emoji">⚗️</div>
+          <div class="vc-meta">
+            <div class="vc-name">Limitless Life Nootropics</div>
+            <div class="vc-url">limitlesslifenootropics.com</div>
+            <div class="vc-badges">
+              <span class="badge b-f">✓ Finnrick</span>
+              <span class="badge b-v">✓ Verified</span>
+            </div>
+          </div>
+          <div class="pvs-wrap">
+            <div class="pvs-ring" style="background:conic-gradient(#10b981 calc(91.5% * 1%),#e2e8f0 0);">
+              <div class="pvs-inner" style="color:#10b981;">91.5</div>
+            </div>
+            <div class="pvs-lbl">PVS Score™</div>
+          </div>
+        </div>
+        <div style="height:1px;background:var(--gray2);"></div>
+        <div class="vc-bars">
+          <div class="pb-row"><span class="pb-n">Purity (30%)</span><div class="pb-track"><div class="pb-fill fp" style="width:94%"></div></div><span class="pb-v">94</span></div>
+          <div class="pb-row"><span class="pb-n">Reputation (25%)</span><div class="pb-track"><div class="pb-fill fr" style="width:90%"></div></div><span class="pb-v">90</span></div>
+          <div class="pb-row"><span class="pb-n">Cust. Svc (20%)</span><div class="pb-track"><div class="pb-fill fc" style="width:92%"></div></div><span class="pb-v">92</span></div>
+          <div class="pb-row"><span class="pb-n">Community (15%)</span><div class="pb-track"><div class="pb-fill fm" style="width:89%"></div></div><span class="pb-v">89</span></div>
+          <div class="pb-row"><span class="pb-n">Price/COGS (10%)</span><div class="pb-track"><div class="pb-fill fpr" style="width:93%"></div></div><span class="pb-v">93</span></div>
+        </div>
+        <div class="vc-foot">
+          <button class="btn-s">🔖 Save</button>
+          <button class="btn-v">View Profile</button>
+          <button class="btn-c" onclick="openClaim()">Claim Listing</button>
+        </div>
+      </div>
+
+      <!-- Card 3 — Peptide Partners #3 -->
+      <div class="vendor-card" data-vendor="partners">
+        <label class="cmp-toggle" onclick="cmpToggle(this)"><span class="cmp-box"></span>Compare</label>
+        <div class="vc-head">
+          <div class="vc-rank r3">#3</div>
+          <div class="vc-emoji">🔬</div>
+          <div class="vc-meta">
+            <div class="vc-name">Peptide Partners</div>
+            <div class="vc-url">peptidepartners.com</div>
+            <div class="vc-badges">
+              <span class="badge b-v">✓ Verified</span>
+              <span class="badge b-n">🆕 Rising</span>
+            </div>
+          </div>
+          <div class="pvs-wrap">
+            <div class="pvs-ring" style="background:conic-gradient(#3b82f6 calc(90.5% * 1%),#e2e8f0 0);">
+              <div class="pvs-inner" style="color:#3b82f6;">90.5</div>
+            </div>
+            <div class="pvs-lbl">PVS Score™</div>
+          </div>
+        </div>
+        <div style="height:1px;background:var(--gray2);"></div>
+        <div class="vc-bars">
+          <div class="pb-row"><span class="pb-n">Purity (30%)</span><div class="pb-track"><div class="pb-fill fp" style="width:92%"></div></div><span class="pb-v">92</span></div>
+          <div class="pb-row"><span class="pb-n">Reputation (25%)</span><div class="pb-track"><div class="pb-fill fr" style="width:91%"></div></div><span class="pb-v">91</span></div>
+          <div class="pb-row"><span class="pb-n">Cust. Svc (20%)</span><div class="pb-track"><div class="pb-fill fc" style="width:88%"></div></div><span class="pb-v">88</span></div>
+          <div class="pb-row"><span class="pb-n">Community (15%)</span><div class="pb-track"><div class="pb-fill fm" style="width:90%"></div></div><span class="pb-v">90</span></div>
+          <div class="pb-row"><span class="pb-n">Price/COGS (10%)</span><div class="pb-track"><div class="pb-fill fpr" style="width:94%"></div></div><span class="pb-v">94</span></div>
+        </div>
+        <div class="vc-foot">
+          <button class="btn-s">🔖 Save</button>
+          <button class="btn-v">View Profile</button>
+          <button class="btn-c" onclick="openClaim()">Claim Listing</button>
+        </div>
+      </div>
+
+      <!-- Card 4 — Amino Asylum #4 -->
+      <div class="vendor-card" data-vendor="amino">
+        <label class="cmp-toggle" onclick="cmpToggle(this)"><span class="cmp-box"></span>Compare</label>
+        <div class="vc-head">
+          <div class="vc-rank r-n">#4</div>
+          <div class="vc-emoji">💊</div>
+          <div class="vc-meta">
+            <div class="vc-name">Amino Asylum</div>
+            <div class="vc-url">aminoasylum.shop</div>
+            <div class="vc-badges">
+              <span class="badge b-v">✓ Verified</span>
+            </div>
+          </div>
+          <div class="pvs-wrap">
+            <div class="pvs-ring" style="background:conic-gradient(#f59e0b calc(87% * 1%),#e2e8f0 0);">
+              <div class="pvs-inner" style="color:#f59e0b;">87.0</div>
+            </div>
+            <div class="pvs-lbl">PVS Score™</div>
+          </div>
+        </div>
+        <div style="height:1px;background:var(--gray2);"></div>
+        <div class="vc-bars">
+          <div class="pb-row"><span class="pb-n">Purity (30%)</span><div class="pb-track"><div class="pb-fill fp" style="width:88%"></div></div><span class="pb-v">88</span></div>
+          <div class="pb-row"><span class="pb-n">Reputation (25%)</span><div class="pb-track"><div class="pb-fill fr" style="width:86%"></div></div><span class="pb-v">86</span></div>
+          <div class="pb-row"><span class="pb-n">Cust. Svc (20%)</span><div class="pb-track"><div class="pb-fill fc" style="width:85%"></div></div><span class="pb-v">85</span></div>
+          <div class="pb-row"><span class="pb-n">Community (15%)</span><div class="pb-track"><div class="pb-fill fm" style="width:91%"></div></div><span class="pb-v">91</span></div>
+          <div class="pb-row"><span class="pb-n">Price/COGS (10%)</span><div class="pb-track"><div class="pb-fill fpr" style="width:87%"></div></div><span class="pb-v">87</span></div>
+        </div>
+        <div class="vc-foot">
+          <button class="btn-s">🔖 Save</button>
+          <button class="btn-v">View Profile</button>
+          <button class="btn-c" onclick="openClaim()">Claim Listing</button>
+        </div>
+      </div>
+
+      <!-- Card 5 — Sports Technology Labs #5 -->
+      <div class="vendor-card" data-vendor="sports">
+        <label class="cmp-toggle" onclick="cmpToggle(this)"><span class="cmp-box"></span>Compare</label>
+        <div class="vc-head">
+          <div class="vc-rank r-n">#5</div>
+          <div class="vc-emoji">🏆</div>
+          <div class="vc-meta">
+            <div class="vc-name">Sports Technology Labs</div>
+            <div class="vc-url">sportstechnologylabs.com</div>
+            <div class="vc-badges">
+              <span class="badge b-f">✓ Finnrick</span>
+              <span class="badge b-v">✓ Verified</span>
+            </div>
+          </div>
+          <div class="pvs-wrap">
+            <div class="pvs-ring" style="background:conic-gradient(#3b82f6 calc(85.5% * 1%),#e2e8f0 0);">
+              <div class="pvs-inner" style="color:#3b82f6;">85.5</div>
+            </div>
+            <div class="pvs-lbl">PVS Score™</div>
+          </div>
+        </div>
+        <div style="height:1px;background:var(--gray2);"></div>
+        <div class="vc-bars">
+          <div class="pb-row"><span class="pb-n">Purity (30%)</span><div class="pb-track"><div class="pb-fill fp" style="width:87%"></div></div><span class="pb-v">87</span></div>
+          <div class="pb-row"><span class="pb-n">Reputation (25%)</span><div class="pb-track"><div class="pb-fill fr" style="width:84%"></div></div><span class="pb-v">84</span></div>
+          <div class="pb-row"><span class="pb-n">Cust. Svc (20%)</span><div class="pb-track"><div class="pb-fill fc" style="width:86%"></div></div><span class="pb-v">86</span></div>
+          <div class="pb-row"><span class="pb-n">Community (15%)</span><div class="pb-track"><div class="pb-fill fm" style="width:85%"></div></div><span class="pb-v">85</span></div>
+          <div class="pb-row"><span class="pb-n">Price/COGS (10%)</span><div class="pb-track"><div class="pb-fill fpr" style="width:84%"></div></div><span class="pb-v">84</span></div>
+        </div>
+        <div class="vc-foot">
+          <button class="btn-s">🔖 Save</button>
+          <button class="btn-v">View Profile</button>
+          <button class="btn-c" onclick="openClaim()">Claim Listing</button>
+        </div>
+      </div>
+
+      <!-- Card 6 — Unclaimed teaser -->
+      <div class="vendor-card" style="border-style:dashed;opacity:.75;">
+        <div class="vc-head">
+          <div class="vc-rank r-n">#6</div>
+          <div class="vc-emoji" style="opacity:.35;">❓</div>
+          <div class="vc-meta">
+            <div class="vc-name" style="color:#94a3b8;">Your Vendor Here</div>
+            <div class="vc-url">Unclaimed listing</div>
+            <div class="vc-badges">
+              <span class="badge" style="background:#f1f5f9;color:#94a3b8;border:1px solid #e2e8f0;">Free to Claim →</span>
+            </div>
+          </div>
+          <div class="pvs-wrap">
+            <div class="pvs-ring" style="background:conic-gradient(#94a3b8 0%,#e2e8f0 0);">
+              <div class="pvs-inner" style="color:#94a3b8;">—</div>
+            </div>
+            <div class="pvs-lbl">PVS Score™</div>
+          </div>
+        </div>
+        <div style="padding:18px 20px 20px;text-align:center;color:#94a3b8;font-size:.84rem;line-height:1.6;">
+          Is your company listed? Claim your free vendor profile to unlock your PVS Score breakdown, respond to reviews, and upload COAs.
+          <div style="margin-top:14px;">
+            <button class="btn-primary" style="font-size:.78rem;padding:9px 20px;" onclick="openClaim()">Claim Your Free Listing →</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /vendor-grid -->
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section class="method-section" id="methodology">
+  <div class="method-inner">
+    <div style="text-align:center;margin-bottom:8px;">
+      <span style="display:inline-flex;align-items:center;gap:7px;background:rgba(6,182,212,.14);border:1px solid rgba(6,182,212,.28);color:var(--teal);font-size:.77rem;font-weight:700;padding:5px 14px;border-radius:20px;text-transform:uppercase;letter-spacing:.08em;">🔬 Transparent Methodology</span>
+    </div>
+    <div class="section-title-white">How <span style="color:var(--teal);">PepAssure</span> Works</div>
+    <div class="section-sub-white" style="margin-top:6px;">Every ranking is derived purely from public data — no vendor can pay to influence their score.</div>
+
+    <!-- 5-Step Timeline -->
+    <div class="timeline">
+      <div class="tl-step lit">
+        <div class="tl-icon">🕷️</div>
+        <div class="tl-num">Step 01</div>
+        <div class="tl-label">Daily Crawl</div>
+        <div class="tl-desc">Automated scrapers pull vendor sites, COA pages, pricing, and shipping info every 24 hours.</div>
+      </div>
+      <div class="tl-arrow">→</div>
+      <div class="tl-step">
+        <div class="tl-icon">🤖</div>
+        <div class="tl-num">Step 02</div>
+        <div class="tl-label">COA AI Parsing</div>
+        <div class="tl-desc">GPT-4 vision extracts purity %, peptide identity, and accreditation from PDF certificates.</div>
+      </div>
+      <div class="tl-arrow">→</div>
+      <div class="tl-step">
+        <div class="tl-icon">📊</div>
+        <div class="tl-num">Step 03</div>
+        <div class="tl-label">Reddit Intelligence</div>
+        <div class="tl-desc">2.4M posts across r/Peptides, r/Nootropics, and 40+ subreddits analyzed for real sentiment.</div>
+      </div>
+      <div class="tl-arrow">→</div>
+      <div class="tl-step">
+        <div class="tl-icon">🧪</div>
+        <div class="tl-num">Step 04</div>
+        <div class="tl-label">Finnrick Integration</div>
+        <div class="tl-desc">Independent third-party lab results ingested from Finnrick Testing — weighted at 30% of purity.</div>
+      </div>
+      <div class="tl-arrow">→</div>
+      <div class="tl-step">
+        <div class="tl-icon">⭐</div>
+        <div class="tl-num">Step 05</div>
+        <div class="tl-label">Score & Publish</div>
+        <div class="tl-desc">Weighted PVS Score™ computed, anomalies flagged, rankings published live by 6 AM daily.</div>
+      </div>
+    </div>
+
+    <!-- Pillar Weights -->
+    <div class="pw-title">PVS Score™ Pillar Weights</div>
+    <div class="pw-grid">
+      <div class="pw-card">
+        <div class="pw-pct" style="color:#3b82f6;">30%</div>
+        <div class="pw-name">Purity</div>
+        <div class="pw-bar"><div class="pw-fill" style="background:#3b82f6;width:30%"></div></div>
+        <div class="pw-desc">COA analysis, Finnrick independent lab results, HPLC purity %, and identity confirmation.</div>
+      </div>
+      <div class="pw-card">
+        <div class="pw-pct" style="color:#10b981;">25%</div>
+        <div class="pw-name">Reputation</div>
+        <div class="pw-bar"><div class="pw-fill" style="background:#10b981;width:25%"></div></div>
+        <div class="pw-desc">Vendor history, scam reports, chargeback rates, time in business, and domain trust.</div>
+      </div>
+      <div class="pw-card">
+        <div class="pw-pct" style="color:#f59e0b;">20%</div>
+        <div class="pw-name">Customer Service</div>
+        <div class="pw-bar"><div class="pw-fill" style="background:#f59e0b;width:20%"></div></div>
+        <div class="pw-desc">Reddit complaint analysis, Trustpilot scores, response time, and refund resolution rates.</div>
+      </div>
+      <div class="pw-card">
+        <div class="pw-pct" style="color:#8b5cf6;">15%</div>
+        <div class="pw-name">Community</div>
+        <div class="pw-bar"><div class="pw-fill" style="background:#8b5cf6;width:15%"></div></div>
+        <div class="pw-desc">Reddit sentiment across 40+ subreddits — organic mentions, recommendations, and warnings.</div>
+      </div>
+      <div class="pw-card">
+        <div class="pw-pct" style="color:#f97316;">10%</div>
+        <div class="pw-name">Pricing / COGS</div>
+        <div class="pw-bar"><div class="pw-fill" style="background:#f97316;width:10%"></div></div>
+        <div class="pw-desc">Price-per-mg vs. purity ratio, shipping costs, discount abuse, and supply chain transparency.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DATA SOURCES -->
+<section class="data-section" id="resources">
+  <div class="section-inner">
+    <div class="section-title">Where We Get Our Data</div>
+    <div class="section-sub" style="margin-top:6px;">100% public sources — pulled and processed daily. No vendor influence, ever.</div>
+    <div class="data-grid">
+      <div class="data-card">
+        <span class="data-icon">🔬</span>
+        <div class="data-title">Certificates of Analysis</div>
+        <div class="data-desc">AI parses COA PDFs directly from vendor sites — purity %, identity, lab name, and date verified against accredited labs.</div>
+        <div class="data-stat">6,102 Parsed</div>
+      </div>
+      <div class="data-card">
+        <span class="data-icon">💬</span>
+        <div class="data-title">Reddit Community</div>
+        <div class="data-desc">Real-time NLP of r/Peptides, r/Nootropics, r/research_chemicals, and 40+ subreddits for honest community voice.</div>
+        <div class="data-stat">2.4M Posts</div>
+      </div>
+      <div class="data-card">
+        <span class="data-icon">🧪</span>
+        <div class="data-title">Finnrick Independent Labs</div>
+        <div class="data-desc">Anonymous third-party batch testing. Results integrated directly into purity scoring with full traceability.</div>
+        <div class="data-stat">890 Batches</div>
+      </div>
+      <div class="data-card">
+        <span class="data-icon">⭐</span>
+        <div class="data-title">Review Platforms</div>
+        <div class="data-desc">Trustpilot, Google Reviews, and verified purchase data cross-referenced with Reddit for manipulation detection.</div>
+        <div class="data-stat">148K Reviews</div>
+      </div>
+      <div class="data-card">
+        <span class="data-icon">💰</span>
+        <div class="data-title">Pricing Intelligence</div>
+        <div class="data-desc">Daily price-per-mg scraping across all ranked vendors — normalized by peptide type, purity grade, and order size.</div>
+        <div class="data-stat">Daily Refresh</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<section class="cta-band" id="about">
+  <h2>Are You a Peptide Vendor?</h2>
+  <p>Claim your free listing on PepAssure.com to unlock your full PVS Score breakdown, respond to community feedback, and upload your COAs directly. No paid placements, ever.</p>
+  <div class="cta-btns">
+    <button class="btn-primary" onclick="openClaim()">🚀 Claim Your Free Listing</button>
+    <a href="for-vendors.html"><button class="btn-outline">Explore Enterprise Plans →</button></a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo" style="color:white;margin-bottom:0;">
+          <div class="logo-icon">PA</div>
+          Pep<span style="color:var(--teal);">Assure</span>
+        </div>
+        <p>The independent, AI-powered peptide vendor ranking engine. No paid placements. No conflicts of interest. Just data.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Rankings</h4>
+        <a href="#">All Vendors</a>
+        <a href="#">Top Rated</a>
+        <a href="#">Finnrick Certified</a>
+        <a href="#">Rising Vendors</a>
+        <a href="#">Shutdown Watch</a>
+      </div>
+      <div class="footer-col">
+        <h4>Research</h4>
+        <a href="#">BPC-157 Guide</a>
+        <a href="#">TB-500 Explained</a>
+        <a href="#">GH Peptide Stacks</a>
+        <a href="#">COA Checker</a>
+        <a href="#">Dosing Calculator</a>
+      </div>
+      <div class="footer-col">
+        <h4>For Vendors</h4>
+        <a href="for-vendors.html">Claim Free Listing</a>
+        <a href="for-vendors.html">Enterprise Plans</a>
+        <a href="#">API Access</a>
+        <a href="#">Advertiser Policy</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About PepAssure</a>
+        <a href="#">Methodology</a>
+        <a href="#">Press Kit</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 PepAssure, Inc. All rights reserved. For research purposes only. Not medical advice.</span>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Cookie Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.ftab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+</script>
+
+<!-- ══ CLAIM MODAL ══ -->
+<div class="modal-overlay" id="claimModal">
+  <div class="modal" style="position:relative;">
+    <div class="modal-hd">
+      <button class="modal-x" onclick="closeClaim()">✕</button>
+      <h2>🚀 Claim Your Free Listing</h2>
+      <p>Under 2 minutes · No credit card · No login required</p>
+    </div>
+    <div class="modal-bd">
+      <div class="suc-state" id="claimSuc">
+        <div class="suc-icon">✅</div>
+        <h3>Claim Submitted!</h3>
+        <p>We'll verify ownership at <strong id="claimEmailOut"></strong> and activate your listing within 24 hours.</p>
+        <button class="btn-suc-close" onclick="closeClaim()">Close</button>
+      </div>
+      <div id="claimFrm">
+        <div class="f-err" id="claimErr"></div>
+        <div class="f-row two">
+          <div>
+            <label>Vendor Name <span class="req">*</span></label>
+            <input type="text" id="cv" placeholder="Ascension Peptides" />
+          </div>
+          <div>
+            <label>Website URL <span class="req">*</span></label>
+            <input type="url" id="cu" placeholder="https://yoursite.com" />
+          </div>
+        </div>
+        <div class="f-row">
+          <label>Work Email <span class="req">*</span></label>
+          <input type="email" id="ce" placeholder="you@yourcompany.com" />
+          <div class="f-note">Match your company domain for faster verification.</div>
+        </div>
+        <div class="f-row">
+          <label>Anything to add? <span style="font-weight:400;color:#94a3b8;">(optional)</span></label>
+          <textarea id="cm" placeholder="Finnrick results ready, COA portal at…"></textarea>
+        </div>
+        <p style="font-size:.72rem;color:#94a3b8;margin-bottom:12px;line-height:1.5;">By submitting you agree to our <a href="#" style="color:#3b82f6;">Terms</a>. We never sell your info.</p>
+        <button class="btn-sub" id="claimBtn" onclick="submitClaim()">🚀 Submit Claim</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SUPABASE + MODAL LOGIC ══ -->
+<script>
+(function(){
+  const URL = window.SUPABASE_URL, KEY = window.SUPABASE_ANON_KEY;
+  let db = null;
+  // Detect config by shape, not by comparing to the placeholder — the
+  // deploy script's sed would rewrite the placeholder comparison itself.
+  if (URL && URL.startsWith('https://') && KEY && KEY.length > 20) {
+    db = window.supabase.createClient(URL, KEY);
+  }
+
+  window.openClaim = function() {
+    document.getElementById('claimModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  };
+  window.closeClaim = function() {
+    document.getElementById('claimModal').classList.remove('open');
+    document.body.style.overflow = '';
+    document.getElementById('claimFrm').style.display = '';
+    document.getElementById('claimSuc').classList.remove('show');
+    document.getElementById('claimErr').classList.remove('show');
+    ['cv','cu','ce','cm'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
+    setL(false);
+  };
+  document.getElementById('claimModal').addEventListener('click', function(e){ if(e.target===this) closeClaim(); });
+  document.addEventListener('keydown', e => { if(e.key==='Escape') closeClaim(); });
+
+  function setL(l) {
+    const b = document.getElementById('claimBtn');
+    b.disabled = l;
+    b.innerHTML = l ? '<div class="spin"></div> Submitting…' : '🚀 Submit Claim';
+  }
+  function showErr(m) {
+    const e = document.getElementById('claimErr');
+    e.textContent = m; e.classList.add('show');
+  }
+
+  window.submitClaim = async function() {
+    const v=document.getElementById('cv').value.trim();
+    const u=document.getElementById('cu').value.trim();
+    const e=document.getElementById('ce').value.trim();
+    const m=document.getElementById('cm').value.trim();
+    document.getElementById('claimErr').classList.remove('show');
+    if(!v) return showErr('Please enter your vendor / company name.');
+    if(!u) return showErr('Please enter your website URL.');
+    if(!e) return showErr('Please enter your work email.');
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)) return showErr('Please enter a valid email address.');
+    setL(true);
+    try {
+      if(db){
+        const {error}=await db.from('claim_requests').insert({vendor_name:v,website_url:u,contact_email:e,message:m||null,status:'pending'});
+        if(error) throw error;
+      } else {
+        await new Promise(r=>setTimeout(r,800));
+        console.log('[PepAssure demo] claim:',{v,u,e,m});
+      }
+      document.getElementById('claimEmailOut').textContent=e;
+      document.getElementById('claimFrm').style.display='none';
+      document.getElementById('claimSuc').classList.add('show');
+    } catch(err) {
+      showErr(err.message||'Something went wrong — try again or email vendors@pepassure.com.');
+      setL(false);
+    }
+  };
+})();
+</script>
+
+<script>
+/* ── GLOBAL SEARCH + FILTERS ── */
+(function(){
+  const btn      = document.getElementById('gsFilterBtn');
+  const panel    = document.getElementById('gsFilters');
+  const countEl  = document.getElementById('gsCount');
+  const fields   = ['gfType','gfScoreMin','gfScoreMax','gfPriceMin','gfPriceMax','gfLocation','gfFinnrick'];
+
+  window.gsToggleFilters = function(){
+    const open = panel.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open);
+    panel.setAttribute('aria-hidden', !open);
+  };
+
+  function activeCount(){
+    let n = 0;
+    fields.forEach(id=>{
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (el.type === 'checkbox') { if (el.checked) n++; }
+      else if (el.value && el.value.trim() !== '') n++;
+    });
+    return n;
+  }
+  function refreshCount(){
+    const n = activeCount();
+    if (n > 0) { countEl.textContent = n; countEl.hidden = false; }
+    else       { countEl.hidden = true; }
+  }
+  fields.forEach(id=>{
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('change', refreshCount);
+    if (el && (el.type === 'number' || el.type === 'text')) el.addEventListener('input', refreshCount);
+  });
+
+  window.gsClearFilters = function(){
+    fields.forEach(id=>{
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (el.type === 'checkbox') el.checked = false;
+      else el.value = '';
+    });
+    refreshCount();
+  };
+
+  window.gsApplyFilters = function(){
+    refreshCount();
+    panel.classList.remove('open');
+    btn.setAttribute('aria-expanded', false);
+    document.getElementById('globalSearch').requestSubmit();
+  };
+
+  window.gsSubmit = function(e){
+    e.preventDefault();
+    const params = new URLSearchParams();
+    const q = document.getElementById('gsQuery').value.trim();
+    if (q) params.set('q', q);
+    fields.forEach(id=>{
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (el.type === 'checkbox') { if (el.checked) params.set(id, '1'); }
+      else if (el.value && el.value.trim() !== '') params.set(id, el.value.trim());
+    });
+    // For now, scroll to the rankings section with query appended to the hash.
+    const target = document.getElementById('rankings');
+    if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
+    if (history && history.replaceState) {
+      history.replaceState(null, '', '#rankings' + (params.toString() ? '?' + params.toString() : ''));
+    }
+    return false;
+  };
+})();
+</script>
+
+<!-- ══════════════════════════════════════════════════════
+     VENDOR COMPARISON — Floating Bar + Modal
+══════════════════════════════════════════════════════ -->
+
+<!-- Floating Compare Bar (slides up when 2+ vendors selected) -->
+<div class="cmp-bar" id="cmpBar">
+  <div class="cmp-bar-avatars" id="cmpBarAvatars"></div>
+  <div class="cmp-bar-text"><span id="cmpBarCount">0</span> vendors selected</div>
+  <button class="cmp-bar-btn" onclick="cmpOpenModal()">Compare Now</button>
+  <button class="cmp-bar-clear" onclick="cmpClearAll()">Clear</button>
+</div>
+
+<!-- Comparison Modal Overlay -->
+<div class="cmp-overlay" id="cmpOverlay" onclick="if(event.target===this)cmpCloseModal()">
+  <div class="cmp-modal" id="cmpModal" role="dialog" aria-label="Vendor Comparison">
+    <div class="cmp-modal-head">
+      <div class="cmp-modal-title">📊 Vendor Comparison</div>
+      <button class="cmp-modal-close" onclick="cmpCloseModal()" aria-label="Close">✕</button>
+    </div>
+    <div class="cmp-vendors-row" id="cmpVendorsRow"></div>
+    <div class="cmp-pillars" id="cmpPillars"></div>
+    <div class="cmp-verdict" id="cmpVerdict"></div>
+  </div>
+</div>
+
+<script>
+/* ── VENDOR COMPARISON TOOL ── */
+(function(){
+  const MAX_COMPARE = 4;
+  const PILLARS = [
+    { name: 'Purity',         weight: '30%', cls: 'fp', color: '#3b82f6' },
+    { name: 'Reputation',     weight: '25%', cls: 'fr', color: '#10b981' },
+    { name: 'Customer Service',weight: '20%', cls: 'fc', color: '#f59e0b' },
+    { name: 'Community',      weight: '15%', cls: 'fm', color: '#8b5cf6' },
+    { name: 'Price/COGS',     weight: '10%', cls: 'fpr',color: '#f97316' }
+  ];
+
+  const selected = new Set();
+
+  /* Extract vendor data from a card DOM element */
+  function extractVendor(card) {
+    const name  = card.querySelector('.vc-name')?.textContent || '';
+    const url   = card.querySelector('.vc-url')?.textContent || '';
+    const emoji = card.querySelector('.vc-emoji')?.textContent?.trim() || '?';
+    const pvs   = parseFloat(card.querySelector('.pvs-inner')?.textContent) || 0;
+    const pvsColor = card.querySelector('.pvs-inner')?.style?.color || '#3b82f6';
+    const pillarVals = [];
+    card.querySelectorAll('.pb-v').forEach(el => pillarVals.push(parseInt(el.textContent) || 0));
+    return { name, url, emoji, pvs, pvsColor, pillarVals };
+  }
+
+  /* Toggle a card's compare state */
+  window.cmpToggle = function(toggleEl) {
+    const card = toggleEl.closest('.vendor-card');
+    const vid  = card.dataset.vendor;
+    if (selected.has(vid)) {
+      selected.delete(vid);
+      card.classList.remove('cmp-selected');
+      toggleEl.classList.remove('active');
+    } else {
+      if (selected.size >= MAX_COMPARE) return;
+      selected.add(vid);
+      card.classList.add('cmp-selected');
+      toggleEl.classList.add('active');
+    }
+    updateBar();
+  };
+
+  function updateBar() {
+    const bar     = document.getElementById('cmpBar');
+    const avatars = document.getElementById('cmpBarAvatars');
+    const count   = document.getElementById('cmpBarCount');
+    avatars.innerHTML = '';
+    const cards = getSelectedCards();
+    cards.forEach(card => {
+      const emoji = card.querySelector('.vc-emoji')?.textContent?.trim() || '?';
+      const av = document.createElement('div');
+      av.className = 'cmp-bar-av';
+      av.textContent = emoji;
+      avatars.appendChild(av);
+    });
+    count.textContent = selected.size;
+    bar.classList.toggle('visible', selected.size >= 2);
+  }
+
+  function getSelectedCards() {
+    return [...document.querySelectorAll('.vendor-card[data-vendor]')]
+      .filter(c => selected.has(c.dataset.vendor));
+  }
+
+  window.cmpClearAll = function() {
+    selected.clear();
+    document.querySelectorAll('.vendor-card.cmp-selected').forEach(c => c.classList.remove('cmp-selected'));
+    document.querySelectorAll('.cmp-toggle.active').forEach(t => t.classList.remove('active'));
+    updateBar();
+  };
+
+  window.cmpOpenModal = function() {
+    const cards = getSelectedCards();
+    if (cards.length < 2) return;
+    const vendors = cards.map(extractVendor);
+    const n = vendors.length;
+
+    /* -- Vendor header row -- */
+    const vendorsRow = document.getElementById('cmpVendorsRow');
+    vendorsRow.style.gridTemplateColumns = `repeat(${n}, 1fr)`;
+    const bestPvsIdx = vendors.reduce((bi, v, i) => v.pvs > vendors[bi].pvs ? i : bi, 0);
+    vendorsRow.innerHTML = vendors.map((v, i) => `
+      <div class="cmp-vendor-col">
+        <div class="cmp-v-emoji">${v.emoji}</div>
+        <div class="cmp-v-name">${v.name}</div>
+        <div class="cmp-v-url">${v.url}</div>
+        <div class="cmp-v-score ${i === bestPvsIdx ? 'cmp-v-winner' : ''}"
+             style="background:conic-gradient(${v.pvsColor} calc(${v.pvs}% * 1%), #e2e8f0 0);
+                    color:${v.pvsColor}; border-radius:50%;">
+          <span style="background:white;border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;">${v.pvs}</span>
+        </div>
+      </div>
+    `).join('');
+
+    /* -- Pillar comparison rows -- */
+    const pillarsEl = document.getElementById('cmpPillars');
+    pillarsEl.innerHTML = PILLARS.map((p, pi) => {
+      const vals = vendors.map(v => v.pillarVals[pi] || 0);
+      const maxVal = Math.max(...vals);
+      return `
+        <div class="cmp-pillar-row" style="grid-template-columns: 130px repeat(${n}, 1fr);">
+          <div class="cmp-p-label">${p.name} <span style="opacity:.5;">(${p.weight})</span></div>
+          ${vendors.map((v, vi) => {
+            const val = vals[vi];
+            const isBest = val === maxVal;
+            return `
+              <div class="cmp-p-cell ${isBest ? 'cmp-p-best' : ''}">
+                <div class="cmp-p-bar"><div class="cmp-p-fill" style="width:${val}%;background:${p.color};"></div></div>
+                <div class="cmp-p-val">${val}</div>
+              </div>`;
+          }).join('')}
+        </div>`;
+    }).join('');
+
+    /* -- Verdict -- */
+    const winner = vendors[bestPvsIdx];
+    const verdictEl = document.getElementById('cmpVerdict');
+    const pillarWins = vendors.map((v, vi) => {
+      let wins = 0;
+      PILLARS.forEach((_, pi) => {
+        const vals = vendors.map(vv => vv.pillarVals[pi] || 0);
+        if (v.pillarVals[pi] === Math.max(...vals)) wins++;
+      });
+      return wins;
+    });
+    verdictEl.innerHTML = `
+      <div class="cmp-verdict-text">
+        ${winner.emoji} <span>${winner.name}</span> leads with a PVS Score of ${winner.pvs},
+        winning ${pillarWins[bestPvsIdx]} of 5 pillars.
+      </div>
+    `;
+
+    document.getElementById('cmpOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.cmpCloseModal = function() {
+    document.getElementById('cmpOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  };
+
+  /* Close on Escape */
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && document.getElementById('cmpOverlay').classList.contains('open')) {
+      cmpCloseModal();
+    }
+  });
+})();
+</script>
+</body>
+</html>

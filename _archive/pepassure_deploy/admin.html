@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — PepAssure</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <script>
+    window.SUPABASE_URL      = "https://atyaqyotrntnfchhdzvw.supabase.co";
+    window.SUPABASE_ANON_KEY = "sb_publishable_fQsKvj_UW2Zwcjt0_bb1Tg_Dhjedkht";
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0b1a35; --navy2: #122040;
+      --blue: #1a56db; --blue2: #3b82f6;
+      --teal: #00d4b8; --teal2: #06b6d4;
+      --green: #10b981; --green2: #34d399;
+      --amber: #f59e0b; --red: #ef4444; --purple: #8b5cf6;
+      --gray1: #f8fafc; --gray2: #e2e8f0; --gray3: #94a3b8; --gray4: #64748b;
+      --white: #fff; --text: #0f172a;
+      --shadow: 0 4px 24px rgba(0,0,0,.08);
+      --r: 14px;
+    }
+    body { font-family: 'Inter', system-ui, sans-serif; background: var(--gray1); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+
+    /* Header */
+    #header {
+      position: sticky; top: 0; z-index: 200;
+      background: rgba(11,26,53,.97); backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,.07); padding: 0 24px;
+    }
+    .header-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; gap: 14px; height: 62px; }
+    .logo { display: flex; align-items: center; gap: 9px; font-size: 1.15rem; font-weight: 800; color: white; }
+    .logo-mark { width: 30px; height: 30px; border-radius: 7px; background: linear-gradient(135deg,var(--teal),var(--blue2)); display: flex; align-items: center; justify-content: center; font-size: .75rem; font-weight: 900; color: white; }
+    .logo .ac { color: var(--teal); }
+    .admin-chip { margin-left: 6px; font-size: .66rem; font-weight: 800; padding: 3px 9px; border-radius: 10px; letter-spacing: .05em; text-transform: uppercase; background: rgba(139,92,246,.16); color: #c4b5fd; border: 1px solid rgba(139,92,246,.3); }
+    nav { display: flex; align-items: center; gap: 2px; margin-left: 10px; }
+    nav a { font-size: .81rem; font-weight: 500; color: rgba(255,255,255,.68); padding: 5px 11px; border-radius: 7px; transition: all .15s; }
+    nav a:hover, nav a.on { background: rgba(255,255,255,.09); color: white; }
+    .user-chip { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; padding: 5px 11px 5px 5px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 20px; color: rgba(255,255,255,.9); font-size: .78rem; font-weight: 600; }
+    .avatar { width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(135deg, var(--purple), var(--blue2)); display: flex; align-items: center; justify-content: center; font-size: .7rem; font-weight: 800; color: white; }
+    .signout-btn { margin-left: 8px; background: transparent; color: rgba(255,255,255,.6); border: 1px solid rgba(255,255,255,.14); border-radius: 7px; font-size: .76rem; font-weight: 600; padding: 6px 12px; cursor: pointer; transition: all .15s; font-family: inherit; }
+    .signout-btn:hover { color: white; border-color: rgba(255,255,255,.3); }
+
+    /* Hero */
+    .page-hero { background: linear-gradient(155deg, var(--navy) 0%, #1a1035 55%, #0d0820 100%); padding: 50px 24px 60px; position: relative; overflow: hidden; }
+    .page-hero::before { content:''; position:absolute; inset:0; pointer-events:none; background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(139,92,246,.18) 0%, transparent 60%); }
+    .ph-inner { max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
+    .ph-label { display: inline-flex; align-items: center; gap: 7px; font-size: .73rem; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; color: #c4b5fd; background: rgba(139,92,246,.14); border: 1px solid rgba(139,92,246,.3); padding: 4px 12px; border-radius: 20px; margin-bottom: 14px; }
+    .ph-title { font-size: 2rem; font-weight: 800; color: white; margin-bottom: 8px; letter-spacing: -.02em; }
+    .ph-sub { font-size: .92rem; color: rgba(255,255,255,.6); max-width: 600px; line-height: 1.6; }
+
+    main { max-width: 1100px; margin: -34px auto 60px; padding: 0 24px; position: relative; z-index: 2; }
+
+    /* Stats */
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 22px; }
+    @media(max-width: 700px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+    .stat { background: white; border: 1px solid var(--gray2); border-radius: 12px; padding: 18px 20px; }
+    .stat-label { font-size: .73rem; font-weight: 700; color: var(--gray4); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 6px; }
+    .stat-value { font-size: 1.6rem; font-weight: 900; line-height: 1; }
+    .sv-total { color: var(--text); }
+    .sv-pending { color: var(--amber); }
+    .sv-approved { color: var(--green); }
+    .sv-rejected { color: var(--red); }
+
+    /* Card */
+    .card { background: white; border-radius: var(--r); box-shadow: var(--shadow); border: 1px solid var(--gray2); padding: 28px 32px; margin-bottom: 22px; }
+    .card-h { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; gap: 12px; flex-wrap: wrap; }
+    .card h2 { font-size: 1.18rem; font-weight: 800; letter-spacing: -.01em; }
+    .card .sub { font-size: .85rem; color: var(--gray4); margin-bottom: 18px; line-height: 1.55; }
+
+    /* Filter tabs */
+    .tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+    .tab { padding: 6px 14px; border-radius: 8px; font-size: .8rem; font-weight: 600; cursor: pointer; border: 1.5px solid var(--gray2); background: white; color: var(--gray4); font-family: inherit; transition: all .15s; }
+    .tab:hover { border-color: var(--blue2); color: var(--blue); }
+    .tab.on { background: var(--blue); border-color: var(--blue); color: white; }
+    .tab .count { display: inline-flex; align-items: center; justify-content: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; font-size: .68rem; font-weight: 800; margin-left: 5px; }
+    .tab.on .count { background: rgba(255,255,255,.25); color: white; }
+    .tab:not(.on) .count { background: var(--gray1); color: var(--gray4); }
+
+    /* Claim cards */
+    .claims-list { display: flex; flex-direction: column; gap: 12px; margin-top: 18px; }
+    .claim-card { border: 1px solid var(--gray2); border-radius: 12px; padding: 20px 22px; transition: border-color .15s; }
+    .claim-card:hover { border-color: var(--blue2); }
+    .cc-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .cc-info { flex: 1; min-width: 200px; }
+    .cc-name { font-size: 1.05rem; font-weight: 800; margin-bottom: 2px; }
+    .cc-url { font-size: .82rem; color: var(--blue); }
+    .cc-url:hover { text-decoration: underline; }
+    .cc-email { font-size: .82rem; color: var(--gray4); margin-top: 4px; }
+    .cc-msg { font-size: .82rem; color: var(--text); margin-top: 10px; padding: 10px 14px; background: var(--gray1); border-radius: 8px; border: 1px solid var(--gray2); line-height: 1.55; }
+    .cc-meta { font-size: .74rem; color: var(--gray3); margin-top: 10px; }
+    .cc-actions { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+
+    .badge { display: inline-flex; align-items: center; gap: 5px; font-size: .72rem; font-weight: 700; padding: 4px 11px; border-radius: 20px; text-transform: uppercase; letter-spacing: .04em; flex-shrink: 0; }
+    .badge-pending { background: rgba(245,158,11,.12); color: #b45309; border: 1px solid rgba(245,158,11,.3); }
+    .badge-reviewing { background: rgba(6,182,212,.12); color: #0e7490; border: 1px solid rgba(6,182,212,.3); }
+    .badge-approved { background: rgba(16,185,129,.12); color: #047857; border: 1px solid rgba(16,185,129,.3); }
+    .badge-rejected { background: rgba(239,68,68,.12); color: #b91c1c; border: 1px solid rgba(239,68,68,.3); }
+
+    .btn-sm { padding: 7px 14px; border-radius: 8px; font-size: .8rem; font-weight: 700; cursor: pointer; border: 1.5px solid; font-family: inherit; transition: all .15s; }
+    .btn-approve { background: rgba(16,185,129,.1); color: #047857; border-color: rgba(16,185,129,.3); }
+    .btn-approve:hover { background: var(--green); color: white; border-color: var(--green); }
+    .btn-reject { background: rgba(239,68,68,.06); color: #b91c1c; border-color: rgba(239,68,68,.2); }
+    .btn-reject:hover { background: var(--red); color: white; border-color: var(--red); }
+    .btn-review { background: rgba(6,182,212,.08); color: #0e7490; border-color: rgba(6,182,212,.25); }
+    .btn-review:hover { background: var(--teal2); color: white; border-color: var(--teal2); }
+    .btn-revert { background: var(--gray1); color: var(--gray4); border-color: var(--gray2); }
+    .btn-revert:hover { background: var(--gray2); color: var(--text); }
+    .btn-sm:disabled { opacity: .5; cursor: not-allowed; }
+
+    .empty-state { text-align: center; padding: 36px 20px; background: var(--gray1); border-radius: 12px; border: 2px dashed var(--gray2); }
+    .empty-state .ic { font-size: 2.4rem; margin-bottom: 10px; display: block; }
+    .empty-state h3 { font-size: 1rem; font-weight: 800; margin-bottom: 6px; }
+    .empty-state p { font-size: .84rem; color: var(--gray4); line-height: 1.6; }
+
+    /* Loading */
+    .skeleton { height: 80px; background: linear-gradient(90deg, var(--gray1) 0%, var(--gray2) 50%, var(--gray1) 100%); background-size: 200% 100%; border-radius: 12px; animation: shimmer 1.4s infinite linear; margin-bottom: 10px; }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+    .err-banner { padding: 14px 18px; border-radius: 10px; background: rgba(239,68,68,.08); border: 1px solid rgba(239,68,68,.2); color: #991b1b; font-size: .85rem; margin-bottom: 18px; }
+
+    /* Sales inquiries */
+    .si-row { display: flex; align-items: flex-start; gap: 18px; padding: 14px 0; border-bottom: 1px solid var(--gray2); flex-wrap: wrap; }
+    .si-row:last-child { border-bottom: none; }
+    .si-name { font-weight: 700; font-size: .9rem; }
+    .si-company { font-size: .82rem; color: var(--gray4); }
+    .si-email { font-size: .82rem; color: var(--blue); }
+    .si-msg { font-size: .82rem; color: var(--text); line-height: 1.5; flex: 1; min-width: 200px; }
+    .si-date { font-size: .72rem; color: var(--gray3); white-space: nowrap; }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+  <header id="header">
+    <div class="header-inner">
+      <a href="/" class="logo">
+        <span class="logo-mark">P<span class="ac">A</span></span>
+        Pep<span class="ac" style="color:var(--teal);">Assure</span>
+        <span class="admin-chip">Admin</span>
+      </a>
+      <nav>
+        <a href="/admin" class="on">Admin</a>
+        <a href="/dashboard">Vendor view</a>
+        <a href="/for-vendors">Site</a>
+      </nav>
+      <div class="user-chip" id="userChip" style="display:none;">
+        <span class="avatar" id="avatar">?</span>
+        <span id="userEmail">-</span>
+      </div>
+      <button class="signout-btn" id="signoutBtn" onclick="signOut()" style="display:none;">Sign out</button>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="ph-inner">
+      <span class="ph-label">🛡️ Admin Console</span>
+      <h1 class="ph-title">Admin</h1>
+      <p class="ph-sub">Review pending claim requests, verify vendor ownership, and manage listings.</p>
+    </div>
+  </section>
+
+  <main>
+    <!-- Gate -->
+    <div id="gateState">
+      <div class="skeleton"></div><div class="skeleton"></div>
+    </div>
+
+    <div id="errorBanner" class="err-banner hidden"></div>
+
+    <!-- Ready state -->
+    <div id="readyState" class="hidden">
+
+      <!-- Stats row -->
+      <div class="stats">
+        <div class="stat"><div class="stat-label">Total claims</div><div class="stat-value sv-total" id="sTotal">-</div></div>
+        <div class="stat"><div class="stat-label">Pending</div><div class="stat-value sv-pending" id="sPending">-</div></div>
+        <div class="stat"><div class="stat-label">Approved</div><div class="stat-value sv-approved" id="sApproved">-</div></div>
+        <div class="stat"><div class="stat-label">Rejected</div><div class="stat-value sv-rejected" id="sRejected">-</div></div>
+      </div>
+
+      <!-- Claims -->
+      <div class="card">
+        <div class="card-h">
+          <h2>Claim requests</h2>
+          <div class="tabs" id="filterTabs">
+            <button class="tab on" data-filter="all">All <span class="count" id="cAll">0</span></button>
+            <button class="tab" data-filter="pending">Pending <span class="count" id="cPending">0</span></button>
+            <button class="tab" data-filter="reviewing">Reviewing <span class="count" id="cReviewing">0</span></button>
+            <button class="tab" data-filter="approved">Approved <span class="count" id="cApproved">0</span></button>
+            <button class="tab" data-filter="rejected">Rejected <span class="count" id="cRejected">0</span></button>
+          </div>
+        </div>
+        <p class="sub">Review vendor claim requests and verify ownership. Changes take effect immediately.</p>
+        <div id="claimsList" class="claims-list"></div>
+        <div id="claimsEmpty" class="empty-state hidden">
+          <span class="ic">📭</span>
+          <h3>No claims match this filter</h3>
+          <p>Try selecting a different status tab above.</p>
+        </div>
+      </div>
+
+      <!-- Sales inquiries -->
+      <div class="card">
+        <div class="card-h">
+          <h2>Enterprise inquiries</h2>
+        </div>
+        <p class="sub">Contact-sales form submissions from the Enterprise plan section.</p>
+        <div id="salesList"></div>
+        <div id="salesEmpty" class="empty-state hidden">
+          <span class="ic">📭</span>
+          <h3>No inquiries yet</h3>
+          <p>Enterprise contact form submissions will appear here.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const SUPA_URL = window.SUPABASE_URL;
+    const SUPA_KEY = window.SUPABASE_ANON_KEY;
+    let db = null;
+    let currentUser = null;
+    let allClaims = [];
+    let currentFilter = 'all';
+
+    if (SUPA_URL && SUPA_URL.startsWith('https://') && SUPA_KEY && SUPA_KEY.length > 20) {
+      db = window.supabase.createClient(SUPA_URL, SUPA_KEY);
+    }
+
+    function showError(msg) {
+      document.getElementById('errorBanner').textContent = msg;
+      document.getElementById('errorBanner').classList.remove('hidden');
+    }
+
+    function escapeHtml(s) {
+      if (s == null) return '';
+      return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
+    }
+
+    function fmtDate(iso) {
+      return new Date(iso).toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' });
+    }
+
+    function relTime(iso) {
+      const diff = Date.now() - new Date(iso).getTime();
+      const m = Math.floor(diff / 60000);
+      if (m < 60) return m + 'm ago';
+      const h = Math.floor(m / 60);
+      if (h < 24) return h + 'h ago';
+      const d = Math.floor(h / 24);
+      return d + 'd ago';
+    }
+
+    // ── Auth gate ────────────────────────────────────────
+    (async () => {
+      if (!db) {
+        document.getElementById('gateState').innerHTML = '<div class="err-banner">Auth is not configured.</div>';
+        return;
+      }
+
+      const { data: { session } } = await db.auth.getSession();
+      if (!session) { window.location.replace('/login'); return; }
+      currentUser = session.user;
+
+      const { data: roleRow } = await db.from('user_roles').select('role').eq('user_id', currentUser.id).maybeSingle();
+      if (!roleRow || roleRow.role !== 'admin') { window.location.replace('/dashboard'); return; }
+
+      // Render chrome
+      document.getElementById('userEmail').textContent = currentUser.email;
+      document.getElementById('avatar').textContent = (currentUser.email || '?')[0].toUpperCase();
+      document.getElementById('userChip').style.display = '';
+      document.getElementById('signoutBtn').style.display = '';
+      document.getElementById('gateState').classList.add('hidden');
+      document.getElementById('readyState').classList.remove('hidden');
+
+      // Load data
+      await Promise.all([loadClaims(), loadSales()]);
+    })();
+
+    // ── Claims ───────────────────────────────────────────
+    async function loadClaims() {
+      const { data, error } = await db.from('claim_requests').select('*').order('created_at', { ascending: false });
+      if (error) { showError('Failed to load claims: ' + error.message); return; }
+      allClaims = data || [];
+      updateStats();
+      renderClaims();
+    }
+
+    function updateStats() {
+      const counts = { pending: 0, reviewing: 0, approved: 0, rejected: 0 };
+      allClaims.forEach(c => { if (counts[c.status] !== undefined) counts[c.status]++; });
+      document.getElementById('sTotal').textContent = allClaims.length;
+      document.getElementById('sPending').textContent = counts.pending;
+      document.getElementById('sApproved').textContent = counts.approved;
+      document.getElementById('sRejected').textContent = counts.rejected;
+      document.getElementById('cAll').textContent = allClaims.length;
+      document.getElementById('cPending').textContent = counts.pending;
+      document.getElementById('cReviewing').textContent = counts.reviewing;
+      document.getElementById('cApproved').textContent = counts.approved;
+      document.getElementById('cRejected').textContent = counts.rejected;
+    }
+
+    function renderClaims() {
+      const filtered = currentFilter === 'all' ? allClaims : allClaims.filter(c => c.status === currentFilter);
+      const container = document.getElementById('claimsList');
+      const emptyEl = document.getElementById('claimsEmpty');
+
+      if (filtered.length === 0) {
+        container.innerHTML = '';
+        emptyEl.classList.remove('hidden');
+        return;
+      }
+      emptyEl.classList.add('hidden');
+
+      container.innerHTML = filtered.map(c => {
+        const actions = buildActions(c);
+        const msgHtml = c.message ? '<div class="cc-msg">' + escapeHtml(c.message) + '</div>' : '';
+        return `
+          <div class="claim-card" id="claim-${c.id}">
+            <div class="cc-top">
+              <div class="cc-info">
+                <div class="cc-name">${escapeHtml(c.vendor_name)}</div>
+                <a class="cc-url" href="${escapeHtml(c.website_url)}" target="_blank" rel="noopener">${escapeHtml(c.website_url)}</a>
+                <div class="cc-email">📧 ${escapeHtml(c.contact_email)}</div>
+              </div>
+              <span class="badge badge-${c.status}">${c.status}</span>
+            </div>
+            ${msgHtml}
+            <div class="cc-meta">Submitted ${fmtDate(c.created_at)} · ${relTime(c.created_at)}</div>
+            <div class="cc-actions">${actions}</div>
+          </div>`;
+      }).join('');
+    }
+
+    function buildActions(c) {
+      const id = c.id;
+      switch (c.status) {
+        case 'pending':
+          return `
+            <button class="btn-sm btn-review" onclick="updateStatus('${id}','reviewing')">Mark reviewing</button>
+            <button class="btn-sm btn-approve" onclick="updateStatus('${id}','approved')">Approve</button>
+            <button class="btn-sm btn-reject" onclick="updateStatus('${id}','rejected')">Reject</button>`;
+        case 'reviewing':
+          return `
+            <button class="btn-sm btn-approve" onclick="updateStatus('${id}','approved')">Approve</button>
+            <button class="btn-sm btn-reject" onclick="updateStatus('${id}','rejected')">Reject</button>
+            <button class="btn-sm btn-revert" onclick="updateStatus('${id}','pending')">Back to pending</button>`;
+        case 'approved':
+          return `<button class="btn-sm btn-revert" onclick="updateStatus('${id}','pending')">Revert to pending</button>`;
+        case 'rejected':
+          return `<button class="btn-sm btn-revert" onclick="updateStatus('${id}','pending')">Revert to pending</button>`;
+        default:
+          return '';
+      }
+    }
+
+    window.updateStatus = async function(claimId, newStatus) {
+      // Disable buttons on this card while updating
+      const card = document.getElementById('claim-' + claimId);
+      if (card) card.querySelectorAll('.btn-sm').forEach(b => b.disabled = true);
+
+      let error = null;
+
+      if (newStatus === 'approved') {
+        // Use the approve_claim RPC — also creates vendor_claims if user exists
+        const res = await db.rpc('approve_claim', { claim_id: claimId });
+        if (res.error) {
+          error = res.error;
+        } else if (res.data && !res.data.ok) {
+          error = { message: res.data.error || 'Approval failed' };
+        }
+      } else {
+        // Regular status update for reviewing/rejected/pending
+        const res = await db.from('claim_requests').update({ status: newStatus }).eq('id', claimId);
+        error = res.error;
+      }
+
+      if (error) {
+        showError('Update failed: ' + (error.message || error));
+        if (card) card.querySelectorAll('.btn-sm').forEach(b => b.disabled = false);
+        return;
+      }
+
+      // Send email notification for approved/rejected claims
+      if (newStatus === 'approved' || newStatus === 'rejected') {
+        try {
+          const notif = await db.rpc('send_claim_notification', {
+            claim_id: claimId,
+            new_status: newStatus
+          });
+          if (notif.data && notif.data.ok) {
+            console.log('[PepAssure] Notification sent to:', notif.data.sent_to);
+          } else {
+            console.warn('[PepAssure] Notification may have failed:', notif.data?.error || notif.error);
+          }
+        } catch (notifErr) {
+          // Don't block the status update — notification is best-effort
+          console.warn('[PepAssure] Notification error (non-blocking):', notifErr);
+        }
+      }
+
+      // Update local state
+      const claim = allClaims.find(c => c.id === claimId);
+      if (claim) claim.status = newStatus;
+      updateStats();
+      renderClaims();
+    };
+
+    // ── Filter tabs ──────────────────────────────────────
+    document.getElementById('filterTabs').addEventListener('click', (e) => {
+      const btn = e.target.closest('.tab');
+      if (!btn) return;
+      document.querySelectorAll('#filterTabs .tab').forEach(t => t.classList.remove('on'));
+      btn.classList.add('on');
+      currentFilter = btn.dataset.filter;
+      renderClaims();
+    });
+
+    // ── Sales inquiries ──────────────────────────────────
+    async function loadSales() {
+      const { data, error } = await db.from('sales_inquiries').select('*').order('created_at', { ascending: false });
+      if (error) { showError('Failed to load sales inquiries: ' + error.message); return; }
+      const list = data || [];
+      const container = document.getElementById('salesList');
+      const emptyEl = document.getElementById('salesEmpty');
+
+      if (list.length === 0) {
+        emptyEl.classList.remove('hidden');
+        return;
+      }
+      container.innerHTML = list.map(s => `
+        <div class="si-row">
+          <div>
+            <div class="si-name">${escapeHtml(s.name)}</div>
+            <div class="si-company">${escapeHtml(s.company)}</div>
+            <a class="si-email" href="mailto:${escapeHtml(s.email)}">${escapeHtml(s.email)}</a>
+          </div>
+          <div class="si-msg">${escapeHtml(s.message) || '<em style="color:var(--gray3);">No message</em>'}</div>
+          <div class="si-date">${fmtDate(s.created_at)}</div>
+        </div>`).join('');
+    }
+
+    // ── Sign out ─────────────────────────────────────────
+    window.signOut = async function() {
+      if (!db) return;
+      await db.auth.signOut();
+      window.location.replace('/login');
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ascension Peptides — PVS Score™ 95.5 | PepAssure</title>
+  <meta name="description" content="Ascension Peptides vendor profile — PVS Score 95.5. Independent ranking powered by lab data, Reddit sentiment, and Finnrick testing." />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:   #0a1628;
+      --navy2:  #131f36;
+      --blue:   #1a56db;
+      --blue2:  #3b82f6;
+      --teal:   #06b6d4;
+      --green:  #10b981;
+      --purple: #8b5cf6;
+      --amber:  #f59e0b;
+      --orange: #f97316;
+      --text:   #111827;
+      --gray1:  #f8fafc;
+      --gray2:  #e2e8f0;
+      --gray3:  #94a3b8;
+      --gray4:  #64748b;
+      --white:  #ffffff;
+      --radius: 14px;
+      --shadow: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: var(--gray1); color: var(--text); }
+
+    /* ── STICKY HEADER ── */
+    #header {
+      position: sticky; top: 0; z-index: 1000;
+      background: rgba(8,18,34,.92); backdrop-filter: blur(16px) saturate(140%);
+      border-bottom: 1px solid rgba(16,185,129,.18);
+      box-shadow: 0 4px 24px rgba(0,0,0,.35);
+      padding: 0 24px;
+    }
+    #header::after {
+      content:''; position:absolute; left:0; right:0; bottom:-1px; height:1px;
+      background: linear-gradient(90deg, transparent, rgba(16,185,129,.55), rgba(6,182,212,.55), transparent);
+    }
+    .header-inner {
+      max-width: 1280px; margin: 0 auto;
+      display: flex; align-items: center; gap: 16px; height: 62px;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 9px;
+      font-size: 1.2rem; font-weight: 800; color: var(--white);
+      text-decoration: none; white-space: nowrap; flex-shrink: 0;
+    }
+    .logo-icon {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--blue) 0%, var(--teal) 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .78rem; font-weight: 900; color: white;
+    }
+    .logo .ac { color: var(--teal); }
+    nav { display: flex; align-items: center; gap: 4px; margin-left: 12px; }
+    nav a {
+      font-size: .85rem; font-weight: 600; color: rgba(255,255,255,.78);
+      padding: 8px 14px; border-radius: 8px; transition: all .18s;
+      text-decoration: none; position: relative;
+    }
+    nav a::after {
+      content:''; position:absolute; left:14px; right:14px; bottom:4px;
+      height:2px; border-radius:2px;
+      background:linear-gradient(90deg,var(--green),var(--teal));
+      transform:scaleX(0); transition: transform .25s ease;
+    }
+    nav a:hover, nav a.on { color:#fff; background:rgba(16,185,129,.1); }
+    nav a:hover::after, nav a.on::after { transform:scaleX(1); }
+    .header-cta {
+      margin-left: auto; padding: 8px 18px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--green), #059669);
+      color: white; font-size: .82rem; font-weight: 700;
+      border: none; cursor: pointer; transition: transform .15s;
+    }
+    .header-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(16,185,129,.5); }
+
+    /* ── VENDOR HERO ── */
+    .vp-hero {
+      background: linear-gradient(155deg, var(--navy) 0%, #0d1f3c 55%, #081828 100%);
+      padding: 60px 24px 48px; position: relative; overflow: hidden;
+    }
+    .vp-hero::before {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(16,185,129,.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .vp-hero-inner {
+      max-width: 1100px; margin: 0 auto; position: relative; z-index: 1;
+      display: flex; align-items: flex-start; gap: 40px;
+    }
+
+    /* Big score ring */
+    .vp-score-wrap { flex-shrink: 0; text-align: center; }
+    .vp-score-ring {
+      width: 140px; height: 140px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      box-shadow: 0 0 40px rgba(16,185,129,.35);
+    }
+    .vp-score-inner {
+      width: 108px; height: 108px; border-radius: 50%;
+      background: var(--navy); display: flex; flex-direction: column;
+      align-items: center; justify-content: center; position: absolute;
+    }
+    .vp-score-val { font-size: 2.4rem; font-weight: 900; color: var(--green); line-height: 1; }
+    .vp-score-lbl { font-size: .65rem; font-weight: 700; color: rgba(255,255,255,.45); text-transform: uppercase; letter-spacing: .08em; margin-top: 3px; }
+    .vp-score-delta {
+      margin-top: 10px; font-size: .78rem; font-weight: 700;
+      color: var(--green); display: inline-flex; align-items: center; gap: 4px;
+      background: rgba(16,185,129,.14); border: 1px solid rgba(16,185,129,.3);
+      padding: 3px 10px; border-radius: 8px;
+    }
+
+    /* Vendor info */
+    .vp-info { flex: 1; }
+    .vp-breadcrumb { font-size: .74rem; color: rgba(255,255,255,.35); margin-bottom: 10px; }
+    .vp-breadcrumb a { color: rgba(255,255,255,.5); text-decoration: none; }
+    .vp-breadcrumb a:hover { color: white; }
+    .vp-name { font-size: 2rem; font-weight: 900; color: white; margin-bottom: 6px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .vp-name .emoji { font-size: 1.6rem; }
+    .vp-url { font-size: .86rem; color: rgba(255,255,255,.45); margin-bottom: 14px; }
+    .vp-url a { color: var(--teal); text-decoration: none; }
+    .vp-url a:hover { text-decoration: underline; }
+    .vp-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+    .vp-badge {
+      font-size: .7rem; font-weight: 700; padding: 4px 12px; border-radius: 10px;
+      text-transform: uppercase; letter-spacing: .04em;
+    }
+    .vp-b-top { background: rgba(26,86,219,.15); color: var(--blue2); border: 1px solid rgba(26,86,219,.3); }
+    .vp-b-finn { background: rgba(139,92,246,.12); color: var(--purple); border: 1px solid rgba(139,92,246,.25); }
+    .vp-b-ver { background: rgba(16,185,129,.12); color: var(--green); border: 1px solid rgba(16,185,129,.25); }
+    .vp-b-rank { background: rgba(245,158,11,.12); color: var(--amber); border: 1px solid rgba(245,158,11,.25); }
+
+    /* Pillar mini bars in hero */
+    .vp-pillars { display: flex; gap: 14px; flex-wrap: wrap; }
+    .vp-pill { flex: 1; min-width: 140px; }
+    .vp-pill-head { display: flex; justify-content: space-between; margin-bottom: 4px; }
+    .vp-pill-n { font-size: .72rem; font-weight: 600; color: rgba(255,255,255,.55); }
+    .vp-pill-v { font-size: .72rem; font-weight: 800; color: white; }
+    .vp-pill-bar { height: 6px; border-radius: 3px; background: rgba(255,255,255,.1); overflow: hidden; }
+    .vp-pill-fill { height: 100%; border-radius: 3px; }
+
+    /* ── TAB BAR ── */
+    .vp-tabs {
+      background: white; border-bottom: 2px solid var(--gray2);
+      padding: 0 24px; position: sticky; top: 62px; z-index: 999;
+    }
+    .vp-tabs-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; gap: 0; overflow-x: auto;
+    }
+    .vp-tab {
+      padding: 14px 22px; font-size: .86rem; font-weight: 700;
+      color: var(--gray4); cursor: pointer; border: none; background: none;
+      position: relative; white-space: nowrap; transition: color .18s;
+    }
+    .vp-tab::after {
+      content:''; position:absolute; left:12px; right:12px; bottom:-2px;
+      height:3px; border-radius:2px; background: var(--green);
+      transform:scaleX(0); transition: transform .2s;
+    }
+    .vp-tab:hover { color: var(--text); }
+    .vp-tab.active { color: var(--green); }
+    .vp-tab.active::after { transform: scaleX(1); }
+
+    /* ── CONTENT SECTIONS ── */
+    .vp-content { max-width: 1100px; margin: 0 auto; padding: 32px 24px 60px; }
+    .vp-panel { display: none; }
+    .vp-panel.active { display: block; }
+
+    /* ── HISTORICAL CHART ── */
+    .chart-wrap {
+      background: white; border-radius: var(--radius); border: 1.5px solid var(--gray2);
+      box-shadow: var(--shadow); padding: 28px 24px; margin-bottom: 24px;
+    }
+    .chart-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+    .chart-title { font-size: 1.05rem; font-weight: 800; }
+    .chart-range-btns { display: flex; gap: 4px; }
+    .chart-range-btn {
+      padding: 5px 14px; border-radius: 8px; font-size: .76rem; font-weight: 700;
+      background: var(--gray1); border: 1.5px solid var(--gray2);
+      cursor: pointer; color: var(--gray4); transition: all .15s;
+    }
+    .chart-range-btn.active { background: var(--navy); color: white; border-color: var(--navy); }
+    .chart-range-btn:hover:not(.active) { border-color: var(--blue2); color: var(--blue); }
+
+    /* SVG Chart area */
+    .chart-svg-wrap { position: relative; width: 100%; padding-bottom: 38%; min-height: 260px; }
+    .chart-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+    /* Chart legend */
+    .chart-legend { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 16px; }
+    .chart-leg { display: flex; align-items: center; gap: 6px; font-size: .74rem; color: var(--gray4); font-weight: 600; }
+    .chart-leg-dot { width: 10px; height: 10px; border-radius: 3px; }
+
+    /* Tooltip */
+    .chart-tooltip {
+      position: absolute; pointer-events: none; z-index: 10;
+      background: var(--navy); color: white; border-radius: 10px;
+      padding: 10px 14px; font-size: .76rem; line-height: 1.5;
+      box-shadow: 0 8px 24px rgba(0,0,0,.3); border: 1px solid rgba(255,255,255,.12);
+      opacity: 0; transition: opacity .15s;
+      max-width: 240px; transform: translateX(-50%);
+    }
+    .chart-tooltip.show { opacity: 1; }
+    .chart-tooltip .tt-date { font-weight: 700; color: var(--teal); margin-bottom: 4px; }
+    .chart-tooltip .tt-score { font-size: .92rem; font-weight: 900; color: var(--green); }
+    .chart-tooltip .tt-note { font-size: .68rem; color: rgba(255,255,255,.55); margin-top: 4px; }
+
+    /* Stats cards */
+    .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 16px; margin-bottom: 24px; }
+    .stat-card {
+      background: white; border-radius: var(--radius); border: 1.5px solid var(--gray2);
+      box-shadow: var(--shadow); padding: 20px; transition: all .2s;
+    }
+    .stat-card:hover { border-color: rgba(16,185,129,.4); box-shadow: 0 8px 24px rgba(16,185,129,.15); }
+    .stat-card-label { font-size: .74rem; font-weight: 600; color: var(--gray4); margin-bottom: 4px; }
+    .stat-card-val { font-size: 1.6rem; font-weight: 900; }
+    .stat-card-sub { font-size: .72rem; color: var(--gray3); margin-top: 2px; }
+
+    /* Key events timeline */
+    .events-card {
+      background: white; border-radius: var(--radius); border: 1.5px solid var(--gray2);
+      box-shadow: var(--shadow); padding: 24px; margin-bottom: 24px;
+    }
+    .events-title { font-size: .95rem; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .event-row {
+      display: flex; gap: 14px; padding: 12px 0;
+      border-bottom: 1px solid rgba(0,0,0,.04);
+    }
+    .event-row:last-child { border-bottom: none; }
+    .event-dot {
+      width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 4px;
+    }
+    .event-info { flex: 1; }
+    .event-date { font-size: .72rem; font-weight: 700; color: var(--gray3); margin-bottom: 2px; }
+    .event-text { font-size: .84rem; color: var(--text); line-height: 1.5; }
+    .event-delta { font-size: .78rem; font-weight: 800; margin-left: auto; flex-shrink: 0; padding-top: 2px; }
+    .event-delta.pos { color: var(--green); }
+    .event-delta.neg { color: #ef4444; }
+
+    /* ── COA TAB ── */
+    .coa-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 16px; }
+    .coa-card {
+      background: white; border-radius: var(--radius); border: 1.5px solid var(--gray2);
+      box-shadow: var(--shadow); padding: 20px; transition: all .2s;
+    }
+    .coa-card:hover { border-color: rgba(16,185,129,.4); transform: translateY(-2px); box-shadow: 0 12px 30px rgba(16,185,129,.18); }
+    .coa-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .coa-icon { font-size: 1.6rem; }
+    .coa-name { font-size: .9rem; font-weight: 800; }
+    .coa-meta { font-size: .74rem; color: var(--gray3); }
+    .coa-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(0,0,0,.04); }
+    .coa-row:last-child { border-bottom: none; }
+    .coa-k { font-size: .78rem; color: var(--gray4); }
+    .coa-v { font-size: .78rem; font-weight: 700; }
+    .coa-v.pass { color: var(--green); }
+    .coa-v.warn { color: var(--amber); }
+    .coa-badge-row { margin-top: 10px; display: flex; gap: 6px; }
+    .coa-badge {
+      font-size: .62rem; font-weight: 800; padding: 3px 8px; border-radius: 6px;
+      text-transform: uppercase; letter-spacing: .04em;
+    }
+
+    /* ── COMMUNITY TAB ── */
+    .reddit-card {
+      background: white; border-radius: var(--radius); border: 1.5px solid var(--gray2);
+      box-shadow: var(--shadow); padding: 18px 20px; margin-bottom: 14px;
+      transition: all .2s;
+    }
+    .reddit-card:hover { border-color: rgba(16,185,129,.4); transform: translateY(-2px); }
+    .reddit-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .reddit-sub { font-size: .72rem; font-weight: 700; color: var(--orange); }
+    .reddit-time { font-size: .68rem; color: var(--gray3); }
+    .reddit-sent {
+      margin-left: auto; font-size: .68rem; font-weight: 800; padding: 3px 8px;
+      border-radius: 6px; text-transform: uppercase;
+    }
+    .reddit-sent.pos { background: rgba(16,185,129,.1); color: var(--green); }
+    .reddit-sent.neg { background: rgba(239,68,68,.1); color: #ef4444; }
+    .reddit-sent.neu { background: rgba(100,116,139,.1); color: var(--gray4); }
+    .reddit-text { font-size: .86rem; line-height: 1.6; color: var(--gray4); }
+    .reddit-author { font-size: .72rem; color: var(--gray3); margin-top: 8px; }
+    .reddit-votes { font-size: .72rem; font-weight: 700; color: var(--text); }
+
+    /* ── PRICING TAB ── */
+    .price-table { width: 100%; border-collapse: collapse; background: white; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); border: 1.5px solid var(--gray2); }
+    .price-table th { background: var(--navy); color: white; padding: 14px 18px; text-align: left; font-size: .78rem; font-weight: 700; }
+    .price-table td { padding: 12px 18px; font-size: .84rem; border-bottom: 1px solid var(--gray2); }
+    .price-table tr:last-child td { border-bottom: none; }
+    .price-table tr:hover td { background: rgba(16,185,129,.03); }
+
+    /* ── CLAIMED VENDOR SECTION ── */
+    .claimed-section {
+      background: linear-gradient(135deg, rgba(16,185,129,.06), rgba(6,182,212,.04));
+      border: 2px dashed rgba(16,185,129,.35);
+      border-radius: var(--radius); padding: 28px; margin-top: 32px;
+    }
+    .claimed-title { font-size: 1rem; font-weight: 800; color: var(--text); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+    .claimed-sub { font-size: .82rem; color: var(--gray4); margin-bottom: 18px; }
+    .claimed-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .claimed-btn {
+      padding: 10px 20px; border-radius: 10px; font-size: .82rem; font-weight: 700;
+      cursor: pointer; transition: all .15s; border: none;
+    }
+    .claimed-btn-primary { background: linear-gradient(135deg, var(--green), #059669); color: white; }
+    .claimed-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(16,185,129,.4); }
+    .claimed-btn-outline { background: white; border: 1.5px solid var(--gray2); color: var(--gray4); }
+    .claimed-btn-outline:hover { border-color: var(--green); color: var(--green); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy); padding: 42px 24px 28px;
+      border-top: 1px solid rgba(16,185,129,.12);
+    }
+    .footer-inner { max-width: 1100px; margin: 0 auto; text-align: center; }
+    .footer-copy { font-size: .72rem; color: rgba(255,255,255,.38); }
+    .footer-copy a { color: rgba(255,255,255,.55); text-decoration: none; }
+
+    @media(max-width:768px) {
+      nav { display: none; }
+      .vp-hero-inner { flex-direction: column; align-items: center; text-align: center; gap: 24px; }
+      .vp-badges { justify-content: center; }
+      .vp-pillars { justify-content: center; }
+      .vp-name { justify-content: center; font-size: 1.5rem; }
+    }
+    @media(max-width:480px) {
+      .vp-tabs-inner { gap: 0; }
+      .vp-tab { padding: 12px 14px; font-size: .78rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="header">
+  <div class="header-inner">
+    <a href="/" class="logo">
+      <div class="logo-icon">PA</div>
+      Pep<span class="ac">Assure</span>
+    </a>
+    <nav>
+      <a href="/">Rankings</a>
+      <a href="/#methodology">Methodology</a>
+      <a href="/#resources">Resources</a>
+      <a href="/for-vendors">For Vendors</a>
+      <a href="/#api">API</a>
+    </nav>
+    <a href="/for-vendors" class="header-cta">Claim Free Listing</a>
+  </div>
+</header>
+
+<!-- VENDOR HERO -->
+<section class="vp-hero">
+  <div class="vp-hero-inner">
+    <!-- Score Ring -->
+    <div class="vp-score-wrap">
+      <div class="vp-score-ring" style="background:conic-gradient(#10b981 95.5%, #1e293b 0);">
+        <div class="vp-score-inner">
+          <div class="vp-score-val">95.5</div>
+          <div class="vp-score-lbl">PVS Score</div>
+        </div>
+      </div>
+      <div class="vp-score-delta">↑ +2.3 since last week</div>
+    </div>
+
+    <!-- Info -->
+    <div class="vp-info">
+      <div class="vp-breadcrumb"><a href="/">Rankings</a> / <a href="/#rankings">All Vendors</a> / Ascension Peptides</div>
+      <div class="vp-name"><span class="emoji">🧬</span> Ascension Peptides</div>
+      <div class="vp-url"><a href="https://ascensionpeptides.com" target="_blank" rel="noopener">ascensionpeptides.com</a> · Rank #1 of 148</div>
+      <div class="vp-badges">
+        <span class="vp-badge vp-b-top">⭐ Top Pick</span>
+        <span class="vp-badge vp-b-finn">🧪 Finnrick Tested</span>
+        <span class="vp-badge vp-b-ver">✓ Verified Vendor</span>
+        <span class="vp-badge vp-b-rank">#1 Ranked</span>
+      </div>
+      <div class="vp-pillars">
+        <div class="vp-pill">
+          <div class="vp-pill-head"><span class="vp-pill-n">Purity (30%)</span><span class="vp-pill-v">98</span></div>
+          <div class="vp-pill-bar"><div class="vp-pill-fill" style="width:98%;background:linear-gradient(90deg,#3b82f6,#06b6d4);"></div></div>
+        </div>
+        <div class="vp-pill">
+          <div class="vp-pill-head"><span class="vp-pill-n">Reputation (25%)</span><span class="vp-pill-v">95</span></div>
+          <div class="vp-pill-bar"><div class="vp-pill-fill" style="width:95%;background:linear-gradient(90deg,#10b981,#34d399);"></div></div>
+        </div>
+        <div class="vp-pill">
+          <div class="vp-pill-head"><span class="vp-pill-n">Cust. Svc (20%)</span><span class="vp-pill-v">93</span></div>
+          <div class="vp-pill-bar"><div class="vp-pill-fill" style="width:93%;background:linear-gradient(90deg,#f59e0b,#fbbf24);"></div></div>
+        </div>
+        <div class="vp-pill">
+          <div class="vp-pill-head"><span class="vp-pill-n">Community (15%)</span><span class="vp-pill-v">96</span></div>
+          <div class="vp-pill-bar"><div class="vp-pill-fill" style="width:96%;background:linear-gradient(90deg,#8b5cf6,#a78bfa);"></div></div>
+        </div>
+        <div class="vp-pill">
+          <div class="vp-pill-head"><span class="vp-pill-n">Price/COGS (10%)</span><span class="vp-pill-v">91</span></div>
+          <div class="vp-pill-bar"><div class="vp-pill-fill" style="width:91%;background:linear-gradient(90deg,#f97316,#fb923c);"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TAB BAR -->
+<div class="vp-tabs">
+  <div class="vp-tabs-inner">
+    <button class="vp-tab active" data-tab="overview">Overview</button>
+    <button class="vp-tab" data-tab="trends">Historical Trends</button>
+    <button class="vp-tab" data-tab="coas">COAs</button>
+    <button class="vp-tab" data-tab="community">Community</button>
+    <button class="vp-tab" data-tab="pricing">Pricing</button>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="vp-content">
+
+  <!-- ═══ OVERVIEW TAB ═══ -->
+  <div class="vp-panel active" id="panel-overview">
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-card-label">PVS Score</div>
+        <div class="stat-card-val" style="color:var(--green);">95.5</div>
+        <div class="stat-card-sub">Rank #1 of 148 vendors</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">30-Day Change</div>
+        <div class="stat-card-val" style="color:var(--green);">+1.8</div>
+        <div class="stat-card-sub">Trending up consistently</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">90-Day Change</div>
+        <div class="stat-card-val" style="color:var(--green);">+4.2</div>
+        <div class="stat-card-sub">Strong growth trajectory</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Reddit Mentions (30d)</div>
+        <div class="stat-card-val" style="color:var(--blue2);">342</div>
+        <div class="stat-card-sub">89% positive sentiment</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">COAs on File</div>
+        <div class="stat-card-val" style="color:var(--purple);">47</div>
+        <div class="stat-card-sub">Last uploaded 2 days ago</div>
+      </div>
+    </div>
+
+    <!-- Mini Chart (overview) -->
+    <div class="chart-wrap">
+      <div class="chart-head">
+        <div class="chart-title">PVS Score — 90 Day Trend</div>
+      </div>
+      <div class="chart-svg-wrap">
+        <svg class="chart-svg" id="overviewChart" viewBox="0 0 800 280" preserveAspectRatio="none"></svg>
+        <div class="chart-tooltip" id="chartTooltip"></div>
+      </div>
+      <div class="chart-legend">
+        <div class="chart-leg"><div class="chart-leg-dot" style="background:var(--green);"></div>PVS Score</div>
+        <div class="chart-leg"><div class="chart-leg-dot" style="background:var(--blue2);"></div>Purity</div>
+        <div class="chart-leg"><div class="chart-leg-dot" style="background:var(--amber);"></div>Customer Service</div>
+        <div class="chart-leg"><div class="chart-leg-dot" style="background:var(--purple);"></div>Community</div>
+      </div>
+    </div>
+
+    <!-- Key Events -->
+    <div class="events-card">
+      <div class="events-title">📅 Key Score Events</div>
+      <div class="event-row">
+        <div class="event-dot" style="background:var(--green);"></div>
+        <div class="event-info">
+          <div class="event-date">Mar 28, 2026</div>
+          <div class="event-text">New Finnrick batch uploaded — 12 peptides verified at 99.2% avg purity.</div>
+        </div>
+        <div class="event-delta pos">+3.1</div>
+      </div>
+      <div class="event-row">
+        <div class="event-dot" style="background:var(--blue2);"></div>
+        <div class="event-info">
+          <div class="event-date">Mar 15, 2026</div>
+          <div class="event-text">Reddit sentiment surge — top post on r/Peptides recommending Ascension's BPC-157.</div>
+        </div>
+        <div class="event-delta pos">+1.4</div>
+      </div>
+      <div class="event-row">
+        <div class="event-dot" style="background:#ef4444;"></div>
+        <div class="event-info">
+          <div class="event-date">Feb 22, 2026</div>
+          <div class="event-text">Purity dipped 1pt after a Reddit thread reported a slow shipping batch. Recovered in 5 days.</div>
+        </div>
+        <div class="event-delta neg">-1.0</div>
+      </div>
+      <div class="event-row">
+        <div class="event-dot" style="background:var(--purple);"></div>
+        <div class="event-info">
+          <div class="event-date">Feb 8, 2026</div>
+          <div class="event-text">Uploaded 8 new COAs covering Semaglutide, TB-500, and GHK-Cu product lines.</div>
+        </div>
+        <div class="event-delta pos">+2.1</div>
+      </div>
+      <div class="event-row">
+        <div class="event-dot" style="background:var(--teal);"></div>
+        <div class="event-info">
+          <div class="event-date">Jan 18, 2026</div>
+          <div class="event-text">Vendor claimed listing and completed domain verification. Initial PVS boost.</div>
+        </div>
+        <div class="event-delta pos">+1.8</div>
+      </div>
+    </div>
+
+    <!-- Claimed Vendor Section -->
+    <div class="claimed-section">
+      <div class="claimed-title">🔒 Vendor Dashboard (Owner Only)</div>
+      <div class="claimed-sub">You've verified ownership of this listing. Manage your profile, upload COAs, and respond to community feedback.</div>
+      <div class="claimed-actions">
+        <button class="claimed-btn claimed-btn-primary">📄 Upload New COA</button>
+        <button class="claimed-btn claimed-btn-outline">💬 Reply to Feedback</button>
+        <button class="claimed-btn claimed-btn-outline">📊 Private Analytics Dashboard</button>
+        <button class="claimed-btn claimed-btn-outline">✏️ Edit Public Profile</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ HISTORICAL TRENDS TAB ═══ -->
+  <div class="vp-panel" id="panel-trends">
+    <div class="chart-wrap">
+      <div class="chart-head">
+        <div class="chart-title">PVS Score History</div>
+        <div class="chart-range-btns">
+          <button class="chart-range-btn" data-range="30">30d</button>
+          <button class="chart-range-btn active" data-range="90">90d</button>
+          <button class="chart-range-btn" data-range="180">6mo</button>
+          <button class="chart-range-btn" data-range="365">1yr</button>
+        </div>
+      </div>
+      <div class="chart-svg-wrap">
+        <svg class="chart-svg" id="trendsChart" viewBox="0 0 800 280" preserveAspectRatio="none"></svg>
+        <div class="chart-tooltip" id="trendsTooltip"></div>
+      </div>
+      <div class="chart-legend">
+        <div class="chart-leg"><div class="chart-leg-dot" style="background:var(--green);"></div>Overall PVS</div>
+        <div class="chart-leg"><div class="chart-leg-dot" style="background:#3b82f6;"></div>Purity</div>
+        <div class="chart-leg"><div class="chart-leg-dot" style="background:#10b981;"></div>Reputation</div>
+        <div class="chart-leg"><div class="chart-leg-dot" style="background:#f59e0b;"></div>Cust. Service</div>
+        <div class="chart-leg"><div class="chart-leg-dot" style="background:#8b5cf6;"></div>Community</div>
+        <div class="chart-leg"><div class="chart-leg-dot" style="background:#f97316;"></div>Price/COGS</div>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-card-label">7-Day Change</div>
+        <div class="stat-card-val" style="color:var(--green);">+2.3</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">30-Day Change</div>
+        <div class="stat-card-val" style="color:var(--green);">+1.8</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">90-Day Change</div>
+        <div class="stat-card-val" style="color:var(--green);">+4.2</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">All-Time High</div>
+        <div class="stat-card-val" style="color:var(--teal);">95.5</div>
+        <div class="stat-card-sub">Today</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">All-Time Low</div>
+        <div class="stat-card-val" style="color:var(--gray4);">84.2</div>
+        <div class="stat-card-sub">Nov 3, 2025</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ COAs TAB ═══ -->
+  <div class="vp-panel" id="panel-coas">
+    <div class="coa-grid">
+      <div class="coa-card">
+        <div class="coa-head"><span class="coa-icon">📄</span><div><div class="coa-name">BPC-157 — Batch #AP-2026-0328</div><div class="coa-meta">Uploaded Mar 28, 2026 · Finnrick Lab</div></div></div>
+        <div class="coa-row"><span class="coa-k">Purity (HPLC)</span><span class="coa-v pass">99.4%</span></div>
+        <div class="coa-row"><span class="coa-k">Identity Confirmed</span><span class="coa-v pass">Yes</span></div>
+        <div class="coa-row"><span class="coa-k">Endotoxin</span><span class="coa-v pass">&lt;0.5 EU/mg</span></div>
+        <div class="coa-row"><span class="coa-k">Heavy Metals</span><span class="coa-v pass">Below LOD</span></div>
+        <div class="coa-badge-row">
+          <span class="coa-badge" style="background:rgba(139,92,246,.12);color:var(--purple);">Finnrick Verified</span>
+          <span class="coa-badge" style="background:rgba(16,185,129,.12);color:var(--green);">AI Parsed</span>
+        </div>
+      </div>
+
+      <div class="coa-card">
+        <div class="coa-head"><span class="coa-icon">📄</span><div><div class="coa-name">TB-500 — Batch #AP-2026-0315</div><div class="coa-meta">Uploaded Mar 15, 2026 · Finnrick Lab</div></div></div>
+        <div class="coa-row"><span class="coa-k">Purity (HPLC)</span><span class="coa-v pass">98.7%</span></div>
+        <div class="coa-row"><span class="coa-k">Identity Confirmed</span><span class="coa-v pass">Yes</span></div>
+        <div class="coa-row"><span class="coa-k">Endotoxin</span><span class="coa-v pass">&lt;0.5 EU/mg</span></div>
+        <div class="coa-row"><span class="coa-k">Heavy Metals</span><span class="coa-v pass">Below LOD</span></div>
+        <div class="coa-badge-row">
+          <span class="coa-badge" style="background:rgba(139,92,246,.12);color:var(--purple);">Finnrick Verified</span>
+          <span class="coa-badge" style="background:rgba(16,185,129,.12);color:var(--green);">AI Parsed</span>
+        </div>
+      </div>
+
+      <div class="coa-card">
+        <div class="coa-head"><span class="coa-icon">📄</span><div><div class="coa-name">Semaglutide — Batch #AP-2026-0208</div><div class="coa-meta">Uploaded Feb 8, 2026 · Vendor Submitted</div></div></div>
+        <div class="coa-row"><span class="coa-k">Purity (HPLC)</span><span class="coa-v pass">97.9%</span></div>
+        <div class="coa-row"><span class="coa-k">Identity Confirmed</span><span class="coa-v pass">Yes</span></div>
+        <div class="coa-row"><span class="coa-k">Endotoxin</span><span class="coa-v warn">0.8 EU/mg</span></div>
+        <div class="coa-row"><span class="coa-k">Heavy Metals</span><span class="coa-v pass">Below LOD</span></div>
+        <div class="coa-badge-row">
+          <span class="coa-badge" style="background:rgba(245,158,11,.12);color:var(--amber);">Vendor COA</span>
+          <span class="coa-badge" style="background:rgba(16,185,129,.12);color:var(--green);">AI Parsed</span>
+        </div>
+      </div>
+
+      <div class="coa-card">
+        <div class="coa-head"><span class="coa-icon">📄</span><div><div class="coa-name">GHK-Cu — Batch #AP-2026-0208</div><div class="coa-meta">Uploaded Feb 8, 2026 · Vendor Submitted</div></div></div>
+        <div class="coa-row"><span class="coa-k">Purity (HPLC)</span><span class="coa-v pass">98.3%</span></div>
+        <div class="coa-row"><span class="coa-k">Identity Confirmed</span><span class="coa-v pass">Yes</span></div>
+        <div class="coa-row"><span class="coa-k">Endotoxin</span><span class="coa-v pass">&lt;0.5 EU/mg</span></div>
+        <div class="coa-row"><span class="coa-k">Heavy Metals</span><span class="coa-v pass">Below LOD</span></div>
+        <div class="coa-badge-row">
+          <span class="coa-badge" style="background:rgba(245,158,11,.12);color:var(--amber);">Vendor COA</span>
+          <span class="coa-badge" style="background:rgba(16,185,129,.12);color:var(--green);">AI Parsed</span>
+        </div>
+      </div>
+
+      <div class="coa-card">
+        <div class="coa-head"><span class="coa-icon">📄</span><div><div class="coa-name">Ipamorelin — Batch #AP-2026-0118</div><div class="coa-meta">Uploaded Jan 18, 2026 · Finnrick Lab</div></div></div>
+        <div class="coa-row"><span class="coa-k">Purity (HPLC)</span><span class="coa-v pass">99.1%</span></div>
+        <div class="coa-row"><span class="coa-k">Identity Confirmed</span><span class="coa-v pass">Yes</span></div>
+        <div class="coa-row"><span class="coa-k">Endotoxin</span><span class="coa-v pass">&lt;0.5 EU/mg</span></div>
+        <div class="coa-row"><span class="coa-k">Heavy Metals</span><span class="coa-v pass">Below LOD</span></div>
+        <div class="coa-badge-row">
+          <span class="coa-badge" style="background:rgba(139,92,246,.12);color:var(--purple);">Finnrick Verified</span>
+          <span class="coa-badge" style="background:rgba(16,185,129,.12);color:var(--green);">AI Parsed</span>
+        </div>
+      </div>
+
+      <div class="coa-card" style="border-style:dashed; opacity:.6; display:flex; align-items:center; justify-content:center; min-height:200px;">
+        <div style="text-align:center; color:var(--gray3);">
+          <div style="font-size:2rem; margin-bottom:8px;">+42</div>
+          <div style="font-size:.82rem; font-weight:700;">More COAs on file</div>
+          <div style="font-size:.72rem; margin-top:4px;">View all in vendor dashboard</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ COMMUNITY TAB ═══ -->
+  <div class="vp-panel" id="panel-community">
+    <div class="stats-row" style="margin-bottom:20px;">
+      <div class="stat-card">
+        <div class="stat-card-label">Total Mentions (30d)</div>
+        <div class="stat-card-val" style="color:var(--blue2);">342</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Positive</div>
+        <div class="stat-card-val" style="color:var(--green);">89%</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Neutral</div>
+        <div class="stat-card-val" style="color:var(--gray4);">8%</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Negative</div>
+        <div class="stat-card-val" style="color:#ef4444;">3%</div>
+      </div>
+    </div>
+
+    <div class="reddit-card">
+      <div class="reddit-head">
+        <span class="reddit-sub">r/Peptides</span>
+        <span class="reddit-time">3 days ago</span>
+        <span class="reddit-sent pos">Positive</span>
+      </div>
+      <div class="reddit-text">"Just got my third order from Ascension. BPC-157 and TB-500, both came with full COAs matching what's on PepAssure. Healing a torn rotator cuff noticeably faster. Can't recommend them enough."</div>
+      <div style="display:flex;align-items:center;gap:12px;margin-top:10px;">
+        <span class="reddit-author">u/ResearchRat42</span>
+        <span class="reddit-votes">↑ 47 points</span>
+      </div>
+    </div>
+
+    <div class="reddit-card">
+      <div class="reddit-head">
+        <span class="reddit-sub">r/Peptides</span>
+        <span class="reddit-time">5 days ago</span>
+        <span class="reddit-sent pos">Positive</span>
+      </div>
+      <div class="reddit-text">"Compared Ascension's COA against my own HPLC results. 99.2% vs their claimed 99.4%. Within margin of error — these guys are legit. The PepAssure score checks out."</div>
+      <div style="display:flex;align-items:center;gap:12px;margin-top:10px;">
+        <span class="reddit-author">u/LabCoatLarry</span>
+        <span class="reddit-votes">↑ 89 points</span>
+      </div>
+    </div>
+
+    <div class="reddit-card">
+      <div class="reddit-head">
+        <span class="reddit-sub">r/Nootropics</span>
+        <span class="reddit-time">1 week ago</span>
+        <span class="reddit-sent pos">Positive</span>
+      </div>
+      <div class="reddit-text">"Switched from [redacted] to Ascension after seeing the Finnrick test results. Night and day difference in quality. Shipping was 2 days to the East Coast."</div>
+      <div style="display:flex;align-items:center;gap:12px;margin-top:10px;">
+        <span class="reddit-author">u/SciencePeptide</span>
+        <span class="reddit-votes">↑ 34 points</span>
+      </div>
+    </div>
+
+    <div class="reddit-card">
+      <div class="reddit-head">
+        <span class="reddit-sub">r/Peptides</span>
+        <span class="reddit-time">12 days ago</span>
+        <span class="reddit-sent neg">Negative</span>
+      </div>
+      <div class="reddit-text">"Ordered during the holiday rush and my package took 8 days instead of the usual 2. Customer service was responsive though — they sent a replacement priority overnight when I complained."</div>
+      <div style="display:flex;align-items:center;gap:12px;margin-top:10px;">
+        <span class="reddit-author">u/PeptidePat</span>
+        <span class="reddit-votes">↑ 12 points</span>
+      </div>
+    </div>
+
+    <div class="reddit-card">
+      <div class="reddit-head">
+        <span class="reddit-sub">r/SARMsourcetalk</span>
+        <span class="reddit-time">2 weeks ago</span>
+        <span class="reddit-sent neu">Neutral</span>
+      </div>
+      <div class="reddit-text">"Ascension is solid but pricey. If you want the best verified quality, they're hard to beat. If you're on a budget, check alternatives in the 85-90 PVS range — still great, just less testing coverage."</div>
+      <div style="display:flex;align-items:center;gap:12px;margin-top:10px;">
+        <span class="reddit-author">u/BudgetResearcher</span>
+        <span class="reddit-votes">↑ 23 points</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ PRICING TAB ═══ -->
+  <div class="vp-panel" id="panel-pricing">
+    <table class="price-table">
+      <thead>
+        <tr>
+          <th>Peptide</th>
+          <th>Size</th>
+          <th>Price</th>
+          <th>Price / mg</th>
+          <th>In Stock</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>BPC-157</td><td>5 mg</td><td>$34.99</td><td>$7.00</td><td style="color:var(--green);font-weight:700;">Yes</td></tr>
+        <tr><td>BPC-157</td><td>10 mg</td><td>$54.99</td><td>$5.50</td><td style="color:var(--green);font-weight:700;">Yes</td></tr>
+        <tr><td>TB-500</td><td>5 mg</td><td>$39.99</td><td>$8.00</td><td style="color:var(--green);font-weight:700;">Yes</td></tr>
+        <tr><td>TB-500</td><td>10 mg</td><td>$64.99</td><td>$6.50</td><td style="color:var(--green);font-weight:700;">Yes</td></tr>
+        <tr><td>GHK-Cu</td><td>10 mg</td><td>$29.99</td><td>$3.00</td><td style="color:var(--green);font-weight:700;">Yes</td></tr>
+        <tr><td>Semaglutide</td><td>3 mg</td><td>$89.99</td><td>$30.00</td><td style="color:var(--green);font-weight:700;">Yes</td></tr>
+        <tr><td>Semaglutide</td><td>5 mg</td><td>$129.99</td><td>$26.00</td><td style="color:var(--amber);font-weight:700;">Low Stock</td></tr>
+        <tr><td>Ipamorelin</td><td>5 mg</td><td>$32.99</td><td>$6.60</td><td style="color:var(--green);font-weight:700;">Yes</td></tr>
+        <tr><td>CJC-1295 (no DAC)</td><td>5 mg</td><td>$36.99</td><td>$7.40</td><td style="color:var(--green);font-weight:700;">Yes</td></tr>
+        <tr><td>Tirzepatide</td><td>5 mg</td><td>$149.99</td><td>$30.00</td><td style="color:#ef4444;font-weight:700;">Out of Stock</td></tr>
+      </tbody>
+    </table>
+    <div style="margin-top:16px;font-size:.76rem;color:var(--gray3);">Prices last verified Apr 8, 2026. Prices are scraped from the vendor's public website and may change without notice. PepAssure is not affiliated with any vendor.</div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-copy">&copy; 2026 PepAssure. Independent peptide vendor intelligence. <a href="/">Back to Rankings</a></div>
+  </div>
+</footer>
+
+<script>
+/* ── TAB SWITCHING ── */
+(function(){
+  const tabs = document.querySelectorAll('.vp-tab');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', function(){
+      tabs.forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.vp-panel').forEach(p => p.classList.remove('active'));
+      this.classList.add('active');
+      document.getElementById('panel-' + this.dataset.tab).classList.add('active');
+      if (this.dataset.tab === 'trends') drawChart('trendsChart', 'trendsTooltip', 90);
+    });
+  });
+})();
+
+/* ── CHART RENDERING (pure SVG) ── */
+(function(){
+  // Generate simulated daily PVS scores
+  function generateData(days) {
+    const data = [];
+    const today = new Date();
+    let score = 91.3; // starting score {days} ago
+    const events = {
+      '-82': { delta: 1.8, note: 'Vendor claimed listing' },
+      '-47': { delta: 2.1, note: 'Uploaded 8 new COAs' },
+      '-47': { delta: 2.1, note: '8 new COAs uploaded' },
+      '-37': { delta: -1.0, note: 'Shipping delay thread' },
+      '-26': { delta: 1.4, note: 'Reddit sentiment surge' },
+      '-13': { delta: 3.1, note: 'Finnrick batch uploaded' },
+    };
+    for (let i = days; i >= 0; i--) {
+      const d = new Date(today); d.setDate(d.getDate() - i);
+      const key = '-' + i;
+      if (events[key]) score += events[key].delta;
+      else score += (Math.random() - 0.42) * 0.3; // slight upward drift
+      score = Math.max(80, Math.min(100, score));
+      const pillars = {
+        purity: Math.min(100, score + (Math.random()-0.5)*4 + 2),
+        reputation: Math.min(100, score + (Math.random()-0.5)*3 - 1),
+        cs: Math.min(100, score + (Math.random()-0.5)*5 - 3),
+        community: Math.min(100, score + (Math.random()-0.5)*4),
+        price: Math.min(100, score + (Math.random()-0.5)*6 - 5),
+      };
+      data.push({
+        date: d,
+        score: Math.round(score * 10) / 10,
+        pillars,
+        note: events[key] ? events[key].note : null
+      });
+    }
+    return data;
+  }
+
+  function drawChart(svgId, tooltipId, days) {
+    const svg = document.getElementById(svgId);
+    if (!svg) return;
+    const data = generateData(days);
+    const W = 800, H = 280, PL = 45, PR = 10, PT = 15, PB = 35;
+    const cw = W - PL - PR, ch = H - PT - PB;
+    const yMin = 80, yMax = 100;
+    svg.innerHTML = '';
+
+    function x(i) { return PL + (i / (data.length - 1)) * cw; }
+    function y(v) { return PT + (1 - (v - yMin) / (yMax - yMin)) * ch; }
+
+    // Grid lines
+    for (let v = 82; v <= 100; v += 2) {
+      const gy = y(v);
+      svg.innerHTML += '<line x1="'+PL+'" y1="'+gy+'" x2="'+(W-PR)+'" y2="'+gy+'" stroke="rgba(0,0,0,.06)" stroke-width="1"/>';
+      svg.innerHTML += '<text x="'+(PL-8)+'" y="'+(gy+4)+'" font-size="10" fill="#94a3b8" text-anchor="end" font-family="Inter">'+v+'</text>';
+    }
+
+    // X-axis labels (every ~15 days)
+    const step = Math.max(1, Math.floor(data.length / 6));
+    for (let i = 0; i < data.length; i += step) {
+      const d = data[i].date;
+      const label = d.toLocaleDateString('en-US', { month:'short', day:'numeric' });
+      svg.innerHTML += '<text x="'+x(i)+'" y="'+(H-8)+'" font-size="10" fill="#94a3b8" text-anchor="middle" font-family="Inter">'+label+'</text>';
+    }
+
+    // Area fill
+    let areaPath = 'M'+x(0)+','+y(data[0].score);
+    data.forEach((d,i) => { if(i>0) areaPath += 'L'+x(i)+','+y(d.score); });
+    areaPath += 'L'+x(data.length-1)+','+(H-PB)+'L'+x(0)+','+(H-PB)+'Z';
+    svg.innerHTML += '<path d="'+areaPath+'" fill="url(#areaGrad)" opacity=".4"/>';
+
+    // Gradient def
+    svg.innerHTML += '<defs><linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#10b981" stop-opacity=".5"/><stop offset="100%" stop-color="#10b981" stop-opacity="0"/></linearGradient></defs>';
+
+    // Score line
+    let linePath = '';
+    data.forEach((d,i) => { linePath += (i===0?'M':'L')+x(i)+','+y(d.score); });
+    svg.innerHTML += '<path d="'+linePath+'" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';
+
+    // Event dots
+    data.forEach((d,i) => {
+      if (d.note) {
+        svg.innerHTML += '<circle cx="'+x(i)+'" cy="'+y(d.score)+'" r="5" fill="#10b981" stroke="white" stroke-width="2"/>';
+      }
+    });
+
+    // Hover zones (invisible rects for tooltip)
+    const tooltip = document.getElementById(tooltipId);
+    const svgEl = document.getElementById(svgId);
+    const wrapRect = svgEl.parentElement;
+
+    svgEl.addEventListener('mousemove', function(e) {
+      const rect = svgEl.getBoundingClientRect();
+      const mx = (e.clientX - rect.left) / rect.width * W;
+      const idx = Math.round(((mx - PL) / cw) * (data.length - 1));
+      if (idx < 0 || idx >= data.length) { tooltip.classList.remove('show'); return; }
+      const d = data[idx];
+      const dateStr = d.date.toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric', year:'numeric' });
+      tooltip.innerHTML = '<div class="tt-date">'+dateStr+'</div><div class="tt-score">PVS: '+d.score+'</div>'
+        + (d.note ? '<div class="tt-note">'+d.note+'</div>' : '');
+      const px = (x(idx) / W) * rect.width;
+      const py = (y(d.score) / H) * rect.height;
+      tooltip.style.left = px + 'px';
+      tooltip.style.top = (py - 70) + 'px';
+      tooltip.classList.add('show');
+    });
+    svgEl.addEventListener('mouseleave', function() { tooltip.classList.remove('show'); });
+  }
+
+  // Draw overview chart on load
+  drawChart('overviewChart', 'chartTooltip', 90);
+
+  // Range buttons
+  document.querySelectorAll('.chart-range-btn').forEach(btn => {
+    btn.addEventListener('click', function(){
+      this.parentElement.querySelectorAll('.chart-range-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      drawChart('trendsChart', 'trendsTooltip', parseInt(this.dataset.range));
+    });
+  });
+})();
+</script>
+</body>
+</html>

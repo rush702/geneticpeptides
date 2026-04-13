@@ -1,0 +1,8 @@
+/for-vendors    /for-vendors.html   200
+/vendors        /for-vendors.html   301
+/login          /login.html         200
+/dashboard      /dashboard.html     200
+/admin          /admin.html         200
+/vendor         /vendor.html        200
+/vendor/*       /vendor.html        200
+/vendor-trends  /vendor-trends.html 200

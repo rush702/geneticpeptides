@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vendor Login — PepAssure</title>
+  <meta name="description" content="Sign in to your PepAssure vendor account to manage your listing." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <script>
+    window.SUPABASE_URL      = "%%SUPABASE_URL%%";
+    window.SUPABASE_ANON_KEY = "%%SUPABASE_ANON_KEY%%";
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0b1a35; --navy2: #122040;
+      --blue: #1a56db; --blue2: #3b82f6;
+      --teal: #00d4b8; --teal2: #06b6d4;
+      --green: #10b981; --green2: #34d399;
+      --red: #ef4444;
+      --gray1: #f8fafc; --gray2: #e2e8f0; --gray3: #94a3b8; --gray4: #64748b;
+      --white: #fff; --text: #0f172a;
+      --shadow: 0 20px 60px rgba(0,0,0,.35);
+      --r: 14px;
+    }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: linear-gradient(155deg, var(--navy) 0%, #0d1f3c 55%, #081828 100%);
+      color: var(--text);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      display: flex; flex-direction: column;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* Header */
+    #header {
+      background: rgba(11,26,53,.85); backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,.07); padding: 0 24px;
+    }
+    .header-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; height: 62px; }
+    .logo { display: flex; align-items: center; gap: 9px; font-size: 1.15rem; font-weight: 800; color: white; }
+    .logo-mark { width: 30px; height: 30px; border-radius: 7px; background: linear-gradient(135deg,var(--teal),var(--blue2)); display: flex; align-items: center; justify-content: center; font-size: .75rem; font-weight: 900; color: white; }
+    .logo .ac { color: var(--teal); }
+    .header-back {
+      margin-left: auto; font-size: .82rem; font-weight: 600;
+      color: rgba(255,255,255,.7); padding: 7px 14px; border-radius: 8px;
+      transition: all .15s;
+    }
+    .header-back:hover { background: rgba(255,255,255,.08); color: white; }
+
+    /* Background ambience */
+    .bg-glow {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 10%, rgba(0,212,184,.15) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 80% 90%, rgba(59,130,246,.10) 0%, transparent 55%);
+    }
+
+    /* Main */
+    main {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      padding: 48px 24px; position: relative; z-index: 1;
+    }
+    .card {
+      background: white; border-radius: 18px; box-shadow: var(--shadow);
+      width: 100%; max-width: 440px; padding: 44px 38px;
+      animation: fadeIn .35s ease-out;
+    }
+    @keyframes fadeIn { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform: translateY(0); } }
+
+    .card-mark {
+      width: 52px; height: 52px; border-radius: 13px;
+      background: linear-gradient(135deg,var(--teal),var(--blue2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; font-weight: 900; color: white;
+      margin: 0 auto 20px;
+      box-shadow: 0 8px 24px rgba(6,182,212,.3);
+    }
+    .card h1 { font-size: 1.55rem; font-weight: 800; text-align: center; margin-bottom: 8px; letter-spacing: -.02em; }
+    .card .sub { font-size: .87rem; color: var(--gray4); text-align: center; margin-bottom: 30px; line-height: 1.55; }
+
+    .field { margin-bottom: 16px; }
+    .field label { display: block; font-size: .8rem; font-weight: 700; color: var(--text); margin-bottom: 7px; }
+    .field input {
+      width: 100%; padding: 13px 14px; font-size: .95rem;
+      font-family: inherit; color: var(--text);
+      border: 1.5px solid var(--gray2); border-radius: 10px;
+      transition: border-color .15s, box-shadow .15s;
+      background: white;
+    }
+    .field input:focus {
+      outline: none; border-color: var(--green);
+      box-shadow: 0 0 0 4px rgba(16,185,129,.12);
+    }
+
+    .btn-submit {
+      width: 100%; padding: 14px; margin-top: 6px;
+      background: var(--green); color: white;
+      font-family: inherit; font-size: .95rem; font-weight: 800;
+      border: none; border-radius: 10px; cursor: pointer;
+      transition: background .15s;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-submit:hover:not(:disabled) { background: #059669; }
+    .btn-submit:disabled { background: var(--gray3); cursor: not-allowed; }
+
+    .spin {
+      width: 16px; height: 16px; border: 2px solid rgba(255,255,255,.4);
+      border-top-color: white; border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .error-msg {
+      display: none; margin-top: 14px; padding: 11px 14px;
+      background: rgba(239,68,68,.08); border: 1px solid rgba(239,68,68,.2);
+      border-radius: 9px; color: var(--red);
+      font-size: .82rem; line-height: 1.5;
+    }
+    .error-msg.show { display: block; }
+
+    .success-state {
+      display: none; text-align: center; padding: 12px 0;
+    }
+    .success-state.show { display: block; }
+    .success-state .check {
+      width: 64px; height: 64px; margin: 0 auto 18px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--green), var(--green2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; color: white; font-weight: 900;
+      box-shadow: 0 10px 26px rgba(16,185,129,.3);
+    }
+    .success-state h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: 10px; }
+    .success-state p { font-size: .88rem; color: var(--gray4); line-height: 1.6; margin-bottom: 6px; }
+    .success-state .email-pill {
+      display: inline-block; margin-top: 12px;
+      padding: 6px 14px; background: var(--gray1);
+      border: 1px solid var(--gray2); border-radius: 20px;
+      font-size: .82rem; font-weight: 600; color: var(--text);
+    }
+    .success-state .resend {
+      display: block; margin-top: 22px;
+      font-size: .8rem; color: var(--gray4);
+    }
+    .success-state .resend a {
+      color: var(--blue); font-weight: 600; cursor: pointer;
+    }
+    .success-state .resend a:hover { text-decoration: underline; }
+
+    .tos {
+      margin-top: 22px; padding-top: 20px;
+      border-top: 1px solid var(--gray2);
+      font-size: .73rem; color: var(--gray4); text-align: center; line-height: 1.6;
+    }
+    .tos a { color: var(--blue); font-weight: 600; }
+    .tos a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="bg-glow"></div>
+
+  <header id="header">
+    <div class="header-inner">
+      <a href="/" class="logo">
+        <span class="logo-mark">P<span class="ac">A</span></span>
+        Pep<span class="ac" style="color:var(--teal);">Assure</span>
+      </a>
+      <a href="/for-vendors" class="header-back">← Back to vendor info</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="card">
+      <div id="formState">
+        <div class="card-mark">P<span style="color:rgba(255,255,255,.7);">A</span></div>
+        <h1>Vendor sign-in</h1>
+        <p class="sub">Sign in with your password, or request a one-time magic link by email.</p>
+
+        <form id="loginForm" onsubmit="event.preventDefault(); signInWithPassword();">
+          <div class="field">
+            <label for="email">Work email</label>
+            <input type="email" id="email" placeholder="you@yourcompany.com" autocomplete="email" required />
+          </div>
+          <div class="field" id="passwordField">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" />
+          </div>
+          <button type="submit" id="submitBtn" class="btn-submit">Sign in →</button>
+          <div class="error-msg" id="errorMsg"></div>
+        </form>
+
+        <div style="text-align:center;margin-top:16px;">
+          <a id="magicLinkToggle" onclick="sendMagicLink()" style="font-size:.82rem;color:var(--blue);font-weight:600;cursor:pointer;">
+            Email me a one-time magic link instead
+          </a>
+        </div>
+
+        <div class="tos">
+          By signing in you agree to our terms. New here?
+          <a href="/for-vendors">Claim your free listing first.</a>
+        </div>
+      </div>
+
+      <div id="successState" class="success-state">
+        <div class="check">✓</div>
+        <h2>Check your inbox</h2>
+        <p>We sent a sign-in link to:</p>
+        <span class="email-pill" id="sentEmail"></span>
+        <p style="margin-top:14px;">Click the link in the email and you'll be signed in automatically. The link expires in 1 hour.</p>
+        <div class="resend">
+          Didn't get it? <a onclick="resetForm()">Try a different email</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // ── Init Supabase ────────────────────────────────────
+    const SUPA_URL = window.SUPABASE_URL;
+    const SUPA_KEY = window.SUPABASE_ANON_KEY;
+    let db = null;
+
+    // NOTE: detect config by shape — don't compare against the `%%...%%`
+    // placeholder, the deploy script's sed would rewrite that comparison too.
+    if (SUPA_URL && SUPA_URL.startsWith('https://') && SUPA_KEY && SUPA_KEY.length > 20) {
+      db = window.supabase.createClient(SUPA_URL, SUPA_KEY);
+    } else {
+      console.warn('[PepAssure] Supabase not configured.');
+    }
+
+    // ── If already signed in, bounce to dashboard ────────
+    (async () => {
+      if (!db) return;
+      const { data: { session } } = await db.auth.getSession();
+      if (session) {
+        // Check role to decide where to send them
+        const { data: roleRow } = await db
+          .from('user_roles')
+          .select('role')
+          .eq('user_id', session.user.id)
+          .maybeSingle();
+        if (roleRow && roleRow.role === 'admin') {
+          window.location.replace('/admin');
+        } else {
+          window.location.replace('/dashboard');
+        }
+      }
+    })();
+
+    // ── Shared UI helpers ────────────────────────────────
+    function showError(msg) {
+      const el = document.getElementById('errorMsg');
+      el.textContent = msg;
+      el.classList.add('show');
+    }
+    function clearError() {
+      document.getElementById('errorMsg').classList.remove('show');
+    }
+    function setLoading(loading, label) {
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = loading;
+      btn.innerHTML = loading
+        ? '<div class="spin"></div> ' + (label || 'Working…')
+        : 'Sign in →';
+    }
+    function resetForm() {
+      document.getElementById('successState').classList.remove('show');
+      document.getElementById('formState').style.display = '';
+      document.getElementById('email').value = '';
+      const pw = document.getElementById('password');
+      if (pw) pw.value = '';
+      clearError();
+      setLoading(false);
+    }
+
+    function validateEmail(email) {
+      if (!email) { showError('Please enter your email.'); return false; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showError('Please enter a valid email address.');
+        return false;
+      }
+      return true;
+    }
+
+    // ── Email + password sign in ─────────────────────────
+    window.signInWithPassword = async function() {
+      clearError();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (!validateEmail(email)) return;
+      if (!password) return showError('Please enter your password.');
+      if (!db) return showError('Auth is not configured. Please contact support.');
+
+      setLoading(true, 'Signing in…');
+      try {
+        const { data, error } = await db.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        if (!data || !data.session) throw new Error('Sign-in did not return a session.');
+
+        // Role-based redirect
+        const { data: roleRow } = await db
+          .from('user_roles')
+          .select('role')
+          .eq('user_id', data.session.user.id)
+          .maybeSingle();
+
+        if (roleRow && roleRow.role === 'admin') {
+          window.location.replace('/admin');
+        } else {
+          window.location.replace('/dashboard');
+        }
+      } catch (err) {
+        console.error('[PepAssure] Password sign-in error:', err);
+        // Friendly message for the most common failure modes
+        const msg = (err && err.message) || 'Sign-in failed.';
+        if (/invalid login credentials/i.test(msg)) {
+          showError('Invalid email or password. If you signed up with a magic link, you may not have a password set yet.');
+        } else {
+          showError(msg);
+        }
+        setLoading(false);
+      }
+    };
+
+    // ── Magic link fallback ──────────────────────────────
+    window.sendMagicLink = async function() {
+      clearError();
+      const email = document.getElementById('email').value.trim();
+      if (!validateEmail(email)) return;
+      if (!db) return showError('Auth is not configured. Please contact support.');
+
+      setLoading(true, 'Sending link…');
+      try {
+        const { error } = await db.auth.signInWithOtp({
+          email,
+          options: {
+            // After clicking the link in the email, Supabase will redirect here.
+            // The dashboard page checks the user's role and re-routes admins.
+            emailRedirectTo: window.location.origin + '/dashboard'
+          }
+        });
+        if (error) throw error;
+
+        document.getElementById('sentEmail').textContent = email;
+        document.getElementById('formState').style.display = 'none';
+        document.getElementById('successState').classList.add('show');
+      } catch (err) {
+        console.error('[PepAssure] Magic link error:', err);
+        showError(err.message || 'Something went wrong. Please try again.');
+        setLoading(false);
+      }
+    };
+  </script>
+</body>
+</html>

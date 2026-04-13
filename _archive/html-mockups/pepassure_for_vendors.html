@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For Vendors — PepAssure | Claim Your Free Listing</title>
+  <meta name="description" content="Claim your free vendor listing on PepAssure. See your PVS Score breakdown, upload COAs, and respond to community feedback. No paid placements — ever." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- ═══════════════════════════════════════════════════
+       SUPABASE CONFIG — filled in by deploy script
+       DO NOT hardcode real keys here in source control
+  ═══════════════════════════════════════════════════ -->
+  <script>
+    window.SUPABASE_URL      = "%%SUPABASE_URL%%";
+    window.SUPABASE_ANON_KEY = "%%SUPABASE_ANON_KEY%%";
+  </script>
+
+  <!-- Supabase JS (CDN UMD build — no bundler needed) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
+  <!-- Cloudflare Turnstile (spam protection) -->
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:   #0b1a35; --navy2:  #122040;
+      --blue:   #1a56db; --blue2:  #3b82f6;
+      --teal:   #00d4b8; --teal2:  #06b6d4;
+      --green:  #10b981; --green2: #34d399;
+      --amber:  #f59e0b; --red:    #ef4444;
+      --purple: #8b5cf6; --orange: #f97316;
+      --gray1:  #f8fafc; --gray2:  #e2e8f0;
+      --gray3:  #94a3b8; --gray4:  #64748b;
+      --white:  #fff;    --text:   #0f172a;
+      --shadow: 0 4px 24px rgba(0,0,0,.10);
+      --r: 14px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: var(--gray1); color: var(--text); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── HEADER ── */
+    #header {
+      position: sticky; top: 0; z-index: 200;
+      background: rgba(11,26,53,.97); backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,.07); padding: 0 24px;
+    }
+    .header-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; gap: 14px; height: 62px; }
+    .logo { display: flex; align-items: center; gap: 9px; font-size: 1.15rem; font-weight: 800; color: white; flex-shrink: 0; }
+    .logo-mark { width: 30px; height: 30px; border-radius: 7px; background: linear-gradient(135deg,var(--teal),var(--blue2)); display: flex; align-items: center; justify-content: center; font-size: .75rem; font-weight: 900; color: white; }
+    .logo .ac { color: var(--teal); }
+    nav { display: flex; align-items: center; gap: 2px; margin-left: 10px; }
+    nav a { font-size: .81rem; font-weight: 500; color: rgba(255,255,255,.68); padding: 5px 11px; border-radius: 7px; transition: all .15s; white-space: nowrap; }
+    nav a:hover, nav a.on { background: rgba(255,255,255,.09); color: white; }
+    .header-cta { margin-left: auto; background: var(--green); color: white; font-weight: 700; font-size: .8rem; padding: 7px 18px; border-radius: 8px; transition: background .15s; flex-shrink: 0; cursor: pointer; border: none; }
+    .header-cta:hover { background: #059669; }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(155deg, var(--navy) 0%, #0d1f3c 55%, #081828 100%);
+      padding: 88px 24px 78px; position: relative; overflow: hidden;
+    }
+    .hero::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse 80% 55% at 50% -5%, rgba(0,212,184,.18) 0%, transparent 65%), radial-gradient(ellipse 50% 45% at 80% 80%, rgba(59,130,246,.1) 0%, transparent 55%); pointer-events:none; }
+    .hero-inner { max-width: 860px; margin: 0 auto; text-align: center; position: relative; z-index: 1; }
+    .chip { display:inline-flex;align-items:center;gap:7px;font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;padding:5px 14px;border-radius:20px;margin-bottom:20px; }
+    .chip-green { background:rgba(16,185,129,.14);border:1px solid rgba(16,185,129,.3);color:var(--green); }
+    .chip-blue  { background:rgba(26,86,219,.14);border:1px solid rgba(59,130,246,.3);color:var(--blue2); }
+    .hero h1 { font-size: clamp(1.9rem,5vw,3.3rem); font-weight: 900; color: white; line-height: 1.1; letter-spacing: -.025em; margin-bottom: 14px; }
+    .hero h1 .ac { color: var(--teal); }
+    .no-paid { display:inline-flex;align-items:center;gap:8px;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.28);color:#fca5a5;font-size:.82rem;font-weight:700;padding:5px 15px;border-radius:20px;margin-bottom:24px; }
+    .hero-sub { font-size:.97rem;color:rgba(255,255,255,.58);max-width:560px;margin:0 auto 36px;line-height:1.72; }
+    .hero-btns { display:flex;gap:12px;justify-content:center;flex-wrap:wrap; }
+    .btn-hero-g { background:var(--green);color:white;font-weight:800;font-size:.97rem;padding:14px 28px;border-radius:10px;border:none;cursor:pointer;transition:background .15s;display:inline-flex;align-items:center;gap:8px; }
+    .btn-hero-g:hover { background:#059669; }
+    .btn-hero-o { background:transparent;color:white;font-weight:700;font-size:.93rem;padding:14px 28px;border-radius:10px;border:2px solid rgba(255,255,255,.28);cursor:pointer;transition:all .15s; }
+    .btn-hero-o:hover { border-color:white;background:rgba(255,255,255,.07); }
+
+    /* ── PROOF BAR ── */
+    .proof-bar { background:rgba(11,26,53,.95);border-top:1px solid rgba(255,255,255,.07);padding:14px 24px; }
+    .proof-inner { max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px 26px; }
+    .proof-item { display:flex;align-items:center;gap:7px;font-size:.79rem;color:rgba(255,255,255,.6);font-weight:500; }
+
+    /* ── SECTION HELPERS ── */
+    .section { padding: 72px 24px; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .sec-label { display:inline-flex;align-items:center;gap:6px;font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--blue2);background:rgba(26,86,219,.1);border:1px solid rgba(26,86,219,.2);padding:4px 12px;border-radius:20px;margin-bottom:12px; }
+    .sec-title { font-size:1.65rem;font-weight:800;margin-bottom:8px;line-height:1.2; }
+    .sec-sub { font-size:.87rem;color:var(--gray4);line-height:1.68;max-width:540px; }
+    .center { text-align:center; }
+    .center .sec-sub { margin:0 auto; }
+
+    /* ── CLAIM STEPS ── */
+    .claim-section { padding: 72px 24px; background: white; }
+    .claim-inner { max-width: 800px; margin: 0 auto; }
+    .steps-wrap { margin-top:44px;position:relative; }
+    .steps-line { position:absolute;top:28px;left:calc(16.7% - 1px);right:calc(16.7% - 1px);height:2px;background:linear-gradient(90deg,var(--blue2),var(--teal),var(--green));z-index:0; }
+    .steps-row { display:flex;gap:0;position:relative;z-index:1; }
+    .step-col { flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 14px; }
+    .step-num { width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.25rem;font-weight:900;color:white;margin-bottom:18px;box-shadow:0 0 0 6px white,0 0 0 8px rgba(26,86,219,.2);flex-shrink:0; }
+    .sn1 { background:var(--blue2); } .sn2 { background:var(--teal2);box-shadow:0 0 0 6px white,0 0 0 8px rgba(6,182,212,.2); } .sn3 { background:var(--green);box-shadow:0 0 0 6px white,0 0 0 8px rgba(16,185,129,.2); }
+    .step-title { font-size:.95rem;font-weight:800;margin-bottom:7px; }
+    .step-desc { font-size:.79rem;color:var(--gray4);line-height:1.62; }
+
+    /* ── PRICING ── */
+    .pricing-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:44px;align-items:stretch; }
+    @media(max-width:980px){ .pricing-grid{grid-template-columns:1fr 1fr;} }
+    @media(max-width:680px){ .pricing-grid{grid-template-columns:1fr;} }
+    .pc { background:white;border-radius:var(--r);border:2px solid var(--gray2);box-shadow:var(--shadow);padding:34px 30px;position:relative;transition:box-shadow .2s; }
+    .pc:hover { box-shadow:0 12px 40px rgba(0,0,0,.13); }
+    .pc.featured { border-color:var(--blue2);background:linear-gradient(170deg,#f0f7ff 0%,white 100%); }
+    .pc-badge { position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--blue);color:white;font-size:.7rem;font-weight:800;padding:3px 16px;border-radius:20px;text-transform:uppercase;letter-spacing:.07em;white-space:nowrap; }
+    .pc-plan { font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gray4);margin-bottom:9px; }
+    .pc-price { font-size:2.7rem;font-weight:900;line-height:1;margin-bottom:4px; }
+    .pc-price sub { font-size:1rem;font-weight:600;color:var(--gray4); }
+    .pc-price-note { font-size:.78rem;color:var(--gray4);margin-bottom:5px; }
+    .pc-save-badge { display:inline-flex;align-items:center;gap:5px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);color:var(--green);font-size:.73rem;font-weight:700;padding:3px 10px;border-radius:10px;margin-bottom:20px; }
+    .pc-desc { font-size:.84rem;color:var(--gray4);line-height:1.62;margin-bottom:22px;padding-bottom:20px;border-bottom:1px solid var(--gray2); }
+    .pc-feats { list-style:none;margin-bottom:26px; }
+    .pc-feats li { display:flex;align-items:flex-start;gap:10px;font-size:.84rem;margin-bottom:10px;line-height:1.45; }
+    .ck { font-size:.9rem;flex-shrink:0;margin-top:1px; }
+    .ck-g { color:var(--green); } .ck-b { color:var(--blue2); }
+    .btn-plan-f { width:100%;padding:13px;border-radius:9px;font-size:.93rem;font-weight:800;cursor:pointer;border:2px solid var(--blue);color:var(--blue);background:white;transition:all .15s; }
+    .btn-plan-f:hover { background:var(--blue);color:white; }
+    .btn-plan-e { width:100%;padding:13px;border-radius:9px;font-size:.93rem;font-weight:800;cursor:pointer;border:none;background:var(--blue);color:white;transition:background .15s; }
+    .btn-plan-e:hover { background:#1d4ed8; }
+    .guarantees { display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;margin-top:18px;padding:12px;background:rgba(16,185,129,.07);border-radius:10px;border:1px solid rgba(16,185,129,.18); }
+    .g-item { display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:600;color:var(--green); }
+
+    /* ── ENTERPRISE FEATURES ── */
+    .ent-section { background:linear-gradient(155deg,var(--navy) 0%,#0d1f3c 100%);padding:80px 24px; }
+    .ent-inner { max-width:1100px;margin:0 auto; }
+    .ent-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:18px;margin-top:44px; }
+    .ent-card { background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:24px;transition:all .18s; }
+    .ent-card:hover { background:rgba(255,255,255,.08);border-color:rgba(59,130,246,.28); }
+    .ent-icon { font-size:1.8rem;margin-bottom:12px;display:block; }
+    .ent-title { font-size:.95rem;font-weight:800;color:white;margin-bottom:7px; }
+    .ent-desc { font-size:.8rem;color:rgba(255,255,255,.53);line-height:1.64; }
+    .ent-desc strong { color:rgba(255,255,255,.78); }
+    .ent-strip { display:flex;align-items:center;justify-content:center;gap:22px;flex-wrap:wrap;margin-top:36px;padding:18px;background:rgba(255,255,255,.04);border-radius:12px;border:1px solid rgba(255,255,255,.08); }
+    .es-item { display:flex;align-items:center;gap:7px;font-size:.85rem;font-weight:600; }
+
+    /* ── BENEFITS ── */
+    .benefits-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(234px,1fr));gap:16px;margin-top:36px; }
+    .bcard { background:white;border:1.5px solid var(--gray2);border-radius:12px;padding:22px;transition:all .18s; }
+    .bcard:hover { border-color:var(--blue2);box-shadow:0 4px 18px rgba(26,86,219,.08); }
+    .bcard-icon { font-size:1.75rem;margin-bottom:11px;display:block; }
+    .bcard-title { font-size:.9rem;font-weight:800;margin-bottom:6px; }
+    .bcard-desc { font-size:.78rem;color:var(--gray4);line-height:1.62; }
+    .tier-badge { display:inline-flex;align-items:center;font-size:.66rem;font-weight:700;padding:2px 8px;border-radius:8px;margin-top:9px;text-transform:uppercase;letter-spacing:.05em; }
+    .tb-both { background:rgba(139,92,246,.1);color:var(--purple);border:1px solid rgba(139,92,246,.2); }
+    .tb-free { background:rgba(16,185,129,.1);color:var(--green);border:1px solid rgba(16,185,129,.22); }
+    .tb-ent  { background:rgba(26,86,219,.1);color:var(--blue);border:1px solid rgba(26,86,219,.2); }
+
+    /* ══════════════════════════════════════════════════════
+       CLAIM MODAL — this is where the actual Supabase
+       submission happens
+    ══════════════════════════════════════════════════════ */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 500;
+      background: rgba(0,0,0,.6); backdrop-filter: blur(6px);
+      align-items: center; justify-content: center; padding: 16px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: white; border-radius: 20px; width: 100%; max-width: 520px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.25); overflow: hidden;
+      animation: modalIn .22s ease;
+    }
+    @keyframes modalIn { from{opacity:0;transform:translateY(16px) scale(.97)} to{opacity:1;transform:none} }
+    .modal-header { background: linear-gradient(135deg,var(--navy) 0%,#0d2a4a 100%); padding: 28px 28px 22px; }
+    .modal-header h2 { font-size:1.25rem;font-weight:900;color:white;margin-bottom:4px; }
+    .modal-header p  { font-size:.82rem;color:rgba(255,255,255,.55); }
+    .modal-close { position:absolute;top:16px;right:16px;background:rgba(255,255,255,.1);border:none;color:white;width:32px;height:32px;border-radius:50%;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s; }
+    .modal-close:hover { background:rgba(255,255,255,.2); }
+    .modal-body { padding: 28px; }
+
+    /* Form */
+    .form-row { margin-bottom: 18px; }
+    .form-row label { display:block;font-size:.8rem;font-weight:700;color:var(--text);margin-bottom:6px; }
+    .form-row label .req { color:var(--red);margin-left:2px; }
+    .form-row input, .form-row textarea, .form-row select {
+      width:100%;padding:10px 14px;border:1.5px solid var(--gray2);border-radius:9px;
+      font-size:.88rem;font-family:inherit;color:var(--text);background:white;
+      outline:none;transition:border-color .15s,box-shadow .15s;
+    }
+    .form-row input:focus, .form-row textarea:focus {
+      border-color:var(--blue2);box-shadow:0 0 0 3px rgba(59,130,246,.12);
+    }
+    .form-row textarea { resize:vertical;min-height:80px; }
+    .form-row.two-col { display:grid;grid-template-columns:1fr 1fr;gap:14px; }
+    @media(max-width:480px){ .form-row.two-col{grid-template-columns:1fr;} }
+
+    .form-note { font-size:.75rem;color:var(--gray3);margin-top:5px; }
+    .btn-submit {
+      width:100%;padding:14px;border-radius:10px;border:none;
+      background:var(--green);color:white;font-size:.97rem;font-weight:800;
+      cursor:pointer;transition:background .15s;display:flex;align-items:center;justify-content:center;gap:9px;
+      margin-top:4px;
+    }
+    .btn-submit:hover:not(:disabled) { background:#059669; }
+    .btn-submit:disabled { opacity:.6;cursor:not-allowed; }
+    .spin { width:18px;height:18px;border:2.5px solid rgba(255,255,255,.4);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite; }
+    @keyframes spin { to{transform:rotate(360deg)} }
+
+    /* States */
+    .form-error { background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);color:var(--red);font-size:.82rem;padding:10px 14px;border-radius:9px;margin-bottom:16px;display:none; }
+    .form-error.show { display:block; }
+    .success-state { display:none;text-align:center;padding:12px 0; }
+    .success-state.show { display:block; }
+    .success-icon { width:70px;height:70px;border-radius:50%;background:rgba(16,185,129,.1);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:2rem; }
+    .success-state h3 { font-size:1.3rem;font-weight:900;margin-bottom:8px; }
+    .success-state p  { font-size:.86rem;color:var(--gray4);line-height:1.65;max-width:360px;margin:0 auto 22px; }
+    .btn-close-success { background:var(--navy);color:white;padding:11px 28px;border-radius:9px;border:none;font-size:.88rem;font-weight:700;cursor:pointer;transition:background .15s; }
+    .btn-close-success:hover { background:var(--navy2); }
+
+    /* Enterprise / Contact Sales modal */
+    #salesModal .modal-header { background:linear-gradient(135deg,#1e3a8a 0%,#1a56db 100%); }
+
+    /* ── FINAL CTA ── */
+    .final-cta { background:linear-gradient(135deg,var(--blue) 0%,#0d47a1 100%);padding:78px 24px;text-align:center; }
+    .final-cta h2 { font-size:2.1rem;font-weight:900;color:white;margin-bottom:12px; }
+    .final-cta p  { color:rgba(255,255,255,.68);max-width:500px;margin:0 auto 30px;font-size:.93rem;line-height:1.68; }
+    .final-btns { display:flex;gap:12px;justify-content:center;flex-wrap:wrap; }
+    .btn-w { background:white;color:var(--blue);font-weight:800;font-size:.93rem;padding:13px 28px;border-radius:10px;border:none;cursor:pointer;transition:background .15s; }
+    .btn-w:hover { background:#f0f7ff; }
+    .btn-gw { background:transparent;color:white;font-weight:700;font-size:.93rem;padding:13px 28px;border-radius:10px;border:2px solid rgba(255,255,255,.38);cursor:pointer;transition:all .15s; }
+    .btn-gw:hover { border-color:white;background:rgba(255,255,255,.08); }
+
+    /* ── FOOTER ── */
+    footer { background:var(--navy);padding:48px 24px 24px; }
+    .footer-inner { max-width:1200px;margin:0 auto; }
+    .footer-top { display:flex;flex-wrap:wrap;gap:36px;margin-bottom:32px; }
+    .footer-brand { flex:0 0 200px; }
+    .footer-brand p { font-size:.77rem;color:rgba(255,255,255,.48);line-height:1.65;margin-top:10px; }
+    .footer-col h4 { color:white;font-size:.78rem;font-weight:700;margin-bottom:12px;text-transform:uppercase;letter-spacing:.07em; }
+    .footer-col a { display:block;font-size:.77rem;color:rgba(255,255,255,.46);margin-bottom:7px;transition:color .15s; }
+    .footer-col a:hover { color:white; }
+    .footer-bottom { border-top:1px solid rgba(255,255,255,.07);padding-top:18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px; }
+    .footer-copy { font-size:.71rem;color:rgba(255,255,255,.36); }
+    .footer-links { display:flex;gap:16px; }
+    .footer-links a { font-size:.71rem;color:rgba(255,255,255,.36);transition:color .15s; }
+    .footer-links a:hover { color:rgba(255,255,255,.75); }
+
+    @media(max-width:768px) { nav{display:none;} .steps-line{display:none;} .steps-row{flex-direction:column;gap:28px;} }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════
+     CLAIM LISTING MODAL
+══════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="claimModal">
+  <div class="modal" style="position:relative;">
+    <div class="modal-header">
+      <button class="modal-close" onclick="closeModal('claimModal')">✕</button>
+      <h2>🚀 Claim Your Free Listing</h2>
+      <p>Takes less than 2 minutes · No credit card · No login required</p>
+    </div>
+    <div class="modal-body">
+      <!-- Success state (hidden until submitted) -->
+      <div class="success-state" id="claimSuccess">
+        <div class="success-icon">✅</div>
+        <h3>Claim Submitted!</h3>
+        <p>We've received your claim for <strong id="claimVendorName"></strong>. Check your inbox at <strong id="claimEmail"></strong> — we'll verify ownership and activate your listing within 24 hours.</p>
+        <button class="btn-close-success" onclick="closeModal('claimModal')">Close</button>
+      </div>
+
+      <!-- Form (hidden after submit) -->
+      <div id="claimForm">
+        <div class="form-error" id="claimError"></div>
+
+        <div class="form-row two-col">
+          <div>
+            <label>Vendor / Company Name <span class="req">*</span></label>
+            <input type="text" id="c_vendor" placeholder="Ascension Peptides" required />
+          </div>
+          <div>
+            <label>Website URL <span class="req">*</span></label>
+            <input type="url" id="c_url" placeholder="https://yoursite.com" required />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label>Your Work Email <span class="req">*</span></label>
+          <input type="email" id="c_email" placeholder="you@yourcompany.com" required />
+          <div class="form-note">Must match your company domain for faster verification.</div>
+        </div>
+
+        <div class="form-row">
+          <label>Anything you'd like us to know?</label>
+          <textarea id="c_message" placeholder="e.g. We have Finnrick test results ready to upload, our COA portal is at…"></textarea>
+        </div>
+
+        <p style="font-size:.74rem;color:var(--gray3);margin-bottom:14px;line-height:1.55;">
+          By submitting you agree to our <a href="#" style="color:var(--blue2);">Terms of Service</a>. PepAssure never sells your information. Claim approval requires domain ownership verification via email.
+        </p>
+
+        <!-- Turnstile spam protection widget -->
+        <div id="claimTurnstile" class="cf-turnstile" data-sitekey="0x4AAAAAAC4pk6B1bqundW6j" data-theme="light" data-size="normal" style="margin-bottom:14px;"></div>
+
+        <button class="btn-submit" id="claimSubmitBtn" onclick="submitClaim()">
+          🚀 Submit Claim
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     ENTERPRISE / CONTACT SALES MODAL
+══════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="salesModal">
+  <div class="modal" style="position:relative;">
+    <div class="modal-header" id="salesModal">
+      <button class="modal-close" onclick="closeModal('salesModal')">✕</button>
+      <h2>🏢 Contact Enterprise Sales</h2>
+      <p>$299/month or $2,870/year · 14-day money-back · No contracts</p>
+    </div>
+    <div class="modal-body">
+      <div class="success-state" id="salesSuccess">
+        <div class="success-icon">📩</div>
+        <h3>Message Received!</h3>
+        <p>Our enterprise team will reach out to <strong id="salesEmail"></strong> within one business day to schedule your onboarding call.</p>
+        <button class="btn-close-success" onclick="closeModal('salesModal')">Close</button>
+      </div>
+
+      <div id="salesForm">
+        <div class="form-error" id="salesError"></div>
+
+        <div class="form-row two-col">
+          <div>
+            <label>Your Name <span class="req">*</span></label>
+            <input type="text" id="s_name" placeholder="Jane Smith" required />
+          </div>
+          <div>
+            <label>Company <span class="req">*</span></label>
+            <input type="text" id="s_company" placeholder="Ascension Peptides" required />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label>Work Email <span class="req">*</span></label>
+          <input type="email" id="s_email" placeholder="jane@yourcompany.com" required />
+        </div>
+
+        <div class="form-row">
+          <label>What's your main goal with Enterprise?</label>
+          <textarea id="s_message" placeholder="e.g. Competitor benchmarking, API integration for our CRM, white-label reports for investors…" style="min-height:90px;"></textarea>
+        </div>
+
+        <!-- Turnstile spam protection widget -->
+        <div id="salesTurnstile" class="cf-turnstile" data-sitekey="0x4AAAAAAC4pk6B1bqundW6j" data-theme="light" data-size="normal" style="margin-bottom:14px;"></div>
+
+        <button class="btn-submit" id="salesSubmitBtn" onclick="submitSales()" style="background:var(--blue);">
+          📩 Send Message
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     HEADER
+══════════════════════════════════════════════════════ -->
+<header id="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-mark">PA</div>
+      Pep<span class="ac">Assure</span>
+    </a>
+    <nav>
+      <a href="index.html">Rankings</a>
+      <a href="index.html#methodology">Methodology</a>
+      <a href="index.html#resources">Resources</a>
+      <a href="for-vendors.html" class="on">For Vendors</a>
+      <a href="#api">API</a>
+    </nav>
+    <a href="/login" style="margin-left:auto;font-size:.8rem;font-weight:600;color:rgba(255,255,255,.72);padding:7px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.14);transition:all .15s;" onmouseover="this.style.color='white';this.style.borderColor='rgba(255,255,255,.3)'" onmouseout="this.style.color='rgba(255,255,255,.72)';this.style.borderColor='rgba(255,255,255,.14)'">Vendor Login</a>
+    <button class="header-cta" style="margin-left:10px;" onclick="openModal('claimModal')">🚀 Claim Free Listing</button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="chip chip-green">🏷️ For Peptide Vendors</div>
+    <h1>Claim Your Free Listing.<br/><span class="ac">Grow with Verified Data.</span></h1>
+    <div class="no-paid">🚫 No paid placements — ever</div>
+    <p class="hero-sub">Your PVS Score™ is already live. Claim your listing to see your full breakdown, upload COAs, respond to community feedback, and unlock the tools your competitors don't have.</p>
+    <div class="hero-btns">
+      <button class="btn-hero-g" onclick="openModal('claimModal')">🚀 Claim Free Listing Now</button>
+      <button class="btn-hero-o" onclick="document.getElementById('enterprise').scrollIntoView({behavior:'smooth'})">Explore Enterprise →</button>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF BAR -->
+<div class="proof-bar">
+  <div class="proof-inner">
+    <div class="proof-item">✅ 148 vendors ranked</div>
+    <div class="proof-item">📊 Scores update every 24h</div>
+    <div class="proof-item">🔒 Domain ownership verified</div>
+    <div class="proof-item">🚫 Zero pay-to-rank</div>
+    <div class="proof-item">🧪 Finnrick integrated</div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS — CLAIM STEPS -->
+<section class="claim-section" id="how">
+  <div class="claim-inner">
+    <div class="center">
+      <div class="sec-label">⚡ 3 Steps · Under 2 Minutes</div>
+      <div class="sec-title">Get Listed in Minutes</div>
+      <div class="sec-sub">No credit card required. No login wall. Fully functional on day one.</div>
+    </div>
+    <div class="steps-wrap">
+      <div class="steps-line"></div>
+      <div class="steps-row">
+        <div class="step-col">
+          <div class="step-num sn1">1</div>
+          <div class="step-title">Submit Your Claim</div>
+          <div class="step-desc">Enter your company name, website, and email. Takes under 60 seconds — no account needed.</div>
+        </div>
+        <div class="step-col">
+          <div class="step-num sn2">2</div>
+          <div class="step-title">Verify Ownership</div>
+          <div class="step-desc">We send a verification link to your company email domain. One click confirms you control the listing.</div>
+        </div>
+        <div class="step-col">
+          <div class="step-num sn3">3</div>
+          <div class="step-title">Unlock Your Dashboard</div>
+          <div class="step-desc">Access your full PVS Score breakdown, upload COAs, respond to Reddit mentions, and edit your profile.</div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:44px;">
+      <button class="btn-hero-g" onclick="openModal('claimModal')" style="font-size:.92rem;padding:13px 28px;">🚀 Claim Your Listing Now — It's Free</button>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="pricing" style="background:var(--gray1);">
+  <div class="section-inner">
+    <div class="center">
+      <div class="sec-label">💰 Transparent Pricing</div>
+      <div class="sec-title">Choose Your Plan</div>
+      <div class="sec-sub">Start free — no credit card, no expiry. Upgrade when you're ready for competitive intelligence.</div>
+    </div>
+
+    <div class="pricing-grid">
+      <!-- FREE -->
+      <div class="pc">
+        <div class="pc-plan">Free</div>
+        <div class="pc-price">$0 <sub>/ forever</sub></div>
+        <div class="pc-price-note">No credit card required</div>
+        <div class="pc-desc">Everything to establish your verified presence and understand your baseline PVS Score.</div>
+        <ul class="pc-feats">
+          <li><span class="ck ck-g">✓</span><div><strong>Claim & verify your listing</strong> via email domain</div></li>
+          <li><span class="ck ck-g">✓</span><div><strong>Full PVS Score™ breakdown</strong> across all 5 pillars</div></li>
+          <li><span class="ck ck-g">✓</span><div><strong>COA upload portal</strong> — up to 10 certificates</div></li>
+          <li><span class="ck ck-g">✓</span><div><strong>Public profile editor</strong> — description, links, contact</div></li>
+          <li><span class="ck ck-g">✓</span><div><strong>Live Reddit mention feed</strong></div></li>
+          <li><span class="ck ck-g">✓</span><div><strong>Weekly score digest</strong> — PVS movement alerts</div></li>
+          <li><span class="ck ck-g">✓</span><div><strong>Verified badge</strong> on your public listing card</div></li>
+        </ul>
+        <button class="btn-plan-f" onclick="openModal('claimModal')">Get Started Free →</button>
+      </div>
+
+      <!-- PRO -->
+      <div class="pc featured">
+        <div class="pc-badge">🔥 Most Popular</div>
+        <div class="pc-plan">Pro</div>
+        <div class="pc-price">$99 <sub>/ month</sub></div>
+        <div class="pc-price-note">or <strong>$950/year</strong> — save $238</div>
+        <div class="pc-desc">Unlock competitive intelligence, unlimited COA uploads, and the tools most growing vendors need to climb the rankings.</div>
+        <ul class="pc-feats">
+          <li><span class="ck ck-g">✓</span><div><strong>Everything in Free</strong></div></li>
+          <li><span class="ck ck-g">✓</span><div><strong>Unlimited COA uploads</strong> & automated AI parsing</div></li>
+          <li><span class="ck ck-g">✓</span><div><strong>Reddit & forum mention alerts</strong> — real-time</div></li>
+          <li><span class="ck ck-g">✓</span><div><strong>PVS Score history charts</strong> — 12-month trends</div></li>
+          <li><span class="ck ck-g">✓</span><div><strong>Top-3 competitor benchmarking</strong></div></li>
+          <li><span class="ck ck-g">✓</span><div><strong>White-label PDF score reports</strong> (5/month)</div></li>
+          <li><span class="ck ck-g">✓</span><div><strong>Priority listing review</strong> — 24h turnaround</div></li>
+          <li><span class="ck ck-g">✓</span><div><strong>Email support</strong> — 48h response</div></li>
+        </ul>
+        <a href="https://buy.stripe.com/cNi14m2XP4YDbcO1zT9sk00" class="btn-plan-f" style="background:linear-gradient(135deg,#10b981,#059669);color:white;display:block;text-align:center;text-decoration:none;">Start Pro Plan →</a>
+      </div>
+
+      <!-- ENTERPRISE -->
+      <div class="pc">
+        <div class="pc-plan">Enterprise</div>
+        <div class="pc-price">$299 <sub>/ month</sub></div>
+        <div class="pc-price-note">or <strong>$2,870/year</strong> — billed annually</div>
+        <div class="pc-save-badge">🎉 Save 20% with annual billing</div>
+        <div class="pc-desc">Everything in Free plus the full enterprise toolkit: API, white-label reports, competitor benchmarking, dedicated account management, and priority Finnrick testing.</div>
+        <ul class="pc-feats">
+          <li><span class="ck ck-b">✓</span><div><strong>Everything in Free</strong></div></li>
+          <li><span class="ck ck-b">✓</span><div><strong>Full API Access</strong> — real-time PVS Scores™, Reddit data, Finnrick results, webhooks</div></li>
+          <li><span class="ck ck-b">✓</span><div><strong>White-Label PDF Reports</strong> — branded score, COA summary, community feedback</div></li>
+          <li><span class="ck ck-b">✓</span><div><strong>Competitor Benchmarking Suite</strong> — track vs. top 5 competitors across all 5 pillars</div></li>
+          <li><span class="ck ck-b">✓</span><div><strong>Dedicated Account Manager</strong> — Slack/email + quarterly strategy calls</div></li>
+          <li><span class="ck ck-b">✓</span><div><strong>Custom Research Reports</strong> — on-demand market, COA benchmarks, competitor deep-dives</div></li>
+          <li><span class="ck ck-b">✓</span><div><strong>Priority Finnrick Integration</strong> — faster batch processing + early lab results</div></li>
+          <li><span class="ck ck-b">✓</span><div><strong>Advanced Analytics Dashboard</strong> — history charts, sentiment clouds, anomaly alerts, exports</div></li>
+          <li><span class="ck ck-b">✓</span><div><strong>Priority Support &amp; Alerts</strong> — 24h response + real-time score change notifications</div></li>
+        </ul>
+        <a href="https://buy.stripe.com/bJe8wOgOF1MrdkW92l9sk01" class="btn-plan-e" style="display:block;text-align:center;text-decoration:none;">Start Enterprise Plan →</a>
+        <div class="guarantees">
+          <div class="g-item">🛡️ 14-day money-back</div>
+          <div class="g-item">✂️ Cancel anytime</div>
+          <div class="g-item">📋 No contracts</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ENTERPRISE FEATURES -->
+<section class="ent-section" id="enterprise">
+  <div class="ent-inner">
+    <div class="center">
+      <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(59,130,246,.14);border:1px solid rgba(59,130,246,.28);color:var(--blue2);font-size:.73rem;font-weight:700;padding:4px 12px;border-radius:20px;margin-bottom:12px;text-transform:uppercase;letter-spacing:.09em;">🏢 Enterprise Features</span>
+      <div style="font-size:1.6rem;font-weight:800;color:white;margin-bottom:7px;">Everything You Need to Win</div>
+      <div style="font-size:.86rem;color:rgba(255,255,255,.46);max-width:520px;margin:0 auto;">$299/month · No contracts · Cancel anytime · Onboard in 24 hours</div>
+    </div>
+    <div class="ent-grid">
+      <div class="ent-card"><span class="ent-icon">🔌</span><div class="ent-title">Full API Data Access</div><div class="ent-desc">Real-time <strong>PVS Scores™</strong>, historical trends, raw Reddit sentiment, Finnrick lab data, and <strong>webhooks for every score change</strong>. REST API with full documentation.</div></div>
+      <div class="ent-card"><span class="ent-icon">📄</span><div class="ent-title">White-Label Reporting</div><div class="ent-desc">Generate <strong>branded PDF reports</strong> on your PVS Score, COA summaries, and community feedback. Your logo, your colors — shareable with customers and investors.</div></div>
+      <div class="ent-card"><span class="ent-icon">📊</span><div class="ent-title">Competitor Benchmarking</div><div class="ent-desc">Private dashboard: your performance <strong>vs. top 5 competitors</strong> across all 5 pillars — Purity 30%, Reputation 25%, CS 20%, Community 15%, Pricing 10% — with trend graphs.</div></div>
+      <div class="ent-card"><span class="ent-icon">👤</span><div class="ent-title">Dedicated Account Manager</div><div class="ent-desc">A named account manager via <strong>Slack and email</strong>, plus <strong>quarterly strategy calls</strong> to help you understand score drivers and optimize your ranking.</div></div>
+      <div class="ent-card"><span class="ent-icon">📑</span><div class="ent-title">Custom Research Reports</div><div class="ent-desc">On-demand: <strong>market sentiment analysis</strong>, COA benchmarks vs. industry averages, targeted competitor deep-dives — delivered as polished reports within 5 business days.</div></div>
+      <div class="ent-card"><span class="ent-icon">🧪</span><div class="ent-title">Priority Finnrick Testing</div><div class="ent-desc"><strong>Priority batch submission</strong> for faster independent turnaround + <strong>early access to new lab results</strong> before public publication. Stay ahead of your score.</div></div>
+      <div class="ent-card"><span class="ent-icon">📈</span><div class="ent-title">Advanced Analytics</div><div class="ent-desc"><strong>Score history charts</strong>, sentiment word clouds, anomaly detection, multi-user team access, scheduled exports, and custom date-range comparisons.</div></div>
+      <div class="ent-card"><span class="ent-icon">🔔</span><div class="ent-title">Priority Support &amp; Alerts</div><div class="ent-desc"><strong>24h response guarantee</strong> + fully customizable notifications for score changes, competitor movements, new COA opportunities, and community sentiment shifts.</div></div>
+    </div>
+    <div class="ent-strip">
+      <div class="es-item" style="color:var(--green);">🛡️ 14-Day Money-Back</div>
+      <div class="es-item" style="color:rgba(255,255,255,.65);">✂️ Cancel Anytime</div>
+      <div class="es-item" style="color:rgba(255,255,255,.65);">📋 No Long-Term Contracts</div>
+      <div class="es-item" style="color:rgba(255,255,255,.65);">⚡ Onboard in 24 Hours</div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS GRID -->
+<section class="section" style="background:var(--gray1);">
+  <div class="section-inner">
+    <div class="center">
+      <div class="sec-label">💡 Why Claim Your Listing</div>
+      <div class="sec-title">Benefits for Every Vendor</div>
+      <div class="sec-sub">Whether Free or Enterprise, PepAssure gives you tools no other platform offers.</div>
+    </div>
+    <div class="benefits-grid">
+      <div class="bcard"><span class="bcard-icon">🔍</span><div class="bcard-title">Understand Your Score</div><div class="bcard-desc">See the exact breakdown of your PVS Score across all 5 pillars — and know which levers to pull to improve your rank.</div><div class="tier-badge tb-both">Free & Enterprise</div></div>
+      <div class="bcard"><span class="bcard-icon">📋</span><div class="bcard-title">Upload COAs Directly</div><div class="bcard-desc">Feed your Certificates of Analysis straight into our AI parsing pipeline. Current COAs directly improve your Purity score.</div><div class="tier-badge tb-both">Free & Enterprise</div></div>
+      <div class="bcard"><span class="bcard-icon">💬</span><div class="bcard-title">Respond to Community</div><div class="bcard-desc">See your Reddit mentions in one feed and add official vendor responses visible to shoppers on your listing page.</div><div class="tier-badge tb-free">Free Tier</div></div>
+      <div class="bcard"><span class="bcard-icon">🏅</span><div class="bcard-title">Earn Verified Badge</div><div class="bcard-desc">Claimed and verified listings earn a trust badge displayed prominently on your ranking card — seen by 50,000+ monthly visitors.</div><div class="tier-badge tb-free">Free Tier</div></div>
+      <div class="bcard"><span class="bcard-icon">📉</span><div class="bcard-title">Track Competitors</div><div class="bcard-desc">Private competitor benchmarking dashboard showing score trends for your top 5 rivals across every scoring pillar.</div><div class="tier-badge tb-ent">Enterprise</div></div>
+      <div class="bcard"><span class="bcard-icon">🔗</span><div class="bcard-title">API & Webhook Access</div><div class="bcard-desc">Pull real-time PVS Scores, historical data, and Reddit sentiment via REST API. Webhooks fire on any score change.</div><div class="tier-badge tb-ent">Enterprise</div></div>
+      <div class="bcard"><span class="bcard-icon">📰</span><div class="bcard-title">White-Label Reports</div><div class="bcard-desc">Branded PDF reports with your PVS Score, COA summaries, and community feedback — shareable with customers and investors.</div><div class="tier-badge tb-ent">Enterprise</div></div>
+      <div class="bcard"><span class="bcard-icon">🧪</span><div class="bcard-title">Finnrick Priority Testing</div><div class="bcard-desc">Skip the queue. Priority batch submission to the Finnrick network plus early access to results before public release.</div><div class="tier-badge tb-ent">Enterprise</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <h2>Ready to Take Control of Your Ranking?</h2>
+  <p>148+ vendors already on PepAssure. Claim your free listing now — no credit card, no login, takes under 2 minutes.</p>
+  <div class="final-btns">
+    <button class="btn-w" onclick="openModal('claimModal')">🚀 Claim Free Listing Now</button>
+    <button class="btn-gw" onclick="openModal('salesModal')">Contact Enterprise Sales →</button>
+  </div>
+  <p style="margin-top:18px;font-size:.76rem;color:rgba(255,255,255,.4);">Questions? <a href="mailto:vendors@pepassure.com" style="color:rgba(255,255,255,.6);text-decoration:underline;">vendors@pepassure.com</a> — 24h response.</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo" style="color:white;font-size:1.1rem;">
+          <div class="logo-mark">PA</div>
+          Pep<span style="color:var(--teal);">Assure</span>
+        </div>
+        <p>The independent, AI-powered peptide vendor ranking engine. No paid placements. Just data.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Rankings</h4>
+        <a href="index.html">All Vendors</a>
+        <a href="index.html">Top Rated</a>
+        <a href="#">Finnrick Certified</a>
+        <a href="#">Shutdown Watch</a>
+      </div>
+      <div class="footer-col">
+        <h4>For Vendors</h4>
+        <a href="#" onclick="openModal('claimModal');return false;">Claim Free Listing</a>
+        <a href="#pricing">Enterprise Plans</a>
+        <a href="#enterprise">All Features</a>
+        <a href="#">API Docs</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About</a>
+        <a href="index.html#methodology">Methodology</a>
+        <a href="#">Press</a>
+        <a href="mailto:vendors@pepassure.com">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 PepAssure, Inc. For research purposes only. Not medical advice.</span>
+      <div class="footer-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════════════════════
+     SUPABASE INTEGRATION SCRIPT
+══════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  // ── Init Supabase ────────────────────────────────────
+  const SUPA_URL = window.SUPABASE_URL;
+  const SUPA_KEY = window.SUPABASE_ANON_KEY;
+
+  let db = null;
+  // NOTE: detect config by shape — do NOT compare against the deploy
+  // placeholder, the deploy script's sed would rewrite that comparison too.
+  if (SUPA_URL && SUPA_URL.startsWith('https://') && SUPA_KEY && SUPA_KEY.length > 20) {
+    db = window.supabase.createClient(SUPA_URL, SUPA_KEY);
+  } else {
+    console.warn('[PepAssure] Supabase not configured. Forms will run in demo mode.');
+  }
+
+  // ── Modal helpers ────────────────────────────────────
+  window.openModal = function(id) {
+    document.getElementById(id).classList.add('open');
+    document.body.style.overflow = 'hidden';
+  };
+  window.closeModal = function(id) {
+    document.getElementById(id).classList.remove('open');
+    document.body.style.overflow = '';
+    // Reset form state when closing
+    if (id === 'claimModal') resetClaimModal();
+    if (id === 'salesModal') resetSalesModal();
+  };
+  // Close on backdrop click
+  document.querySelectorAll('.modal-overlay').forEach(el => {
+    el.addEventListener('click', function(e) {
+      if (e.target === el) closeModal(el.id);
+    });
+  });
+  // Close on Escape
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.open').forEach(m => closeModal(m.id)); });
+
+  // ── CLAIM FORM ───────────────────────────────────────
+  function resetClaimModal() {
+    document.getElementById('claimForm').style.display = '';
+    document.getElementById('claimSuccess').classList.remove('show');
+    document.getElementById('claimError').classList.remove('show');
+    document.getElementById('claimError').textContent = '';
+    document.getElementById('c_vendor').value = '';
+    document.getElementById('c_url').value = '';
+    document.getElementById('c_email').value = '';
+    document.getElementById('c_message').value = '';
+    setClaimLoading(false);
+    // Reset Turnstile widget
+    if (typeof turnstile !== 'undefined') turnstile.reset('#claimTurnstile');
+  }
+
+  function setClaimLoading(loading) {
+    const btn = document.getElementById('claimSubmitBtn');
+    btn.disabled = loading;
+    btn.innerHTML = loading
+      ? '<div class="spin"></div> Submitting…'
+      : '🚀 Submit Claim';
+  }
+
+  function showClaimError(msg) {
+    const el = document.getElementById('claimError');
+    el.textContent = msg;
+    el.classList.add('show');
+  }
+
+  window.submitClaim = async function() {
+    const vendor = document.getElementById('c_vendor').value.trim();
+    const url    = document.getElementById('c_url').value.trim();
+    const email  = document.getElementById('c_email').value.trim();
+    const msg    = document.getElementById('c_message').value.trim();
+
+    // Client-side validation
+    if (!vendor) return showClaimError('Please enter your vendor / company name.');
+    if (!url)    return showClaimError('Please enter your website URL.');
+    if (!email)  return showClaimError('Please enter your work email address.');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showClaimError('Please enter a valid email address.');
+
+    // Turnstile verification
+    const turnstileToken = document.querySelector('#claimTurnstile [name="cf-turnstile-response"]')?.value
+                        || turnstile?.getResponse(document.getElementById('claimTurnstile'));
+    if (!turnstileToken) return showClaimError('Please complete the security check.');
+
+    document.getElementById('claimError').classList.remove('show');
+    setClaimLoading(true);
+
+    try {
+      if (db) {
+        // ── Live mode: insert into Supabase ─────────────
+        const { error } = await db.from('claim_requests').insert({
+          vendor_name:   vendor,
+          website_url:   url,
+          contact_email: email,
+          message:       msg || null,
+          status:        'pending'
+        });
+        if (error) throw error;
+      } else {
+        // ── Demo mode: simulate network delay ───────────
+        await new Promise(r => setTimeout(r, 900));
+        console.log('[PepAssure Demo] Claim submission:', { vendor, url, email, msg });
+      }
+
+      // Show success
+      document.getElementById('claimVendorName').textContent = vendor;
+      document.getElementById('claimEmail').textContent = email;
+      document.getElementById('claimForm').style.display = 'none';
+      document.getElementById('claimSuccess').classList.add('show');
+
+    } catch (err) {
+      console.error('[PepAssure] Claim error:', err);
+      showClaimError(err.message || 'Something went wrong. Please try again or email vendors@pepassure.com.');
+      setClaimLoading(false);
+    }
+  };
+
+  // ── SALES / ENTERPRISE FORM ──────────────────────────
+  function resetSalesModal() {
+    document.getElementById('salesForm').style.display = '';
+    document.getElementById('salesSuccess').classList.remove('show');
+    document.getElementById('salesError').classList.remove('show');
+    document.getElementById('salesError').textContent = '';
+    ['s_name','s_company','s_email','s_message'].forEach(id => document.getElementById(id).value = '');
+    setSalesLoading(false);
+    // Reset Turnstile widget
+    if (typeof turnstile !== 'undefined') turnstile.reset('#salesTurnstile');
+  }
+
+  function setSalesLoading(loading) {
+    const btn = document.getElementById('salesSubmitBtn');
+    btn.disabled = loading;
+    btn.innerHTML = loading
+      ? '<div class="spin"></div> Sending…'
+      : '📩 Send Message';
+  }
+
+  function showSalesError(msg) {
+    const el = document.getElementById('salesError');
+    el.textContent = msg;
+    el.classList.add('show');
+  }
+
+  window.submitSales = async function() {
+    const name    = document.getElementById('s_name').value.trim();
+    const company = document.getElementById('s_company').value.trim();
+    const email   = document.getElementById('s_email').value.trim();
+    const message = document.getElementById('s_message').value.trim();
+
+    if (!name)    return showSalesError('Please enter your name.');
+    if (!company) return showSalesError('Please enter your company name.');
+    if (!email)   return showSalesError('Please enter your work email.');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showSalesError('Please enter a valid email address.');
+
+    // Turnstile verification
+    const turnstileToken = document.querySelector('#salesTurnstile [name="cf-turnstile-response"]')?.value
+                        || turnstile?.getResponse(document.getElementById('salesTurnstile'));
+    if (!turnstileToken) return showSalesError('Please complete the security check.');
+
+    document.getElementById('salesError').classList.remove('show');
+    setSalesLoading(true);
+
+    try {
+      if (db) {
+        const { error } = await db.from('sales_inquiries').insert({
+          name, email, company,
+          message: message || null,
+          plan: 'enterprise'
+        });
+        if (error) throw error;
+      } else {
+        await new Promise(r => setTimeout(r, 900));
+        console.log('[PepAssure Demo] Sales inquiry:', { name, company, email, message });
+      }
+
+      document.getElementById('salesEmail').textContent = email;
+      document.getElementById('salesForm').style.display = 'none';
+      document.getElementById('salesSuccess').classList.add('show');
+
+    } catch (err) {
+      console.error('[PepAssure] Sales inquiry error:', err);
+      showSalesError(err.message || 'Something went wrong. Email us at vendors@pepassure.com.');
+      setSalesLoading(false);
+    }
+  };
+
+})();
+</script>
+
+</body>
+</html>

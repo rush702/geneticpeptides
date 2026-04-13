@@ -21,8 +21,26 @@ import {
   FlaskConical,
   MessageSquare,
   Command,
+  AlertTriangle,
 } from "lucide-react";
 import { vendors, type Vendor } from "@/lib/vendors";
+
+/* ─── Shutdown alerts ─── */
+interface ShutdownAlert {
+  vendor: string;
+  date: string;
+  detail: string;
+  alternatives: string[];
+}
+
+const activeShutdowns: ShutdownAlert[] = [
+  {
+    vendor: "Peptide Sciences",
+    date: "March 2026",
+    detail: "Voluntarily ceased operations amid regulatory pressure. Website is offline — no new orders are being fulfilled.",
+    alternatives: ["NovaPeptides", "PeptideWorks", "BioSynth Labs"],
+  },
+];
 
 const features = [
   {
@@ -241,6 +259,44 @@ export default function HomePage() {
           <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
             Independent 12-metric scoring, Finnrick lab grades, Reddit sentiment, and community-driven vendor rankings. No paid placements — ever.
           </p>
+
+          {/* ─── Shutdown Alerts ─── */}
+          {activeShutdowns.length > 0 && (
+            <div className="max-w-2xl mx-auto mb-10 space-y-3">
+              {activeShutdowns.map((alert, i) => (
+                <div
+                  key={i}
+                  className="flex items-start gap-3 px-5 py-4 bg-red-500/10 border border-red-500/30 rounded-xl text-left"
+                >
+                  <AlertTriangle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-sm font-semibold text-red-300">
+                      Vendor Shutdown Alert — {alert.vendor} ({alert.date})
+                    </p>
+                    <p className="text-xs text-gray-400 mt-1 leading-relaxed">
+                      {alert.detail}{" "}
+                      Top-ranked alternatives:{" "}
+                      {alert.alternatives.map((alt, j) => {
+                        const v = vendors.find((vn) => vn.name === alt);
+                        return (
+                          <span key={j}>
+                            {v ? (
+                              <Link href={`/vendors/${v.slug}`} className="text-blue-400 hover:underline">
+                                {alt}
+                              </Link>
+                            ) : (
+                              <span className="text-gray-300">{alt}</span>
+                            )}
+                            {j < alert.alternatives.length - 1 ? ", " : "."}
+                          </span>
+                        );
+                      })}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
 
           {/* ─── Hero Search Bar ─── */}
           <div className="max-w-xl mx-auto mb-6">

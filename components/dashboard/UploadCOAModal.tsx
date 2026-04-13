@@ -68,7 +68,7 @@ export default function UploadCOAModal({ open, onClose, onUpload }: UploadCOAMod
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={() => { resetForm(); onClose(); }}
-          className="absolute inset-0 bg-black/60 modal-overlay"
+          className="absolute inset-0 bg-black/80 modal-overlay"
         />
 
         <motion.div

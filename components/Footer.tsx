@@ -98,7 +98,7 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="mt-12 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-gray-600">
+          <p className="text-xs text-gray-600" suppressHydrationWarning>
             &copy; {new Date().getFullYear()} PepAssure. All rights reserved. Not affiliated with any vendor.
           </p>
           <p className="text-xs text-gray-600">

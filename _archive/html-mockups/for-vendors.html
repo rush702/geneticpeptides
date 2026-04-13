@@ -1,0 +1,1795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>For Vendors — PeptideVerify | Get Listed & Get Verified</title>
+<meta name="description" content="Join the most trusted AI-powered peptide vendor ranking platform. Get your listing, earn verification, and reach thousands of active researchers daily."/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --navy:#0b1a35;--navy2:#122040;--teal:#00d4b8;--teal2:#00b09c;
+  --accent:#4f8ef7;--gold:#f5c518;--red:#ff5252;--green:#00e07a;
+  --bg:#f0f4fb;--card:#fff;--text:#111827;--muted:#6b7280;
+  --border:#e5eaf4;--r:16px;
+  --shadow:0 2px 16px rgba(11,26,53,.08);
+  --shadow-lg:0 8px 40px rgba(11,26,53,.14);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:62px;
+  background:rgba(11,26,53,.97);backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(255,255,255,.07);
+  display:flex;align-items:center;justify-content:space-between;padding:0 2rem}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-mark{width:32px;height:32px;border-radius:8px;
+  background:linear-gradient(135deg,var(--teal),var(--accent));
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:14px;color:#fff}
+.logo-text{font-size:1.1rem;font-weight:800;color:#fff;letter-spacing:-.3px}
+.logo-text em{color:var(--teal);font-style:normal}
+.nav-r{display:flex;align-items:center;gap:1.8rem}
+.nav-r a{color:rgba(255,255,255,.65);text-decoration:none;font-size:.85rem;font-weight:500;transition:color .2s}
+.nav-r a:hover{color:#fff}
+.nav-active{color:#fff!important}
+.nav-cta{background:linear-gradient(135deg,var(--teal),var(--accent));
+  color:#fff!important;padding:7px 18px;border-radius:8px;
+  font-weight:600!important;font-size:.82rem!important}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.hamburger span{width:22px;height:2px;background:rgba(255,255,255,.7);border-radius:2px;display:block}
+@media(max-width:720px){
+  .nav-r{display:none}
+  .hamburger{display:flex}
+}
+
+/* ── VENDOR HERO (REDESIGNED) ── */
+.vendor-hero{
+  background:var(--navy);
+  padding:100px 2rem 0;
+  position:relative;overflow:hidden;
+  min-height:92vh;
+  display:flex;flex-direction:column;
+}
+
+/* Dot grid overlay */
+.vh-grid-overlay{
+  position:absolute;inset:0;pointer-events:none;z-index:0;
+  background-image:radial-gradient(rgba(255,255,255,.055) 1px,transparent 1px);
+  background-size:32px 32px;
+  -webkit-mask-image:radial-gradient(ellipse 90% 100% at 50% 0%,black 30%,transparent 85%);
+  mask-image:radial-gradient(ellipse 90% 100% at 50% 0%,black 30%,transparent 85%);
+}
+
+/* Animated gradient orbs */
+.vh-orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0}
+.vh-orb-1{width:640px;height:640px;
+  background:radial-gradient(circle,rgba(79,142,247,.22) 0%,transparent 65%);
+  top:-220px;left:-120px;
+  animation:orb-float-a 18s ease-in-out infinite}
+.vh-orb-2{width:520px;height:520px;
+  background:radial-gradient(circle,rgba(0,212,184,.18) 0%,transparent 65%);
+  top:80px;right:-140px;
+  animation:orb-float-b 22s ease-in-out infinite}
+.vh-orb-3{width:420px;height:420px;
+  background:radial-gradient(circle,rgba(167,139,250,.13) 0%,transparent 65%);
+  bottom:80px;left:38%;
+  animation:orb-float-c 15s ease-in-out infinite}
+@keyframes orb-float-a{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(40px,-30px) scale(1.08)}66%{transform:translate(-20px,40px) scale(.95)}}
+@keyframes orb-float-b{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-50px,30px) scale(1.1)}}
+@keyframes orb-float-c{0%,100%{transform:translate(0,0)}50%{transform:translate(28px,-38px)}}
+
+/* Inner two-column grid */
+.vh-inner{
+  max-width:1160px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:4rem;align-items:center;
+  position:relative;z-index:1;
+  padding-bottom:3rem;flex:1;
+}
+@media(max-width:960px){
+  .vh-inner{grid-template-columns:1fr;gap:3rem;text-align:center}
+  .vh-right{order:-1}
+  .vh-left{text-align:center}
+  .vh-social-proof,.vh-cta-row{justify-content:center}
+  .vh-sub{margin-left:auto;margin-right:auto}
+}
+
+/* Eyebrow pill */
+.vh-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(0,212,184,.08);border:1px solid rgba(0,212,184,.2);
+  color:rgba(255,255,255,.7);padding:6px 16px;border-radius:999px;
+  font-size:.73rem;font-weight:600;letter-spacing:.4px;
+  margin-bottom:1.5rem}
+.vh-live-dot{width:7px;height:7px;border-radius:50%;background:var(--teal);flex-shrink:0;
+  box-shadow:0 0 0 3px rgba(0,212,184,.25);
+  animation:pulse-dot 2s infinite}
+@keyframes pulse-dot{0%,100%{box-shadow:0 0 0 3px rgba(0,212,184,.25)}50%{box-shadow:0 0 0 6px rgba(0,212,184,.07)}}
+
+/* Hero headline */
+.vh-h1{
+  font-size:clamp(2.5rem,4.2vw,4rem);font-weight:900;color:#fff;
+  line-height:1.06;letter-spacing:-1.5px;margin-bottom:1.3rem}
+.vh-grad-text{
+  background:linear-gradient(100deg,var(--teal) 0%,var(--accent) 50%,#a78bfa 100%);
+  background-size:200% auto;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  animation:grad-shift 4s linear infinite}
+@keyframes grad-shift{0%{background-position:0% center}100%{background-position:200% center}}
+
+/* Sub text */
+.vh-sub{font-size:1.05rem;color:rgba(255,255,255,.55);line-height:1.78;max-width:490px;margin-bottom:2.2rem}
+
+/* CTA row */
+.vh-cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:2rem}
+
+/* Primary CTA — shimmer + glow */
+.vh-btn-primary{
+  position:relative;overflow:hidden;
+  display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,var(--teal),var(--accent));
+  color:#fff;text-decoration:none;
+  padding:15px 34px;border-radius:13px;
+  font-weight:700;font-size:1rem;font-family:inherit;border:none;cursor:pointer;
+  box-shadow:0 4px 24px rgba(0,212,184,.35),0 1px 0 rgba(255,255,255,.15) inset;
+  transition:transform .2s,box-shadow .2s}
+.vh-btn-primary:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 38px rgba(0,212,184,.5),0 1px 0 rgba(255,255,255,.15) inset}
+.vh-btn-primary:hover .vh-arrow{transform:translateX(4px)}
+.vh-btn-shine{
+  position:absolute;top:0;left:-75%;width:50%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);
+  transform:skewX(-20deg);
+  animation:btn-shine 3.5s ease-in-out infinite 1.2s}
+@keyframes btn-shine{0%,100%{left:-75%;opacity:0}10%{opacity:1}40%{left:125%;opacity:0}}
+.vh-arrow{display:inline-block;transition:transform .2s}
+
+/* Ghost CTA */
+.vh-btn-ghost{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,.06);color:rgba(255,255,255,.8);
+  text-decoration:none;padding:15px 34px;border-radius:13px;
+  font-weight:600;font-size:1rem;font-family:inherit;
+  border:1.5px solid rgba(255,255,255,.15);cursor:pointer;
+  transition:background .2s,border-color .2s,color .2s}
+.vh-btn-ghost:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.3);color:#fff}
+
+/* Social proof strip */
+.vh-social-proof{display:flex;align-items:center;gap:14px}
+.vh-avatars{display:flex}
+.vh-av{
+  width:32px;height:32px;border-radius:50%;border:2px solid var(--navy);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.62rem;font-weight:700;color:#fff;margin-left:-8px;flex-shrink:0}
+.vh-av:first-child{margin-left:0}
+.vh-av-more{background:rgba(255,255,255,.1);font-size:.58rem;color:rgba(255,255,255,.65)}
+.vh-stars{color:var(--gold);font-size:.85rem;letter-spacing:1px;margin-bottom:2px}
+.vh-sp-label{font-size:.78rem;color:rgba(255,255,255,.45)}
+.vh-sp-label strong{color:rgba(255,255,255,.75)}
+
+/* ── RIGHT COLUMN: Floating score card ── */
+.vh-right{display:flex;justify-content:center;align-items:center;position:relative;z-index:1}
+.vh-card-wrap{position:relative;animation:card-float 6s ease-in-out infinite}
+@keyframes card-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+
+.vh-score-card{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.1);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-radius:20px;padding:24px;width:320px;
+  box-shadow:0 0 0 1px rgba(0,212,184,.15),0 24px 64px rgba(0,0,0,.45),0 8px 20px rgba(0,212,184,.1)}
+
+/* Card header */
+.vh-card-header{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.vh-vendor-avatar{
+  width:40px;height:40px;border-radius:10px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--teal),var(--accent));
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:.85rem;color:#fff}
+.vh-vendor-name{font-size:.9rem;font-weight:700;color:#fff}
+.vh-vendor-meta{font-size:.67rem;color:rgba(255,255,255,.38);margin-top:1px}
+.vh-vbadge{
+  margin-left:auto;flex-shrink:0;
+  background:rgba(0,212,184,.12);border:1px solid rgba(0,212,184,.3);color:var(--teal);
+  font-size:.62rem;font-weight:700;padding:3px 9px;border-radius:999px;letter-spacing:.3px}
+
+/* Score display */
+.vh-score-row{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+.vh-score-circle{position:relative;width:80px;height:80px;flex-shrink:0}
+.vh-score-num{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;font-weight:900;color:#fff}
+.vh-score-label{font-size:.72rem;color:rgba(255,255,255,.4);margin-bottom:4px}
+.vh-score-trend{font-size:.78rem;font-weight:700;color:var(--green);margin-bottom:8px}
+.vh-rank-badge{
+  display:inline-flex;
+  background:rgba(245,197,24,.12);border:1px solid rgba(245,197,24,.28);
+  color:var(--gold);font-size:.65rem;font-weight:700;padding:3px 9px;border-radius:999px}
+
+/* Bar rows */
+.vh-bars{display:flex;flex-direction:column;gap:9px;margin-bottom:18px}
+.vh-bar-row{display:flex;align-items:center;gap:8px}
+.vh-bar-lbl{font-size:.64rem;color:rgba(255,255,255,.42);width:58px;flex-shrink:0;font-weight:500}
+.vh-bar-track{flex:1;height:5px;background:rgba(255,255,255,.07);border-radius:999px;overflow:hidden}
+.vh-bar-fill{height:100%;border-radius:999px}
+.vh-bar-val{font-size:.64rem;font-weight:700;color:rgba(255,255,255,.55);width:20px;text-align:right;flex-shrink:0}
+
+/* Card footer */
+.vh-card-footer{
+  display:flex;justify-content:space-between;
+  font-size:.65rem;color:rgba(255,255,255,.28);
+  border-top:1px solid rgba(255,255,255,.06);padding-top:12px}
+
+/* Floating chips */
+.vh-chip{
+  position:absolute;background:rgba(11,26,53,.92);
+  border:1px solid rgba(255,255,255,.12);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  color:rgba(255,255,255,.85);font-size:.72rem;font-weight:600;
+  padding:6px 13px;border-radius:999px;white-space:nowrap;
+  box-shadow:0 4px 16px rgba(0,0,0,.3)}
+.vh-chip-1{top:-14px;left:-32px;border-color:rgba(245,197,24,.3);animation:chip-a 5s ease-in-out infinite}
+.vh-chip-2{bottom:38px;right:-30px;border-color:rgba(0,212,184,.3);animation:chip-b 7s ease-in-out infinite 1s}
+.vh-chip-3{bottom:-14px;left:16px;border-color:rgba(0,224,122,.3);animation:chip-a 6s ease-in-out infinite 2s}
+@keyframes chip-a{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-6px) rotate(1deg)}}
+@keyframes chip-b{0%,100%{transform:translateY(0) rotate(1deg)}50%{transform:translateY(-8px) rotate(-1deg)}}
+
+/* Stats bar */
+.vh-stats-bar{
+  display:flex;align-items:center;justify-content:center;flex-wrap:wrap;
+  border-top:1px solid rgba(255,255,255,.06);
+  position:relative;z-index:1;padding:26px 2rem;margin-top:auto}
+.vh-stat{text-align:center;padding:0 2.5rem}
+.vh-stat-val{
+  display:block;font-size:1.8rem;font-weight:900;letter-spacing:-.5px;
+  background:linear-gradient(90deg,var(--teal),var(--accent));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.vh-stat-lbl{font-size:.72rem;color:rgba(255,255,255,.35);font-weight:500;margin-top:3px;display:block}
+.vh-stat-div{width:1px;height:32px;background:rgba(255,255,255,.07);flex-shrink:0}
+@media(max-width:640px){
+  .vh-stat-div{display:none}
+  .vh-stat{padding:10px 1.5rem;width:50%}}
+
+/* Wave divider */
+.vh-wave{position:relative;z-index:1;line-height:0;margin-top:-1px}
+.vh-wave svg{display:block;width:100%;height:60px}
+
+/* Keep .grad for use in other sections */
+.grad{background:linear-gradient(90deg,var(--teal),var(--accent));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+/* Keep legacy btn classes used in rest of page */
+.btn-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,var(--teal),var(--accent));
+  color:#fff;text-decoration:none;padding:14px 32px;border-radius:12px;
+  font-weight:700;font-size:1rem;border:none;cursor:pointer;font-family:inherit;
+  box-shadow:0 4px 20px rgba(0,212,184,.3);
+  transition:transform .2s,box-shadow .2s,opacity .2s}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,212,184,.4);opacity:.95}
+.btn-secondary{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.07);color:#fff;text-decoration:none;
+  padding:14px 32px;border-radius:12px;font-weight:600;font-size:1rem;
+  border:1.5px solid rgba(255,255,255,.2);cursor:pointer;font-family:inherit;
+  transition:background .2s,border-color .2s}
+.btn-secondary:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.35)}
+
+/* ── TRUST BAR ── */
+.trust-bar{background:#fff;border-bottom:1px solid var(--border);padding:14px 2rem}
+.trust-inner{max-width:1080px;margin:0 auto;
+  display:flex;align-items:center;justify-content:center;gap:2.5rem;flex-wrap:wrap}
+.ti{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:.8rem;font-weight:500}
+.ti-icon{color:var(--teal);font-size:.95rem}
+
+/* ── GENERAL SECTION ── */
+section{padding:72px 2rem}
+.container{max-width:1080px;margin:0 auto}
+.sec-tag{font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--teal);margin-bottom:10px}
+.sec-title{font-size:clamp(1.6rem,3vw,2.3rem);font-weight:800;letter-spacing:-.4px;
+  color:var(--text);margin-bottom:12px;line-height:1.2}
+.sec-sub{color:var(--muted);font-size:.97rem;max-width:560px;line-height:1.75}
+.section-hdr{margin-bottom:2.8rem}
+.section-hdr.center{text-align:center}
+.section-hdr.center .sec-sub{margin:0 auto}
+
+/* ── HOW SCORING WORKS ── */
+.dark-section{background:var(--navy);padding:72px 2rem}
+.dark-section .sec-title{color:#fff}
+.dark-section .sec-sub{color:rgba(255,255,255,.5)}
+.pillars-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:2.5rem}
+.pillar-card{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:var(--r);padding:24px 20px;
+  transition:background .2s,border-color .2s}
+.pillar-card:hover{background:rgba(255,255,255,.07);border-color:rgba(0,212,184,.2)}
+.pillar-icon{font-size:1.8rem;margin-bottom:12px}
+.pillar-name{font-size:.92rem;font-weight:700;color:#fff;margin-bottom:6px}
+.pillar-desc{font-size:.8rem;color:rgba(255,255,255,.45);line-height:1.65}
+.pillar-weight{display:inline-flex;align-items:center;gap:5px;
+  background:rgba(0,212,184,.12);border:1px solid rgba(0,212,184,.2);
+  color:var(--teal);padding:3px 10px;border-radius:999px;
+  font-size:.65rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
+  margin-top:12px}
+
+/* ── BENEFITS GRID ── */
+.benefits-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;margin-top:2.5rem}
+.benefit-card{
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:var(--r);padding:28px 24px;
+  transition:box-shadow .2s,border-color .2s,transform .2s}
+.benefit-card:hover{box-shadow:var(--shadow-lg);border-color:rgba(0,212,184,.3);transform:translateY(-3px)}
+.benefit-card.featured{
+  border-color:rgba(0,212,184,.35);
+  background:linear-gradient(135deg,rgba(0,212,184,.04) 0%,#fff 60%)}
+.bc-icon{width:46px;height:46px;border-radius:11px;
+  background:linear-gradient(135deg,rgba(0,212,184,.12),rgba(79,142,247,.12));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;margin-bottom:16px}
+.bc-title{font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px}
+.bc-desc{font-size:.85rem;color:var(--muted);line-height:1.7}
+
+/* ══════════════════════════════════════
+   COMPARISON TABLE — full responsive + a11y redesign
+══════════════════════════════════════ */
+
+/* ── Outer container ── */
+.cmp-section{background:var(--card);border-top:1px solid var(--border)}
+.table-wrap{
+  margin-top:2.5rem;border-radius:var(--r);
+  box-shadow:var(--shadow-lg);border:1.5px solid var(--border);
+  overflow:hidden;/* clip column highlight & radius */
+  position:relative}
+
+/* ── Scroll hint on mobile (fade at right edge) ── */
+.table-scroll-hint{
+  position:relative;overflow:hidden}
+.table-scroll-hint::after{
+  content:'';position:absolute;top:0;right:0;bottom:0;width:40px;
+  background:linear-gradient(to left,rgba(255,255,255,.95),transparent);
+  pointer-events:none;z-index:2;
+  transition:opacity .3s}
+.table-scroll-hint.scrolled-end::after{opacity:0}
+.table-scroll-inner{overflow-x:auto;-webkit-overflow-scrolling:touch}
+
+/* ── Table base ── */
+table{
+  width:100%;border-collapse:collapse;background:var(--card);
+  min-width:560px}/* prevent column crush */
+
+/* ── Thead ── */
+thead tr{background:var(--navy)}
+th{
+  padding:18px 20px;text-align:left;
+  font-size:.78rem;font-weight:700;
+  letter-spacing:.6px;text-transform:uppercase;
+  position:relative}
+th.col-feature{color:rgba(255,255,255,.38);width:38%}
+th.col-free{color:rgba(255,255,255,.65);text-align:center}
+th.col-basic{color:var(--teal);text-align:center}
+th.col-verified{
+  color:var(--gold);text-align:center;
+  background:rgba(245,197,24,.06)}
+/* Glowing top border on Verified column header */
+th.col-verified::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--gold),#e0a800);
+  border-radius:0}
+
+/* ── tbody rows ── */
+tbody tr{
+  transition:background .18s}
+tbody tr:focus-within{outline:2px solid var(--teal);outline-offset:-2px}
+
+/* Alternate row tint */
+tbody tr:nth-child(even) td{background:rgba(0,0,0,.016)}
+tbody tr:hover td{background:rgba(0,212,184,.042)}
+tbody tr:hover td.col-feature{color:var(--teal2)}
+
+/* Verified column persistent highlight */
+td.col-verified,th.col-verified{
+  background:rgba(245,197,24,.035)}
+tbody tr:hover td.col-verified{background:rgba(245,197,24,.07)}
+
+/* ── Cells ── */
+td{
+  padding:13px 20px;font-size:.875rem;
+  border-top:1px solid var(--border)}
+td.col-feature{font-weight:600;color:var(--text)}
+td.col-free,td.col-basic,td.col-verified{text-align:center}
+
+/* ── Price row ── */
+tr.price-row td{
+  padding:18px 20px;
+  border-top:2px solid var(--border);
+  background:var(--bg)}
+tr.price-row td.col-feature{font-size:.95rem;font-weight:800}
+tr.price-row td.col-free{font-size:1.05rem;font-weight:800;color:var(--teal)}
+tr.price-row td.col-basic{font-size:1.05rem;font-weight:800;color:var(--teal)}
+tr.price-row td.col-verified{font-size:1.05rem;font-weight:800;color:var(--gold)}
+
+/* ── Check / cross icons ── */
+.cmp-check{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;
+  background:rgba(0,212,184,.1);color:var(--teal);
+  font-size:.85rem;font-weight:700;
+  transition:transform .2s,background .2s;
+  /* entrance animation — set by JS */
+  opacity:0;transform:scale(.5)}
+.cmp-check.visible{opacity:1;transform:scale(1)}
+.cmp-cross{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;
+  color:#c9d0d9;font-size:.8rem;
+  opacity:0;transform:scale(.5)}
+.cmp-cross.visible{opacity:.55;transform:scale(1)}
+tbody tr:hover .cmp-check{transform:scale(1.18);background:rgba(0,212,184,.18)}
+
+/* "Best Value" badge */
+.popular-badge{
+  display:inline-block;background:var(--gold);color:#0b1a35;
+  font-size:.52rem;font-weight:800;padding:2px 7px;
+  border-radius:999px;margin-left:7px;vertical-align:middle;
+  letter-spacing:.6px;text-transform:uppercase;
+  animation:badge-pulse 3s ease-in-out infinite}
+@keyframes badge-pulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(245,197,24,.4)}
+  50%{box-shadow:0 0 0 5px rgba(245,197,24,0)}}
+
+/* Row entrance animation */
+tbody tr{
+  opacity:0;transform:translateX(-10px);
+  transition:opacity .35s ease,transform .35s ease,background .18s}
+tbody tr.row-visible{opacity:1;transform:translateX(0)}
+
+/* ── Table CTA footer ── */
+.table-cta-row{
+  display:flex;gap:12px;justify-content:center;flex-wrap:wrap;
+  padding:24px;background:var(--navy);
+  border-radius:0 0 calc(var(--r) - 2px) calc(var(--r) - 2px)}
+.tbl-btn-primary{
+  display:inline-flex;align-items:center;gap:7px;
+  background:linear-gradient(135deg,var(--teal),var(--accent));color:#fff;
+  text-decoration:none;padding:12px 28px;border-radius:10px;
+  font-weight:700;font-size:.9rem;
+  box-shadow:0 4px 14px rgba(0,212,184,.25);
+  transition:opacity .2s,transform .2s,box-shadow .2s}
+.tbl-btn-primary:hover{opacity:.93;transform:translateY(-1px);box-shadow:0 7px 22px rgba(0,212,184,.4)}
+.tbl-btn-secondary{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(255,255,255,.07);color:rgba(255,255,255,.8);
+  text-decoration:none;padding:12px 28px;border-radius:10px;
+  font-weight:600;font-size:.9rem;border:1.5px solid rgba(255,255,255,.15);
+  transition:background .2s,border-color .2s}
+.tbl-btn-secondary:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.3)}
+
+/* ══════════════════════════════════════
+   MOBILE CARD SWITCHER  (≤680px)
+   Replaces the table with a tab-based
+   per-tier feature list
+══════════════════════════════════════ */
+.cmp-mobile{display:none}
+
+/* Tier tab strip */
+.cmp-tabs{
+  display:flex;background:var(--bg);
+  border:1.5px solid var(--border);
+  border-radius:12px;padding:4px;gap:4px;
+  margin-top:2rem;margin-bottom:1.4rem}
+.cmp-tab{
+  flex:1;padding:10px 6px;border-radius:9px;
+  border:none;background:transparent;
+  font-family:inherit;font-size:.82rem;font-weight:600;
+  color:var(--muted);cursor:pointer;
+  transition:background .2s,color .2s,box-shadow .2s}
+.cmp-tab[aria-selected="true"]{
+  background:var(--navy);color:#fff;
+  box-shadow:0 2px 8px rgba(11,26,53,.18)}
+.cmp-tab[aria-selected="true"].tab-verified{
+  background:linear-gradient(135deg,#1a2e50,#0b1a35);
+  border:1px solid rgba(245,197,24,.3);color:var(--gold)}
+
+/* Card panel */
+.cmp-panel{display:none}
+.cmp-panel[aria-hidden="false"]{display:block;animation:panel-in .22s ease}
+@keyframes panel-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.cmp-card{
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:var(--r);overflow:hidden}
+.cmp-card-header{
+  background:var(--navy);padding:18px 20px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px}
+.cmp-card-tier{font-size:.7rem;font-weight:700;letter-spacing:1px;
+  text-transform:uppercase;color:rgba(255,255,255,.5)}
+.cmp-card-name{font-size:1.1rem;font-weight:800;color:#fff}
+.cmp-card-price{font-size:1.4rem;font-weight:900;color:var(--teal)}
+.cmp-card-price.gold{color:var(--gold)}
+.cmp-card-price-period{font-size:.78rem;font-weight:400;color:rgba(255,255,255,.4);margin-left:2px}
+
+/* Feature rows inside card */
+.cmp-feat-list{list-style:none;padding:0;margin:0}
+.cmp-feat-item{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 20px;font-size:.87rem;
+  border-bottom:1px solid var(--border);
+  transition:background .15s;animation:feat-slide .25s ease both}
+.cmp-feat-item:last-child{border-bottom:none}
+.cmp-feat-item:hover{background:rgba(0,212,184,.03)}
+.cmp-feat-icon{
+  flex-shrink:0;width:22px;height:22px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:.75rem}
+.cmp-feat-icon.yes{background:rgba(0,212,184,.1);color:var(--teal)}
+.cmp-feat-icon.no{background:rgba(0,0,0,.04);color:#c9d0d9}
+.cmp-feat-label{color:var(--text);font-weight:500}
+.cmp-feat-label.disabled{color:var(--muted)}
+
+@keyframes feat-slide{
+  from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+
+/* Mobile CTA */
+.cmp-mobile-cta{
+  margin-top:1.2rem;display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.cmp-mobile-btn-p{
+  flex:1;min-width:140px;display:block;text-align:center;text-decoration:none;
+  background:linear-gradient(135deg,var(--teal),var(--accent));
+  color:#fff;padding:13px;border-radius:10px;font-weight:700;font-size:.9rem;
+  box-shadow:0 4px 14px rgba(0,212,184,.25);transition:opacity .2s}
+.cmp-mobile-btn-p:hover{opacity:.9}
+.cmp-mobile-btn-s{
+  flex:1;min-width:140px;display:block;text-align:center;text-decoration:none;
+  background:transparent;color:var(--navy);padding:13px;border-radius:10px;
+  font-weight:600;font-size:.9rem;border:1.5px solid var(--border);transition:border-color .2s}
+.cmp-mobile-btn-s:hover{border-color:var(--teal);color:var(--teal)}
+
+/* ── Breakpoint: hide table, show cards ── */
+@media(max-width:680px){
+  .table-scroll-hint{display:none}
+  .cmp-mobile{display:block}
+  .table-cta-row{display:none}}
+
+/* ── PROCESS STEPS ── */
+.process-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0;
+  margin-top:2.5rem;position:relative}
+.process-steps::before{
+  content:'';position:absolute;top:28px;left:10%;right:10%;height:2px;
+  background:linear-gradient(90deg,var(--teal),var(--accent));
+  z-index:0;border-radius:2px}
+@media(max-width:640px){.process-steps::before{display:none}}
+.pstep{text-align:center;padding:0 16px;position:relative;z-index:1}
+.pstep-num{
+  width:56px;height:56px;border-radius:50%;
+  background:linear-gradient(135deg,var(--teal),var(--accent));
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:1.1rem;color:#fff;
+  margin:0 auto 18px;
+  box-shadow:0 0 0 5px var(--bg),0 0 0 7px rgba(0,212,184,.2)}
+.pstep-title{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:8px}
+.pstep-desc{font-size:.82rem;color:var(--muted);line-height:1.65}
+
+/* ── TESTIMONIALS ── */
+.testimonials{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;margin-top:2.5rem}
+.tcard{
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:var(--r);padding:28px 24px}
+.tcard-stars{color:var(--gold);font-size:.9rem;margin-bottom:12px}
+.tcard-quote{font-size:.9rem;color:var(--text);line-height:1.72;margin-bottom:18px;
+  font-style:italic}
+.tcard-author{display:flex;align-items:center;gap:10px}
+.tcard-avatar{width:36px;height:36px;border-radius:50%;
+  background:linear-gradient(135deg,var(--teal),var(--accent));
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:.85rem;color:#fff}
+.tcard-name{font-size:.83rem;font-weight:700;color:var(--text)}
+.tcard-role{font-size:.75rem;color:var(--muted)}
+.tcard-badge{display:inline-flex;align-items:center;gap:4px;
+  background:rgba(0,212,184,.08);color:var(--teal2);
+  font-size:.6rem;font-weight:700;padding:2px 7px;
+  border-radius:999px;text-transform:uppercase;margin-left:auto}
+
+/* ── FAQ ── */
+.faq-list{margin-top:2rem;display:flex;flex-direction:column;gap:12px}
+.faq-item{
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:12px;overflow:hidden}
+.faq-q{
+  padding:18px 22px;font-size:.92rem;font-weight:600;
+  color:var(--text);cursor:pointer;display:flex;
+  justify-content:space-between;align-items:center;gap:12px;
+  user-select:none;transition:background .15s}
+.faq-q:hover{background:rgba(0,212,184,.03)}
+.faq-q svg{flex-shrink:0;transition:transform .25s;color:var(--teal)}
+.faq-a{
+  max-height:0;overflow:hidden;
+  transition:max-height .35s cubic-bezier(.4,0,.2,1),padding .25s}
+.faq-a p{padding:0 22px 20px;font-size:.88rem;color:var(--muted);line-height:1.75}
+.faq-item.open .faq-q svg{transform:rotate(180deg)}
+.faq-item.open .faq-a{max-height:300px}
+
+/* ── CTA SECTION ── */
+.cta-section{
+  background:var(--navy);text-align:center;
+  position:relative;overflow:hidden}
+.cta-section::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(79,142,247,.15) 0%,transparent 65%);
+  pointer-events:none}
+.cta-section h2{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;color:#fff;
+  letter-spacing:-.6px;margin-bottom:14px}
+.cta-section p{color:rgba(255,255,255,.55);font-size:.97rem;max-width:520px;margin:0 auto 2.4rem;line-height:1.72}
+.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+/* ── PRICING CARDS ── */
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px;margin-top:2.5rem}
+.price-card{
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:var(--r);padding:30px 26px;
+  transition:box-shadow .2s,border-color .2s,transform .2s;
+  display:flex;flex-direction:column}
+.price-card.popular{
+  border-color:var(--teal);
+  box-shadow:0 0 0 3px rgba(0,212,184,.12);
+  transform:scale(1.02)}
+.price-card.popular:hover{transform:scale(1.02) translateY(-3px)}
+.price-card:not(.popular):hover{box-shadow:var(--shadow-lg);transform:translateY(-3px)}
+.price-tier{font-size:.7rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:10px}
+.price-tier.t-popular{color:var(--teal)}
+.price-name{font-size:1.3rem;font-weight:800;color:var(--text);margin-bottom:6px}
+.price-desc{font-size:.83rem;color:var(--muted);line-height:1.6;margin-bottom:20px}
+.price-amount{margin-bottom:24px}
+.price-amount .amount{font-size:2.2rem;font-weight:900;color:var(--text);letter-spacing:-1px}
+.price-amount .period{font-size:.83rem;color:var(--muted);font-weight:500;margin-left:4px}
+.price-amount .free-tag{font-size:1.5rem;font-weight:900;color:var(--teal)}
+.price-features{list-style:none;flex:1;margin-bottom:26px;display:flex;flex-direction:column;gap:10px}
+.price-features li{display:flex;align-items:flex-start;gap:9px;font-size:.85rem;color:var(--text)}
+.price-features li .feat-icon{color:var(--teal);flex-shrink:0;margin-top:1px}
+.price-features li .feat-icon.cross{color:#d1d5db}
+.price-features li .feat-text{color:var(--muted)}
+.price-features li .feat-text.active{color:var(--text)}
+.price-btn{
+  display:block;text-align:center;text-decoration:none;
+  padding:12px;border-radius:10px;font-weight:700;font-size:.9rem;
+  transition:all .2s;margin-top:auto}
+.price-btn.outline{
+  border:1.5px solid var(--border);color:var(--text);
+  background:transparent}
+.price-btn.outline:hover{border-color:var(--teal);color:var(--teal)}
+.price-btn.filled{
+  background:linear-gradient(135deg,var(--teal),var(--accent));
+  color:#fff;box-shadow:0 4px 14px rgba(0,212,184,.25)}
+.price-btn.filled:hover{opacity:.9;box-shadow:0 6px 20px rgba(0,212,184,.35)}
+.price-btn.dark{background:var(--navy);color:#fff}
+.price-btn.dark:hover{background:var(--navy2)}
+
+/* ── STAT BAND ── */
+.stat-band{background:var(--card);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.stat-band-inner{max-width:1080px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  padding:32px 2rem;gap:24px}
+.stat-item{text-align:center}
+.stat-val{font-size:2rem;font-weight:900;letter-spacing:-.5px;
+  background:linear-gradient(90deg,var(--teal),var(--accent));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-lbl{font-size:.78rem;color:var(--muted);font-weight:500;margin-top:4px}
+
+/* ── FOOTER ── */
+footer{background:var(--navy);padding:40px 2rem 28px;color:rgba(255,255,255,.4);font-size:.78rem}
+.footer-inner{max-width:1080px;margin:0 auto}
+.footer-top{display:flex;justify-content:space-between;align-items:flex-start;gap:2rem;flex-wrap:wrap;margin-bottom:32px}
+.footer-links{display:flex;gap:1.5rem;flex-wrap:wrap}
+.footer-links a{color:rgba(255,255,255,.45);text-decoration:none;font-size:.78rem;transition:color .2s}
+.footer-links a:hover{color:#fff}
+.footer-disclaimer{line-height:1.75;border-top:1px solid rgba(255,255,255,.06);padding-top:20px;margin-top:4px}
+.footer-disclaimer a{color:rgba(255,255,255,.45);text-decoration:underline}
+
+/* ── CLAIM FORM ── */
+#claim-form{scroll-margin-top:80px}
+.form-card{
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:var(--r);padding:36px 32px;max-width:640px;margin:2.5rem auto 0;
+  box-shadow:var(--shadow-lg)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:560px){.form-row{grid-template-columns:1fr}}
+.form-group{margin-bottom:18px}
+.form-group label{display:block;font-size:.8rem;font-weight:600;color:var(--text);margin-bottom:6px}
+.form-group input,.form-group select,.form-group textarea{
+  width:100%;padding:11px 14px;border:1.5px solid var(--border);
+  border-radius:9px;font-family:inherit;font-size:.88rem;color:var(--text);
+  background:#fff;outline:none;transition:border-color .2s,box-shadow .2s}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{
+  border-color:var(--teal);box-shadow:0 0 0 3px rgba(0,212,184,.1)}
+.form-group textarea{resize:vertical;min-height:80px}
+.form-submit{
+  width:100%;padding:14px;border:none;border-radius:11px;
+  background:linear-gradient(135deg,var(--teal),var(--accent));
+  color:#fff;font-weight:700;font-size:1rem;font-family:inherit;
+  cursor:pointer;transition:opacity .2s,transform .2s;
+  box-shadow:0 4px 16px rgba(0,212,184,.3)}
+.form-submit:hover{opacity:.9;transform:translateY(-1px)}
+.form-note{font-size:.75rem;color:var(--muted);text-align:center;margin-top:12px;line-height:1.6}
+
+/* ── UTILITIES ── */
+/* Screen-reader only — visually hidden but accessible */
+.sr-only{
+  position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+.pill{display:inline-flex;align-items:center;gap:5px;
+  background:rgba(0,212,184,.08);color:var(--teal2);
+  font-size:.68rem;font-weight:700;padding:3px 10px;
+  border-radius:999px;text-transform:uppercase;letter-spacing:.4px}
+.pill.gold{background:rgba(245,197,24,.1);color:#b58a00}
+.divider{height:1px;background:var(--border);margin:0 auto}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  section{padding:52px 1.2rem}
+  .dark-section{padding:52px 1.2rem}
+  .vendor-hero{padding:88px 1.2rem 56px}
+  .form-card{padding:24px 20px}
+  .price-card.popular{transform:scale(1)}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     STICKY NAV
+══════════════════════════════════════ -->
+<nav>
+  <a href="/" class="logo">
+    <div class="logo-mark">PV</div>
+    <span class="logo-text">Peptide<em>Verify</em></span>
+  </a>
+  <div class="nav-r">
+    <a href="/rankings">Rankings</a>
+    <a href="/methodology">Methodology</a>
+    <a href="/for-vendors" class="nav-active">For Vendors</a>
+    <a href="/blog">Blog</a>
+    <a href="#claim-form" class="nav-cta">Claim Listing →</a>
+  </div>
+  <div class="hamburger" onclick="document.querySelector('.nav-r').style.display='flex'">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════
+     HERO — split layout, animated bg, floating score card
+══════════════════════════════════════ -->
+<section class="vendor-hero">
+
+  <!-- Background layers -->
+  <div class="vh-orb vh-orb-1"></div>
+  <div class="vh-orb vh-orb-2"></div>
+  <div class="vh-orb vh-orb-3"></div>
+  <div class="vh-grid-overlay"></div>
+
+  <!-- Two-column content -->
+  <div class="vh-inner">
+
+    <!-- LEFT: copy, CTAs, social proof -->
+    <div class="vh-left">
+
+      <div class="vh-eyebrow">
+        <span class="vh-live-dot"></span>
+        120+ Vendors Indexed · Updated 6 min ago
+      </div>
+
+      <h1 class="vh-h1">
+        Turn Your Lab's Quality<br>Into <span class="vh-grad-text">Undeniable Trust</span>
+      </h1>
+
+      <p class="vh-sub">
+        Researchers run our AI-powered scores before every purchase. Claim your listing, submit COAs, and let independently verified data do the selling for you — completely free to start.
+      </p>
+
+      <div class="vh-cta-row">
+        <a href="#claim-form" class="vh-btn-primary">
+          <span class="vh-btn-shine"></span>
+          <span>🆓 Claim Free Listing</span>
+          <span class="vh-arrow">→</span>
+        </a>
+        <a href="https://calendly.com/peptideverify/demo" target="_blank" class="vh-btn-ghost">
+          📅 Book a 15-Min Demo
+        </a>
+      </div>
+
+      <!-- Social proof row -->
+      <div class="vh-social-proof">
+        <div class="vh-avatars">
+          <div class="vh-av" style="background:linear-gradient(135deg,#00d4b8,#4f8ef7)">MK</div>
+          <div class="vh-av" style="background:linear-gradient(135deg,#f5c518,#ff9500)">SR</div>
+          <div class="vh-av" style="background:linear-gradient(135deg,#a78bfa,#7c3aed)">JL</div>
+          <div class="vh-av" style="background:linear-gradient(135deg,#00e07a,#00b09c)">PB</div>
+          <div class="vh-av vh-av-more">+56</div>
+        </div>
+        <div>
+          <div class="vh-stars">★★★★★</div>
+          <div class="vh-sp-label">Trusted by <strong>60+ vendors</strong> since beta</div>
+        </div>
+      </div>
+
+    </div><!-- /vh-left -->
+
+    <!-- RIGHT: floating score card mockup -->
+    <div class="vh-right">
+      <div class="vh-card-wrap">
+
+        <div class="vh-score-card">
+
+          <!-- Vendor header -->
+          <div class="vh-card-header">
+            <div class="vh-vendor-avatar">PS</div>
+            <div>
+              <div class="vh-vendor-name">Peptide Sciences</div>
+              <div class="vh-vendor-meta">US · Est. 2012 · 48 SKUs</div>
+            </div>
+            <div class="vh-vbadge">✓ Verified</div>
+          </div>
+
+          <!-- Score circle + meta -->
+          <div class="vh-score-row">
+            <div class="vh-score-circle">
+              <svg viewBox="0 0 80 80" width="80" height="80">
+                <circle cx="40" cy="40" r="33" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="7"/>
+                <circle cx="40" cy="40" r="33" fill="none" stroke="url(#sg)" stroke-width="7"
+                  stroke-dasharray="207" stroke-dashoffset="20"
+                  stroke-linecap="round" transform="rotate(-90 40 40)"/>
+                <defs>
+                  <linearGradient id="sg" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#00d4b8"/>
+                    <stop offset="100%" stop-color="#4f8ef7"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+              <div class="vh-score-num">94</div>
+            </div>
+            <div>
+              <div class="vh-score-label">Trust Score</div>
+              <div class="vh-score-trend">▲ +3 this week</div>
+              <div class="vh-rank-badge">🥇 #2 Overall</div>
+            </div>
+          </div>
+
+          <!-- 5-pillar bars -->
+          <div class="vh-bars">
+            <div class="vh-bar-row">
+              <span class="vh-bar-lbl">COA Purity</span>
+              <div class="vh-bar-track"><div class="vh-bar-fill" style="width:97%;background:linear-gradient(90deg,#00d4b8,#00b09c)"></div></div>
+              <span class="vh-bar-val">97</span>
+            </div>
+            <div class="vh-bar-row">
+              <span class="vh-bar-lbl">Sentiment</span>
+              <div class="vh-bar-track"><div class="vh-bar-fill" style="width:91%;background:linear-gradient(90deg,#4f8ef7,#3a6edb)"></div></div>
+              <span class="vh-bar-val">91</span>
+            </div>
+            <div class="vh-bar-row">
+              <span class="vh-bar-lbl">Reviews</span>
+              <div class="vh-bar-track"><div class="vh-bar-fill" style="width:94%;background:linear-gradient(90deg,#00e07a,#00b09c)"></div></div>
+              <span class="vh-bar-val">94</span>
+            </div>
+            <div class="vh-bar-row">
+              <span class="vh-bar-lbl">Service</span>
+              <div class="vh-bar-track"><div class="vh-bar-fill" style="width:88%;background:linear-gradient(90deg,#a78bfa,#7c3aed)"></div></div>
+              <span class="vh-bar-val">88</span>
+            </div>
+            <div class="vh-bar-row">
+              <span class="vh-bar-lbl">Pricing</span>
+              <div class="vh-bar-track"><div class="vh-bar-fill" style="width:82%;background:linear-gradient(90deg,#f5c518,#e0a800)"></div></div>
+              <span class="vh-bar-val">82</span>
+            </div>
+          </div>
+
+          <!-- Card footer -->
+          <div class="vh-card-footer">
+            <span>🔄 Updated 6 min ago</span>
+            <span>👁 1,240 views today</span>
+          </div>
+
+        </div><!-- /vh-score-card -->
+
+        <!-- Floating contextual chips -->
+        <div class="vh-chip vh-chip-1">🏅 Rank #2 Global</div>
+        <div class="vh-chip vh-chip-2">📈 +240 views today</div>
+        <div class="vh-chip vh-chip-3">🧪 COA: A+ Verified</div>
+
+      </div><!-- /vh-card-wrap -->
+    </div><!-- /vh-right -->
+
+  </div><!-- /vh-inner -->
+
+  <!-- Animated stat counters -->
+  <div class="vh-stats-bar">
+    <div class="vh-stat">
+      <span class="vh-stat-val" data-target="18400" data-suffix="+">0</span>
+      <span class="vh-stat-lbl">Monthly researchers</span>
+    </div>
+    <div class="vh-stat-div"></div>
+    <div class="vh-stat">
+      <span class="vh-stat-val" data-target="120" data-suffix="+">0</span>
+      <span class="vh-stat-lbl">Vendors indexed</span>
+    </div>
+    <div class="vh-stat-div"></div>
+    <div class="vh-stat">
+      <span class="vh-stat-val" data-target="94" data-suffix="%">0</span>
+      <span class="vh-stat-lbl">Trust AI over ads</span>
+    </div>
+    <div class="vh-stat-div"></div>
+    <div class="vh-stat">
+      <span class="vh-stat-val" data-target="3.2" data-suffix="×">0</span>
+      <span class="vh-stat-lbl">More clicks, Verified vendors</span>
+    </div>
+  </div>
+
+  <!-- Wave transition to next section -->
+  <div class="vh-wave">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,38 C320,8 720,65 1080,28 C1260,10 1380,40 1440,20 L1440,60 L0,60 Z" fill="var(--bg)"/>
+    </svg>
+  </div>
+
+</section>
+
+<!-- ══════════════════════════════════════
+     TRUST BAR
+══════════════════════════════════════ -->
+<div class="trust-bar">
+  <div class="trust-inner">
+    <div class="ti"><span class="ti-icon">🔬</span> AI-Verified COA Analysis</div>
+    <div class="ti"><span class="ti-icon">📊</span> 5 Independent Scoring Pillars</div>
+    <div class="ti"><span class="ti-icon">🔄</span> Updated Every 24 Hours</div>
+    <div class="ti"><span class="ti-icon">🛡️</span> No Pay-to-Win Rankings</div>
+    <div class="ti"><span class="ti-icon">🌐</span> Reddit &amp; Forum Sentiment</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     STAT BAND
+══════════════════════════════════════ -->
+<div class="stat-band">
+  <div class="stat-band-inner">
+    <div class="stat-item">
+      <div class="stat-val">18,400+</div>
+      <div class="stat-lbl">Researchers visit monthly</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-val">94%</div>
+      <div class="stat-lbl">Trust AI rankings over ads</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-val">3.2×</div>
+      <div class="stat-lbl">More clicks for Verified vendors</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-val">Daily</div>
+      <div class="stat-lbl">Score recalculated from live data</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     HOW WE SCORE YOU (dark)
+══════════════════════════════════════ -->
+<div class="dark-section" id="methodology">
+  <div class="container">
+    <div class="section-hdr center">
+      <div class="sec-tag">Scoring Methodology</div>
+      <h2 class="sec-title" style="color:#fff">How Your Score is Calculated</h2>
+      <p class="sec-sub" style="margin:0 auto">Our AI aggregates five independent data pillars every 24 hours. Scores are algorithmic — no human can buy a better rank.</p>
+    </div>
+    <div class="pillars-grid">
+
+      <div class="pillar-card">
+        <div class="pillar-icon">🧪</div>
+        <div class="pillar-name">COA Purity Score</div>
+        <div class="pillar-desc">We fetch, parse, and validate certificates of analysis. HPLC ≥ 98%, MS confirmation, and vendor-signed docs all factor in. Unverifiable COAs score zero.</div>
+        <div class="pillar-weight">Weight: 30%</div>
+      </div>
+
+      <div class="pillar-card">
+        <div class="pillar-icon">🌐</div>
+        <div class="pillar-name">Reddit &amp; Forum Sentiment</div>
+        <div class="pillar-desc">NLP analysis of r/Peptides, r/PeptidesResearch, Eroids, and other community forums. Recency-weighted so a bad month can't permanently tank a reformed vendor.</div>
+        <div class="pillar-weight">Weight: 25%</div>
+      </div>
+
+      <div class="pillar-card">
+        <div class="pillar-icon">⭐</div>
+        <div class="pillar-name">Verified Customer Reviews</div>
+        <div class="pillar-desc">Cryptographically linked reviews from confirmed purchasers. Bot-resistant. Covers delivery speed, product quality, packaging, and communication.</div>
+        <div class="pillar-weight">Weight: 20%</div>
+      </div>
+
+      <div class="pillar-card">
+        <div class="pillar-icon">🎧</div>
+        <div class="pillar-name">Customer Service</div>
+        <div class="pillar-desc">Average first-response time, resolution rate, and refund/reship handling gathered from community reports and our own undercover inquiry testing.</div>
+        <div class="pillar-weight">Weight: 15%</div>
+      </div>
+
+      <div class="pillar-card">
+        <div class="pillar-icon">💰</div>
+        <div class="pillar-name">Price Competitiveness</div>
+        <div class="pillar-desc">Price-per-mg benchmarked daily across the market. Transparency of pricing pages, bulk discounts, and hidden-fee penalties are all included.</div>
+        <div class="pillar-weight">Weight: 10%</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     BENEFITS FOR VENDORS
+══════════════════════════════════════ -->
+<section id="benefits">
+  <div class="container">
+    <div class="section-hdr">
+      <div class="sec-tag">Why List With Us</div>
+      <h2 class="sec-title">Everything You Get as a Listed Vendor</h2>
+      <p class="sec-sub">Free listings are automatic — but claiming yours unlocks powerful tools to manage your reputation and reach more researchers.</p>
+    </div>
+    <div class="benefits-grid">
+
+      <div class="benefit-card featured">
+        <div class="bc-icon">📍</div>
+        <div class="bc-title">Permanent Indexed Listing</div>
+        <div class="bc-desc">Your vendor profile appears in our rankings, searchable by peptide type, purity tier, and location. Claimed listings display your logo, description, and direct links.</div>
+      </div>
+
+      <div class="benefit-card">
+        <div class="bc-icon">📈</div>
+        <div class="bc-title">Real-Time Score Dashboard</div>
+        <div class="bc-desc">See exactly which sub-scores are dragging your rank down. Drill into COA issues, sentiment spikes, or pricing flags — then act on them.</div>
+      </div>
+
+      <div class="benefit-card">
+        <div class="bc-icon">🔔</div>
+        <div class="bc-title">Mention &amp; Sentiment Alerts</div>
+        <div class="bc-desc">Get notified the moment your brand is mentioned on Reddit, forums, or review sites. Respond before a negative thread gains traction.</div>
+      </div>
+
+      <div class="benefit-card">
+        <div class="bc-icon">🏅</div>
+        <div class="bc-title">Verified Partner Badge</div>
+        <div class="bc-desc">Display the PeptideVerify Verified badge on your website and marketing materials. Shown prominently in our rankings with a gold highlight. Researchers filter by verified status.</div>
+      </div>
+
+      <div class="benefit-card">
+        <div class="bc-icon">📤</div>
+        <div class="bc-title">COA Upload Portal</div>
+        <div class="bc-desc">Submit COAs directly through our secure portal for faster AI verification. Verified COAs are publicly linkable from your listing, building trust before researchers even contact you.</div>
+      </div>
+
+      <div class="benefit-card">
+        <div class="bc-icon">📊</div>
+        <div class="bc-title">Monthly Analytics Report</div>
+        <div class="bc-desc">How many researchers viewed your listing, clicked your site, compared you to competitors, and what keywords brought them. Delivered as a clean PDF every month.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     HOW IT WORKS (PROCESS)
+══════════════════════════════════════ -->
+<section style="background:var(--card);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="container">
+    <div class="section-hdr center">
+      <div class="sec-tag">Get Started</div>
+      <h2 class="sec-title">Up and Running in 4 Steps</h2>
+      <p class="sec-sub">From claim to Verified badge in as little as 48 hours.</p>
+    </div>
+    <div class="process-steps">
+      <div class="pstep">
+        <div class="pstep-num">1</div>
+        <div class="pstep-title">Claim Your Listing</div>
+        <div class="pstep-desc">Fill out the short form below. We verify domain ownership and confirm you operate the listed vendor.</div>
+      </div>
+      <div class="pstep">
+        <div class="pstep-num">2</div>
+        <div class="pstep-title">Submit COAs</div>
+        <div class="pstep-desc">Upload your certificates of analysis for each peptide SKU through our secure portal. AI reviews within 24 hours.</div>
+      </div>
+      <div class="pstep">
+        <div class="pstep-num">3</div>
+        <div class="pstep-title">Score Recalculates</div>
+        <div class="pstep-desc">Our engine pulls community data, reviews your submitted COAs, and issues your updated composite score.</div>
+      </div>
+      <div class="pstep">
+        <div class="pstep-num">4</div>
+        <div class="pstep-title">Display Your Badge</div>
+        <div class="pstep-desc">Qualified vendors receive the Verified Partner badge. Embed it on your site with one line of code.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     PRICING
+══════════════════════════════════════ -->
+<section id="pricing">
+  <div class="container">
+    <div class="section-hdr center">
+      <div class="sec-tag">Pricing</div>
+      <h2 class="sec-title">Simple, Transparent Pricing</h2>
+      <p class="sec-sub">Start free. Upgrade when you're ready to own your ranking.</p>
+    </div>
+    <div class="pricing-grid">
+
+      <!-- FREE -->
+      <div class="price-card">
+        <div class="price-tier">Free Forever</div>
+        <div class="price-name">Basic Listing</div>
+        <div class="price-desc">Automatically indexed. Claim to manage your profile and add your details.</div>
+        <div class="price-amount">
+          <span class="free-tag">$0</span>
+          <span class="period">/ month</span>
+        </div>
+        <ul class="price-features">
+          <li><span class="feat-icon">✓</span><span class="feat-text active">AI score displayed publicly</span></li>
+          <li><span class="feat-icon">✓</span><span class="feat-text active">Claim listing &amp; add description</span></li>
+          <li><span class="feat-icon">✓</span><span class="feat-text active">Logo &amp; website link</span></li>
+          <li><span class="feat-icon cross">✗</span><span class="feat-text">Score breakdown dashboard</span></li>
+          <li><span class="feat-icon cross">✗</span><span class="feat-text">COA upload portal</span></li>
+          <li><span class="feat-icon cross">✗</span><span class="feat-text">Sentiment alerts</span></li>
+          <li><span class="feat-icon cross">✗</span><span class="feat-text">Verified badge</span></li>
+        </ul>
+        <a href="#claim-form" class="price-btn outline">Claim Free Listing</a>
+      </div>
+
+      <!-- PRO — POPULAR -->
+      <div class="price-card popular">
+        <div class="price-tier t-popular">⭐ Most Popular</div>
+        <div class="price-name">Pro</div>
+        <div class="price-desc">Full score transparency and tools to actively manage and improve your rank.</div>
+        <div class="price-amount">
+          <span class="amount">$99</span>
+          <span class="period">/ month</span>
+        </div>
+        <ul class="price-features">
+          <li><span class="feat-icon">✓</span><span class="feat-text active">Everything in Free</span></li>
+          <li><span class="feat-icon">✓</span><span class="feat-text active">Full score breakdown dashboard</span></li>
+          <li><span class="feat-icon">✓</span><span class="feat-text active">COA upload &amp; AI verification portal</span></li>
+          <li><span class="feat-icon">✓</span><span class="feat-text active">Reddit &amp; forum mention alerts</span></li>
+          <li><span class="feat-icon">✓</span><span class="feat-text active">Competitor score comparison</span></li>
+          <li><span class="feat-icon">✓</span><span class="feat-text active">Monthly analytics PDF report</span></li>
+          <li><span class="feat-icon cross">✗</span><span class="feat-text">Verified badge &amp; priority listing</span></li>
+        </ul>
+        <a href="#claim-form" class="price-btn filled">Get Started →</a>
+      </div>
+
+      <!-- ENTERPRISE -->
+      <div class="price-card">
+        <div class="price-tier">🏅 Top Tier</div>
+        <div class="price-name">Enterprise</div>
+        <div class="price-desc">For vendors serious about dominating researcher trust. Includes white-glove onboarding and the coveted Verified badge.</div>
+        <div class="price-amount">
+          <span class="amount">$299</span>
+          <span class="period">/ month</span>
+        </div>
+        <ul class="price-features">
+          <li><span class="feat-icon">✓</span><span class="feat-text active">Everything in Pro</span></li>
+          <li><span class="feat-icon">✓</span><span class="feat-text active">🏅 Verified badge on listing &amp; embeddable</span></li>
+          <li><span class="feat-icon">✓</span><span class="feat-text active">Priority position in search results</span></li>
+          <li><span class="feat-icon">✓</span><span class="feat-text active">COA fast-track (24h SLA)</span></li>
+          <li><span class="feat-icon">✓</span><span class="feat-text active">Dedicated account manager</span></li>
+          <li><span class="feat-icon">✓</span><span class="feat-text active">API access to your score data</span></li>
+          <li><span class="feat-icon">✓</span><span class="feat-text active">Featured in monthly researcher newsletter</span></li>
+        </ul>
+        <a href="https://calendly.com/peptideverify/demo" target="_blank" class="price-btn dark">Book Onboarding Call</a>
+      </div>
+
+    </div>
+    <p style="text-align:center;font-size:.78rem;color:var(--muted);margin-top:1.2rem">All plans billed monthly. Cancel any time. Ranking scores remain independent of plan tier — paid plans give you <em>tools</em>, not ranking advantages.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     COMPARISON TABLE
+══════════════════════════════════════ -->
+<section class="cmp-section" style="padding-top:0;margin-top:-20px" id="compare">
+  <div class="container" style="padding-top:70px">
+
+    <div class="section-hdr center">
+      <div class="sec-tag">Feature Comparison</div>
+      <h2 class="sec-title">Free vs. Pro vs. Enterprise</h2>
+      <p class="sec-sub">See exactly what's included at every tier. Hover any row for details.</p>
+    </div>
+
+    <!-- ── DESKTOP TABLE (hidden on mobile ≤680px) ── -->
+    <div class="table-wrap">
+      <div class="table-scroll-hint" id="tblScroll">
+        <div class="table-scroll-inner">
+          <table role="table" aria-label="Feature comparison across Free, Pro, and Enterprise plans">
+            <caption class="sr-only">Plan features: Free, Pro ($99/mo), and Enterprise ($299/mo)</caption>
+            <thead>
+              <tr role="row">
+                <th scope="col" class="col-feature">Feature</th>
+                <th scope="col" class="col-free">Free</th>
+                <th scope="col" class="col-basic">Pro</th>
+                <th scope="col" class="col-verified">
+                  Enterprise
+                  <span class="popular-badge" aria-label="Best value plan">Best Value</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody id="cmpTbody">
+              <tr role="row">
+                <td class="col-feature" scope="row">Public AI score &amp; rank</td>
+                <td class="col-free"><span class="cmp-check" aria-label="Included">✓</span></td>
+                <td class="col-basic"><span class="cmp-check" aria-label="Included">✓</span></td>
+                <td class="col-verified"><span class="cmp-check" aria-label="Included">✓</span></td>
+              </tr>
+              <tr role="row">
+                <td class="col-feature" scope="row">Claim listing (logo, URL, bio)</td>
+                <td class="col-free"><span class="cmp-check" aria-label="Included">✓</span></td>
+                <td class="col-basic"><span class="cmp-check" aria-label="Included">✓</span></td>
+                <td class="col-verified"><span class="cmp-check" aria-label="Included">✓</span></td>
+              </tr>
+              <tr role="row">
+                <td class="col-feature" scope="row">Full score sub-pillar breakdown</td>
+                <td class="col-free"><span class="cmp-cross" aria-label="Not included">—</span></td>
+                <td class="col-basic"><span class="cmp-check" aria-label="Included">✓</span></td>
+                <td class="col-verified"><span class="cmp-check" aria-label="Included">✓</span></td>
+              </tr>
+              <tr role="row">
+                <td class="col-feature" scope="row">COA upload &amp; AI verification</td>
+                <td class="col-free"><span class="cmp-cross" aria-label="Not included">—</span></td>
+                <td class="col-basic"><span class="cmp-check" aria-label="Included">✓</span></td>
+                <td class="col-verified"><span class="cmp-check" aria-label="Included">✓</span></td>
+              </tr>
+              <tr role="row">
+                <td class="col-feature" scope="row">Reddit &amp; forum mention alerts</td>
+                <td class="col-free"><span class="cmp-cross" aria-label="Not included">—</span></td>
+                <td class="col-basic"><span class="cmp-check" aria-label="Included">✓</span></td>
+                <td class="col-verified"><span class="cmp-check" aria-label="Included">✓</span></td>
+              </tr>
+              <tr role="row">
+                <td class="col-feature" scope="row">Competitor score comparison</td>
+                <td class="col-free"><span class="cmp-cross" aria-label="Not included">—</span></td>
+                <td class="col-basic"><span class="cmp-check" aria-label="Included">✓</span></td>
+                <td class="col-verified"><span class="cmp-check" aria-label="Included">✓</span></td>
+              </tr>
+              <tr role="row">
+                <td class="col-feature" scope="row">Monthly analytics PDF report</td>
+                <td class="col-free"><span class="cmp-cross" aria-label="Not included">—</span></td>
+                <td class="col-basic"><span class="cmp-check" aria-label="Included">✓</span></td>
+                <td class="col-verified"><span class="cmp-check" aria-label="Included">✓</span></td>
+              </tr>
+              <tr role="row">
+                <td class="col-feature" scope="row">🏅 Verified badge (listing + embeddable)</td>
+                <td class="col-free"><span class="cmp-cross" aria-label="Not included">—</span></td>
+                <td class="col-basic"><span class="cmp-cross" aria-label="Not included">—</span></td>
+                <td class="col-verified"><span class="cmp-check" aria-label="Included">✓</span></td>
+              </tr>
+              <tr role="row">
+                <td class="col-feature" scope="row">Priority position in search &amp; filters</td>
+                <td class="col-free"><span class="cmp-cross" aria-label="Not included">—</span></td>
+                <td class="col-basic"><span class="cmp-cross" aria-label="Not included">—</span></td>
+                <td class="col-verified"><span class="cmp-check" aria-label="Included">✓</span></td>
+              </tr>
+              <tr role="row">
+                <td class="col-feature" scope="row">COA fast-track (24h turnaround SLA)</td>
+                <td class="col-free"><span class="cmp-cross" aria-label="Not included">—</span></td>
+                <td class="col-basic"><span class="cmp-cross" aria-label="Not included">—</span></td>
+                <td class="col-verified"><span class="cmp-check" aria-label="Included">✓</span></td>
+              </tr>
+              <tr role="row">
+                <td class="col-feature" scope="row">Dedicated account manager</td>
+                <td class="col-free"><span class="cmp-cross" aria-label="Not included">—</span></td>
+                <td class="col-basic"><span class="cmp-cross" aria-label="Not included">—</span></td>
+                <td class="col-verified"><span class="cmp-check" aria-label="Included">✓</span></td>
+              </tr>
+              <tr role="row">
+                <td class="col-feature" scope="row">API access to your score data</td>
+                <td class="col-free"><span class="cmp-cross" aria-label="Not included">—</span></td>
+                <td class="col-basic"><span class="cmp-cross" aria-label="Not included">—</span></td>
+                <td class="col-verified"><span class="cmp-check" aria-label="Included">✓</span></td>
+              </tr>
+              <tr role="row">
+                <td class="col-feature" scope="row">Newsletter feature (18K+ researchers)</td>
+                <td class="col-free"><span class="cmp-cross" aria-label="Not included">—</span></td>
+                <td class="col-basic"><span class="cmp-cross" aria-label="Not included">—</span></td>
+                <td class="col-verified"><span class="cmp-check" aria-label="Included">✓</span></td>
+              </tr>
+              <tr role="row" class="price-row">
+                <td class="col-feature" scope="row">Monthly Price</td>
+                <td class="col-free">$0</td>
+                <td class="col-basic">$99</td>
+                <td class="col-verified">$299</td>
+              </tr>
+            </tbody>
+          </table>
+        </div><!-- /table-scroll-inner -->
+      </div><!-- /table-scroll-hint -->
+      <div class="table-cta-row" role="group" aria-label="Plan actions">
+        <a href="#claim-form" class="tbl-btn-primary">🆓 Claim Free Listing</a>
+        <a href="https://calendly.com/peptideverify/demo" target="_blank" class="tbl-btn-secondary" rel="noopener">📅 Book a 15-Min Demo</a>
+      </div>
+    </div><!-- /table-wrap -->
+
+    <!-- ── MOBILE CARD SWITCHER (visible on ≤680px) ── -->
+    <div class="cmp-mobile" role="region" aria-label="Plan comparison">
+
+      <!-- Tab strip -->
+      <div class="cmp-tabs" role="tablist" aria-label="Select a plan to compare">
+        <button class="cmp-tab" role="tab" aria-selected="true"  aria-controls="panel-free"     id="tab-free"     onclick="switchTab('free')">Free</button>
+        <button class="cmp-tab" role="tab" aria-selected="false" aria-controls="panel-growth"   id="tab-growth"   onclick="switchTab('growth')">Pro</button>
+        <button class="cmp-tab tab-verified" role="tab" aria-selected="false" aria-controls="panel-verified" id="tab-verified" onclick="switchTab('verified')">Enterprise 🏅</button>
+      </div>
+
+      <!-- FREE panel -->
+      <div class="cmp-panel" id="panel-free" role="tabpanel" aria-labelledby="tab-free" aria-hidden="false">
+        <div class="cmp-card">
+          <div class="cmp-card-header">
+            <div>
+              <div class="cmp-card-tier">Free Forever</div>
+              <div class="cmp-card-name">Basic Listing</div>
+            </div>
+            <div><span class="cmp-card-price">$0</span><span class="cmp-card-price-period">/mo</span></div>
+          </div>
+          <ul class="cmp-feat-list" aria-label="Free plan features">
+            <li class="cmp-feat-item" style="animation-delay:.04s"><span class="cmp-feat-icon yes" aria-hidden="true">✓</span><span class="cmp-feat-label">Public AI score &amp; rank</span></li>
+            <li class="cmp-feat-item" style="animation-delay:.08s"><span class="cmp-feat-icon yes" aria-hidden="true">✓</span><span class="cmp-feat-label">Claim listing (logo, URL, bio)</span></li>
+            <li class="cmp-feat-item" style="animation-delay:.12s"><span class="cmp-feat-icon no"  aria-hidden="true">—</span><span class="cmp-feat-label disabled">Score sub-pillar breakdown</span></li>
+            <li class="cmp-feat-item" style="animation-delay:.16s"><span class="cmp-feat-icon no"  aria-hidden="true">—</span><span class="cmp-feat-label disabled">COA upload &amp; AI verification</span></li>
+            <li class="cmp-feat-item" style="animation-delay:.20s"><span class="cmp-feat-icon no"  aria-hidden="true">—</span><span class="cmp-feat-label disabled">Reddit mention alerts</span></li>
+            <li class="cmp-feat-item" style="animation-delay:.24s"><span class="cmp-feat-icon no"  aria-hidden="true">—</span><span class="cmp-feat-label disabled">Competitor comparison</span></li>
+            <li class="cmp-feat-item" style="animation-delay:.28s"><span class="cmp-feat-icon no"  aria-hidden="true">—</span><span class="cmp-feat-label disabled">Analytics PDF report</span></li>
+            <li class="cmp-feat-item" style="animation-delay:.32s"><span class="cmp-feat-icon no"  aria-hidden="true">—</span><span class="cmp-feat-label disabled">🏅 Verified badge</span></li>
+          </ul>
+        </div>
+        <div class="cmp-mobile-cta">
+          <a href="#claim-form" class="cmp-mobile-btn-p">🆓 Claim Free Listing</a>
+        </div>
+      </div>
+
+      <!-- GROWTH panel -->
+      <div class="cmp-panel" id="panel-growth" role="tabpanel" aria-labelledby="tab-growth" aria-hidden="true">
+        <div class="cmp-card">
+          <div class="cmp-card-header">
+            <div>
+              <div class="cmp-card-tier">⭐ Most Popular</div>
+              <div class="cmp-card-name">Pro</div>
+            </div>
+            <div><span class="cmp-card-price">$99</span><span class="cmp-card-price-period">/mo</span></div>
+          </div>
+          <ul class="cmp-feat-list" aria-label="Pro plan features">
+            <li class="cmp-feat-item" style="animation-delay:.04s"><span class="cmp-feat-icon yes" aria-hidden="true">✓</span><span class="cmp-feat-label">Public AI score &amp; rank</span></li>
+            <li class="cmp-feat-item" style="animation-delay:.08s"><span class="cmp-feat-icon yes" aria-hidden="true">✓</span><span class="cmp-feat-label">Claim listing (logo, URL, bio)</span></li>
+            <li class="cmp-feat-item" style="animation-delay:.12s"><span class="cmp-feat-icon yes" aria-hidden="true">✓</span><span class="cmp-feat-label">Score sub-pillar breakdown</span></li>
+            <li class="cmp-feat-item" style="animation-delay:.16s"><span class="cmp-feat-icon yes" aria-hidden="true">✓</span><span class="cmp-feat-label">COA upload &amp; AI verification</span></li>
+            <li class="cmp-feat-item" style="animation-delay:.20s"><span class="cmp-feat-icon yes" aria-hidden="true">✓</span><span class="cmp-feat-label">Reddit &amp; forum mention alerts</span></li>
+            <li class="cmp-feat-item" style="animation-delay:.24s"><span class="cmp-feat-icon yes" aria-hidden="true">✓</span><span class="cmp-feat-label">Competitor score comparison</span></li>
+            <li class="cmp-feat-item" style="animation-delay:.28s"><span class="cmp-feat-icon yes" aria-hidden="true">✓</span><span class="cmp-feat-label">Monthly analytics PDF report</span></li>
+            <li class="cmp-feat-item" style="animation-delay:.32s"><span class="cmp-feat-icon no"  aria-hidden="true">—</span><span class="cmp-feat-label disabled">🏅 Verified badge &amp; priority</span></li>
+          </ul>
+        </div>
+        <div class="cmp-mobile-cta">
+          <a href="#claim-form" class="cmp-mobile-btn-p">Get Started →</a>
+          <a href="https://calendly.com/peptideverify/demo" target="_blank" class="cmp-mobile-btn-s" rel="noopener">Book Demo</a>
+        </div>
+      </div>
+
+      <!-- VERIFIED panel -->
+      <div class="cmp-panel" id="panel-verified" role="tabpanel" aria-labelledby="tab-verified" aria-hidden="true">
+        <div class="cmp-card" style="border-color:rgba(245,197,24,.35)">
+          <div class="cmp-card-header" style="background:linear-gradient(135deg,#1a2e50,var(--navy));border-bottom:1px solid rgba(245,197,24,.15)">
+            <div>
+              <div class="cmp-card-tier">🏅 Top Tier</div>
+              <div class="cmp-card-name">Enterprise</div>
+            </div>
+            <div><span class="cmp-card-price gold">$299</span><span class="cmp-card-price-period">/mo</span></div>
+          </div>
+          <ul class="cmp-feat-list" aria-label="Enterprise plan features">
+            <li class="cmp-feat-item" style="animation-delay:.04s"><span class="cmp-feat-icon yes" aria-hidden="true">✓</span><span class="cmp-feat-label">Everything in Pro</span></li>
+            <li class="cmp-feat-item" style="animation-delay:.08s"><span class="cmp-feat-icon yes" aria-hidden="true">✓</span><span class="cmp-feat-label">🏅 Verified badge (listing + embeddable)</span></li>
+            <li class="cmp-feat-item" style="animation-delay:.12s"><span class="cmp-feat-icon yes" aria-hidden="true">✓</span><span class="cmp-feat-label">Priority in search &amp; filters</span></li>
+            <li class="cmp-feat-item" style="animation-delay:.16s"><span class="cmp-feat-icon yes" aria-hidden="true">✓</span><span class="cmp-feat-label">COA fast-track (24h SLA)</span></li>
+            <li class="cmp-feat-item" style="animation-delay:.20s"><span class="cmp-feat-icon yes" aria-hidden="true">✓</span><span class="cmp-feat-label">Dedicated account manager</span></li>
+            <li class="cmp-feat-item" style="animation-delay:.24s"><span class="cmp-feat-icon yes" aria-hidden="true">✓</span><span class="cmp-feat-label">API access to score data</span></li>
+            <li class="cmp-feat-item" style="animation-delay:.28s"><span class="cmp-feat-icon yes" aria-hidden="true">✓</span><span class="cmp-feat-label">Newsletter feature (18K+ researchers)</span></li>
+          </ul>
+        </div>
+        <div class="cmp-mobile-cta">
+          <a href="https://calendly.com/peptideverify/demo" target="_blank" class="cmp-mobile-btn-p" rel="noopener">📅 Book Onboarding Call</a>
+        </div>
+      </div>
+
+    </div><!-- /cmp-mobile -->
+
+  </div><!-- /container -->
+</section>
+
+<!-- ══════════════════════════════════════
+     TESTIMONIALS
+══════════════════════════════════════ -->
+<section>
+  <div class="container">
+    <div class="section-hdr center">
+      <div class="sec-tag">Vendor Voices</div>
+      <h2 class="sec-title">What Vendors Are Saying</h2>
+      <p class="sec-sub">Over 60 vendors have claimed their listing since our beta launch.</p>
+    </div>
+    <div class="testimonials">
+
+      <div class="tcard">
+        <div class="tcard-stars">★★★★★</div>
+        <div class="tcard-quote">"We were skeptical at first, but the score breakdown showed us exactly which COA formatting issues were hurting us. Fixed it in a week and our rank jumped 11 spots."</div>
+        <div class="tcard-author">
+          <div class="tcard-avatar">MK</div>
+          <div>
+            <div class="tcard-name">Michael K.</div>
+            <div class="tcard-role">Operations Lead, US Peptide Lab</div>
+          </div>
+          <div class="tcard-badge">✓ Verified Partner</div>
+        </div>
+      </div>
+
+      <div class="tcard">
+        <div class="tcard-stars">★★★★★</div>
+        <div class="tcard-quote">"The Reddit alert feature alone is worth the subscription. We caught a false negative post early and resolved the customer's issue publicly before it spread."</div>
+        <div class="tcard-author">
+          <div class="tcard-avatar">SR</div>
+          <div>
+            <div class="tcard-name">Sarah R.</div>
+            <div class="tcard-role">Founder, European Peptide Supplier</div>
+          </div>
+          <div class="tcard-badge">✓ Pro Plan</div>
+        </div>
+      </div>
+
+      <div class="tcard">
+        <div class="tcard-stars">★★★★☆</div>
+        <div class="tcard-quote">"Researchers are citing our PeptideVerify score in their purchase decisions. The badge on our homepage reduced 'are you legit?' questions by a noticeable amount."</div>
+        <div class="tcard-author">
+          <div class="tcard-avatar">JL</div>
+          <div>
+            <div class="tcard-name">James L.</div>
+            <div class="tcard-role">CEO, Specialty Research Peptides</div>
+          </div>
+          <div class="tcard-badge">✓ Verified Partner</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     FAQ
+══════════════════════════════════════ -->
+<section style="background:var(--card);border-top:1px solid var(--border)">
+  <div class="container" style="max-width:720px">
+    <div class="section-hdr center">
+      <div class="sec-tag">Questions</div>
+      <h2 class="sec-title">Frequently Asked Questions</h2>
+    </div>
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Can I be removed from the rankings if I don't pay?
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="faq-a"><p>No. All publicly operating peptide vendors are indexed automatically and remain in the rankings regardless of plan. Our independence depends on it. Paying for a Pro or Enterprise plan gives you <em>tools</em> to understand and improve your score — it does not affect your rank algorithm.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Can I pay to boost my score or rank?
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="faq-a"><p>Absolutely not. Scores are purely algorithmic — derived from COA analysis, community sentiment, verified reviews, customer service data, and pricing. No payment, partnership, or advertising arrangement influences your composite score or rank position. This is non-negotiable and core to our value proposition.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          How do I dispute an incorrect score or data point?
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="faq-a"><p>Claimed vendors can submit a data dispute through their dashboard. Provide evidence (e.g., updated COA, screenshot correcting a misattributed Reddit post) and our team reviews within 5 business days. Valid disputes trigger a manual score recalculation. All disputes and outcomes are logged for transparency.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          What COA formats do you accept?
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="faq-a"><p>We accept PDF, PNG, and JPG formats. COAs must include: peptide name, lot number, HPLC purity percentage, mass spectrometry confirmation, and issuing lab name. COAs from third-party ISO-accredited labs score higher than in-house documents. We do not accept COAs without spectrometry data.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          How long does Verified Partner status take?
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="faq-a"><p>Typically 24–48 hours after you submit your COAs and complete onboarding. Fast-track partners (Verified plan) have a guaranteed 24-hour SLA for COA review. Badge embedding code is available immediately upon approval.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Do you score international vendors?
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="faq-a"><p>Yes. We currently index vendors from the US, EU, Canada, Australia, and China. Scoring methodology is applied consistently regardless of geography. Some community data sources (e.g., specific Reddit communities) may have less volume for non-English-language vendors — this is reflected transparently in score confidence intervals.</p></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     CLAIM FORM
+══════════════════════════════════════ -->
+<section id="claim-form">
+  <div class="container" style="max-width:700px">
+    <div class="section-hdr center">
+      <div class="sec-tag">Get Listed</div>
+      <h2 class="sec-title">Claim Your Free Listing</h2>
+      <p class="sec-sub">Takes 3 minutes. No credit card required for the free tier.</p>
+    </div>
+    <div class="form-card">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="f-company">Company / Vendor Name *</label>
+          <input type="text" id="f-company" placeholder="e.g. Peptide Sciences Inc." required/>
+        </div>
+        <div class="form-group">
+          <label for="f-website">Website URL *</label>
+          <input type="url" id="f-website" placeholder="https://yoursite.com" required/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="f-name">Your Full Name *</label>
+          <input type="text" id="f-name" placeholder="First Last" required/>
+        </div>
+        <div class="form-group">
+          <label for="f-email">Business Email *</label>
+          <input type="email" id="f-email" placeholder="you@company.com" required/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="f-tier">Interested In</label>
+        <select id="f-tier">
+          <option value="free">Free Listing (claim &amp; manage)</option>
+          <option value="growth">Pro Plan — $99/mo (score dashboard + alerts)</option>
+          <option value="verified">Enterprise — $299/mo (badge + priority)</option>
+          <option value="demo">Just want a demo first</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="f-peptides">Main Peptides / Product Categories</label>
+        <input type="text" id="f-peptides" placeholder="e.g. BPC-157, TB-500, Semaglutide, Custom synthesis…"/>
+      </div>
+      <div class="form-group">
+        <label for="f-notes">Anything else we should know? (optional)</label>
+        <textarea id="f-notes" placeholder="Third-party lab partner, geographic focus, ISO certifications, etc."></textarea>
+      </div>
+      <button type="submit" class="form-submit" onclick="handleSubmit(event)">
+        🚀 Submit Claim &amp; Get Listed
+      </button>
+      <p class="form-note">By submitting, you agree to our <a href="/terms" style="color:var(--teal)">Terms of Service</a> and confirm you are an authorized representative of the listed vendor. Listings are subject to our <a href="/methodology" style="color:var(--teal)">scoring methodology</a> regardless of plan tier.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     BOTTOM CTA
+══════════════════════════════════════ -->
+<div class="cta-section dark-section" style="text-align:center">
+  <div class="container" style="max-width:620px">
+    <div style="font-size:2.5rem;margin-bottom:16px">🧬</div>
+    <h2 style="font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:900;color:#fff;letter-spacing:-.5px;margin-bottom:12px">Researchers are looking for you.<br>Make sure they find the truth.</h2>
+    <p style="color:rgba(255,255,255,.5);font-size:.97rem;line-height:1.75;margin-bottom:2.2rem">18,000+ researchers visit PeptideVerify monthly to decide who to trust with their research budgets. Claiming your listing is free and takes 3 minutes.</p>
+    <div class="cta-btns">
+      <a href="#claim-form" class="btn-primary">🆓 Claim Free Listing</a>
+      <a href="https://calendly.com/peptideverify/demo" target="_blank" class="btn-secondary">📅 Book 15-Min Demo</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     FOOTER
+══════════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <a href="/" class="logo" style="text-decoration:none">
+        <div class="logo-mark">PV</div>
+        <span class="logo-text">Peptide<em>Verify</em></span>
+      </a>
+      <div class="footer-links">
+        <a href="/rankings">Rankings</a>
+        <a href="/methodology">Methodology</a>
+        <a href="/for-vendors">For Vendors</a>
+        <a href="/blog">Blog</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="/contact">Contact</a>
+      </div>
+    </div>
+    <div class="footer-disclaimer">
+      <p><strong style="color:rgba(255,255,255,.6)">Important Disclaimers:</strong> PeptideVerify is an independent data aggregation and scoring platform. We are not affiliated with, endorsed by, or financially connected to any vendor listed on this platform. Vendor scores are derived algorithmically from public data sources and submitted documents; they do not constitute a warranty of product quality, safety, or legality. All peptides listed on this platform are sold strictly for <strong style="color:rgba(255,255,255,.55)">research purposes only</strong> and are not intended for human consumption, diagnosis, treatment, or prevention of any medical condition. Paid plans provide analytics tools — they do not influence rank algorithms or score outcomes in any way. PeptideVerify makes no representations about vendor compliance with local, national, or international laws. Researchers are responsible for verifying all applicable regulations in their jurisdiction before purchasing any research compound. © 2025 PeptideVerify. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════
+     SCRIPTS
+══════════════════════════════════════ -->
+<script>
+// FAQ accordion
+function toggleFaq(el) {
+  const item = el.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// Form submission placeholder
+function handleSubmit(e) {
+  e.preventDefault();
+  const btn = e.target;
+  const company = document.getElementById('f-company').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  if (!company || !email) {
+    alert('Please fill in your company name and email.');
+    return;
+  }
+  btn.textContent = '✅ Submitted! We\'ll be in touch within 24 hours.';
+  btn.style.background = 'linear-gradient(135deg,#00e07a,#00b09c)';
+  btn.disabled = true;
+  // TODO: Replace with actual form POST endpoint or Typeform/Tally embed
+  console.log('Form submitted', { company, email });
+}
+
+// ══════════════════════════════════════
+// COMPARISON TABLE INTERACTIONS
+// ══════════════════════════════════════
+
+// ── 1. Row entrance: staggered slide-in as table scrolls into view ──
+(function() {
+  const tbody = document.getElementById('cmpTbody');
+  if (!tbody) return;
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+  const rowObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        rows.forEach((row, i) => {
+          setTimeout(() => row.classList.add('row-visible'), i * 55);
+        });
+        rowObs.disconnect();
+      }
+    });
+  }, { threshold: 0.15 });
+  rowObs.observe(tbody);
+})();
+
+// ── 2. Icon pop-in: animate checks/crosses after rows appear ──
+(function() {
+  const tbody = document.getElementById('cmpTbody');
+  if (!tbody) return;
+  const icons = Array.from(tbody.querySelectorAll('.cmp-check, .cmp-cross'));
+  const iconObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        icons.forEach((icon, i) => {
+          setTimeout(() => icon.classList.add('visible'), 200 + i * 28);
+        });
+        iconObs.disconnect();
+      }
+    });
+  }, { threshold: 0.1 });
+  iconObs.observe(tbody);
+})();
+
+// ── 3. Scroll hint: remove fade-overlay once user scrolls table ──
+(function() {
+  const wrap = document.getElementById('tblScroll');
+  if (!wrap) return;
+  const inner = wrap.querySelector('.table-scroll-inner');
+  if (!inner) return;
+  inner.addEventListener('scroll', function onScroll() {
+    const atEnd = inner.scrollLeft + inner.clientWidth >= inner.scrollWidth - 4;
+    wrap.classList.toggle('scrolled-end', atEnd);
+    // show hint only on narrow viewports
+    if (inner.scrollWidth <= inner.clientWidth) wrap.classList.add('scrolled-end');
+  }, { passive: true });
+  // Initial check
+  if (inner.scrollWidth <= inner.clientWidth) wrap.classList.add('scrolled-end');
+})();
+
+// ── 4. Mobile tab switcher ──
+function switchTab(tier) {
+  const tiers = ['free', 'growth', 'verified'];
+  tiers.forEach(t => {
+    const tab   = document.getElementById('tab-' + t);
+    const panel = document.getElementById('panel-' + t);
+    const active = t === tier;
+    if (tab)   { tab.setAttribute('aria-selected', active); }
+    if (panel) {
+      panel.setAttribute('aria-hidden', !active);
+      panel.style.display = active ? 'block' : 'none';
+    }
+  });
+}
+// Initialise mobile panels
+(function() {
+  ['growth','verified'].forEach(t => {
+    const p = document.getElementById('panel-' + t);
+    if (p) p.style.display = 'none';
+  });
+  // Keyboard nav for tabs
+  document.querySelectorAll('.cmp-tab').forEach(tab => {
+    tab.addEventListener('keydown', e => {
+      const tabs = Array.from(document.querySelectorAll('.cmp-tab'));
+      const idx  = tabs.indexOf(tab);
+      if (e.key === 'ArrowRight' && idx < tabs.length - 1) { tabs[idx + 1].focus(); tabs[idx + 1].click(); }
+      if (e.key === 'ArrowLeft'  && idx > 0)               { tabs[idx - 1].focus(); tabs[idx - 1].click(); }
+    });
+  });
+})();
+
+// ── Animated stat counters (trigger on scroll into view) ──
+function animateCounter(el) {
+  const target = parseFloat(el.dataset.target);
+  const suffix = el.dataset.suffix || '';
+  const isDecimal = target % 1 !== 0;
+  const duration = 1600;
+  const start = performance.now();
+  function step(now) {
+    const t = Math.min((now - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - t, 3); // ease-out-cubic
+    const val = target * ease;
+    const display = isDecimal ? val.toFixed(1) : Math.round(val).toLocaleString();
+    el.textContent = display + suffix;
+    if (t < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+const counterObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { animateCounter(e.target); counterObs.unobserve(e.target); }
+  });
+}, { threshold: 0.4 });
+document.querySelectorAll('.vh-stat-val[data-target]').forEach(el => counterObs.observe(el));
+
+// ── Bar fill animation (trigger on card entering view) ──
+const barObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.vh-bar-fill').forEach((bar, i) => {
+        const w = bar.style.width;
+        bar.style.width = '0';
+        setTimeout(() => { bar.style.width = w; }, i * 80);
+      });
+      barObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.vh-score-card').forEach(el => barObs.observe(el));
+
+// Smooth scroll offset for fixed nav
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', function(e) {
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      const offset = 80;
+      window.scrollTo({ top: target.offsetTop - offset, behavior: 'smooth' });
+    }
+  });
+});
+</script>
+
+</body>
+</html>

@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import {
   TrendingUp,
@@ -12,172 +15,94 @@ import {
   Globe,
 } from "lucide-react";
 
-// Seed data with real vendors from the peptide community
-// These are vendors frequently discussed on r/Peptides, r/SARMs, etc.
-// In production, this reads from Supabase `nominations` table
-const mockNominations = [
+// Mock leaderboard data — in production, this reads from Supabase `nominations` table
+// with vote counts from `nomination_votes` join
+const initialNominations = [
   {
     id: "nom-1",
-    nomineeName: "Tailor Made Compounding",
-    nomineeWebsite: "https://tailormadehealth.com",
-    nomineeSlug: "tailor-made-compounding",
-    voteCount: 312,
-    nominationCount: 74,
-    peptidesRequested: ["Semaglutide", "Tirzepatide", "BPC-157", "NAD+"],
-    status: "under_review",
-    latestNomination: "1 hour ago",
-  },
-  {
-    id: "nom-2",
     nomineeName: "Paradigm Peptides",
     nomineeWebsite: "https://paradigmpeptides.com",
     nomineeSlug: "paradigm-peptides",
-    voteCount: 247,
-    nominationCount: 58,
-    peptidesRequested: ["BPC-157", "Semaglutide", "Tirzepatide", "CJC-1295"],
+    voteCount: 187,
+    nominationCount: 42,
+    peptidesRequested: ["BPC-157", "Semaglutide", "Tirzepatide"],
     status: "under_review",
-    latestNomination: "3 hours ago",
+    latestNomination: "2 hours ago",
   },
   {
-    id: "nom-3",
+    id: "nom-2",
     nomineeName: "Amino Asylum",
     nomineeWebsite: "https://aminoasylum.com",
     nomineeSlug: "amino-asylum",
-    voteCount: 198,
-    nominationCount: 45,
-    peptidesRequested: ["TB-500", "BPC-157", "Ipamorelin", "MK-677"],
+    voteCount: 156,
+    nominationCount: 38,
+    peptidesRequested: ["TB-500", "BPC-157", "Ipamorelin"],
     status: "queued_for_testing",
     latestNomination: "5 hours ago",
   },
   {
+    id: "nom-3",
+    nomineeName: "Swiss Chems",
+    nomineeWebsite: "https://swisschems.is",
+    nomineeSlug: "swiss-chems",
+    voteCount: 134,
+    nominationCount: 31,
+    peptidesRequested: ["Semaglutide", "Tirzepatide", "Selank"],
+    status: "pending",
+    latestNomination: "1 day ago",
+  },
+  {
     id: "nom-4",
-    nomineeName: "Empower Pharmacy",
-    nomineeWebsite: "https://empowerpharmacy.com",
-    nomineeSlug: "empower-pharmacy",
-    voteCount: 176,
-    nominationCount: 41,
-    peptidesRequested: ["Semaglutide", "Tirzepatide", "PT-141", "NAD+"],
-    status: "queued_for_testing",
-    latestNomination: "8 hours ago",
+    nomineeName: "Limitless Life Nootropics",
+    nomineeWebsite: "https://limitlesslifenootropics.com",
+    nomineeSlug: "limitless-life-nootropics",
+    voteCount: 112,
+    nominationCount: 27,
+    peptidesRequested: ["Selank", "Semax", "NAD+", "Epithalon"],
+    status: "pending",
+    latestNomination: "2 days ago",
   },
   {
     id: "nom-5",
     nomineeName: "Peptide Sciences",
     nomineeWebsite: "https://peptidesciences.com",
     nomineeSlug: "peptide-sciences",
-    voteCount: 156,
-    nominationCount: 37,
-    peptidesRequested: ["BPC-157", "CJC-1295", "GHK-Cu", "Epithalon"],
+    voteCount: 98,
+    nominationCount: 24,
+    peptidesRequested: ["BPC-157", "CJC-1295", "GHK-Cu"],
     status: "pending",
-    latestNomination: "1 day ago",
+    latestNomination: "3 days ago",
   },
   {
     id: "nom-6",
-    nomineeName: "Swiss Chems",
-    nomineeWebsite: "https://swisschems.is",
-    nomineeSlug: "swiss-chems",
-    voteCount: 143,
-    nominationCount: 33,
-    peptidesRequested: ["Semaglutide", "Tirzepatide", "Selank", "Retatrutide"],
-    status: "pending",
-    latestNomination: "1 day ago",
-  },
-  {
-    id: "nom-7",
-    nomineeName: "Limitless Life Nootropics",
-    nomineeWebsite: "https://limitlesslifenootropics.com",
-    nomineeSlug: "limitless-life-nootropics",
-    voteCount: 128,
-    nominationCount: 29,
-    peptidesRequested: ["Selank", "Semax", "NAD+", "Epithalon", "Dihexa"],
-    status: "pending",
-    latestNomination: "2 days ago",
-  },
-  {
-    id: "nom-8",
-    nomineeName: "Genetic Peptides USA",
-    nomineeWebsite: "https://geneticpeptidesusa.com",
-    nomineeSlug: "genetic-peptides-usa",
-    voteCount: 112,
-    nominationCount: 24,
-    peptidesRequested: ["BPC-157", "TB-500", "Semaglutide"],
-    status: "queued_for_testing",
-    latestNomination: "2 days ago",
-  },
-  {
-    id: "nom-9",
-    nomineeName: "PureRawz",
-    nomineeWebsite: "https://purerawz.co",
-    nomineeSlug: "purerawz",
-    voteCount: 104,
-    nominationCount: 22,
-    peptidesRequested: ["BPC-157", "Ipamorelin", "CJC-1295", "AOD-9604"],
-    status: "pending",
-    latestNomination: "3 days ago",
-  },
-  {
-    id: "nom-10",
     nomineeName: "Trident Peptides",
     nomineeWebsite: "https://tridentpeptides.com",
     nomineeSlug: "trident-peptides",
-    voteCount: 97,
-    nominationCount: 20,
-    peptidesRequested: ["Tirzepatide", "Retatrutide", "AOD-9604", "MOTS-c"],
-    status: "pending",
-    latestNomination: "3 days ago",
-  },
-  {
-    id: "nom-11",
-    nomineeName: "Hallandale Pharmacy",
-    nomineeWebsite: "https://hallandalepharmacy.com",
-    nomineeSlug: "hallandale-pharmacy",
-    voteCount: 89,
-    nominationCount: 18,
-    peptidesRequested: ["Semaglutide", "Tirzepatide", "BPC-157"],
+    voteCount: 87,
+    nominationCount: 19,
+    peptidesRequested: ["Tirzepatide", "Retatrutide", "AOD-9604"],
     status: "pending",
     latestNomination: "4 days ago",
   },
   {
-    id: "nom-12",
-    nomineeName: "Chemyo",
-    nomineeWebsite: "https://chemyo.com",
-    nomineeSlug: "chemyo",
-    voteCount: 82,
-    nominationCount: 16,
-    peptidesRequested: ["BPC-157", "TB-500", "GHK-Cu"],
+    id: "nom-7",
+    nomineeName: "BFPR",
+    nomineeWebsite: "https://buyfromthepeptideresearcher.com",
+    nomineeSlug: "bfpr",
+    voteCount: 76,
+    nominationCount: 15,
+    peptidesRequested: ["BPC-157", "TB-500"],
     status: "pending",
     latestNomination: "5 days ago",
   },
   {
-    id: "nom-13",
-    nomineeName: "Direct Peptides",
-    nomineeWebsite: "https://directpeptides.com",
-    nomineeSlug: "direct-peptides",
-    voteCount: 74,
-    nominationCount: 14,
-    peptidesRequested: ["KPV", "LL-37", "Thymosin Alpha-1"],
-    status: "pending",
-    latestNomination: "5 days ago",
-  },
-  {
-    id: "nom-14",
-    nomineeName: "Xpeptides",
-    nomineeWebsite: "https://xpeptides.com",
-    nomineeSlug: "xpeptides",
-    voteCount: 67,
+    id: "nom-8",
+    nomineeName: "Research Chemical",
+    nomineeWebsite: "https://researchchemical.com",
+    nomineeSlug: "research-chemical",
+    voteCount: 64,
     nominationCount: 12,
-    peptidesRequested: ["BPC-157", "Semaglutide", "PT-141"],
-    status: "pending",
-    latestNomination: "1 week ago",
-  },
-  {
-    id: "nom-15",
-    nomineeName: "Peptide Pros",
-    nomineeWebsite: "https://peptidepros.net",
-    nomineeSlug: "peptide-pros",
-    voteCount: 58,
-    nominationCount: 10,
-    peptidesRequested: ["Tirzepatide", "Retatrutide", "CJC-1295"],
+    peptidesRequested: ["PT-141", "Melanotan II"],
     status: "pending",
     latestNomination: "1 week ago",
   },
@@ -191,7 +116,23 @@ const statusConfig: Record<string, { label: string; color: string }> = {
 };
 
 export default function MostWantedPage() {
-  const totalVotes = mockNominations.reduce((sum, n) => sum + n.voteCount, 0);
+  const [nominations, setNominations] = useState(initialNominations);
+  const [votedIds, setVotedIds] = useState<Set<string>>(new Set());
+
+  const totalVotes = nominations.reduce((sum, n) => sum + n.voteCount, 0);
+
+  function handleVote(id: string) {
+    if (votedIds.has(id)) return; // already voted
+
+    setVotedIds((prev) => new Set(prev).add(id));
+    setNominations((prev) =>
+      [...prev]
+        .map((n) => (n.id === id ? { ...n, voteCount: n.voteCount + 1 } : n))
+        .sort((a, b) => b.voteCount - a.voteCount)
+    );
+
+    // TODO: In production, POST to /api/nominations/[id]/vote
+  }
 
   return (
     <div className="min-h-screen molecular-bg pb-20">
@@ -212,7 +153,7 @@ export default function MostWantedPage() {
           </p>
           <div className="flex items-center justify-center gap-6 text-sm text-gray-500">
             <span>
-              <strong className="text-white">{mockNominations.length}</strong> vendors nominated
+              <strong className="text-white">{nominations.length}</strong> vendors nominated
             </span>
             <span>&middot;</span>
             <span>
@@ -237,8 +178,9 @@ export default function MostWantedPage() {
 
         {/* Leaderboard */}
         <div className="space-y-3">
-          {mockNominations.map((nom, i) => {
+          {nominations.map((nom, i) => {
             const status = statusConfig[nom.status] || statusConfig.pending;
+            const hasVoted = votedIds.has(nom.id);
             return (
               <div
                 key={nom.id}
@@ -282,7 +224,7 @@ export default function MostWantedPage() {
                         <ExternalLink className="w-2.5 h-2.5" />
                       </a>
                     )}
-                    <span className="flex items-center gap-1">
+                    <span className="flex items-center gap-1" suppressHydrationWarning>
                       <Clock className="w-3 h-3" />
                       {nom.latestNomination}
                     </span>
@@ -302,7 +244,16 @@ export default function MostWantedPage() {
 
                 {/* Vote column */}
                 <div className="flex sm:flex-col items-center gap-2 sm:gap-1 flex-shrink-0">
-                  <button className="w-10 h-10 rounded-xl bg-emerald/10 border border-emerald/20 flex items-center justify-center text-emerald hover:bg-emerald/20 transition-all">
+                  <button
+                    onClick={() => handleVote(nom.id)}
+                    disabled={hasVoted}
+                    className={`w-10 h-10 rounded-xl border flex items-center justify-center transition-all ${
+                      hasVoted
+                        ? "bg-emerald/20 border-emerald/40 text-emerald cursor-default"
+                        : "bg-emerald/10 border-emerald/20 text-emerald hover:bg-emerald/20 hover:scale-105 active:scale-95 cursor-pointer"
+                    }`}
+                    aria-label={hasVoted ? `Voted for ${nom.nomineeName}` : `Vote for ${nom.nomineeName}`}
+                  >
                     <ChevronUp className="w-5 h-5" />
                   </button>
                   <span className="text-sm font-bold text-white">{nom.voteCount}</span>
@@ -331,4 +282,3 @@ export default function MostWantedPage() {
     </div>
   );
 }
-

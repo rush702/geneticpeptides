@@ -92,7 +92,7 @@ export default function AuthModal({ open, onClose, onAuth }: AuthModalProps) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={() => { resetState(); onClose(); }}
-          className="absolute inset-0 bg-black/60 modal-overlay"
+          className="absolute inset-0 bg-black/80 modal-overlay"
         />
 
         {/* Modal */}

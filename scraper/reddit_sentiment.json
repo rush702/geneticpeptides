@@ -1,0 +1,138 @@
+{
+  "_meta": {
+    "description": "Manual/curated Reddit sentiment scores per vendor. Used by apply_reddit_sentiment.py to override the 'community' pillar in vendor_data.json. Update these periodically from r/Peptides, r/PeptidesSource, r/SARMs, etc.",
+    "score_range": "0–100 (higher = more positive community sentiment)",
+    "last_reviewed": "2026-03-31",
+    "primary_subreddits": ["r/Peptides", "r/PeptidesSource", "r/SARMs", "r/researchchemicals"]
+  },
+  "vendors": {
+    "ascension": {
+      "name": "Ascension Peptides",
+      "score": 95,
+      "mention_count": 312,
+      "positive_pct": 91,
+      "negative_pct": 4,
+      "neutral_pct": 5,
+      "top_threads": [
+        "Best peptide source 2025 - Ascension keeps coming up",
+        "Ascension COA review - impressive purity results",
+        "First order from Ascension - very happy"
+      ],
+      "common_positives": ["fast shipping", "great COAs", "responsive support", "consistent quality"],
+      "common_negatives": ["slightly higher prices"],
+      "notes": "Consistently one of the top recommended sources across all major peptide subreddits."
+    },
+    "limitless": {
+      "name": "Limitless Life Nootropics",
+      "score": 98,
+      "mention_count": 489,
+      "positive_pct": 94,
+      "negative_pct": 2,
+      "neutral_pct": 4,
+      "top_threads": [
+        "Limitless mega-thread - community reviews",
+        "LLN third-party COA compilation",
+        "Why I switched to Limitless from other vendors"
+      ],
+      "common_positives": ["exceptional COAs", "transparency", "huge product selection", "community engagement"],
+      "common_negatives": ["sometimes out of stock on popular items"],
+      "notes": "Highest community trust score. Regularly engages with the community directly on Reddit."
+    },
+    "peptide_partners": {
+      "name": "Peptide Partners",
+      "score": 88,
+      "mention_count": 178,
+      "positive_pct": 84,
+      "negative_pct": 6,
+      "neutral_pct": 10,
+      "top_threads": [
+        "Peptide Partners - worth the premium?",
+        "PP vs Ascension - which to choose",
+        "Peptide Partners BPC-157 review"
+      ],
+      "common_positives": ["reliable quality", "good packaging", "decent prices"],
+      "common_negatives": ["slower shipping at times", "limited payment options"],
+      "notes": "Well-regarded with a solid reputation, especially for BPC-157 and TB-500."
+    },
+    "soma": {
+      "name": "Soma Chems",
+      "score": 90,
+      "mention_count": 203,
+      "positive_pct": 86,
+      "negative_pct": 5,
+      "neutral_pct": 9,
+      "top_threads": [
+        "Soma Chems full review after 6 orders",
+        "Soma vs Core Peptides comparison",
+        "Soma Chems - new COA format is great"
+      ],
+      "common_positives": ["competitive pricing", "good turnaround", "improving COA quality"],
+      "common_negatives": ["website UX could be better"],
+      "notes": "Rising in community reputation. Strong presence on r/PeptidesSource."
+    },
+    "core_peptides": {
+      "name": "Core Peptides",
+      "score": 86,
+      "mention_count": 156,
+      "positive_pct": 82,
+      "negative_pct": 7,
+      "neutral_pct": 11,
+      "top_threads": [
+        "Core Peptides honest review",
+        "Core Peptides shipping times - anyone else?",
+        "Core Peptides CJC-1295 third-party test"
+      ],
+      "common_positives": ["good value", "solid product quality", "reasonable shipping"],
+      "common_negatives": ["inconsistent shipping times", "customer service slow to respond"],
+      "notes": "Dependable mid-tier vendor. Consistent positive feedback but lacks standout qualities."
+    },
+    "bpc_labs_au": {
+      "name": "BPC Labs Australia",
+      "score": 81,
+      "mention_count": 94,
+      "positive_pct": 77,
+      "negative_pct": 9,
+      "neutral_pct": 14,
+      "top_threads": [
+        "Australian peptide sources - BPC Labs review",
+        "BPC Labs AU - anyone used them?",
+        "AU domestic peptide options 2025"
+      ],
+      "common_positives": ["fast AU domestic shipping", "good for Australian customers"],
+      "common_negatives": ["limited international shipping", "smaller product range"],
+      "notes": "Best option for Australian customers due to domestic shipping advantage."
+    },
+    "swiss_chems": {
+      "name": "Swiss Chems",
+      "score": 75,
+      "mention_count": 267,
+      "positive_pct": 68,
+      "negative_pct": 18,
+      "neutral_pct": 14,
+      "top_threads": [
+        "Swiss Chems - mixed experiences thread",
+        "Swiss Chems quality control issues?",
+        "Swiss Chems vs legit sources"
+      ],
+      "common_positives": ["wide product selection", "frequent discounts", "crypto payment"],
+      "common_negatives": ["inconsistent quality reports", "slow shipping", "customer service issues"],
+      "notes": "High volume of mentions but mixed sentiment. Quality inconsistency is a recurring complaint."
+    },
+    "pure_rawz": {
+      "name": "Pure Rawz",
+      "score": 67,
+      "mention_count": 198,
+      "positive_pct": 58,
+      "negative_pct": 24,
+      "neutral_pct": 18,
+      "top_threads": [
+        "Pure Rawz - worth it in 2025?",
+        "Pure Rawz recent orders - quality decline?",
+        "Alternatives to Pure Rawz"
+      ],
+      "common_positives": ["low prices", "large catalog", "frequent sales"],
+      "common_negatives": ["quality concerns raised multiple times", "purity questions", "slow support"],
+      "notes": "Budget-friendly but community has raised quality consistency concerns. Use with caution."
+    }
+  }
+}

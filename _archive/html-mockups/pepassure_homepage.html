@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PepAssure — AI-Powered Peptide Vendor Rankings</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:   #0a1628;
+      --navy2:  #0f2040;
+      --blue:   #1a56db;
+      --blue2:  #3b82f6;
+      --teal:   #06b6d4;
+      --green:  #10b981;
+      --amber:  #f59e0b;
+      --red:    #ef4444;
+      --orange: #f97316;
+      --purple: #8b5cf6;
+      --gray1:  #f8fafc;
+      --gray2:  #e2e8f0;
+      --gray3:  #94a3b8;
+      --gray4:  #64748b;
+      --white:  #ffffff;
+      --text:   #0f172a;
+      --shadow: 0 4px 24px rgba(0,0,0,.10);
+      --radius: 14px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--gray1); color: var(--text); }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── STICKY HEADER ── */
+    #header {
+      position: sticky; top: 0; z-index: 1000;
+      background: rgba(10,22,40,.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      padding: 0 24px;
+    }
+    .header-inner {
+      max-width: 1280px; margin: 0 auto;
+      display: flex; align-items: center; gap: 16px;
+      height: 62px;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 9px;
+      font-size: 1.2rem; font-weight: 800; color: var(--white);
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .logo-icon {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--blue) 0%, var(--teal) 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .78rem; font-weight: 900; color: white;
+    }
+    .logo .brand-accent { color: var(--teal); }
+    nav { display: flex; align-items: center; gap: 2px; margin-left: 12px; }
+    nav a {
+      font-size: .82rem; font-weight: 500; color: rgba(255,255,255,.7);
+      padding: 6px 12px; border-radius: 7px; transition: all .18s; white-space: nowrap;
+    }
+    nav a:hover, nav a.active { background: rgba(255,255,255,.09); color: #fff; }
+    .header-search {
+      flex: 1; max-width: 300px; margin-left: auto; position: relative;
+    }
+    .header-search input {
+      width: 100%; padding: 7px 14px 7px 36px;
+      background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12);
+      border-radius: 8px; color: white; font-size: .82rem; outline: none;
+      transition: border-color .15s;
+    }
+    .header-search input:focus { border-color: var(--blue2); }
+    .header-search input::placeholder { color: rgba(255,255,255,.38); }
+    .search-icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,.38); font-size: .82rem; }
+    .live-badge {
+      display: flex; align-items: center; gap: 6px;
+      font-size: .75rem; color: var(--green); font-weight: 600;
+      background: rgba(16,185,129,.12); border: 1px solid rgba(16,185,129,.25);
+      padding: 4px 11px; border-radius: 20px; white-space: nowrap; flex-shrink: 0;
+    }
+    .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.55;transform:scale(1.35)} }
+
+    /* ── ALERT BAR ── */
+    .alert-bar {
+      background: linear-gradient(90deg, #7c3aed 0%, #4f46e5 100%);
+      padding: 9px 24px; text-align: center;
+    }
+    .alert-bar p { font-size: .81rem; color: white; font-weight: 500; }
+    .alert-bar a { color: #c4b5fd; text-decoration: underline; }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(155deg, var(--navy) 0%, #0d1f3c 55%, #081828 100%);
+      padding: 84px 24px 72px; position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(26,86,219,.22) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content:''; position:absolute; top:0; left:0; right:0; bottom:0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .hero-inner { max-width: 880px; margin: 0 auto; text-align: center; position: relative; z-index: 1; }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(26,86,219,.18); border: 1px solid rgba(59,130,246,.3);
+      color: var(--blue2); font-size: .78rem; font-weight: 700;
+      padding: 5px 15px; border-radius: 20px; margin-bottom: 24px;
+      text-transform: uppercase; letter-spacing: .08em;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; color: white;
+      line-height: 1.1; letter-spacing: -.025em; margin-bottom: 20px;
+    }
+    .hero h1 .accent { color: var(--teal); }
+    .hero-sub {
+      font-size: 1.1rem; color: rgba(255,255,255,.6);
+      max-width: 580px; margin: 0 auto 38px; line-height: 1.68;
+    }
+
+    /* Shutdown box */
+    .shutdown-box {
+      background: rgba(239,68,68,.1); border: 1px solid rgba(239,68,68,.3);
+      border-radius: 12px; padding: 16px 22px;
+      display: flex; align-items: flex-start; gap: 13px;
+      max-width: 700px; margin: 0 auto 38px; text-align: left;
+    }
+    .sd-icon { font-size: 1.25rem; flex-shrink: 0; margin-top: 1px; }
+    .shutdown-box strong { color: #fca5a5; font-size: .9rem; display: block; margin-bottom: 4px; }
+    .shutdown-box p { color: rgba(255,255,255,.62); font-size: .81rem; line-height: 1.58; }
+    .shutdown-box a { color: #93c5fd; text-decoration: underline; }
+
+    /* Trust bar */
+    .trust-bar {
+      display: inline-flex; align-items: center; flex-wrap: wrap;
+      gap: 8px 20px; padding: 13px 22px;
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+      border-radius: 12px; justify-content: center;
+    }
+    .trust-item { display: flex; align-items: center; gap: 7px; color: rgba(255,255,255,.75); font-size: .79rem; font-weight: 500; }
+    .trust-sep { color: rgba(255,255,255,.2); }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      background: linear-gradient(90deg, #1a3a70 0%, var(--navy2) 100%);
+      border-top: 1px solid rgba(255,255,255,.06);
+      padding: 32px 24px;
+    }
+    .stats-inner { max-width: 960px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; text-align: center; }
+    .stat-n { font-size: 2.1rem; font-weight: 900; color: white; line-height: 1; }
+    .stat-l { font-size: .78rem; color: rgba(255,255,255,.55); margin-top: 6px; }
+
+    /* ── VENDOR RANKINGS ── */
+    .section { padding: 68px 24px; }
+    .section-inner { max-width: 1240px; margin: 0 auto; }
+    .section-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 28px; flex-wrap: wrap; gap: 12px; }
+    .section-title { font-size: 1.65rem; font-weight: 800; }
+    .section-title .accent { color: var(--blue); }
+    .section-sub { font-size: .85rem; color: var(--gray4); margin-top: 5px; }
+    .view-all { font-size: .8rem; font-weight: 700; color: var(--blue); border: 2px solid var(--blue); padding: 6px 16px; border-radius: 7px; transition: all .15s; }
+    .view-all:hover { background: var(--blue); color: white; }
+
+    /* Filter tabs */
+    .filter-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
+    .ftab { font-size: .79rem; font-weight: 600; padding: 6px 16px; border-radius: 20px; border: 1.5px solid var(--gray2); color: var(--gray4); background: white; cursor: pointer; transition: all .15s; }
+    .ftab.active { background: var(--blue); color: white; border-color: var(--blue); }
+    .ftab:hover:not(.active) { border-color: var(--blue); color: var(--blue); }
+
+    /* Vendor grid */
+    .vendor-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; }
+    .vendor-card {
+      background: white; border-radius: var(--radius);
+      border: 1.5px solid var(--gray2); box-shadow: var(--shadow);
+      overflow: hidden; transition: transform .18s, box-shadow .18s;
+    }
+    .vendor-card:hover { transform: translateY(-3px); box-shadow: 0 14px 38px rgba(0,0,0,.13); }
+    .vendor-card.top { border-color: #3b82f6; border-width: 2px; }
+
+    .vc-head { padding: 18px 20px 14px; display: flex; align-items: center; gap: 13px; }
+    .vc-rank {
+      width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .7rem; font-weight: 800; color: white;
+    }
+    .r1 { background: linear-gradient(135deg,#f59e0b,#d97706); }
+    .r2 { background: linear-gradient(135deg,#94a3b8,#64748b); }
+    .r3 { background: linear-gradient(135deg,#cd7c5e,#a85540); }
+    .r-n { background: #64748b; }
+    .vc-emoji { width: 46px; height: 46px; border-radius: 10px; background: var(--gray1); border: 1.5px solid var(--gray2); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
+    .vc-meta { flex: 1; min-width: 0; }
+    .vc-name { font-size: .98rem; font-weight: 800; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .vc-url { font-size: .73rem; color: var(--gray3); }
+    .vc-badges { display: flex; gap: 5px; margin-top: 5px; flex-wrap: wrap; }
+    .badge { font-size: .66rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; text-transform: uppercase; letter-spacing: .04em; }
+    .b-f { background: rgba(139,92,246,.11); color: var(--purple); border: 1px solid rgba(139,92,246,.24); }
+    .b-v { background: rgba(16,185,129,.1); color: var(--green); border: 1px solid rgba(16,185,129,.24); }
+    .b-t { background: rgba(26,86,219,.1); color: var(--blue); border: 1px solid rgba(26,86,219,.2); }
+    .b-n { background: rgba(245,158,11,.1); color: var(--amber); border: 1px solid rgba(245,158,11,.24); }
+
+    /* PVS circle */
+    .pvs-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; flex-shrink: 0; }
+    .pvs-ring {
+      width: 60px; height: 60px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; position: relative;
+    }
+    .pvs-inner {
+      width: 44px; height: 44px; border-radius: 50%; background: white;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .93rem; font-weight: 900; position: absolute;
+    }
+    .pvs-lbl { font-size: .62rem; font-weight: 700; color: var(--gray3); text-transform: uppercase; letter-spacing: .06em; }
+
+    /* Pillar bars */
+    .vc-bars { padding: 12px 20px; }
+    .pb-row { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+    .pb-row:last-child { margin-bottom: 0; }
+    .pb-n { font-size: .71rem; color: var(--gray4); font-weight: 600; width: 98px; flex-shrink: 0; }
+    .pb-track { flex: 1; height: 6px; background: var(--gray2); border-radius: 3px; overflow: hidden; }
+    .pb-fill { height: 100%; border-radius: 3px; }
+    .fp { background: linear-gradient(90deg,#3b82f6,#06b6d4); }
+    .fr { background: linear-gradient(90deg,#10b981,#34d399); }
+    .fc { background: linear-gradient(90deg,#f59e0b,#fbbf24); }
+    .fm { background: linear-gradient(90deg,#8b5cf6,#a78bfa); }
+    .fpr { background: linear-gradient(90deg,#f97316,#fb923c); }
+    .pb-v { font-size: .71rem; font-weight: 700; color: var(--text); width: 30px; text-align: right; flex-shrink: 0; }
+
+    /* Card footer */
+    .vc-foot { padding: 11px 20px; display: flex; gap: 8px; border-top: 1px solid var(--gray2); background: var(--gray1); }
+    .btn-s { flex: 1; padding: 8px; border-radius: 8px; font-size: .77rem; font-weight: 700; cursor: pointer; transition: all .15s; border: 1.5px solid var(--gray2); background: white; color: var(--gray4); }
+    .btn-s:hover { border-color: var(--blue); color: var(--blue); }
+    .btn-v { flex: 1; padding: 8px; border-radius: 8px; font-size: .77rem; font-weight: 700; cursor: pointer; background: var(--navy); color: white; border: none; transition: background .15s; }
+    .btn-v:hover { background: var(--navy2); }
+    .btn-c { flex: 1; padding: 8px; border-radius: 8px; font-size: .77rem; font-weight: 700; cursor: pointer; background: var(--blue); color: white; border: none; transition: background .15s; }
+    .btn-c:hover { background: #1d4ed8; }
+
+    /* ── METHODOLOGY ── */
+    .method-section {
+      background: linear-gradient(155deg, var(--navy) 0%, #0d1f3c 100%);
+      padding: 84px 24px;
+    }
+    .method-inner { max-width: 1100px; margin: 0 auto; }
+    .section-title-white { font-size: 1.65rem; font-weight: 800; color: white; text-align: center; margin-bottom: 8px; }
+    .section-sub-white { font-size: .88rem; color: rgba(255,255,255,.48); text-align: center; }
+
+    /* Timeline */
+    .timeline {
+      display: flex; margin: 52px 0 60px; overflow-x: auto;
+      position: relative; padding-bottom: 4px; gap: 0;
+    }
+    .timeline::before {
+      content:''; position:absolute; top:31px; left:9%; right:9%; height:2px;
+      background: linear-gradient(90deg,var(--blue),var(--teal),var(--green)); z-index:0;
+    }
+    .tl-step {
+      flex: 1; min-width: 155px; display: flex; flex-direction: column;
+      align-items: center; text-align: center; position: relative; z-index: 1; padding: 0 10px;
+    }
+    .tl-icon {
+      width: 62px; height: 62px; border-radius: 50%; flex-shrink: 0;
+      background: var(--navy2); border: 2px solid rgba(255,255,255,.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.45rem; margin-bottom: 16px;
+      box-shadow: 0 0 0 6px var(--navy);
+    }
+    .tl-step.lit .tl-icon {
+      background: var(--blue); border-color: var(--blue2);
+      box-shadow: 0 0 0 6px var(--navy), 0 0 22px rgba(26,86,219,.4);
+    }
+    .tl-num { font-size: .62rem; font-weight: 800; color: var(--teal); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 5px; }
+    .tl-label { font-size: .88rem; font-weight: 700; color: white; margin-bottom: 6px; line-height: 1.28; }
+    .tl-desc { font-size: .74rem; color: rgba(255,255,255,.48); line-height: 1.52; }
+    .tl-arrow { display:flex;align-items:center;flex-shrink:0;color:rgba(255,255,255,.22);font-size:1rem;padding-bottom:46px; }
+
+    /* Pillar weights */
+    .pw-title { font-size: 1.05rem; font-weight: 700; color: white; text-align: center; margin-bottom: 22px; }
+    .pw-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px,1fr)); gap: 14px; }
+    .pw-card {
+      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08);
+      border-radius: 12px; padding: 18px 16px; text-align: center; transition: background .18s;
+    }
+    .pw-card:hover { background: rgba(255,255,255,.08); }
+    .pw-pct { font-size: 2rem; font-weight: 900; margin-bottom: 5px; }
+    .pw-name { font-size: .82rem; font-weight: 700; color: rgba(255,255,255,.8); margin-bottom: 10px; }
+    .pw-bar { height: 5px; border-radius: 3px; background: rgba(255,255,255,.1); overflow:hidden; margin-bottom: 10px; }
+    .pw-fill { height:100%; border-radius:3px; }
+    .pw-desc { font-size: .71rem; color: rgba(255,255,255,.42); line-height: 1.45; }
+
+    /* ── DATA SOURCES ── */
+    .data-section { padding: 68px 24px; background: white; }
+    .data-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px,1fr)); gap: 18px; margin-top: 36px; }
+    .data-card { border: 1.5px solid var(--gray2); border-radius: 12px; padding: 22px; transition: all .18s; }
+    .data-card:hover { border-color: var(--blue2); box-shadow: 0 4px 18px rgba(26,86,219,.08); }
+    .data-icon { font-size: 1.9rem; margin-bottom: 13px; display: block; }
+    .data-title { font-size: .93rem; font-weight: 800; margin-bottom: 7px; }
+    .data-desc { font-size: .79rem; color: var(--gray4); line-height: 1.6; }
+    .data-stat { font-size: 1.3rem; font-weight: 900; color: var(--blue); margin-top: 11px; }
+
+    /* ── CTA ── */
+    .cta-band { padding: 76px 24px; text-align: center; background: var(--gray1); }
+    .cta-band h2 { font-size: 2rem; font-weight: 900; margin-bottom: 12px; }
+    .cta-band p { color: var(--gray4); max-width: 500px; margin: 0 auto 28px; font-size: .92rem; line-height: 1.6; }
+    .cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary { background: var(--blue); color: white; font-weight: 700; padding: 13px 28px; border-radius: 9px; font-size: .93rem; border: none; cursor: pointer; transition: background .15s; }
+    .btn-primary:hover { background: #1d4ed8; }
+    .btn-outline { background: white; color: var(--blue); font-weight: 700; padding: 13px 28px; border-radius: 9px; font-size: .93rem; border: 2px solid var(--blue); cursor: pointer; transition: all .15s; }
+    .btn-outline:hover { background: var(--blue); color: white; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--navy); padding: 52px 24px 28px; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; }
+    .footer-top { display: flex; flex-wrap: wrap; gap: 40px; margin-bottom: 36px; }
+    .footer-brand { flex: 0 0 220px; }
+    .footer-brand p { font-size: .78rem; color: rgba(255,255,255,.5); line-height: 1.65; margin-top: 12px; }
+    .footer-col h4 { color: white; font-size: .8rem; font-weight: 700; margin-bottom: 14px; text-transform: uppercase; letter-spacing: .07em; }
+    .footer-col a { display: block; font-size: .78rem; color: rgba(255,255,255,.48); margin-bottom: 8px; transition: color .15s; }
+    .footer-col a:hover { color: white; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.08); padding-top: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+    .footer-copy { font-size: .72rem; color: rgba(255,255,255,.38); }
+    .footer-links { display: flex; gap: 18px; }
+    .footer-links a { font-size: .72rem; color: rgba(255,255,255,.38); transition: color .15s; }
+    .footer-links a:hover { color: rgba(255,255,255,.8); }
+
+    @media(max-width:768px) {
+      nav { display:none; }
+      .vendor-grid { grid-template-columns:1fr; }
+      .timeline::before { display:none; }
+      .tl-step { min-width:130px; }
+      .hero h1 { font-size:2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ALERT BAR -->
+<div class="alert-bar">
+  <p>⚠️ <strong>Notice:</strong> PeptideGains.com is shutting down May 15, 2026. <a href="#">See recommended alternatives and transition guide →</a></p>
+</div>
+
+<!-- STICKY HEADER -->
+<header id="header">
+  <div class="header-inner">
+    <a href="/" class="logo">
+      <div class="logo-icon">PA</div>
+      Pep<span class="brand-accent">Assure</span>
+    </a>
+    <nav>
+      <a href="#rankings" class="active">Rankings</a>
+      <a href="#methodology">Methodology</a>
+      <a href="#resources">Resources</a>
+      <a href="for-vendors.html">For Vendors</a>
+      <a href="#api">API</a>
+      <a href="#about">About</a>
+    </nav>
+    <div class="header-search">
+      <span class="search-icon">🔍</span>
+      <input type="text" placeholder="Search vendors, peptides…" />
+    </div>
+    <div class="live-badge">
+      <span class="live-dot"></span>
+      Updated 3h ago
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">🧬 AI-Powered &nbsp;·&nbsp; Independent &nbsp;·&nbsp; Transparent</div>
+    <h1>Know Before You Buy.<br/><span class="accent">Rank Before You're Ranked.</span></h1>
+    <p class="hero-sub">The only independent peptide vendor ranking engine — powered by real lab data, community intelligence, and AI-verified COAs, refreshed every 24 hours.</p>
+
+    <!-- Shutdown Alert -->
+    <div class="shutdown-box">
+      <span class="sd-icon">🚨</span>
+      <div>
+        <strong>Vendor Shutdown Alert — Active</strong>
+        <p>PeptideGains.com is ceasing operations on May 15, 2026. Customers with open orders should contact them immediately. Top-ranked alternatives: Ascension Peptides, Limitless Life Nootropics, Peptide Partners. <a href="#">View full alert & transfer guide →</a></p>
+      </div>
+    </div>
+
+    <!-- Trust Bar -->
+    <div class="trust-bar">
+      <div class="trust-item">🚫 No paid placements</div>
+      <span class="trust-sep">•</span>
+      <div class="trust-item">🔬 6,102 Lab Tests</div>
+      <span class="trust-sep">•</span>
+      <div class="trust-item">💬 2.4M Reddit Posts</div>
+      <span class="trust-sep">•</span>
+      <div class="trust-item">⏱️ 24h Data Refresh</div>
+      <span class="trust-sep">•</span>
+      <div class="trust-item">🧪 Finnrick Certified</div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div><div class="stat-n">148</div><div class="stat-l">Vendors Ranked</div></div>
+    <div><div class="stat-n">6,102</div><div class="stat-l">Lab Tests Parsed</div></div>
+    <div><div class="stat-n">2.4M</div><div class="stat-l">Reddit Posts Indexed</div></div>
+    <div><div class="stat-n">98.7%</div><div class="stat-l">COA Parse Accuracy</div></div>
+    <div><div class="stat-n">24h</div><div class="stat-l">Refresh Cycle</div></div>
+  </div>
+</div>
+
+<!-- VENDOR RANKINGS -->
+<section class="section" id="rankings">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-title">Top Ranked Vendors <span class="accent">— April 2026</span></div>
+        <div class="section-sub">PVS Score™ computed daily from public lab data, Reddit sentiment, and Finnrick testing</div>
+      </div>
+      <a href="#" class="view-all">View All 148 Vendors →</a>
+    </div>
+
+    <div class="filter-row">
+      <div class="ftab active">All Vendors</div>
+      <div class="ftab">🧬 BPC-157</div>
+      <div class="ftab">🏃 TB-500</div>
+      <div class="ftab">💉 GH Peptides</div>
+      <div class="ftab">⚡ Weight Loss</div>
+      <div class="ftab">🌙 Sleep / Recovery</div>
+      <div class="ftab">🔬 Finnrick Tested</div>
+    </div>
+
+    <div class="vendor-grid">
+
+      <!-- Card 1 — Ascension Peptides #1 -->
+      <div class="vendor-card top">
+        <div class="vc-head">
+          <div class="vc-rank r1">#1</div>
+          <div class="vc-emoji">🧬</div>
+          <div class="vc-meta">
+            <div class="vc-name">Ascension Peptides</div>
+            <div class="vc-url">ascensionpeptides.com</div>
+            <div class="vc-badges">
+              <span class="badge b-f">✓ Finnrick</span>
+              <span class="badge b-v">✓ Verified</span>
+              <span class="badge b-t">⭐ Top Pick</span>
+            </div>
+          </div>
+          <div class="pvs-wrap">
+            <div class="pvs-ring" style="background:conic-gradient(#10b981 calc(95.5% * 1%),#e2e8f0 0);">
+              <div class="pvs-inner" style="color:#10b981;">95.5</div>
+            </div>
+            <div class="pvs-lbl">PVS Score™</div>
+          </div>
+        </div>
+        <div style="height:1px;background:var(--gray2);"></div>
+        <div class="vc-bars">
+          <div class="pb-row"><span class="pb-n">Purity (30%)</span><div class="pb-track"><div class="pb-fill fp" style="width:98%"></div></div><span class="pb-v">98</span></div>
+          <div class="pb-row"><span class="pb-n">Reputation (25%)</span><div class="pb-track"><div class="pb-fill fr" style="width:95%"></div></div><span class="pb-v">95</span></div>
+          <div class="pb-row"><span class="pb-n">Cust. Svc (20%)</span><div class="pb-track"><div class="pb-fill fc" style="width:93%"></div></div><span class="pb-v">93</span></div>
+          <div class="pb-row"><span class="pb-n">Community (15%)</span><div class="pb-track"><div class="pb-fill fm" style="width:96%"></div></div><span class="pb-v">96</span></div>
+          <div class="pb-row"><span class="pb-n">Price/COGS (10%)</span><div class="pb-track"><div class="pb-fill fpr" style="width:91%"></div></div><span class="pb-v">91</span></div>
+        </div>
+        <div class="vc-foot">
+          <button class="btn-s">🔖 Save</button>
+          <button class="btn-v">View Profile</button>
+          <button class="btn-c" onclick="location.href='for-vendors.html'">Claim Listing</button>
+        </div>
+      </div>
+
+      <!-- Card 2 — Limitless Life #2 -->
+      <div class="vendor-card">
+        <div class="vc-head">
+          <div class="vc-rank r2">#2</div>
+          <div class="vc-emoji">⚗️</div>
+          <div class="vc-meta">
+            <div class="vc-name">Limitless Life Nootropics</div>
+            <div class="vc-url">limitlesslifenootropics.com</div>
+            <div class="vc-badges">
+              <span class="badge b-f">✓ Finnrick</span>
+              <span class="badge b-v">✓ Verified</span>
+            </div>
+          </div>
+          <div class="pvs-wrap">
+            <div class="pvs-ring" style="background:conic-gradient(#10b981 calc(91.5% * 1%),#e2e8f0 0);">
+              <div class="pvs-inner" style="color:#10b981;">91.5</div>
+            </div>
+            <div class="pvs-lbl">PVS Score™</div>
+          </div>
+        </div>
+        <div style="height:1px;background:var(--gray2);"></div>
+        <div class="vc-bars">
+          <div class="pb-row"><span class="pb-n">Purity (30%)</span><div class="pb-track"><div class="pb-fill fp" style="width:94%"></div></div><span class="pb-v">94</span></div>
+          <div class="pb-row"><span class="pb-n">Reputation (25%)</span><div class="pb-track"><div class="pb-fill fr" style="width:90%"></div></div><span class="pb-v">90</span></div>
+          <div class="pb-row"><span class="pb-n">Cust. Svc (20%)</span><div class="pb-track"><div class="pb-fill fc" style="width:92%"></div></div><span class="pb-v">92</span></div>
+          <div class="pb-row"><span class="pb-n">Community (15%)</span><div class="pb-track"><div class="pb-fill fm" style="width:89%"></div></div><span class="pb-v">89</span></div>
+          <div class="pb-row"><span class="pb-n">Price/COGS (10%)</span><div class="pb-track"><div class="pb-fill fpr" style="width:93%"></div></div><span class="pb-v">93</span></div>
+        </div>
+        <div class="vc-foot">
+          <button class="btn-s">🔖 Save</button>
+          <button class="btn-v">View Profile</button>
+          <button class="btn-c" onclick="location.href='for-vendors.html'">Claim Listing</button>
+        </div>
+      </div>
+
+      <!-- Card 3 — Peptide Partners #3 -->
+      <div class="vendor-card">
+        <div class="vc-head">
+          <div class="vc-rank r3">#3</div>
+          <div class="vc-emoji">🔬</div>
+          <div class="vc-meta">
+            <div class="vc-name">Peptide Partners</div>
+            <div class="vc-url">peptidepartners.com</div>
+            <div class="vc-badges">
+              <span class="badge b-v">✓ Verified</span>
+              <span class="badge b-n">🆕 Rising</span>
+            </div>
+          </div>
+          <div class="pvs-wrap">
+            <div class="pvs-ring" style="background:conic-gradient(#3b82f6 calc(90.5% * 1%),#e2e8f0 0);">
+              <div class="pvs-inner" style="color:#3b82f6;">90.5</div>
+            </div>
+            <div class="pvs-lbl">PVS Score™</div>
+          </div>
+        </div>
+        <div style="height:1px;background:var(--gray2);"></div>
+        <div class="vc-bars">
+          <div class="pb-row"><span class="pb-n">Purity (30%)</span><div class="pb-track"><div class="pb-fill fp" style="width:92%"></div></div><span class="pb-v">92</span></div>
+          <div class="pb-row"><span class="pb-n">Reputation (25%)</span><div class="pb-track"><div class="pb-fill fr" style="width:91%"></div></div><span class="pb-v">91</span></div>
+          <div class="pb-row"><span class="pb-n">Cust. Svc (20%)</span><div class="pb-track"><div class="pb-fill fc" style="width:88%"></div></div><span class="pb-v">88</span></div>
+          <div class="pb-row"><span class="pb-n">Community (15%)</span><div class="pb-track"><div class="pb-fill fm" style="width:90%"></div></div><span class="pb-v">90</span></div>
+          <div class="pb-row"><span class="pb-n">Price/COGS (10%)</span><div class="pb-track"><div class="pb-fill fpr" style="width:94%"></div></div><span class="pb-v">94</span></div>
+        </div>
+        <div class="vc-foot">
+          <button class="btn-s">🔖 Save</button>
+          <button class="btn-v">View Profile</button>
+          <button class="btn-c" onclick="location.href='for-vendors.html'">Claim Listing</button>
+        </div>
+      </div>
+
+      <!-- Card 4 — Amino Asylum #4 -->
+      <div class="vendor-card">
+        <div class="vc-head">
+          <div class="vc-rank r-n">#4</div>
+          <div class="vc-emoji">💊</div>
+          <div class="vc-meta">
+            <div class="vc-name">Amino Asylum</div>
+            <div class="vc-url">aminoasylum.shop</div>
+            <div class="vc-badges">
+              <span class="badge b-v">✓ Verified</span>
+            </div>
+          </div>
+          <div class="pvs-wrap">
+            <div class="pvs-ring" style="background:conic-gradient(#f59e0b calc(87% * 1%),#e2e8f0 0);">
+              <div class="pvs-inner" style="color:#f59e0b;">87.0</div>
+            </div>
+            <div class="pvs-lbl">PVS Score™</div>
+          </div>
+        </div>
+        <div style="height:1px;background:var(--gray2);"></div>
+        <div class="vc-bars">
+          <div class="pb-row"><span class="pb-n">Purity (30%)</span><div class="pb-track"><div class="pb-fill fp" style="width:88%"></div></div><span class="pb-v">88</span></div>
+          <div class="pb-row"><span class="pb-n">Reputation (25%)</span><div class="pb-track"><div class="pb-fill fr" style="width:86%"></div></div><span class="pb-v">86</span></div>
+          <div class="pb-row"><span class="pb-n">Cust. Svc (20%)</span><div class="pb-track"><div class="pb-fill fc" style="width:85%"></div></div><span class="pb-v">85</span></div>
+          <div class="pb-row"><span class="pb-n">Community (15%)</span><div class="pb-track"><div class="pb-fill fm" style="width:91%"></div></div><span class="pb-v">91</span></div>
+          <div class="pb-row"><span class="pb-n">Price/COGS (10%)</span><div class="pb-track"><div class="pb-fill fpr" style="width:87%"></div></div><span class="pb-v">87</span></div>
+        </div>
+        <div class="vc-foot">
+          <button class="btn-s">🔖 Save</button>
+          <button class="btn-v">View Profile</button>
+          <button class="btn-c" onclick="location.href='for-vendors.html'">Claim Listing</button>
+        </div>
+      </div>
+
+      <!-- Card 5 — Sports Technology Labs #5 -->
+      <div class="vendor-card">
+        <div class="vc-head">
+          <div class="vc-rank r-n">#5</div>
+          <div class="vc-emoji">🏆</div>
+          <div class="vc-meta">
+            <div class="vc-name">Sports Technology Labs</div>
+            <div class="vc-url">sportstechnologylabs.com</div>
+            <div class="vc-badges">
+              <span class="badge b-f">✓ Finnrick</span>
+              <span class="badge b-v">✓ Verified</span>
+            </div>
+          </div>
+          <div class="pvs-wrap">
+            <div class="pvs-ring" style="background:conic-gradient(#3b82f6 calc(85.5% * 1%),#e2e8f0 0);">
+              <div class="pvs-inner" style="color:#3b82f6;">85.5</div>
+            </div>
+            <div class="pvs-lbl">PVS Score™</div>
+          </div>
+        </div>
+        <div style="height:1px;background:var(--gray2);"></div>
+        <div class="vc-bars">
+          <div class="pb-row"><span class="pb-n">Purity (30%)</span><div class="pb-track"><div class="pb-fill fp" style="width:87%"></div></div><span class="pb-v">87</span></div>
+          <div class="pb-row"><span class="pb-n">Reputation (25%)</span><div class="pb-track"><div class="pb-fill fr" style="width:84%"></div></div><span class="pb-v">84</span></div>
+          <div class="pb-row"><span class="pb-n">Cust. Svc (20%)</span><div class="pb-track"><div class="pb-fill fc" style="width:86%"></div></div><span class="pb-v">86</span></div>
+          <div class="pb-row"><span class="pb-n">Community (15%)</span><div class="pb-track"><div class="pb-fill fm" style="width:85%"></div></div><span class="pb-v">85</span></div>
+          <div class="pb-row"><span class="pb-n">Price/COGS (10%)</span><div class="pb-track"><div class="pb-fill fpr" style="width:84%"></div></div><span class="pb-v">84</span></div>
+        </div>
+        <div class="vc-foot">
+          <button class="btn-s">🔖 Save</button>
+          <button class="btn-v">View Profile</button>
+          <button class="btn-c" onclick="location.href='for-vendors.html'">Claim Listing</button>
+        </div>
+      </div>
+
+      <!-- Card 6 — Unclaimed teaser -->
+      <div class="vendor-card" style="border-style:dashed;opacity:.75;">
+        <div class="vc-head">
+          <div class="vc-rank r-n">#6</div>
+          <div class="vc-emoji" style="opacity:.35;">❓</div>
+          <div class="vc-meta">
+            <div class="vc-name" style="color:#94a3b8;">Your Vendor Here</div>
+            <div class="vc-url">Unclaimed listing</div>
+            <div class="vc-badges">
+              <span class="badge" style="background:#f1f5f9;color:#94a3b8;border:1px solid #e2e8f0;">Free to Claim →</span>
+            </div>
+          </div>
+          <div class="pvs-wrap">
+            <div class="pvs-ring" style="background:conic-gradient(#94a3b8 0%,#e2e8f0 0);">
+              <div class="pvs-inner" style="color:#94a3b8;">—</div>
+            </div>
+            <div class="pvs-lbl">PVS Score™</div>
+          </div>
+        </div>
+        <div style="padding:18px 20px 20px;text-align:center;color:#94a3b8;font-size:.84rem;line-height:1.6;">
+          Is your company listed? Claim your free vendor profile to unlock your PVS Score breakdown, respond to reviews, and upload COAs.
+          <div style="margin-top:14px;">
+            <button class="btn-primary" style="font-size:.78rem;padding:9px 20px;" onclick="location.href='for-vendors.html'">Claim Your Free Listing →</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /vendor-grid -->
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section class="method-section" id="methodology">
+  <div class="method-inner">
+    <div style="text-align:center;margin-bottom:8px;">
+      <span style="display:inline-flex;align-items:center;gap:7px;background:rgba(6,182,212,.14);border:1px solid rgba(6,182,212,.28);color:var(--teal);font-size:.77rem;font-weight:700;padding:5px 14px;border-radius:20px;text-transform:uppercase;letter-spacing:.08em;">🔬 Transparent Methodology</span>
+    </div>
+    <div class="section-title-white">How <span style="color:var(--teal);">PepAssure</span> Works</div>
+    <div class="section-sub-white" style="margin-top:6px;">Every ranking is derived purely from public data — no vendor can pay to influence their score.</div>
+
+    <!-- 5-Step Timeline -->
+    <div class="timeline">
+      <div class="tl-step lit">
+        <div class="tl-icon">🕷️</div>
+        <div class="tl-num">Step 01</div>
+        <div class="tl-label">Daily Crawl</div>
+        <div class="tl-desc">Automated scrapers pull vendor sites, COA pages, pricing, and shipping info every 24 hours.</div>
+      </div>
+      <div class="tl-arrow">→</div>
+      <div class="tl-step">
+        <div class="tl-icon">🤖</div>
+        <div class="tl-num">Step 02</div>
+        <div class="tl-label">COA AI Parsing</div>
+        <div class="tl-desc">GPT-4 vision extracts purity %, peptide identity, and accreditation from PDF certificates.</div>
+      </div>
+      <div class="tl-arrow">→</div>
+      <div class="tl-step">
+        <div class="tl-icon">📊</div>
+        <div class="tl-num">Step 03</div>
+        <div class="tl-label">Reddit Intelligence</div>
+        <div class="tl-desc">2.4M posts across r/Peptides, r/Nootropics, and 40+ subreddits analyzed for real sentiment.</div>
+      </div>
+      <div class="tl-arrow">→</div>
+      <div class="tl-step">
+        <div class="tl-icon">🧪</div>
+        <div class="tl-num">Step 04</div>
+        <div class="tl-label">Finnrick Integration</div>
+        <div class="tl-desc">Independent third-party lab results ingested from Finnrick Testing — weighted at 30% of purity.</div>
+      </div>
+      <div class="tl-arrow">→</div>
+      <div class="tl-step">
+        <div class="tl-icon">⭐</div>
+        <div class="tl-num">Step 05</div>
+        <div class="tl-label">Score & Publish</div>
+        <div class="tl-desc">Weighted PVS Score™ computed, anomalies flagged, rankings published live by 6 AM daily.</div>
+      </div>
+    </div>
+
+    <!-- Pillar Weights -->
+    <div class="pw-title">PVS Score™ Pillar Weights</div>
+    <div class="pw-grid">
+      <div class="pw-card">
+        <div class="pw-pct" style="color:#3b82f6;">30%</div>
+        <div class="pw-name">Purity</div>
+        <div class="pw-bar"><div class="pw-fill" style="background:#3b82f6;width:30%"></div></div>
+        <div class="pw-desc">COA analysis, Finnrick independent lab results, HPLC purity %, and identity confirmation.</div>
+      </div>
+      <div class="pw-card">
+        <div class="pw-pct" style="color:#10b981;">25%</div>
+        <div class="pw-name">Reputation</div>
+        <div class="pw-bar"><div class="pw-fill" style="background:#10b981;width:25%"></div></div>
+        <div class="pw-desc">Vendor history, scam reports, chargeback rates, time in business, and domain trust.</div>
+      </div>
+      <div class="pw-card">
+        <div class="pw-pct" style="color:#f59e0b;">20%</div>
+        <div class="pw-name">Customer Service</div>
+        <div class="pw-bar"><div class="pw-fill" style="background:#f59e0b;width:20%"></div></div>
+        <div class="pw-desc">Reddit complaint analysis, Trustpilot scores, response time, and refund resolution rates.</div>
+      </div>
+      <div class="pw-card">
+        <div class="pw-pct" style="color:#8b5cf6;">15%</div>
+        <div class="pw-name">Community</div>
+        <div class="pw-bar"><div class="pw-fill" style="background:#8b5cf6;width:15%"></div></div>
+        <div class="pw-desc">Reddit sentiment across 40+ subreddits — organic mentions, recommendations, and warnings.</div>
+      </div>
+      <div class="pw-card">
+        <div class="pw-pct" style="color:#f97316;">10%</div>
+        <div class="pw-name">Pricing / COGS</div>
+        <div class="pw-bar"><div class="pw-fill" style="background:#f97316;width:10%"></div></div>
+        <div class="pw-desc">Price-per-mg vs. purity ratio, shipping costs, discount abuse, and supply chain transparency.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DATA SOURCES -->
+<section class="data-section" id="resources">
+  <div class="section-inner">
+    <div class="section-title">Where We Get Our Data</div>
+    <div class="section-sub" style="margin-top:6px;">100% public sources — pulled and processed daily. No vendor influence, ever.</div>
+    <div class="data-grid">
+      <div class="data-card">
+        <span class="data-icon">🔬</span>
+        <div class="data-title">Certificates of Analysis</div>
+        <div class="data-desc">AI parses COA PDFs directly from vendor sites — purity %, identity, lab name, and date verified against accredited labs.</div>
+        <div class="data-stat">6,102 Parsed</div>
+      </div>
+      <div class="data-card">
+        <span class="data-icon">💬</span>
+        <div class="data-title">Reddit Community</div>
+        <div class="data-desc">Real-time NLP of r/Peptides, r/Nootropics, r/research_chemicals, and 40+ subreddits for honest community voice.</div>
+        <div class="data-stat">2.4M Posts</div>
+      </div>
+      <div class="data-card">
+        <span class="data-icon">🧪</span>
+        <div class="data-title">Finnrick Independent Labs</div>
+        <div class="data-desc">Anonymous third-party batch testing. Results integrated directly into purity scoring with full traceability.</div>
+        <div class="data-stat">890 Batches</div>
+      </div>
+      <div class="data-card">
+        <span class="data-icon">⭐</span>
+        <div class="data-title">Review Platforms</div>
+        <div class="data-desc">Trustpilot, Google Reviews, and verified purchase data cross-referenced with Reddit for manipulation detection.</div>
+        <div class="data-stat">148K Reviews</div>
+      </div>
+      <div class="data-card">
+        <span class="data-icon">💰</span>
+        <div class="data-title">Pricing Intelligence</div>
+        <div class="data-desc">Daily price-per-mg scraping across all ranked vendors — normalized by peptide type, purity grade, and order size.</div>
+        <div class="data-stat">Daily Refresh</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<section class="cta-band" id="about">
+  <h2>Are You a Peptide Vendor?</h2>
+  <p>Claim your free listing on PepAssure.com to unlock your full PVS Score breakdown, respond to community feedback, and upload your COAs directly. No paid placements, ever.</p>
+  <div class="cta-btns">
+    <a href="for-vendors.html"><button class="btn-primary">🚀 Claim Your Free Listing</button></a>
+    <a href="for-vendors.html"><button class="btn-outline">Explore Enterprise Plans →</button></a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo" style="color:white;margin-bottom:0;">
+          <div class="logo-icon">PA</div>
+          Pep<span style="color:var(--teal);">Assure</span>
+        </div>
+        <p>The independent, AI-powered peptide vendor ranking engine. No paid placements. No conflicts of interest. Just data.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Rankings</h4>
+        <a href="#">All Vendors</a>
+        <a href="#">Top Rated</a>
+        <a href="#">Finnrick Certified</a>
+        <a href="#">Rising Vendors</a>
+        <a href="#">Shutdown Watch</a>
+      </div>
+      <div class="footer-col">
+        <h4>Research</h4>
+        <a href="#">BPC-157 Guide</a>
+        <a href="#">TB-500 Explained</a>
+        <a href="#">GH Peptide Stacks</a>
+        <a href="#">COA Checker</a>
+        <a href="#">Dosing Calculator</a>
+      </div>
+      <div class="footer-col">
+        <h4>For Vendors</h4>
+        <a href="for-vendors.html">Claim Free Listing</a>
+        <a href="for-vendors.html">Enterprise Plans</a>
+        <a href="#">API Access</a>
+        <a href="#">Advertiser Policy</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About PepAssure</a>
+        <a href="#">Methodology</a>
+        <a href="#">Press Kit</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 PepAssure, Inc. All rights reserved. For research purposes only. Not medical advice.</span>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Cookie Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.ftab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
