@@ -1,7 +1,11 @@
 #!/usr/bin/env node
 // Check Supabase tables via REST API (no dependencies)
-const SUPABASE_URL = "https://atyaqyotrntnfchhdzvw.supabase.co";
-const SUPABASE_KEY = "REMOVED";
+const SUPABASE_URL = process.env.SUPABASE_URL || "https://atyaqyotrntnfchhdzvw.supabase.co";
+const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+if (!SUPABASE_KEY) {
+  console.error("Error: Set SUPABASE_SERVICE_ROLE_KEY env variable first.");
+  process.exit(1);
+}
 
 const tables = ["claim_requests", "sales_inquiries", "vendor_claims", "vendor_scores", "profiles"];
 
