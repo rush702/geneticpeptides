@@ -204,8 +204,11 @@ export default function ForVendorsPage() {
     supabase.auth.getUser().then((res: any) => setUser(res.data?.user ?? null));
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event: any, session: any) => {
-      setUser(session?.user ?? null);
+    } = supabase.auth.onAuthStateChange((event: any, session: any) => {
+      // Only update user on actual sign-in, not unconfirmed signup
+      if (event === "SIGNED_IN" || event === "TOKEN_REFRESHED" || event === "SIGNED_OUT") {
+        setUser(session?.user ?? null);
+      }
     });
     return () => subscription.unsubscribe();
   }, []);
