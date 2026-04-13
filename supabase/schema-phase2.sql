@@ -194,3 +194,26 @@ alter table public.batch_archive enable row level security;
 create policy "Public can view verified batches" on public.batch_archive for select using (verified = true);
 create policy "Admins manage batches" on public.batch_archive for all to authenticated
   using (exists (select 1 from profiles p where p.user_id = auth.uid() and p.is_admin = true));
+
+-- 9. Vendor click tracking (outbound link analytics)
+create table if not exists public.vendor_clicks (
+  id              uuid primary key default gen_random_uuid(),
+  vendor_slug     text not null,
+  destination_url text,
+  ip_hash         text,
+  user_agent      text,
+  referer         text,
+  clicked_at      timestamptz default now()
+);
+
+create index if not exists idx_clicks_vendor on public.vendor_clicks(vendor_slug);
+create index if not exists idx_clicks_time on public.vendor_clicks(clicked_at desc);
+
+alter table public.vendor_clicks enable row level security;
+
+-- Anyone can insert clicks (the redirect is public)
+create policy "Anyone can log clicks" on public.vendor_clicks for insert to anon, authenticated with check (true);
+
+-- Only admins can read click data
+create policy "Admins manage clicks" on public.vendor_clicks for all to authenticated
+  using (exists (select 1 from profiles p where p.user_id = auth.uid() and p.is_admin = true));

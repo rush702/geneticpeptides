@@ -153,13 +153,13 @@ export default async function VendorDetailPage({
               {/* CTAs */}
               <div className="flex flex-wrap items-center gap-3">
                 <a
-                  href={vendor.website}
+                  href={`/go/${vendor.slug}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-glow flex items-center gap-2 px-5 py-2.5 bg-emerald text-white font-medium rounded-lg hover:bg-emerald-light"
                 >
                   <Globe className="w-4 h-4" />
-                  Visit Website
+                  Visit Verified Source
                   <ExternalLink className="w-3.5 h-3.5" />
                 </a>
                 <VendorDetailClient slug={vendor.slug} name={vendor.name} />
