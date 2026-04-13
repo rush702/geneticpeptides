@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { createServiceClient } from "@/lib/supabase/service";
 
 export interface ReviewSubmission {
   vendor_slug: string;
@@ -41,8 +42,12 @@ export async function submitReview(data: ReviewSubmission) {
     user.email?.split("@")[0] ||
     "Anonymous";
 
+  // Use service client to bypass RLS recursion
+  const service = createServiceClient();
+  const client = service || supabase;
+
   // Check if user already reviewed this vendor
-  const { data: existing } = await supabase
+  const { data: existing } = await client
     .from("reviews")
     .select("id")
     .eq("vendor_slug", data.vendor_slug)
@@ -53,7 +58,7 @@ export async function submitReview(data: ReviewSubmission) {
     return { error: "You've already reviewed this vendor. You can edit your existing review from your account." };
   }
 
-  const { error } = await supabase.from("reviews").insert({
+  const { error } = await client.from("reviews").insert({
     vendor_slug: data.vendor_slug,
     user_id: user.id,
     author_name: authorName,

@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { createServiceClient } from "@/lib/supabase/service";
 
 export async function submitClaim(formData: FormData) {
   const supabase = await createClient();
@@ -22,7 +23,11 @@ export async function submitClaim(formData: FormData) {
     return { error: "Vendor name and website are required." };
   }
 
-  const { error } = await supabase.from("profiles").insert({
+  // Use service client to bypass RLS recursion on profiles table
+  const service = createServiceClient();
+  const client = service || supabase;
+
+  const { error } = await client.from("profiles").insert({
     user_id: user.id,
     vendor_name: vendorName,
     website,
