@@ -50,8 +50,8 @@ export const peptides: Peptide[] = [
       "Semaglutide is a glucagon-like peptide-1 (GLP-1) receptor agonist. It is one of the most widely studied peptides in metabolic research, with applications in glucose regulation and weight management studies.",
     halfLife: "~1 week",
     researchAreas: ["Metabolic research", "Glucose regulation", "Weight management studies", "Cardiovascular research"],
-    commonDoses: "0.25-2.4 mg/week (research protocols)",
-    synonyms: ["Ozempic (brand)", "Wegovy (brand)", "Rybelsus (brand)"],
+    commonDoses: "Consult published research literature",
+    synonyms: ["GLP-1 receptor agonist"],
   },
   {
     slug: "tirzepatide",
@@ -63,8 +63,8 @@ export const peptides: Peptide[] = [
       "Tirzepatide is a dual GIP/GLP-1 receptor agonist — the first peptide of its kind to reach commercial availability. Research interest spans metabolic regulation, weight management studies, and cardiovascular outcomes.",
     halfLife: "~5 days",
     researchAreas: ["Dual GIP/GLP-1 research", "Metabolic studies", "Weight management", "Glucose regulation"],
-    commonDoses: "2.5-15 mg/week (research protocols)",
-    synonyms: ["Mounjaro (brand)", "Zepbound (brand)"],
+    commonDoses: "Consult published research literature",
+    synonyms: ["Dual GIP/GLP-1 receptor agonist"],
   },
   {
     slug: "ghk-cu",
@@ -155,7 +155,7 @@ export const peptides: Peptide[] = [
     halfLife: "~2 hours",
     researchAreas: ["Melanocortin research", "Sexual health studies", "Appetite research"],
     commonDoses: "0.5-2 mg (research protocols)",
-    synonyms: ["Bremelanotide", "PT141", "Vyleesi (brand)"],
+    synonyms: ["Bremelanotide", "PT141"],
   },
   {
     slug: "kpv",

@@ -151,6 +151,9 @@ export default async function VendorDetailPage({
                 </a>
                 <VendorDetailClient slug={vendor.slug} name={vendor.name} />
               </div>
+              <p className="text-[10px] text-gray-600 mt-2">
+                PepAssure is not affiliated with, endorsed by, or responsible for this vendor&apos;s website or products.
+              </p>
             </div>
           </div>
         </div>

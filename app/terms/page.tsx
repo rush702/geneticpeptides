@@ -139,23 +139,46 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-display font-bold text-white mb-4">10. Termination</h2>
+            <h2 className="text-2xl font-display font-bold text-white mb-4">10. Indemnification</h2>
+            <p className="text-gray-300 text-[15px] leading-relaxed">
+              You agree to indemnify, defend, and hold harmless PepAssure, its operators, affiliates, and agents from and against any claims, damages, losses, liabilities, costs, and expenses (including reasonable attorney&apos;s fees) arising from: (a) your use of the platform; (b) your purchasing decisions based on information available through PepAssure; (c) your violation of these terms; (d) any content you submit to the platform, including reviews and claims; or (e) your violation of any third-party rights.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-display font-bold text-white mb-4">11. Termination</h2>
             <p className="text-gray-300 text-[15px] leading-relaxed">
               We may suspend or terminate your account at any time for violation of these terms, fraudulent activity, or at our discretion. You can delete your account at any time from <Link href="/account" className="text-emerald hover:text-emerald-light">your account settings</Link>.
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-display font-bold text-white mb-4">11. Changes to Terms</h2>
+            <h2 className="text-2xl font-display font-bold text-white mb-4">12. Changes to Terms</h2>
             <p className="text-gray-300 text-[15px] leading-relaxed">
               We may update these terms to reflect changes in our service or legal requirements. Material changes will be announced via email. Continued use after changes constitutes acceptance.
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-display font-bold text-white mb-4">12. Governing Law</h2>
+            <h2 className="text-2xl font-display font-bold text-white mb-4">13. Governing Law</h2>
             <p className="text-gray-300 text-[15px] leading-relaxed">
-              These terms are governed by the laws of the State of Delaware, USA. Any disputes shall be resolved in the courts of Delaware, except where local law requires otherwise.
+              These terms are governed by the laws of the State of Delaware, USA.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-display font-bold text-white mb-4">14. Dispute Resolution &amp; Arbitration</h2>
+            <p className="text-gray-300 text-[15px] leading-relaxed mb-3">
+              Any dispute, controversy, or claim arising out of or relating to these Terms or your use of PepAssure shall be resolved by binding arbitration administered by the American Arbitration Association (AAA) under its Commercial Arbitration Rules, with the following conditions:
+            </p>
+            <ul className="space-y-2 text-gray-300 text-[15px] leading-relaxed list-disc pl-5 mb-3">
+              <li>Arbitration shall take place in Wilmington, Delaware, or via videoconference at the arbitrator&apos;s discretion.</li>
+              <li>The arbitrator&apos;s decision shall be final and binding and may be entered as a judgment in any court of competent jurisdiction.</li>
+              <li><strong className="text-white">Class Action Waiver:</strong> You agree to resolve disputes on an individual basis only. You waive any right to participate in any class action, class arbitration, or representative proceeding against PepAssure.</li>
+              <li><strong className="text-white">Small Claims Exception:</strong> Either party may bring an individual action in small claims court if the dispute qualifies.</li>
+            </ul>
+            <p className="text-gray-300 text-[15px] leading-relaxed">
+              This arbitration agreement shall survive termination of your account. If any part of this section is found unenforceable, the remainder shall still apply.
             </p>
           </section>
 

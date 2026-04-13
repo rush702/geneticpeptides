@@ -93,35 +93,59 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-display font-bold text-white mb-4">6. Cookies</h2>
+            <h2 className="text-2xl font-display font-bold text-white mb-4">6. California Privacy Rights (CCPA)</h2>
+            <p className="text-gray-300 text-[15px] leading-relaxed mb-3">
+              If you are a California resident, you have additional rights under the California Consumer Privacy Act (CCPA):
+            </p>
+            <ul className="space-y-2 text-gray-300 text-[15px] leading-relaxed list-disc pl-5 mb-3">
+              <li><strong className="text-white">Right to Know</strong> — You may request the categories and specific pieces of personal information we have collected about you.</li>
+              <li><strong className="text-white">Right to Delete</strong> — You may request that we delete the personal information we have collected from you, subject to legal exceptions.</li>
+              <li><strong className="text-white">Right to Opt-Out of Sale</strong> — We do not sell your personal information. We do not share your personal information with third parties for their direct marketing purposes.</li>
+              <li><strong className="text-white">Right to Non-Discrimination</strong> — We will not discriminate against you for exercising any of your CCPA rights.</li>
+            </ul>
+            <p className="text-gray-300 text-[15px] leading-relaxed">
+              To exercise any of these rights, email <a href="mailto:privacy@pepassure.com" className="text-emerald hover:text-emerald-light">privacy@pepassure.com</a> with the subject line &ldquo;CCPA Request.&rdquo; We will respond within 45 days.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-2xl font-display font-bold text-white mb-4">7. Cookies</h2>
             <p className="text-gray-300 text-[15px] leading-relaxed">
               We use essential cookies for authentication sessions. We do not use third-party advertising cookies, tracking pixels, or analytics cookies that identify you personally. Your browser settings can block cookies, but this will prevent you from signing in.
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-display font-bold text-white mb-4">7. Data Retention</h2>
+            <h2 className="text-2xl font-display font-bold text-white mb-4">8. Data Retention</h2>
             <p className="text-gray-300 text-[15px] leading-relaxed">
               Account data is retained while your account is active. If you delete your account, personal data is removed within 30 days except where retention is required by law (e.g., financial records). Public vendor data and aggregated analytics remain on the platform.
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-display font-bold text-white mb-4">8. Security</h2>
+            <h2 className="text-2xl font-display font-bold text-white mb-4">9. Security</h2>
             <p className="text-gray-300 text-[15px] leading-relaxed">
               We use industry-standard security practices: encrypted connections (TLS), encrypted storage, row-level security on the database, and scoped access tokens. No system is 100% secure — if we detect a breach that affects your data, we will notify you promptly.
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-display font-bold text-white mb-4">9. International Users</h2>
+            <h2 className="text-2xl font-display font-bold text-white mb-4">10. International Users &amp; GDPR</h2>
+            <p className="text-gray-300 text-[15px] leading-relaxed mb-3">
+              PepAssure is operated from the United States. If you are located in the European Economic Area (EEA) or United Kingdom, the following applies:
+            </p>
+            <ul className="space-y-2 text-gray-300 text-[15px] leading-relaxed list-disc pl-5 mb-3">
+              <li><strong className="text-white">Lawful Basis for Processing:</strong> We process your data under: (a) <em>contract performance</em> for account creation and billing; (b) <em>legitimate interests</em> for platform analytics, fraud prevention, and service improvement; (c) <em>consent</em> for marketing emails and newsletter subscriptions.</li>
+              <li><strong className="text-white">International Transfers:</strong> Your data is transferred to the United States where our service providers (Supabase, Stripe, Vercel) operate. These providers maintain Standard Contractual Clauses (SCCs) as approved by the European Commission to ensure adequate protection of your data.</li>
+              <li><strong className="text-white">Your GDPR Rights:</strong> In addition to the rights in Section 5, you may object to processing based on legitimate interests, request restriction of processing, and lodge a complaint with your local supervisory authority.</li>
+            </ul>
             <p className="text-gray-300 text-[15px] leading-relaxed">
-              PepAssure is operated from the United States. By using our service, you consent to the transfer of your data to the US. We comply with GDPR for EU users and provide the data-access and deletion rights required by applicable laws.
+              For GDPR-related requests, email <a href="mailto:privacy@pepassure.com" className="text-emerald hover:text-emerald-light">privacy@pepassure.com</a> with the subject line &ldquo;GDPR Request.&rdquo;
             </p>
           </section>
 
           <section>
-            <h2 className="text-2xl font-display font-bold text-white mb-4">10. Changes to This Policy</h2>
+            <h2 className="text-2xl font-display font-bold text-white mb-4">11. Changes to This Policy</h2>
             <p className="text-gray-300 text-[15px] leading-relaxed">
               We may update this policy from time to time. Material changes will be announced via email to account holders and highlighted at the top of this page. Continued use of the platform after changes constitutes acceptance of the updated policy.
             </p>
