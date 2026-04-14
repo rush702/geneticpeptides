@@ -136,16 +136,19 @@ const steps = [
     icon: Shield,
     title: "Create Your Account",
     description: "Sign up in 30 seconds with just your email. No documents, no paperwork.",
+    cta: "Sign Up Free",
   },
   {
     icon: Zap,
     title: "Claim Your Listing",
-    description: "Enter your vendor name and website — that's it. Your profile goes live immediately.",
+    description: "Enter your vendor name and website — that's it. Your listing goes live immediately.",
+    cta: "Claim Now",
   },
   {
     icon: Rocket,
     title: "Grow Your Score",
-    description: "Upload COAs, collect reviews, and earn badges to boost your PVS score over time. Optional but powerful.",
+    description: "Upload COAs, collect reviews, and earn badges. Watch your PVS score climb.",
+    cta: "Go to Dashboard",
   },
 ];
 
@@ -339,10 +342,10 @@ export default function ForVendorsPage() {
         </div>
       </section>
 
-      {/* ─── 3-Step Timeline ─── */}
+      {/* ─── 3-Step Interactive Timeline ─── */}
       <section className="py-20 border-t border-white/5">
         <div className="max-w-5xl mx-auto px-6">
-          <div className="text-center mb-16">
+          <div className="text-center mb-4">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald mb-3">
               How It Works
             </p>
@@ -351,51 +354,87 @@ export default function ForVendorsPage() {
             </h2>
           </div>
 
-          {/* Desktop: horizontal timeline */}
+          {/* User progress indicator */}
+          {user && (
+            <div className="flex items-center justify-center gap-2 mb-12 text-sm">
+              <CheckCircle2 className="w-4 h-4 text-emerald" />
+              <span className="text-emerald font-medium">Step 1 complete</span>
+              <span className="text-gray-600">&mdash;</span>
+              <span className="text-gray-400">You&apos;re signed in. Ready to claim your listing.</span>
+            </div>
+          )}
+          {!user && <div className="mb-12" />}
+
+          {/* Desktop: horizontal timeline with CTAs */}
           <div className="hidden md:block">
             <div className="relative">
-              {/* Connecting line */}
-              <div className="absolute top-12 left-[16.67%] right-[16.67%] h-0.5 bg-gradient-to-r from-emerald/20 via-emerald/40 to-emerald/20" />
-              {/* Pulsing dot */}
-              <motion.div
-                className="absolute top-[42px] w-3 h-3 bg-emerald rounded-full shadow-lg shadow-emerald/50"
-                animate={{ left: ["16.67%", "50%", "83.33%", "50%", "16.67%"] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              {/* Connecting line with progress */}
+              <div className="absolute top-12 left-[16.67%] right-[16.67%] h-0.5 bg-white/5" />
+              <div
+                className="absolute top-12 left-[16.67%] h-0.5 bg-emerald transition-all duration-700"
+                style={{ width: user ? "33.33%" : "0%" }}
               />
 
               <div className="grid grid-cols-3 gap-8">
-                {steps.map((step, i) => (
-                  <motion.div
-                    key={step.title}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.2 }}
-                    className="text-center group"
-                  >
-                    <div className="relative inline-flex mb-6">
-                      <div className="w-24 h-24 rounded-2xl bg-ink-2 border border-white/10 flex items-center justify-center group-hover:border-emerald/30 group-hover:shadow-lg group-hover:shadow-emerald-glow transition-all duration-300">
-                        <step.icon className="w-10 h-10 text-emerald group-hover:scale-110 transition-transform duration-300" />
+                {steps.map((step, i) => {
+                  const isComplete = user ? i === 0 : false;
+                  const isCurrent = user ? i === 1 : i === 0;
+                  return (
+                    <motion.div
+                      key={step.title}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: i * 0.2 }}
+                      className="text-center group"
+                    >
+                      <div className="relative inline-flex mb-6">
+                        <div className={`w-24 h-24 rounded-2xl border flex items-center justify-center transition-all duration-300 ${
+                          isComplete
+                            ? "bg-emerald/10 border-emerald/30 shadow-lg shadow-emerald-glow"
+                            : isCurrent
+                            ? "bg-ink-2 border-emerald/30 shadow-lg shadow-emerald-glow animate-pulse-glow"
+                            : "bg-ink-2 border-white/10 group-hover:border-emerald/20"
+                        }`}>
+                          {isComplete ? (
+                            <CheckCircle2 className="w-10 h-10 text-emerald" />
+                          ) : (
+                            <step.icon className={`w-10 h-10 transition-transform duration-300 ${
+                              isCurrent ? "text-emerald scale-110" : "text-gray-500 group-hover:text-emerald group-hover:scale-110"
+                            }`} />
+                          )}
+                        </div>
+                        <div className={`absolute -top-2 -right-2 w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold ${
+                          isComplete ? "bg-emerald text-white" : isCurrent ? "bg-emerald text-white" : "bg-ink-3 text-gray-500 border border-white/10"
+                        }`}>
+                          {isComplete ? <CheckCircle2 className="w-4 h-4" /> : i + 1}
+                        </div>
                       </div>
-                      <div className="absolute -top-2 -right-2 w-7 h-7 bg-emerald text-white rounded-full flex items-center justify-center text-sm font-bold">
-                        {i + 1}
-                      </div>
-                    </div>
-                    <h3 className="text-lg font-semibold text-white mb-2">
-                      {step.title}
-                    </h3>
-                    <p className="text-sm text-gray-400 leading-relaxed max-w-[250px] mx-auto">
-                      {step.description}
-                    </p>
-                  </motion.div>
-                ))}
+                      <h3 className="text-lg font-semibold text-white mb-2">{step.title}</h3>
+                      <p className="text-sm text-gray-400 leading-relaxed max-w-[250px] mx-auto mb-4">{step.description}</p>
+                      {isCurrent && (
+                        <motion.button
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          onClick={handleClaimClick}
+                          className="btn-glow px-5 py-2 bg-emerald text-white text-sm font-medium rounded-lg hover:bg-emerald-light"
+                        >
+                          {step.cta} &rarr;
+                        </motion.button>
+                      )}
+                    </motion.div>
+                  );
+                })}
               </div>
             </div>
           </div>
 
-          {/* Mobile: vertical timeline */}
+          {/* Mobile: vertical timeline with CTAs */}
           <div className="md:hidden space-y-0">
-            {steps.map((step, i) => (
+            {steps.map((step, i) => {
+              const isComplete = user ? i === 0 : false;
+              const isCurrent = user ? i === 1 : i === 0;
+              return (
               <motion.div
                 key={step.title}
                 initial={{ opacity: 0, x: -20 }}
@@ -406,26 +445,45 @@ export default function ForVendorsPage() {
               >
                 {/* Vertical line */}
                 {i < steps.length - 1 && (
-                  <div className="absolute top-16 left-7 w-0.5 h-[calc(100%-4rem)] bg-gradient-to-b from-emerald/30 to-emerald/5" />
+                  <div className={`absolute top-16 left-7 w-0.5 h-[calc(100%-4rem)] ${
+                    isComplete ? "bg-emerald" : "bg-gradient-to-b from-emerald/30 to-emerald/5"
+                  }`} />
                 )}
                 <div className="relative flex-shrink-0">
-                  <div className="w-14 h-14 rounded-xl bg-ink-2 border border-white/10 flex items-center justify-center">
-                    <step.icon className="w-6 h-6 text-emerald" />
+                  <div className={`w-14 h-14 rounded-xl border flex items-center justify-center ${
+                    isComplete ? "bg-emerald/10 border-emerald/30" : isCurrent ? "bg-ink-2 border-emerald/30 animate-pulse-glow" : "bg-ink-2 border-white/10"
+                  }`}>
+                    {isComplete ? (
+                      <CheckCircle2 className="w-6 h-6 text-emerald" />
+                    ) : (
+                      <step.icon className={`w-6 h-6 ${isCurrent ? "text-emerald" : "text-gray-500"}`} />
+                    )}
                   </div>
-                  <div className="absolute -top-1 -right-1 w-5 h-5 bg-emerald text-white rounded-full flex items-center justify-center text-xs font-bold">
-                    {i + 1}
+                  <div className={`absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold ${
+                    isComplete || isCurrent ? "bg-emerald text-white" : "bg-ink-3 text-gray-500"
+                  }`}>
+                    {isComplete ? <CheckCircle2 className="w-3 h-3" /> : i + 1}
                   </div>
                 </div>
                 <div className="pt-1">
                   <h3 className="text-base font-semibold text-white mb-1">
                     {step.title}
                   </h3>
-                  <p className="text-sm text-gray-400 leading-relaxed">
+                  <p className="text-sm text-gray-400 leading-relaxed mb-2">
                     {step.description}
                   </p>
+                  {isCurrent && (
+                    <button
+                      onClick={handleClaimClick}
+                      className="btn-glow px-4 py-1.5 bg-emerald text-white text-xs font-medium rounded-lg hover:bg-emerald-light"
+                    >
+                      {step.cta} &rarr;
+                    </button>
+                  )}
                 </div>
               </motion.div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
