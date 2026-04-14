@@ -1,101 +1,38 @@
 "use server";
-
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { createServiceClient } from "@/lib/supabase/service";
 
-export async function approveClaim(profileId: string) {
+async function requireAdmin() {
   const supabase = await createClient();
-  const { error } = await supabase
-    .from("profiles")
-    .update({ status: "verified", verified: true })
-    .eq("id", profileId);
-
-  if (error) return { error: error.message };
-  return { success: true };
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
+  const email = user.email ?? "";
+  const role = user.user_metadata?.role;
+  if (role !== "admin" && !email.endsWith("@pepassure.com")) {
+    redirect("/?error=unauthorized");
+  }
 }
 
-export async function rejectClaim(profileId: string) {
-  const supabase = await createClient();
-  const { error } = await supabase
+export async function approveClaim(id: string) {
+  await requireAdmin();
+  const service = createServiceClient();
+  const { error } = await service!
+    .from("profiles")
+    .update({ status: "verified" })
+    .eq("id", id);
+  if (error) throw new Error("Failed to approve claim");
+  revalidatePath("/admin");
+}
+
+export async function rejectClaim(id: string) {
+  await requireAdmin();
+  const service = createServiceClient();
+  const { error } = await service!
     .from("profiles")
     .update({ status: "rejected" })
-    .eq("id", profileId);
-
-  if (error) return { error: error.message };
-  return { success: true };
-}
-
-export async function updateVendorTier(profileId: string, tier: "free" | "pro" | "enterprise") {
-  const supabase = await createClient();
-  const { error } = await supabase
-    .from("profiles")
-    .update({ tier })
-    .eq("id", profileId);
-
-  if (error) return { error: error.message };
-  return { success: true };
-}
-
-export async function toggleAdmin(profileId: string, isAdmin: boolean) {
-  const supabase = await createClient();
-
-  if (isAdmin) {
-    // Add admin role
-    const { error } = await supabase
-      .from("user_roles")
-      .upsert({ user_id: profileId, role: "admin" }, { onConflict: "user_id" });
-    if (error) return { error: error.message };
-  } else {
-    // Remove admin role (set back to vendor)
-    const { error } = await supabase
-      .from("user_roles")
-      .update({ role: "vendor" })
-      .eq("user_id", profileId);
-    if (error) return { error: error.message };
-  }
-  return { success: true };
-}
-
-export async function approveReview(reviewId: string) {
-  const supabase = await createClient();
-  const { error } = await supabase
-    .from("reviews")
-    .update({ status: "approved" })
-    .eq("id", reviewId);
-
-  if (error) {
-    if (error.message?.includes("does not exist")) return { success: true };
-    return { error: error.message };
-  }
-  return { success: true };
-}
-
-export async function rejectReview(reviewId: string) {
-  const supabase = await createClient();
-  const { error } = await supabase
-    .from("reviews")
-    .update({ status: "rejected" })
-    .eq("id", reviewId);
-
-  if (error) {
-    if (error.message?.includes("does not exist")) return { success: true };
-    return { error: error.message };
-  }
-  return { success: true };
-}
-
-export async function updateNominationStatus(
-  nominationId: string,
-  status: "pending" | "under_review" | "queued_for_testing" | "verified" | "rejected"
-) {
-  const supabase = await createClient();
-  const { error } = await supabase
-    .from("nominations")
-    .update({ status })
-    .eq("id", nominationId);
-
-  if (error) {
-    if (error.message?.includes("does not exist")) return { success: true };
-    return { error: error.message };
-  }
-  return { success: true };
+    .eq("id", id);
+  if (error) throw new Error("Failed to reject claim");
+  revalidatePath("/admin");
 }
