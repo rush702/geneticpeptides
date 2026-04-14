@@ -49,8 +49,8 @@ const values = [
 ];
 
 const team = [
-  { name: "Joshua Rush", role: "Co-Founder", bio: "Father, builder, and lifelong optimist. Driven by the belief that transparency can fix broken markets — one verified batch at a time." },
-  { name: "Ike Rush", role: "Co-Founder", bio: "Son, creator, and detail-obsessed. Shares a birthday — and a passion for all things good — with his dad. Brings light one action at a time." },
+  { name: "The Father", role: "Co-Founder", bio: "Builder and lifelong optimist. Driven by the belief that transparency can fix broken markets — one verified batch at a time." },
+  { name: "The Son", role: "Co-Founder", bio: "Creator and detail-obsessed. Shares a birthday — and a passion for all things good — with his dad. Brings light one action at a time." },
 ];
 
 const milestones = [

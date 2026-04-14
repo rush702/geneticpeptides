@@ -20,6 +20,58 @@ export const categories = [
 
 export const posts: BlogPost[] = [
   {
+    slug: "pepassure-is-live",
+    title: "PepAssure is Live: Why We Built the Trust Layer for Peptides",
+    excerpt:
+      "A father and son saw a broken market — vendors claiming 99% purity with no proof, researchers relying on Reddit threads. So they built the accountability layer.",
+    category: "updates",
+    readTime: "4 min",
+    date: "2026-04-13",
+    author: { name: "The PepAssure Team", role: "Founders" },
+    featured: true,
+    content: `
+## The Problem
+
+The research peptide market has no trust infrastructure. Vendors claim 99% purity, post screenshot COAs that could be from anywhere, and the only way to evaluate them is scrolling through Reddit threads hoping someone had a good experience.
+
+That's not good enough.
+
+## Why We Built PepAssure
+
+We're a father and son who share the same birthday and a passion for all things good. When we looked at how researchers were choosing peptide vendors, we saw an industry running on blind trust. So we built the verification layer.
+
+## How It Works
+
+Every vendor on PepAssure is evaluated against the same 5-pillar scoring system:
+
+- **COA Verification (30%)** — We cross-reference certificates of analysis against lab standards, historical data, and known formatting
+- **Purity Testing (25%)** — HPLC and mass spectrometry results validated against industry benchmarks
+- **Reddit Sentiment (20%)** — NLP analysis across r/Peptides, r/SARMs, and related communities with shill detection
+- **Transparency (15%)** — Response times, documentation completeness, third-party testing availability
+- **Order Experience (10%)** — Community reviews on shipping, packaging, and customer service
+
+The result is a single PVS Score (0-100) that tells you how trustworthy a vendor actually is.
+
+## What Makes Us Different
+
+**No paid placements — ever.** Vendors can claim a free listing and upgrade for dashboard tools, but paying us never influences scores. Our methodology is fully public. Judge for yourself.
+
+**Community-driven.** Our Most Wanted leaderboard lets researchers vote on which vendors get verified next. You decide the priorities.
+
+**Real-time.** Scores update daily as new data flows in. Reddit sentiment is scraped every 6 hours. COAs are verified on upload.
+
+## What's Next
+
+We're just getting started. We want PepAssure to be the standard that researchers point to when they need to know: "Can I trust this vendor?"
+
+Browse the rankings, check your vendor's score, or nominate one we haven't covered yet.
+
+Bringing light, one action at a time.
+
+— The PepAssure Team
+    `,
+  },
+  {
     slug: "how-to-read-peptide-coa",
     title: "How to Read a Peptide Certificate of Analysis",
     excerpt:

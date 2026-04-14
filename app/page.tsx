@@ -242,6 +242,23 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen molecular-bg">
+      {/* ─── Launch Banner ─── */}
+      <div className="bg-gradient-to-r from-emerald/20 via-emerald/10 to-emerald/20 border-b border-emerald/20">
+        <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-center gap-3 text-sm">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald" />
+          </span>
+          <span className="text-gray-300">
+            <strong className="text-white">We just launched!</strong>{" "}
+            Read our story and why we built PepAssure
+          </span>
+          <Link href="/blog/pepassure-is-live" className="text-emerald hover:text-emerald-light font-medium transition-colors">
+            Read more &rarr;
+          </Link>
+        </div>
+      </div>
+
       {/* ─── Hero ─── */}
       <section className="relative overflow-hidden">
         <div className="absolute top-0 left-1/3 w-[600px] h-[600px] bg-emerald/5 rounded-full blur-[120px] pointer-events-none" />
