@@ -121,9 +121,10 @@ export default function MostWantedPage() {
 
   const totalVotes = nominations.reduce((sum, n) => sum + n.voteCount, 0);
 
-  function handleVote(id: string) {
-    if (votedIds.has(id)) return; // already voted
+  async function handleVote(id: string) {
+    if (votedIds.has(id)) return;
 
+    // Optimistic update
     setVotedIds((prev) => new Set(prev).add(id));
     setNominations((prev) =>
       [...prev]
@@ -131,7 +132,28 @@ export default function MostWantedPage() {
         .sort((a, b) => b.voteCount - a.voteCount)
     );
 
-    // TODO: In production, POST to /api/nominations/[id]/vote
+    try {
+      const res = await fetch(`/api/nominations/${id}/vote`, { method: "POST" });
+      const data = await res.json();
+
+      if (!res.ok && res.status === 409) {
+        // Already voted — revert optimistic update
+        setVotedIds((prev) => { const s = new Set(prev); s.delete(id); return s; });
+        setNominations((prev) =>
+          prev.map((n) => (n.id === id ? { ...n, voteCount: n.voteCount - 1 } : n))
+              .sort((a, b) => b.voteCount - a.voteCount)
+        );
+      } else if (res.ok && typeof data.voteCount === "number") {
+        // Sync to server count
+        setNominations((prev) =>
+          [...prev]
+            .map((n) => (n.id === id ? { ...n, voteCount: data.voteCount } : n))
+            .sort((a, b) => b.voteCount - a.voteCount)
+        );
+      }
+    } catch {
+      // Network error — optimistic state stays, vote may not have persisted
+    }
   }
 
   return (

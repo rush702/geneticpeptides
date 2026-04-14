@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import {
@@ -13,6 +14,31 @@ import {
   Info,
 } from "lucide-react";
 import { peptides, getPeptide, getVendorsForPeptide } from "@/lib/peptides";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const peptide = getPeptide(slug);
+  if (!peptide) return { title: "Peptide Not Found | PepAssure" };
+  const vendors = getVendorsForPeptide(peptide.name);
+  const description = `Compare ${vendors.length} verified vendor${vendors.length !== 1 ? "s" : ""} selling ${peptide.name}. Independent PVS scores, COA verification, and purity data. Research-grade sourcing guide.`;
+  return {
+    title: `${peptide.name} — Verified Vendors & Research Info | PepAssure`,
+    description,
+    openGraph: {
+      title: `${peptide.name} | PepAssure`,
+      description,
+      type: "website",
+      url: `https://pepassure.com/peptides/${slug}`,
+    },
+    alternates: {
+      canonical: `https://pepassure.com/peptides/${slug}`,
+    },
+  };
+}
 
 export function generateStaticParams() {
   return peptides.map((p) => ({ slug: p.slug }));

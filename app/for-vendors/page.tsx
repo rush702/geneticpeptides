@@ -31,12 +31,14 @@ import { createCheckoutSession } from "@/app/actions/stripe";
 const tiers = [
   {
     name: "Free",
-    price: "$0",
+    monthlyPrice: "$0",
+    annualPrice: "$0",
     period: "forever",
     description: "Get listed instantly — no documents needed",
     cta: "Claim Free Listing",
     ctaStyle: "border" as const,
-    stripePlan: null,
+    stripePlanMonthly: null,
+    stripePlanAnnual: null,
     features: [
       "Vendor profile in 30 seconds",
       "PVS Score — auto-calculated",
@@ -47,13 +49,16 @@ const tiers = [
   },
   {
     name: "Pro",
-    price: "$199",
+    monthlyPrice: "$299",
+    annualPrice: "$249",
+    annualTotal: "$2,990/yr",
     period: "/mo",
     description: "Enhanced visibility and insights",
     cta: "Upgrade to Pro",
     ctaStyle: "solid" as const,
     popular: true,
-    stripePlan: "pro_monthly" as const,
+    stripePlanMonthly: "pro_monthly" as const,
+    stripePlanAnnual: "pro_yearly" as const,
     features: [
       "Everything in Free",
       "Priority COA verification",
@@ -61,17 +66,21 @@ const tiers = [
       "Advanced analytics dashboard",
       "Reddit sentiment tracking",
       "Monthly PDF reports",
+      "Weekly score report emails",
       "Badge: Pro Verified",
     ],
   },
   {
     name: "Enterprise",
-    price: "$599",
+    monthlyPrice: "$599",
+    annualPrice: "$499",
+    annualTotal: "$5,990/yr",
     period: "/mo",
     description: "Full platform power for market leaders",
     cta: "Contact Sales",
     ctaStyle: "gradient" as const,
-    stripePlan: "enterprise_monthly" as const,
+    stripePlanMonthly: "enterprise_monthly" as const,
+    stripePlanAnnual: "enterprise_yearly" as const,
     features: [
       "Everything in Pro",
       "Real-time COA monitoring",
@@ -191,7 +200,7 @@ export default function ForVendorsPage() {
   const [authOpen, setAuthOpen] = useState(false);
   const [claimOpen, setClaimOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
-  // Monthly billing only — no yearly toggle
+  const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
   const [checkoutLoading, setCheckoutLoading] = useState<string | null>(null);
   const supabase = createClient();
 
@@ -221,11 +230,13 @@ export default function ForVendorsPage() {
     }
   };
 
-  const handleUpgrade = async (plan: any) => {
+  const handleUpgrade = async (tier: any) => {
     if (!user) {
       setAuthOpen(true);
       return;
     }
+    const plan = billing === "annual" ? tier.stripePlanAnnual : tier.stripePlanMonthly;
+    if (!plan) return;
     setCheckoutLoading(plan);
     const result = await createCheckoutSession(plan);
     if (result.url) {
@@ -422,10 +433,35 @@ export default function ForVendorsPage() {
 
           {user ? (
             <>
-              {/* Pricing cards — monthly only, cancel anytime */}
-              <p className="text-center text-sm text-gray-500 mb-8">
-                Billed monthly &middot; Cancel anytime &middot; 14-day free trial on Pro
-              </p>
+              {/* Billing toggle */}
+              <div className="flex flex-col items-center gap-3 mb-8">
+                <div className="flex items-center gap-1 p-1 bg-ink-2 border border-white/10 rounded-xl">
+                  <button
+                    onClick={() => setBilling("monthly")}
+                    className={`px-5 py-2 rounded-lg text-sm font-medium transition-all ${
+                      billing === "monthly"
+                        ? "bg-emerald text-white shadow"
+                        : "text-gray-400 hover:text-white"
+                    }`}
+                  >
+                    Monthly
+                  </button>
+                  <button
+                    onClick={() => setBilling("annual")}
+                    className={`px-5 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
+                      billing === "annual"
+                        ? "bg-emerald text-white shadow"
+                        : "text-gray-400 hover:text-white"
+                    }`}
+                  >
+                    Annual
+                    <span className={`text-xs px-1.5 py-0.5 rounded-full font-semibold ${billing === "annual" ? "bg-white/20" : "bg-emerald/20 text-emerald"}`}>
+                      Save 17%
+                    </span>
+                  </button>
+                </div>
+                <p className="text-xs text-gray-600">Cancel anytime &middot; 14-day free trial on Pro</p>
+              </div>
 
               <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
                 {tiers.map((tier, i) => (
@@ -457,13 +493,16 @@ export default function ForVendorsPage() {
                     <div className="mb-6">
                       <div className="flex items-baseline gap-1">
                         <span className="text-4xl font-bold text-white">
-                          {tier.price}
+                          {billing === "annual" ? tier.annualPrice : tier.monthlyPrice}
                         </span>
                         <span className="text-gray-500 text-sm">
-                          {tier.period}
+                          {tier.name === "Free" ? "forever" : "/mo"}
                         </span>
                       </div>
-                      {tier.name !== "Free" && (
+                      {tier.name !== "Free" && billing === "annual" && "annualTotal" in tier && (
+                        <p className="text-xs text-emerald mt-1">{tier.annualTotal} — 2 months free</p>
+                      )}
+                      {tier.name !== "Free" && billing === "monthly" && (
                         <p className="text-xs text-gray-500 mt-1">Cancel anytime</p>
                       )}
                     </div>
@@ -493,11 +532,11 @@ export default function ForVendorsPage() {
                       </button>
                     ) : (
                       <button
-                        onClick={() => handleUpgrade(tier.stripePlan!)}
+                        onClick={() => handleUpgrade(tier)}
                         disabled={checkoutLoading !== null}
                         className="btn-glow w-full py-3 bg-emerald text-white font-semibold rounded-xl hover:bg-emerald-light disabled:opacity-50"
                       >
-                        {checkoutLoading === tier.stripePlan
+                        {checkoutLoading === (billing === "annual" ? tier.stripePlanAnnual : tier.stripePlanMonthly)
                           ? "Redirecting..."
                           : tier.cta}
                       </button>
@@ -575,73 +614,39 @@ export default function ForVendorsPage() {
         </div>
       </section>
 
-      {/* ─── Testimonials / Social Proof ─── */}
+      {/* ─── Social Proof / Early Access CTA ─── */}
       <section className="py-20 border-t border-white/5">
-        <div className="max-w-5xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald mb-3">
-              Trusted By Vendors
-            </p>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-white">
-              What Vendors Are Saying
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              {
-                quote:
-                  "PepAssure gave us the credibility boost we needed. Our sales increased 40% within 3 months of getting verified.",
-                name: "Dr. Sarah Chen",
-                role: "CEO, NovaPeptides",
-                score: 96,
-              },
-              {
-                quote:
-                  "The competitor benchmarking alone is worth the Pro subscription. We can see exactly where we stand in real time.",
-                name: "Marcus Rivera",
-                role: "Head of Sales, PeptideWorks",
-                score: 91,
-              },
-              {
-                quote:
-                  "Our Enterprise plan pays for itself. The API integration with our ERP saves us 20+ hours per month.",
-                name: "James Okafor",
-                role: "CTO, BioSynth Labs",
-                score: 98,
-              },
-            ].map((t, i) => (
-              <motion.div
-                key={t.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="card-glow p-6 bg-ink-2 border border-white/5 rounded-xl"
+        <div className="max-w-3xl mx-auto px-6 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="p-10 bg-ink-2 border border-emerald/20 rounded-2xl relative overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald/5 to-transparent pointer-events-none" />
+            <div className="relative z-10">
+              <div className="w-14 h-14 rounded-2xl bg-emerald/10 border border-emerald/20 flex items-center justify-center mx-auto mb-6">
+                <Star className="w-7 h-7 text-emerald" />
+              </div>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald mb-3">
+                Early Adopters
+              </p>
+              <h2 className="font-display text-2xl md:text-3xl font-bold text-white mb-4">
+                Be Among the First Verified Vendors
+              </h2>
+              <p className="text-gray-400 max-w-md mx-auto mb-8 leading-relaxed">
+                PepAssure is in early access. Claim your listing now, lock in founding-member
+                pricing, and shape the platform as we grow together.
+              </p>
+              <button
+                onClick={handleClaimClick}
+                className="btn-glow px-8 py-3.5 bg-emerald text-white font-semibold rounded-xl hover:bg-emerald-light flex items-center gap-2 mx-auto"
               >
-                <div className="flex items-center gap-1 mb-4">
-                  {[...Array(5)].map((_, j) => (
-                    <Star key={j} className="w-4 h-4 text-emerald fill-emerald" />
-                  ))}
-                </div>
-                <p className="text-gray-300 text-sm leading-relaxed mb-6 italic">
-                  &ldquo;{t.quote}&rdquo;
-                </p>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-semibold text-white">{t.name}</p>
-                    <p className="text-xs text-gray-500">{t.role}</p>
-                  </div>
-                  <div className="flex items-center gap-1.5 px-2.5 py-1 bg-emerald/10 rounded-full">
-                    <TrendingUp className="w-3.5 h-3.5 text-emerald" />
-                    <span className="text-xs font-bold text-emerald">
-                      {t.score}
-                    </span>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                Claim Your Free Listing
+                <ArrowRight className="w-5 h-5" />
+              </button>
+            </div>
+          </motion.div>
         </div>
       </section>
 

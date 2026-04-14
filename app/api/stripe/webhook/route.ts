@@ -1,6 +1,9 @@
 import { NextResponse, type NextRequest } from "next/server";
 import Stripe from "stripe";
 import { createServiceClient } from "@/lib/supabase/service";
+import { sendEmail, subscriptionActivatedEmail, paymentFailedEmail } from "@/lib/email";
+
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://pepassure.com";
 
 // Stripe requires the raw request body to verify webhook signatures
 export const runtime = "nodejs";
@@ -82,6 +85,22 @@ export async function POST(request: NextRequest) {
           return NextResponse.json({ error: "Database update failed" }, { status: 500 });
         }
 
+        // Notify vendor of subscription activation
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("vendor_name, contact_email")
+          .eq("user_id", userId)
+          .single();
+
+        if (profile?.contact_email) {
+          await sendEmail(subscriptionActivatedEmail({
+            vendorName: profile.vendor_name,
+            contactEmail: profile.contact_email,
+            plan: plan ?? tier,
+            dashboardUrl: `${BASE_URL}/dashboard`,
+          }));
+        }
+
         console.log(`[Stripe webhook] Upgraded user ${userId} to ${tier}`);
         break;
       }
@@ -109,11 +128,28 @@ export async function POST(request: NextRequest) {
         break;
       }
 
-      // ─── Payment failed — optional: notify user ────────────
+      // ─── Payment failed — notify vendor ───────────────────
       case "invoice.payment_failed": {
         const invoice = event.data.object as Stripe.Invoice;
+        const customerId = typeof invoice.customer === "string" ? invoice.customer : null;
+
+        if (customerId) {
+          const { data: profile } = await supabase
+            .from("profiles")
+            .select("vendor_name, contact_email")
+            .eq("stripe_customer_id", customerId)
+            .single();
+
+          if (profile?.contact_email) {
+            await sendEmail(paymentFailedEmail({
+              vendorName: profile.vendor_name,
+              contactEmail: profile.contact_email,
+              billingUrl: `${BASE_URL}/dashboard/billing`,
+            }));
+          }
+        }
+
         console.warn(`[Stripe webhook] Payment failed for customer ${invoice.customer}`);
-        // In production: send email notification here
         break;
       }
 

@@ -12,6 +12,7 @@ import {
   File,
   Trash2,
 } from "lucide-react";
+import { uploadCOA } from "@/app/actions/coa";
 
 interface UploadCOAModalProps {
   open: boolean;
@@ -26,6 +27,7 @@ export default function UploadCOAModal({ open, onClose, onUpload }: UploadCOAMod
   const [dragOver, setDragOver] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
   const resetForm = () => {
@@ -34,6 +36,7 @@ export default function UploadCOAModal({ open, onClose, onUpload }: UploadCOAMod
     setFile(null);
     setSuccess(false);
     setUploading(false);
+    setUploadError(null);
   };
 
   const handleDrop = (e: React.DragEvent) => {
@@ -49,9 +52,20 @@ export default function UploadCOAModal({ open, onClose, onUpload }: UploadCOAMod
     e.preventDefault();
     if (!file || !peptideName || !batchId) return;
     setUploading(true);
+    setUploadError(null);
 
-    // Simulate upload — replace with real Supabase storage upload
-    await new Promise((r) => setTimeout(r, 1500));
+    const formData = new FormData();
+    formData.append("peptideName", peptideName);
+    formData.append("batchId", batchId);
+    formData.append("file", file);
+
+    const result = await uploadCOA(formData);
+
+    if (!result.ok) {
+      setUploadError(result.error ?? "Upload failed. Please try again.");
+      setUploading(false);
+      return;
+    }
 
     onUpload({ peptideName, batchId, fileName: file.name });
     setSuccess(true);
@@ -205,6 +219,13 @@ export default function UploadCOAModal({ open, onClose, onUpload }: UploadCOAMod
                     COAs are verified against lab databases. Fraudulent documents will result in immediate delisting.
                   </p>
                 </div>
+
+                {uploadError && (
+                  <div className="p-3 bg-red-500/5 border border-red-500/20 rounded-lg flex items-start gap-2">
+                    <AlertTriangle className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" />
+                    <p className="text-xs text-red-400">{uploadError}</p>
+                  </div>
+                )}
 
                 <button
                   type="submit"

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, Shield, LogOut, LayoutDashboard, User as UserIcon, BookOpen } from "lucide-react";
+import { Menu, X, Shield, LogOut, LayoutDashboard, User as UserIcon, BookOpen, CreditCard } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { checkIsAdmin } from "@/app/actions/auth";
 import type { User } from "@supabase/supabase-js";
@@ -91,6 +91,13 @@ export default function Nav() {
               >
                 <LayoutDashboard className="w-4 h-4" />
                 Dashboard
+              </Link>
+              <Link
+                href="/dashboard/billing"
+                className="flex items-center gap-2 px-3 py-2 text-sm text-gray-400 hover:text-white transition-colors"
+                title="Billing"
+              >
+                <CreditCard className="w-4 h-4" />
               </Link>
               <Link
                 href="/account"

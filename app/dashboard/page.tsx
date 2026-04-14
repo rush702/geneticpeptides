@@ -31,6 +31,8 @@ import {
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { getMyProfile } from "@/app/actions/auth";
+import { getDashboardData, getScorePlaybook, type DashboardData, type PlaybookItem } from "@/app/actions/dashboard";
+import { getMyCOAs } from "@/app/actions/coa";
 import type { User } from "@supabase/supabase-js";
 import Link from "next/link";
 import UploadCOAModal from "@/components/dashboard/UploadCOAModal";
@@ -98,17 +100,14 @@ function Sparkline({ data, color = "#10B981" }: { data: number[]; color?: string
   );
 }
 
-/* ─── Static data ─── */
-const pillars = [
-  { name: "COA Verification", weight: "30%", score: 95, icon: FileCheck, color: "#10B981" },
-  { name: "Reddit Sentiment", weight: "20%", score: 82, icon: MessageSquare, color: "#34D399" },
-  { name: "Purity Testing", weight: "25%", score: 91, icon: Shield, color: "#6EE7B7" },
-  { name: "Vendor Transparency", weight: "15%", score: 88, icon: Star, color: "#A7F3D0" },
-  { name: "Order Experience", weight: "10%", score: 76, icon: Users, color: "#D1FAE5" },
+/* ─── Static pillar icon/color config (scores come from server) ─── */
+const pillarConfig = [
+  { name: "COA Verification",    icon: FileCheck,    color: "#10B981" },
+  { name: "Reddit Sentiment",    icon: MessageSquare, color: "#34D399" },
+  { name: "Purity Testing",      icon: Shield,        color: "#6EE7B7" },
+  { name: "Vendor Transparency", icon: Star,          color: "#A7F3D0" },
+  { name: "Order Experience",    icon: Users,         color: "#D1FAE5" },
 ];
-
-const trendData30 = [72, 74, 73, 78, 80, 79, 82, 85, 84, 86, 88, 87, 89, 91, 90];
-const trendData90 = [58, 60, 62, 59, 65, 68, 66, 70, 72, 74, 73, 78, 80, 79, 82, 85, 84, 86, 88, 87, 89, 91, 90];
 
 const sentimentWords = [
   { word: "reliable", size: 24, opacity: 1 },
@@ -120,33 +119,6 @@ const sentimentWords = [
   { word: "trusted", size: 26, opacity: 1 },
   { word: "quality", size: 20, opacity: 0.85 },
   { word: "professional", size: 15, opacity: 0.7 },
-  { word: "pricey", size: 14, opacity: 0.5 },
-];
-
-const competitors = [
-  { name: "Your Vendor", score: 91, rank: 3, you: true },
-  { name: "Competitor A", score: 96, rank: 1, you: false },
-  { name: "Competitor B", score: 93, rank: 2, you: false },
-  { name: "Competitor C", score: 87, rank: 4, you: false },
-  { name: "Competitor D", score: 82, rank: 5, you: false },
-];
-
-const initialCOAs: COARecord[] = [
-  { id: "1", peptideName: "BPC-157", batchId: "BPC-2024-0398", fileName: "bpc157-coa-0398.pdf", status: "verified", purity: "99.4%", uploadedAt: "Mar 28, 2026", verifiedAt: "Mar 30, 2026" },
-  { id: "2", peptideName: "Semaglutide", batchId: "SEM-2024-0412", fileName: "sema-coa-0412.pdf", status: "verified", purity: "99.1%", uploadedAt: "Apr 2, 2026", verifiedAt: "Apr 4, 2026" },
-  { id: "3", peptideName: "TB-500", batchId: "TB5-2024-0421", fileName: "tb500-coa-0421.pdf", status: "pending", uploadedAt: "Apr 8, 2026" },
-  { id: "4", peptideName: "GHK-Cu", batchId: "GHK-2024-0415", fileName: "ghk-coa-0415.pdf", status: "verified", purity: "98.8%", uploadedAt: "Apr 5, 2026", verifiedAt: "Apr 7, 2026" },
-  { id: "5", peptideName: "NAD+", batchId: "NAD-2024-0389", fileName: "nad-coa-0389.pdf", status: "rejected", uploadedAt: "Mar 25, 2026" },
-];
-
-const initialActivity: ActivityItem[] = [
-  { id: "a1", type: "coa_verified", title: "COA Verified: GHK-Cu", description: "Batch GHK-2024-0415 passed all verification checks", time: "2h ago" },
-  { id: "a2", type: "score_up", title: "PVS Score increased +3", description: "Your score rose from 88 to 91 based on new COA data", time: "5h ago" },
-  { id: "a3", type: "mention", title: "Reddit mention detected", description: "r/Peptides: \"NovaPeptides has great COAs, highly recommend\"", time: "1d ago" },
-  { id: "a4", type: "coa_uploaded", title: "COA Uploaded: TB-500", description: "Batch TB5-2024-0421 submitted for verification", time: "2d ago" },
-  { id: "a5", type: "review", title: "New community review", description: "5-star review: \"Fast shipping, excellent purity reports\"", time: "3d ago" },
-  { id: "a6", type: "alert", title: "COA expiring soon", description: "BPC-157 batch BPC-2024-0398 COA expires in 14 days", time: "3d ago" },
-  { id: "a7", type: "verified", title: "Vendor profile verified", description: "Your listing is now marked as Verified on PepAssure", time: "5d ago" },
 ];
 
 /* ─── Tab types ─── */
@@ -173,7 +145,9 @@ function DashboardContent() {
   const [activeTab, setActiveTab] = useState<Tab>("overview");
   const [timeRange, setTimeRange] = useState<"30d" | "90d">("30d");
   const [uploadOpen, setUploadOpen] = useState(false);
-  const [coas, setCoas] = useState<COARecord[]>(initialCOAs);
+  const [coas, setCoas] = useState<COARecord[]>([]);
+  const [dashData, setDashData] = useState<DashboardData | null>(null);
+  const [playbook, setPlaybook] = useState<PlaybookItem[]>([]);
   const [profile, setProfile] = useState<{
     vendor_name: string;
     tier: string;
@@ -183,31 +157,46 @@ function DashboardContent() {
   } | null>(null);
   const supabase = createClient();
 
-  const trendData = timeRange === "30d" ? trendData30 : trendData90;
+  const trendData = timeRange === "30d"
+    ? (dashData?.trendData30 ?? [])
+    : (dashData?.trendData90 ?? []);
 
   useEffect(() => {
-    async function loadProfile() {
+    async function loadData() {
       const res = await supabase.auth.getUser();
       const u = res.data?.user ?? null;
       setUser(u);
 
       if (u) {
-        // Use server action to bypass RLS recursion
-        const profileData = await getMyProfile();
-        if (profileData) {
-          setProfile(profileData);
-        }
+        const [profileData, dash, coaList, pb] = await Promise.all([
+          getMyProfile(),
+          getDashboardData(),
+          getMyCOAs(),
+          getScorePlaybook(),
+        ]);
+        if (profileData) setProfile(profileData);
+        if (dash) setDashData(dash);
+        setCoas(coaList);
+        setPlaybook(pb);
       }
       setLoading(false);
     }
-    loadProfile();
+    loadData();
   }, []);
 
-  const pvsScore = 91;
-  const rank = 3;
-  const totalVendors = 148;
+  const pvsScore = dashData?.pvsScore ?? 0;
+  const rank = dashData?.rank ?? 0;
+  const totalVendors = dashData?.totalVendors ?? 0;
+  const scoreDelta = dashData?.scoreDelta ?? 0;
   const tier = profile?.tier || "free";
   const vendorName = profile?.vendor_name || "Your Vendor";
+
+  // Merge pillar scores from server with static icon/color config
+  const pillars = pillarConfig.map((cfg, i) => ({
+    ...cfg,
+    weight: dashData?.pillars[i]?.weight ?? "",
+    score: dashData?.pillars[i]?.score ?? 0,
+  }));
 
   const handleCOAUpload = (coa: { peptideName: string; batchId: string; fileName: string }) => {
     const newCOA: COARecord = {
@@ -319,9 +308,9 @@ function DashboardContent() {
               <span className="capitalize">{tier}</span> plan
             </p>
             <div className="flex items-center gap-4">
-              <div className="flex items-center gap-1 text-sm text-emerald">
+              <div className={`flex items-center gap-1 text-sm ${scoreDelta >= 0 ? "text-emerald" : "text-red-400"}`}>
                 <TrendingUp className="w-4 h-4" />
-                <span>+7 pts last 30d</span>
+                <span>{scoreDelta >= 0 ? "+" : ""}{scoreDelta} pts last 30d</span>
               </div>
               <div className="flex items-center gap-1 text-sm text-gray-500">
                 <FileCheck className="w-4 h-4" />
@@ -393,10 +382,10 @@ function DashboardContent() {
               {/* Quick Stats */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                 {[
-                  { label: "Finnrick Grade", value: "A+", sub: "Top 5%", icon: Award, sparkData: [85, 87, 88, 90, 89, 92, 93, 91, 94, 95] },
-                  { label: "COAs Uploaded", value: String(coas.length), sub: `${verifiedCount} verified`, icon: FileCheck, sparkData: [2, 3, 1, 4, 2, 3, 5, 2, 4, 3] },
-                  { label: "Reddit Sentiment", value: "82%", sub: "Positive", icon: MessageSquare, sparkData: [70, 72, 75, 73, 78, 80, 79, 82, 84, 82] },
-                  { label: "Competitor Gap", value: "+5", sub: "vs avg", icon: Target, sparkData: [2, 3, 4, 3, 5, 4, 6, 5, 5, 5] },
+                  { label: "COAs Uploaded", value: String(coas.length), sub: `${verifiedCount} verified`, icon: FileCheck, sparkData: [2, 3, 1, 4, 2, 3, 5, 2, 4, coas.length] },
+                  { label: "Purity Score", value: `${dashData?.pillars[2]?.score ?? 0}`, sub: "out of 100", icon: Shield, sparkData: [60, 65, 68, 70, 72, 75, 76, 78, 80, dashData?.pillars[2]?.score ?? 0] },
+                  { label: "Reddit Sentiment", value: `${dashData?.pillars[1]?.score ?? 0}%`, sub: "positive", icon: MessageSquare, sparkData: [50, 55, 58, 60, 63, 66, 68, 70, 72, dashData?.pillars[1]?.score ?? 0] },
+                  { label: "Listing Views", value: (dashData?.pageViewsThisMonth ?? 0).toLocaleString(), sub: "this month", icon: Users, sparkData: [10, 12, 15, 18, 14, 20, 22, 19, 25, dashData?.pageViewsThisMonth ?? 0] },
                 ].map((stat) => (
                   <div key={stat.label} className="card-glow p-5 bg-ink-2 border border-white/5 rounded-xl">
                     <div className="flex items-center justify-between mb-3">
@@ -576,6 +565,44 @@ function DashboardContent() {
                 </div>
               </div>
 
+              {/* Score Improvement Playbook */}
+              {playbook.length > 0 && (
+                <div className="mb-8 p-6 bg-ink-2 border border-white/5 rounded-xl">
+                  <h3 className="text-lg font-semibold text-white mb-1 flex items-center gap-2">
+                    <Target className="w-5 h-5 text-emerald" />
+                    Score Playbook
+                  </h3>
+                  <p className="text-xs text-gray-500 mb-5">Top actions to improve your PVS score this week</p>
+                  <div className="space-y-3">
+                    {playbook.map((item, i) => (
+                      <div
+                        key={i}
+                        className={`flex items-start gap-4 p-4 rounded-xl border transition-all ${
+                          item.priority === "high"
+                            ? "bg-emerald/5 border-emerald/20"
+                            : item.priority === "medium"
+                            ? "bg-yellow-500/5 border-yellow-500/10"
+                            : "bg-ink border-white/5"
+                        }`}
+                      >
+                        <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 text-xs font-bold ${
+                          item.priority === "high" ? "bg-emerald/20 text-emerald" :
+                          item.priority === "medium" ? "bg-yellow-500/20 text-yellow-400" :
+                          "bg-gray-700 text-gray-400"
+                        }`}>
+                          {i + 1}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm text-gray-200">{item.action}</p>
+                          <p className="text-xs text-gray-500 mt-0.5">{item.pillar}</p>
+                        </div>
+                        <span className="text-xs font-semibold text-emerald flex-shrink-0">{item.estimatedGain}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* Quick Actions */}
               <div className="mb-8">
                 <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
@@ -587,7 +614,7 @@ function DashboardContent() {
                     { icon: Upload, label: "Upload COA", description: "Add a new certificate of analysis", onClick: () => setUploadOpen(true) },
                     { icon: FileText, label: "Generate Report", description: "Export your latest PVS report", onClick: () => alert("Report generation coming soon") },
                     { icon: RefreshCw, label: "Request Re-score", description: "Trigger a manual score refresh", onClick: () => alert("Re-score requested") },
-                    { icon: Download, label: "Download Badge", description: "Get your verified badge assets", onClick: () => alert("Badge download coming soon") },
+                    { icon: Download, label: "Embed Badge", description: "Get your embeddable PVS score badge", onClick: () => window.open(`/api/badge/${profile?.vendor_slug ?? ""}`, "_blank") },
                   ].map((action) => (
                     <button
                       key={action.label}

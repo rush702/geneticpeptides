@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import {
@@ -34,6 +35,30 @@ import { computeVendorMetrics } from "@/lib/scrapers/scoring";
 import { getVendorGrades, GRADE_VALUES } from "@/lib/scrapers/finnrick";
 import VendorDetailClient from "./client";
 import WriteReviewButton from "./review-button";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const vendor = getVendor(slug);
+  if (!vendor) return { title: "Vendor Not Found | PepAssure" };
+  const description = `${vendor.name} PVS Score: ${vendor.score}/100. ${vendor.purity} average purity, ${vendor.coaCount} COAs verified. ${vendor.verified ? "PepAssure verified vendor." : ""} Independent peptide vendor analysis.`;
+  return {
+    title: `${vendor.name} Review & PVS Score | PepAssure`,
+    description,
+    openGraph: {
+      title: `${vendor.name} | PepAssure`,
+      description,
+      type: "website",
+      url: `https://pepassure.com/vendors/${slug}`,
+    },
+    alternates: {
+      canonical: `https://pepassure.com/vendors/${slug}`,
+    },
+  };
+}
 
 export function generateStaticParams() {
   return vendors.map((v) => ({ slug: v.slug }));

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import {
@@ -125,6 +126,30 @@ function renderContent(content: string) {
 
   flushList();
   return elements;
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const post = posts.find((p) => p.slug === slug);
+  if (!post) return { title: "Article Not Found | PepAssure" };
+  return {
+    title: `${post.title} | PepAssure`,
+    description: post.excerpt,
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      type: "article",
+      url: `https://pepassure.com/blog/${slug}`,
+      publishedTime: post.date,
+    },
+    alternates: {
+      canonical: `https://pepassure.com/blog/${slug}`,
+    },
+  };
 }
 
 export function generateStaticParams() {
