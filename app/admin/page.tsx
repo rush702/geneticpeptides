@@ -25,6 +25,7 @@ import {
   Globe,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { checkIsAdmin } from "@/app/actions/auth";
 import type { User } from "@supabase/supabase-js";
 import Link from "next/link";
 import {
@@ -190,9 +191,9 @@ export default function AdminPage() {
       setUser(u);
 
       if (u) {
-        // Check admin via user_roles table
-        const roleRes = await supabase.from("user_roles").select("role").eq("user_id", u.id).single();
-        if (roleRes.data?.role === "admin") {
+        // Check admin via server action (bypasses RLS recursion)
+        const admin = await checkIsAdmin();
+        if (admin) {
           setIsAdmin(true);
 
           // Load profiles

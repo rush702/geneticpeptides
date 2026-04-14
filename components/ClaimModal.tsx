@@ -144,7 +144,7 @@ export default function ClaimModal({ open, onClose, prefillVendorName, prefillWe
                   Claim Your Free Listing
                 </h2>
                 <p className="text-sm text-gray-500">
-                  Takes less than 2 minutes
+                  30 seconds — no documents needed
                 </p>
               </div>
             </div>
@@ -163,15 +163,19 @@ export default function ClaimModal({ open, onClose, prefillVendorName, prefillWe
                   <PartyPopper className="w-10 h-10 text-emerald" />
                 </div>
                 <h3 className="text-xl font-display font-bold text-white mb-2">
-                  Claim Submitted!
+                  You&apos;re Listed!
                 </h3>
-                <p className="text-gray-400 mb-6 max-w-sm mx-auto">
-                  Your listing for <strong className="text-emerald">{vendorName}</strong> is
-                  pending review. We&apos;ll verify your details and notify you within 24-48 hours.
+                <p className="text-gray-400 mb-4 max-w-sm mx-auto">
+                  <strong className="text-emerald">{vendorName}</strong> is now on PepAssure.
+                  Your PVS score will be calculated automatically from community data.
+                </p>
+                <p className="text-sm text-gray-500 mb-6 max-w-sm mx-auto">
+                  Want to boost your score? Upload COAs, respond to reviews, and earn
+                  verified badges from your vendor dashboard.
                 </p>
                 <div className="flex items-center gap-2 justify-center text-sm text-gray-500">
                   <CheckCircle2 className="w-4 h-4 text-emerald" />
-                  Confirmation sent to {contactEmail}
+                  Dashboard access sent to {contactEmail}
                 </div>
                 <button
                   onClick={() => { resetForm(); onClose(); }}
@@ -214,11 +218,11 @@ export default function ClaimModal({ open, onClose, prefillVendorName, prefillWe
                   <div className="relative">
                     <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
                     <input
-                      type="url"
+                      type="text"
                       required
                       value={website}
                       onChange={(e) => setWebsite(e.target.value)}
-                      placeholder="https://yourcompany.com"
+                      placeholder="yourcompany.com"
                       className="w-full pl-10 pr-4 py-3 bg-ink border border-white/10 rounded-lg text-white placeholder-gray-600 focus:outline-none focus:border-emerald/50 focus:ring-1 focus:ring-emerald/20 transition-all"
                     />
                   </div>
@@ -275,7 +279,7 @@ export default function ClaimModal({ open, onClose, prefillVendorName, prefillWe
                 </button>
 
                 <p className="text-xs text-gray-600 text-center">
-                  Free tier &middot; No credit card required &middot; Review within 48h
+                  Free forever &middot; No documents needed &middot; Live instantly
                 </p>
               </form>
             )}

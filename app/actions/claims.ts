@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { createServiceClient } from "@/lib/supabase/service";
 
 export async function submitClaim(formData: FormData) {
   const supabase = await createClient();
@@ -22,8 +23,12 @@ export async function submitClaim(formData: FormData) {
     return { error: "Vendor name and website are required." };
   }
 
+  // Use service client to bypass RLS recursion
+  const service = createServiceClient();
+  const client = service || supabase;
+
   // Check for existing profile — allow resubmission if rejected
-  const { data: existing } = await supabase
+  const { data: existing } = await client
     .from("profiles")
     .select("id, status")
     .eq("user_id", user.id)
@@ -32,7 +37,7 @@ export async function submitClaim(formData: FormData) {
   if (existing) {
     if (existing.status === "rejected") {
       // Allow resubmission: update the existing rejected profile
-      const { error } = await supabase
+      const { error } = await client
         .from("profiles")
         .update({
           vendor_name: vendorName,
@@ -56,7 +61,7 @@ export async function submitClaim(formData: FormData) {
     return { error: "You already have an active vendor listing. Visit your dashboard to manage it." };
   }
 
-  const { error } = await supabase.from("profiles").insert({
+  const { error } = await client.from("profiles").insert({
     id: user.id,
     user_id: user.id,
     vendor_name: vendorName,

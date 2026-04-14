@@ -79,8 +79,8 @@ export default function AboutPage() {
             <span className="text-sm text-emerald font-medium">About PepAssure</span>
           </div>
           <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
-            Trust in Peptide Research,{" "}
-            <span className="text-gradient">Verified</span>
+            The Trust Infrastructure for the{" "}
+            <span className="text-gradient">Peptide Economy</span>
           </h1>
           <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
             A father and son sharing a birthday, a passion for all things good, and a belief that transparency can change an industry.

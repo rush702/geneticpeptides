@@ -38,6 +38,9 @@ export default function AuthModal({ open, onClose, onAuth }: AuthModalProps) {
 
       if (authError) {
         setError(authError.message);
+      } else if (isSignUp) {
+        // Don't close modal — user needs to confirm email first
+        setMagicSent(true);
       } else {
         onAuth();
         onClose();
@@ -155,7 +158,24 @@ export default function AuthModal({ open, onClose, onAuth }: AuthModalProps) {
               </div>
             )}
 
-            {tab === "password" ? (
+            {magicSent ? (
+              <div className="text-center py-8">
+                <div className="w-16 h-16 rounded-full bg-emerald/10 border border-emerald/20 flex items-center justify-center mx-auto mb-4">
+                  <Mail className="w-8 h-8 text-emerald" />
+                </div>
+                <h3 className="text-lg font-semibold text-white mb-2">Check your email</h3>
+                <p className="text-sm text-gray-400 mb-1">
+                  We sent a {isSignUp ? "confirmation" : "sign-in"} link to <strong className="text-white">{email}</strong>
+                </p>
+                <p className="text-xs text-gray-500 mb-4">Click the link in the email to continue. It expires in 1 hour.</p>
+                <button
+                  onClick={() => { setMagicSent(false); setEmail(""); setPassword(""); }}
+                  className="text-sm text-emerald hover:text-emerald-light transition-colors font-medium"
+                >
+                  Use a different email
+                </button>
+              </div>
+            ) : tab === "password" ? (
               <form onSubmit={handlePasswordAuth} className="space-y-4">
                 <div>
                   <label className="block text-xs font-medium text-gray-400 uppercase tracking-wider mb-2">
@@ -204,16 +224,6 @@ export default function AuthModal({ open, onClose, onAuth }: AuthModalProps) {
                   )}
                 </button>
               </form>
-            ) : magicSent ? (
-              <div className="text-center py-8">
-                <div className="w-16 h-16 rounded-full bg-emerald/10 border border-emerald/20 flex items-center justify-center mx-auto mb-4">
-                  <Mail className="w-8 h-8 text-emerald" />
-                </div>
-                <h3 className="text-lg font-semibold text-white mb-2">Check your email</h3>
-                <p className="text-sm text-gray-400">
-                  We sent a magic link to <strong className="text-white">{email}</strong>
-                </p>
-              </div>
             ) : (
               <form onSubmit={handleMagicLink} className="space-y-4">
                 <div>

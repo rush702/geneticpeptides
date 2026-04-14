@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X, Shield, LogOut, LayoutDashboard, User as UserIcon, BookOpen } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { checkIsAdmin } from "@/app/actions/auth";
 import type { User } from "@supabase/supabase-js";
 
 export default function Nav() {
@@ -24,12 +25,8 @@ export default function Nav() {
       const u = res.data?.user ?? null;
       setUser(u);
       if (u) {
-        supabase
-          .from("user_roles")
-          .select("role")
-          .eq("user_id", u.id)
-          .single()
-          .then((r: any) => setIsAdmin(r.data?.role === "admin"));
+        // Use server action to check admin (bypasses RLS recursion)
+        checkIsAdmin().then((admin) => setIsAdmin(admin));
       }
     });
     const {

@@ -30,6 +30,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { getMyProfile } from "@/app/actions/auth";
 import type { User } from "@supabase/supabase-js";
 import Link from "next/link";
 import UploadCOAModal from "@/components/dashboard/UploadCOAModal";
@@ -191,14 +192,10 @@ function DashboardContent() {
       setUser(u);
 
       if (u) {
-        const profileRes = await supabase
-          .from("profiles")
-          .select("*")
-          .eq("user_id", u.id)
-          .single();
-
-        if (profileRes.data) {
-          setProfile(profileRes.data);
+        // Use server action to bypass RLS recursion
+        const profileData = await getMyProfile();
+        if (profileData) {
+          setProfile(profileData);
         }
       }
       setLoading(false);
