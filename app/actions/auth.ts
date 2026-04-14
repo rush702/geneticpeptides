@@ -20,14 +20,15 @@ export async function checkIsAdmin(): Promise<boolean> {
   const service = createServiceClient();
   if (!service) return false;
 
+  // Check user_roles table (live schema uses this instead of profiles.is_admin)
   const { data, error } = await service
-    .from("profiles")
-    .select("is_admin")
+    .from("user_roles")
+    .select("role")
     .eq("user_id", user.id)
     .single();
 
   if (error || !data) return false;
-  return data.is_admin === true;
+  return data.role === "admin";
 }
 
 /**
