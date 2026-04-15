@@ -72,9 +72,15 @@ export async function submitReview(data: ReviewSubmission) {
 
   if (error) {
     // Graceful fallback if the reviews table doesn't exist yet
-    if (error.message?.includes("does not exist")) {
-      console.warn("[reviews] reviews table not created yet — review not persisted");
+    if (
+      error.code === "PGRST205" ||
+      error.message?.includes("schema cache") ||
+      error.message?.includes("does not exist") ||
+      error.message?.includes("relation")
+    ) {
+      console.warn("[reviews] reviews table missing — run COMPLETE_MIGRATION.sql");
       return { success: true, pending: true };
+    };
     }
     console.error("[reviews] insert failed:", error);
     return { error: "Failed to submit review. Please try again." };

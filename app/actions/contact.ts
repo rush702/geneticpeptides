@@ -34,7 +34,14 @@ export async function submitContactForm(data: ContactSubmission) {
   });
 
   // Graceful fallback if table doesn't exist yet
-  if (error && !error.message?.includes("does not exist")) {
+  // Gracefully ignore table-missing errors (PGRST205 / schema cache)
+  const isTableMissing =
+    error?.code === 'PGRST205' ||
+    error?.message?.includes('schema cache') ||
+    error?.message?.includes('does not exist') ||
+    error?.message?.includes('relation');
+
+  if (error && !isTableMissing) {
     console.error("[contact] Supabase insert error:", error);
     return { error: "Failed to send message. Please try again or email hello@pepassure.com directly." };
   }

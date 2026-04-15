@@ -23,9 +23,15 @@ export async function subscribeNewsletter(email: string) {
     if (error.code === "23505") {
       return { error: "You're already subscribed to our newsletter." };
     }
-    // Graceful fallback if table doesn't exist yet
-    if (error.message?.includes("does not exist")) {
-      console.warn("[newsletter] table not created â€” subscription not persisted");
+    // PGRST205 = table missing from schema cache (table doesn't exist yet)
+    // Also catch older PostgREST "does not exist" phrasing
+    if (
+      error.code === "PGRST205" ||
+      error.message?.includes("schema cache") ||
+      error.message?.includes("does not exist") ||
+      error.message?.includes("relation")
+    ) {
+      console.warn("[newsletter] table not created Ñ run COMPLETE_MIGRATION.sql in Supabase");
       return { success: true };
     }
     console.error("[newsletter] insert failed:", error);
