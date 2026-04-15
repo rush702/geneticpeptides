@@ -65,22 +65,21 @@ export async function submitReview(data: ReviewSubmission) {
     rating: data.rating,
     title: data.title,
     body: data.body,
-    verified: false, // admin can mark as verified later
-    status: "pending", // admin approval before appearing publicly
+    verified: false,
+    status: "pending",
     helpful_count: 0,
   });
 
   if (error) {
-    // Graceful fallback if the reviews table doesn't exist yet
+    // PGRST205 = table missing from schema cache
     if (
       error.code === "PGRST205" ||
       error.message?.includes("schema cache") ||
       error.message?.includes("does not exist") ||
       error.message?.includes("relation")
     ) {
-      console.warn("[reviews] reviews table missing â€” run COMPLETE_MIGRATION.sql");
+      console.warn("[reviews] reviews table missing Ñ run COMPLETE_MIGRATION.sql");
       return { success: true, pending: true };
-    };
     }
     console.error("[reviews] insert failed:", error);
     return { error: "Failed to submit review. Please try again." };
