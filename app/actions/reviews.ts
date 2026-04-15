@@ -78,7 +78,7 @@ export async function submitReview(data: ReviewSubmission) {
       error.message?.includes("does not exist") ||
       error.message?.includes("relation")
     ) {
-      console.warn("[reviews] reviews table missing Ñ run COMPLETE_MIGRATION.sql");
+      console.warn("[reviews] reviews table missing -- run COMPLETE_MIGRATION.sql");
       return { success: true, pending: true };
     }
     console.error("[reviews] insert failed:", error);

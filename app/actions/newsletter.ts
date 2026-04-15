@@ -31,7 +31,7 @@ export async function subscribeNewsletter(email: string) {
       error.message?.includes("does not exist") ||
       error.message?.includes("relation")
     ) {
-      console.warn("[newsletter] table not created Ñ run COMPLETE_MIGRATION.sql in Supabase");
+      console.warn("[newsletter] table not created -- run COMPLETE_MIGRATION.sql in Supabase");
       return { success: true };
     }
     console.error("[newsletter] insert failed:", error);
