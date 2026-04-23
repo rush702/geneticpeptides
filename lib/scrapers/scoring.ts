@@ -206,6 +206,7 @@ export function computeVendorMetrics(vendor: Vendor): VendorTrustMetrics {
  */
 export function computeAllMetrics(): VendorTrustMetrics[] {
   return vendors
+    .filter((v) => !v.pending)
     .map(computeVendorMetrics)
     .sort((a, b) => b.finalScore - a.finalScore);
 }

@@ -1,0 +1,3490 @@
+[
+  {
+    "name": "Paradigm Peptides",
+    "slug": "paradigm-peptides",
+    "website": "https://paradigmpeptides.com",
+    "tier": "top",
+    "location": "Canada",
+    "founded": "2023",
+    "specialties": [
+      "NAD+",
+      "KPV",
+      "Semaglutide"
+    ],
+    "score": 94,
+    "pillars": {
+      "coa": 95,
+      "sentiment": 93,
+      "purity": 96,
+      "transparency": 92,
+      "experience": 94
+    }
+  },
+  {
+    "name": "Ascension Peptides",
+    "slug": "ascension-peptides",
+    "website": "https://ascensionpeptides.com",
+    "tier": "top",
+    "location": "Canada",
+    "founded": "2015",
+    "specialties": [
+      "BPC-157",
+      "Retatrutide",
+      "Melanotan II"
+    ],
+    "score": 93,
+    "pillars": {
+      "coa": 94,
+      "sentiment": 92,
+      "purity": 95,
+      "transparency": 91,
+      "experience": 93
+    }
+  },
+  {
+    "name": "Limitless Life Nootropics",
+    "slug": "limitless-life-nootropics",
+    "website": "https://limitlesslifenootropics.com",
+    "tier": "top",
+    "location": "Canada",
+    "founded": "2023",
+    "specialties": [
+      "NAD+",
+      "KPV",
+      "Semaglutide"
+    ],
+    "score": 92,
+    "pillars": {
+      "coa": 93,
+      "sentiment": 91,
+      "purity": 94,
+      "transparency": 90,
+      "experience": 92
+    }
+  },
+  {
+    "name": "Amino Asylum",
+    "slug": "amino-asylum",
+    "website": "https://aminoasylum.shop",
+    "tier": "top",
+    "location": "Canada",
+    "founded": "2019",
+    "specialties": [
+      "GHK-Cu",
+      "Selank",
+      "DSIP"
+    ],
+    "score": 91,
+    "pillars": {
+      "coa": 90,
+      "sentiment": 93,
+      "purity": 92,
+      "transparency": 88,
+      "experience": 92
+    }
+  },
+  {
+    "name": "Sports Technology Labs",
+    "slug": "sports-technology-labs",
+    "website": "https://sportstechnologylabs.com",
+    "tier": "top",
+    "location": "EU",
+    "founded": "2016",
+    "specialties": [
+      "TB-500",
+      "NAD+",
+      "KPV"
+    ],
+    "score": 90,
+    "pillars": {
+      "coa": 91,
+      "sentiment": 90,
+      "purity": 92,
+      "transparency": 89,
+      "experience": 88
+    }
+  },
+  {
+    "name": "Swiss Chems",
+    "slug": "swiss-chems",
+    "website": "https://swisschems.is",
+    "tier": "top",
+    "location": "UK",
+    "founded": "2023",
+    "specialties": [
+      "DSIP",
+      "CJC-1295",
+      "Semax"
+    ],
+    "score": 89,
+    "pillars": {
+      "coa": 90,
+      "sentiment": 88,
+      "purity": 91,
+      "transparency": 87,
+      "experience": 89
+    }
+  },
+  {
+    "name": "Trident Peptides",
+    "slug": "trident-peptides",
+    "website": "https://tridentpeptides.com",
+    "tier": "top",
+    "location": "EU",
+    "founded": "2024",
+    "specialties": [
+      "Epithalon",
+      "LL-37",
+      "Tirzepatide"
+    ],
+    "score": 88,
+    "pillars": {
+      "coa": 88,
+      "sentiment": 89,
+      "purity": 90,
+      "transparency": 86,
+      "experience": 87
+    }
+  },
+  {
+    "name": "Core Peptides",
+    "slug": "core-peptides",
+    "website": "https://corepeptides.com",
+    "tier": "top",
+    "location": "USA",
+    "founded": "2019",
+    "specialties": [
+      "GHK-Cu",
+      "Selank",
+      "DSIP"
+    ],
+    "score": 87,
+    "pillars": {
+      "coa": 86,
+      "sentiment": 88,
+      "purity": 89,
+      "transparency": 85,
+      "experience": 87
+    }
+  },
+  {
+    "name": "Peptide Sciences",
+    "slug": "peptide-sciences",
+    "website": "https://peptidesciences.com",
+    "tier": "top",
+    "location": "International",
+    "founded": "2016",
+    "specialties": [
+      "Selank",
+      "DSIP",
+      "CJC-1295"
+    ],
+    "score": 86,
+    "pillars": {
+      "coa": 88,
+      "sentiment": 85,
+      "purity": 90,
+      "transparency": 82,
+      "experience": 85
+    }
+  },
+  {
+    "name": "Pure Rawz",
+    "slug": "pure-rawz",
+    "website": "https://purerawz.co",
+    "tier": "top",
+    "location": "USA",
+    "founded": "2022",
+    "specialties": [
+      "Retatrutide",
+      "Melanotan II",
+      "TB-500"
+    ],
+    "score": 85,
+    "pillars": {
+      "coa": 84,
+      "sentiment": 86,
+      "purity": 88,
+      "transparency": 82,
+      "experience": 85
+    }
+  },
+  {
+    "name": "Loti Labs",
+    "slug": "loti-labs",
+    "website": "https://lotilabs.com",
+    "tier": "top",
+    "location": "USA",
+    "founded": "2022",
+    "specialties": [
+      "Retatrutide",
+      "Melanotan II",
+      "TB-500"
+    ],
+    "score": 85,
+    "pillars": {
+      "coa": 86,
+      "sentiment": 84,
+      "purity": 88,
+      "transparency": 83,
+      "experience": 84
+    }
+  },
+  {
+    "name": "Biotech Peptides",
+    "slug": "biotech-peptides",
+    "website": "https://biotechpeptides.com",
+    "tier": "top",
+    "location": "USA",
+    "founded": "2020",
+    "specialties": [
+      "CJC-1295",
+      "Semax",
+      "AOD-9604"
+    ],
+    "score": 84,
+    "pillars": {
+      "coa": 85,
+      "sentiment": 83,
+      "purity": 87,
+      "transparency": 82,
+      "experience": 83
+    }
+  },
+  {
+    "name": "Science.bio",
+    "slug": "science-bio",
+    "website": "https://science.bio",
+    "tier": "top",
+    "location": "USA",
+    "founded": "2018",
+    "specialties": [
+      "Tirzepatide",
+      "MOTS-c",
+      "Thymosin Alpha-1"
+    ],
+    "score": 83,
+    "pillars": {
+      "coa": 84,
+      "sentiment": 82,
+      "purity": 86,
+      "transparency": 80,
+      "experience": 83
+    }
+  },
+  {
+    "name": "Blue Sky Peptide",
+    "slug": "blue-sky-peptide",
+    "website": "https://blueskypeptide.com",
+    "tier": "top",
+    "location": "UK",
+    "founded": "2021",
+    "specialties": [
+      "Ipamorelin",
+      "PT-141",
+      "BPC-157"
+    ],
+    "score": 83,
+    "pillars": {
+      "coa": 83,
+      "sentiment": 82,
+      "purity": 85,
+      "transparency": 81,
+      "experience": 84
+    }
+  },
+  {
+    "name": "Behemoth Labz",
+    "slug": "behemoth-labz",
+    "website": "https://behemothlabz.com",
+    "tier": "top",
+    "location": "USA",
+    "founded": "2021",
+    "specialties": [
+      "LL-37",
+      "Tirzepatide",
+      "MOTS-c"
+    ],
+    "score": 82,
+    "pillars": {
+      "coa": 80,
+      "sentiment": 84,
+      "purity": 85,
+      "transparency": 78,
+      "experience": 83
+    }
+  },
+  {
+    "name": "Pure Peptides USA",
+    "slug": "pure-peptides-usa",
+    "website": "https://purepeptidesusa.com",
+    "tier": "top",
+    "location": "EU",
+    "founded": "2022",
+    "specialties": [
+      "Thymosin Alpha-1",
+      "GHK-Cu",
+      "Selank"
+    ],
+    "score": 81,
+    "pillars": {
+      "coa": 82,
+      "sentiment": 80,
+      "purity": 84,
+      "transparency": 78,
+      "experience": 81
+    }
+  },
+  {
+    "name": "Chemical Planet",
+    "slug": "chemical-planet",
+    "website": "https://chemicalplanet.net",
+    "tier": "top",
+    "location": "USA",
+    "founded": "2022",
+    "specialties": [
+      "Retatrutide",
+      "Melanotan II",
+      "TB-500"
+    ],
+    "score": 80,
+    "pillars": {
+      "coa": 79,
+      "sentiment": 81,
+      "purity": 83,
+      "transparency": 77,
+      "experience": 80
+    }
+  },
+  {
+    "name": "Modern Aminos",
+    "slug": "modern-aminos",
+    "website": "https://modernaminos.com",
+    "tier": "top",
+    "location": "International",
+    "founded": "2018",
+    "specialties": [
+      "Tirzepatide",
+      "MOTS-c",
+      "Thymosin Alpha-1"
+    ],
+    "score": 80,
+    "pillars": {
+      "coa": 80,
+      "sentiment": 81,
+      "purity": 82,
+      "transparency": 78,
+      "experience": 80
+    }
+  },
+  {
+    "name": "Direct Peptides",
+    "slug": "direct-peptides",
+    "website": "https://direct-peptides.com",
+    "tier": "top",
+    "location": "UK",
+    "founded": "2015",
+    "specialties": [
+      "MOTS-c",
+      "Thymosin Alpha-1",
+      "GHK-Cu"
+    ],
+    "score": 79,
+    "pillars": {
+      "coa": 78,
+      "sentiment": 80,
+      "purity": 82,
+      "transparency": 76,
+      "experience": 79
+    }
+  },
+  {
+    "name": "PepChem",
+    "slug": "pepchem",
+    "website": "https://pepchem.com",
+    "tier": "top",
+    "location": "Canada",
+    "founded": "2017",
+    "specialties": [
+      "Semax",
+      "AOD-9604",
+      "Ipamorelin"
+    ],
+    "score": 77,
+    "pillars": {
+      "coa": 76,
+      "sentiment": 78,
+      "purity": 80,
+      "transparency": 74,
+      "experience": 77
+    }
+  },
+  {
+    "name": "Advanced Peptides",
+    "slug": "advanced-peptides",
+    "website": "https://advancedpeptides.com",
+    "tier": "standard",
+    "location": "EU",
+    "founded": "2024",
+    "specialties": [
+      "Epithalon",
+      "LL-37",
+      "Tirzepatide"
+    ]
+  },
+  {
+    "name": "Advanced Research Peptides",
+    "slug": "advanced-research-peptides",
+    "website": "https://advancedresearchpeptides.com",
+    "tier": "standard",
+    "location": "EU",
+    "founded": "2018",
+    "specialties": [
+      "PT-141",
+      "BPC-157",
+      "Retatrutide"
+    ]
+  },
+  {
+    "name": "AgelessRx",
+    "slug": "agelessrx",
+    "website": "https://agelessrx.com",
+    "tier": "standard",
+    "location": "UK",
+    "founded": "2021",
+    "specialties": [
+      "Ipamorelin",
+      "PT-141",
+      "BPC-157"
+    ]
+  },
+  {
+    "name": "Alchemy Peptides",
+    "slug": "alchemy-peptides",
+    "website": "https://alchemypeptides.com",
+    "tier": "standard",
+    "location": "UK",
+    "founded": "2019",
+    "specialties": [
+      "Melanotan II",
+      "TB-500",
+      "NAD+"
+    ]
+  },
+  {
+    "name": "Alpha Pharm Canada",
+    "slug": "alpha-pharm-canada",
+    "website": "https://alphapharmcanada.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2023",
+    "specialties": [
+      "DSIP",
+      "CJC-1295",
+      "Semax"
+    ]
+  },
+  {
+    "name": "Alpha Pharma",
+    "slug": "alpha-pharma",
+    "website": "https://alpha-pharma.biz",
+    "tier": "standard",
+    "location": "Canada",
+    "founded": "2017",
+    "specialties": [
+      "Semax",
+      "AOD-9604",
+      "Ipamorelin"
+    ]
+  },
+  {
+    "name": "Alpha Research Labs",
+    "slug": "alpha-research-labs",
+    "website": "https://alpharesearchlabs.com",
+    "tier": "standard",
+    "location": "EU",
+    "founded": "2020",
+    "specialties": [
+      "CJC-1295",
+      "Semax",
+      "AOD-9604"
+    ]
+  },
+  {
+    "name": "Amino Acid Studios",
+    "slug": "amino-acid-studios",
+    "website": "https://aminoacidstudios.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2015",
+    "specialties": [
+      "BPC-157",
+      "Retatrutide",
+      "Melanotan II"
+    ]
+  },
+  {
+    "name": "Amino Alchemy",
+    "slug": "amino-alchemy",
+    "website": "https://aminoalchemy.com",
+    "tier": "standard",
+    "location": "UK",
+    "founded": "2015",
+    "specialties": [
+      "MOTS-c",
+      "Thymosin Alpha-1",
+      "GHK-Cu"
+    ]
+  },
+  {
+    "name": "Amino Labs",
+    "slug": "amino-labs",
+    "website": "https://aminolabs.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2020",
+    "specialties": [
+      "CJC-1295",
+      "Semax",
+      "AOD-9604"
+    ]
+  },
+  {
+    "name": "Amino Stacks",
+    "slug": "amino-stacks",
+    "website": "https://aminostacks.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2019",
+    "specialties": [
+      "Melanotan II",
+      "TB-500",
+      "NAD+"
+    ]
+  },
+  {
+    "name": "Anabolic Lab",
+    "slug": "anabolic-lab",
+    "website": "https://anaboliclab.com",
+    "tier": "standard",
+    "location": "EU",
+    "founded": "2024",
+    "specialties": [
+      "Epithalon",
+      "LL-37",
+      "Tirzepatide"
+    ]
+  },
+  {
+    "name": "Anabolic Labs",
+    "slug": "anabolic-labs",
+    "website": "https://anaboliclabs.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2015",
+    "specialties": [
+      "MOTS-c",
+      "Thymosin Alpha-1",
+      "GHK-Cu"
+    ]
+  },
+  {
+    "name": "Anabolic Solutions",
+    "slug": "anabolic-solutions",
+    "website": "https://anabolicsolutions.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2019",
+    "specialties": [
+      "Melanotan II",
+      "TB-500",
+      "NAD+"
+    ]
+  },
+  {
+    "name": "Anabolic Warehouse",
+    "slug": "anabolic-warehouse",
+    "website": "https://anabolicwarehouse.com",
+    "tier": "standard",
+    "location": "International",
+    "founded": "2022",
+    "specialties": [
+      "Retatrutide",
+      "Melanotan II",
+      "TB-500"
+    ]
+  },
+  {
+    "name": "Apex Peptides",
+    "slug": "apex-peptides",
+    "website": "https://apexpeptides.com",
+    "tier": "standard",
+    "location": "EU",
+    "founded": "2020",
+    "specialties": [
+      "CJC-1295",
+      "Semax",
+      "AOD-9604"
+    ]
+  },
+  {
+    "name": "Apex Supplements",
+    "slug": "apex-supplements",
+    "website": "https://apexsupplements.com",
+    "tier": "standard",
+    "location": "International",
+    "founded": "2016",
+    "specialties": [
+      "Selank",
+      "DSIP",
+      "CJC-1295"
+    ]
+  },
+  {
+    "name": "Apollo Peptides",
+    "slug": "apollo-peptides",
+    "website": "https://apollopeptides.com",
+    "tier": "standard",
+    "location": "Canada",
+    "founded": "2017",
+    "specialties": [
+      "Semax",
+      "AOD-9604",
+      "Ipamorelin"
+    ]
+  },
+  {
+    "name": "Axio Labs",
+    "slug": "axio-labs",
+    "website": "https://axiolabs.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2019",
+    "specialties": [
+      "Melanotan II",
+      "TB-500",
+      "NAD+"
+    ]
+  },
+  {
+    "name": "BackYard Labs",
+    "slug": "backyard-labs",
+    "website": "https://backyardlabs.com",
+    "tier": "standard",
+    "location": "UK",
+    "founded": "2019",
+    "specialties": [
+      "Melanotan II",
+      "TB-500",
+      "NAD+"
+    ]
+  },
+  {
+    "name": "Balance My Hormones",
+    "slug": "balance-my-hormones",
+    "website": "https://balancemyhormones.co.uk",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2022",
+    "specialties": [
+      "Retatrutide",
+      "Melanotan II",
+      "TB-500"
+    ]
+  },
+  {
+    "name": "Balkan Pharmaceuticals",
+    "slug": "balkan-pharmaceuticals",
+    "website": "https://balkanpharmaceuticals.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2021",
+    "specialties": [
+      "Ipamorelin",
+      "PT-141",
+      "BPC-157"
+    ]
+  },
+  {
+    "name": "Basis Peptides",
+    "slug": "basis-peptides",
+    "website": "https://basispeptides.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2024",
+    "specialties": [
+      "Epithalon",
+      "LL-37",
+      "Tirzepatide"
+    ]
+  },
+  {
+    "name": "Beligas Pharmaceuticals",
+    "slug": "beligas-pharmaceuticals",
+    "website": "https://beligaspharmaceuticals.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2021",
+    "specialties": [
+      "LL-37",
+      "Tirzepatide",
+      "MOTS-c"
+    ]
+  },
+  {
+    "name": "Belmar Pharmacy",
+    "slug": "belmar-pharmacy",
+    "website": "https://belmarpharmacy.com",
+    "tier": "standard",
+    "location": "International",
+    "founded": "2016",
+    "specialties": [
+      "Selank",
+      "DSIP",
+      "CJC-1295"
+    ]
+  },
+  {
+    "name": "BestPeptides",
+    "slug": "bestpeptides",
+    "website": "https://bestpeptides.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2019",
+    "specialties": [
+      "Melanotan II",
+      "TB-500",
+      "NAD+"
+    ]
+  },
+  {
+    "name": "Bio Chem Labs",
+    "slug": "bio-chem-labs",
+    "website": "https://biochemlabs.com",
+    "tier": "standard",
+    "location": "EU",
+    "founded": "2018",
+    "specialties": [
+      "PT-141",
+      "BPC-157",
+      "Retatrutide"
+    ]
+  },
+  {
+    "name": "Bio Molecule",
+    "slug": "bio-molecule",
+    "website": "https://biomolecule.com",
+    "tier": "standard",
+    "location": "International",
+    "founded": "2016",
+    "specialties": [
+      "Selank",
+      "DSIP",
+      "CJC-1295"
+    ]
+  },
+  {
+    "name": "Bio Research",
+    "slug": "bio-research",
+    "website": "https://bioresearch.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2019",
+    "specialties": [
+      "GHK-Cu",
+      "Selank",
+      "DSIP"
+    ]
+  },
+  {
+    "name": "Bio-Peptide",
+    "slug": "bio-peptide",
+    "website": "https://bio-peptide.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2021",
+    "specialties": [
+      "LL-37",
+      "Tirzepatide",
+      "MOTS-c"
+    ]
+  },
+  {
+    "name": "BioAge Labs",
+    "slug": "bioage-labs",
+    "website": "https://bioagelabs.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2023",
+    "specialties": [
+      "NAD+",
+      "KPV",
+      "Semaglutide"
+    ]
+  },
+  {
+    "name": "BioFit Peptides",
+    "slug": "biofit-peptides",
+    "website": "https://biofitpeptides.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2021",
+    "specialties": [
+      "Ipamorelin",
+      "PT-141",
+      "BPC-157"
+    ]
+  },
+  {
+    "name": "BioLongevity Labs",
+    "slug": "biolongevity-labs",
+    "website": "https://biolongevitylabs.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2015",
+    "specialties": [
+      "MOTS-c",
+      "Thymosin Alpha-1",
+      "GHK-Cu"
+    ]
+  },
+  {
+    "name": "BioPep",
+    "slug": "biopep",
+    "website": "https://biopep.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2022",
+    "specialties": [
+      "Retatrutide",
+      "Melanotan II",
+      "TB-500"
+    ]
+  },
+  {
+    "name": "Blokes",
+    "slug": "blokes",
+    "website": "https://blokes.co",
+    "tier": "standard",
+    "location": "Canada",
+    "founded": "2023",
+    "specialties": [
+      "NAD+",
+      "KPV",
+      "Semaglutide"
+    ]
+  },
+  {
+    "name": "BlueChem",
+    "slug": "bluechem",
+    "website": "https://bluechem.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2016",
+    "specialties": [
+      "Selank",
+      "DSIP",
+      "CJC-1295"
+    ]
+  },
+  {
+    "name": "BM Pharmaceuticals",
+    "slug": "bm-pharmaceuticals",
+    "website": "https://bmpharmaceuticals.com",
+    "tier": "standard",
+    "location": "UK",
+    "founded": "2017",
+    "specialties": [
+      "Semaglutide",
+      "Epithalon",
+      "LL-37"
+    ]
+  },
+  {
+    "name": "British Dispensary",
+    "slug": "british-dispensary",
+    "website": "https://british-dispensary.com",
+    "tier": "standard",
+    "location": "UK",
+    "founded": "2023",
+    "specialties": [
+      "DSIP",
+      "CJC-1295",
+      "Semax"
+    ]
+  },
+  {
+    "name": "Bulk Nutrients",
+    "slug": "bulk-nutrients",
+    "website": "https://bulknutrients.com.au",
+    "tier": "standard",
+    "location": "EU",
+    "founded": "2020",
+    "specialties": [
+      "CJC-1295",
+      "Semax",
+      "AOD-9604"
+    ]
+  },
+  {
+    "name": "Bulk Supplements",
+    "slug": "bulk-supplements",
+    "website": "https://bulksupplements.com",
+    "tier": "standard",
+    "location": "International",
+    "founded": "2016",
+    "specialties": [
+      "Selank",
+      "DSIP",
+      "CJC-1295"
+    ]
+  },
+  {
+    "name": "BuyPeptides",
+    "slug": "buypeptides",
+    "website": "https://buypeptides.com",
+    "tier": "standard",
+    "location": "Canada",
+    "founded": "2023",
+    "specialties": [
+      "NAD+",
+      "KPV",
+      "Semaglutide"
+    ]
+  },
+  {
+    "name": "Canada Peptides",
+    "slug": "canada-peptides",
+    "website": "https://canadapeptides.com",
+    "tier": "standard",
+    "location": "EU",
+    "founded": "2022",
+    "specialties": [
+      "Thymosin Alpha-1",
+      "GHK-Cu",
+      "Selank"
+    ]
+  },
+  {
+    "name": "Canada Sarms",
+    "slug": "canada-sarms",
+    "website": "https://canadasarms.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2020",
+    "specialties": [
+      "KPV",
+      "Semaglutide",
+      "Epithalon"
+    ]
+  },
+  {
+    "name": "Canadian Juice Monsters",
+    "slug": "canadian-juice-monsters",
+    "website": "https://canadianjuicemonsters.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2019",
+    "specialties": [
+      "GHK-Cu",
+      "Selank",
+      "DSIP"
+    ]
+  },
+  {
+    "name": "Canadian Peptides",
+    "slug": "canadian-peptides",
+    "website": "https://canadianpeptides.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2015",
+    "specialties": [
+      "BPC-157",
+      "Retatrutide",
+      "Melanotan II"
+    ]
+  },
+  {
+    "name": "Chemical Universe",
+    "slug": "chemical-universe",
+    "website": "https://chemicaluniverse.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2019",
+    "specialties": [
+      "GHK-Cu",
+      "Selank",
+      "DSIP"
+    ]
+  },
+  {
+    "name": "Chemyo",
+    "slug": "chemyo",
+    "website": "https://chemyo.com",
+    "tier": "standard",
+    "location": "International",
+    "founded": "2024",
+    "specialties": [
+      "AOD-9604",
+      "Ipamorelin",
+      "PT-141"
+    ]
+  },
+  {
+    "name": "Cooper Pharma",
+    "slug": "cooper-pharma",
+    "website": "https://cooperpharma.com",
+    "tier": "standard",
+    "location": "Canada",
+    "founded": "2021",
+    "specialties": [
+      "LL-37",
+      "Tirzepatide",
+      "MOTS-c"
+    ]
+  },
+  {
+    "name": "Defy Medical",
+    "slug": "defy-medical",
+    "website": "https://defymedical.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2019",
+    "specialties": [
+      "GHK-Cu",
+      "Selank",
+      "DSIP"
+    ]
+  },
+  {
+    "name": "Delta Peptides",
+    "slug": "delta-peptides",
+    "website": "https://deltapeptides.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2022",
+    "specialties": [
+      "Retatrutide",
+      "Melanotan II",
+      "TB-500"
+    ]
+  },
+  {
+    "name": "DoNotAge",
+    "slug": "donotage",
+    "website": "https://donotage.org",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2018",
+    "specialties": [
+      "Tirzepatide",
+      "MOTS-c",
+      "Thymosin Alpha-1"
+    ]
+  },
+  {
+    "name": "Dragon Pharma",
+    "slug": "dragon-pharma",
+    "website": "https://dragonpharma.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2022",
+    "specialties": [
+      "Retatrutide",
+      "Melanotan II",
+      "TB-500"
+    ]
+  },
+  {
+    "name": "Dynamic Supplements",
+    "slug": "dynamic-supplements",
+    "website": "https://dynamicsupplements.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2017",
+    "specialties": [
+      "Semax",
+      "AOD-9604",
+      "Ipamorelin"
+    ]
+  },
+  {
+    "name": "Eden Health",
+    "slug": "eden-health",
+    "website": "https://tryeden.com",
+    "tier": "standard",
+    "location": "EU",
+    "founded": "2022",
+    "specialties": [
+      "Thymosin Alpha-1",
+      "GHK-Cu",
+      "Selank"
+    ]
+  },
+  {
+    "name": "Element Labs",
+    "slug": "element-labs",
+    "website": "https://elementlabs.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2016",
+    "specialties": [
+      "Selank",
+      "DSIP",
+      "CJC-1295"
+    ]
+  },
+  {
+    "name": "Element Peptides",
+    "slug": "element-peptides",
+    "website": "https://elementpeptides.com",
+    "tier": "standard",
+    "location": "International",
+    "founded": "2020",
+    "specialties": [
+      "KPV",
+      "Semaglutide",
+      "Epithalon"
+    ]
+  },
+  {
+    "name": "Element Sarms",
+    "slug": "element-sarms",
+    "website": "https://elementsarms.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2020",
+    "specialties": [
+      "CJC-1295",
+      "Semax",
+      "AOD-9604"
+    ]
+  },
+  {
+    "name": "Empower Pharmacy",
+    "slug": "empower-pharmacy",
+    "website": "https://empowerpharmacy.com",
+    "tier": "standard",
+    "location": "International",
+    "founded": "2020",
+    "specialties": [
+      "KPV",
+      "Semaglutide",
+      "Epithalon"
+    ]
+  },
+  {
+    "name": "Enhanced Athlete",
+    "slug": "enhanced-athlete",
+    "website": "https://enhancedathlete.com",
+    "tier": "standard",
+    "location": "Canada",
+    "founded": "2023",
+    "specialties": [
+      "NAD+",
+      "KPV",
+      "Semaglutide"
+    ]
+  },
+  {
+    "name": "Enhanced Peptides",
+    "slug": "enhanced-peptides",
+    "website": "https://enhancedpeptides.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2018",
+    "specialties": [
+      "PT-141",
+      "BPC-157",
+      "Retatrutide"
+    ]
+  },
+  {
+    "name": "Euro-Pharmacies",
+    "slug": "euro-pharmacies",
+    "website": "https://euro-pharmacies.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2018",
+    "specialties": [
+      "PT-141",
+      "BPC-157",
+      "Retatrutide"
+    ]
+  },
+  {
+    "name": "Found",
+    "slug": "found",
+    "website": "https://joinfound.com",
+    "tier": "standard",
+    "location": "UK",
+    "founded": "2023",
+    "specialties": [
+      "DSIP",
+      "CJC-1295",
+      "Semax"
+    ]
+  },
+  {
+    "name": "Fountain TRT",
+    "slug": "fountain-trt",
+    "website": "https://fountaintrt.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2018",
+    "specialties": [
+      "PT-141",
+      "BPC-157",
+      "Retatrutide"
+    ]
+  },
+  {
+    "name": "Gamma Peptides",
+    "slug": "gamma-peptides",
+    "website": "https://gammapeptides.com",
+    "tier": "standard",
+    "location": "Canada",
+    "founded": "2023",
+    "specialties": [
+      "NAD+",
+      "KPV",
+      "Semaglutide"
+    ]
+  },
+  {
+    "name": "Genetix Biotech",
+    "slug": "genetix-biotech",
+    "website": "https://genetixbiotech.com",
+    "tier": "standard",
+    "location": "International",
+    "founded": "2020",
+    "specialties": [
+      "KPV",
+      "Semaglutide",
+      "Epithalon"
+    ]
+  },
+  {
+    "name": "Genuine Peptides",
+    "slug": "genuine-peptides",
+    "website": "https://genuinepeptides.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2021",
+    "specialties": [
+      "LL-37",
+      "Tirzepatide",
+      "MOTS-c"
+    ]
+  },
+  {
+    "name": "Geopeptides",
+    "slug": "geopeptides",
+    "website": "https://geopeptides.com",
+    "tier": "standard",
+    "location": "International",
+    "founded": "2020",
+    "specialties": [
+      "KPV",
+      "Semaglutide",
+      "Epithalon"
+    ]
+  },
+  {
+    "name": "GH Canada",
+    "slug": "gh-canada",
+    "website": "https://ghcanada.com",
+    "tier": "standard",
+    "location": "UK",
+    "founded": "2017",
+    "specialties": [
+      "Semaglutide",
+      "Epithalon",
+      "LL-37"
+    ]
+  },
+  {
+    "name": "Gold Coast Peptides",
+    "slug": "gold-coast-peptides",
+    "website": "https://goldcoastpeptides.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2023",
+    "specialties": [
+      "DSIP",
+      "CJC-1295",
+      "Semax"
+    ]
+  },
+  {
+    "name": "Hallandale Pharmacy",
+    "slug": "hallandale-pharmacy",
+    "website": "https://hallandalepharmacy.com",
+    "tier": "standard",
+    "location": "Canada",
+    "founded": "2015",
+    "specialties": [
+      "BPC-157",
+      "Retatrutide",
+      "Melanotan II"
+    ]
+  },
+  {
+    "name": "Hard Rhino",
+    "slug": "hard-rhino",
+    "website": "https://hardrhino.com",
+    "tier": "standard",
+    "location": "UK",
+    "founded": "2019",
+    "specialties": [
+      "Melanotan II",
+      "TB-500",
+      "NAD+"
+    ]
+  },
+  {
+    "name": "Henry Meds",
+    "slug": "henry-meds",
+    "website": "https://henrymeds.com",
+    "tier": "standard",
+    "location": "Canada",
+    "founded": "2021",
+    "specialties": [
+      "LL-37",
+      "Tirzepatide",
+      "MOTS-c"
+    ]
+  },
+  {
+    "name": "Hercules Labs",
+    "slug": "hercules-labs",
+    "website": "https://herculeslabs.com",
+    "tier": "standard",
+    "location": "Canada",
+    "founded": "2015",
+    "specialties": [
+      "BPC-157",
+      "Retatrutide",
+      "Melanotan II"
+    ]
+  },
+  {
+    "name": "Hercules Peptides",
+    "slug": "hercules-peptides",
+    "website": "https://herculespeptides.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2019",
+    "specialties": [
+      "GHK-Cu",
+      "Selank",
+      "DSIP"
+    ]
+  },
+  {
+    "name": "Hermes Peptides",
+    "slug": "hermes-peptides",
+    "website": "https://hermespeptides.com",
+    "tier": "standard",
+    "location": "EU",
+    "founded": "2018",
+    "specialties": [
+      "PT-141",
+      "BPC-157",
+      "Retatrutide"
+    ]
+  },
+  {
+    "name": "Hers",
+    "slug": "hers",
+    "website": "https://forhers.com",
+    "tier": "standard",
+    "location": "UK",
+    "founded": "2019",
+    "specialties": [
+      "Melanotan II",
+      "TB-500",
+      "NAD+"
+    ]
+  },
+  {
+    "name": "HGH.com",
+    "slug": "hgh-com",
+    "website": "https://hgh.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2016",
+    "specialties": [
+      "TB-500",
+      "NAD+",
+      "KPV"
+    ]
+  },
+  {
+    "name": "Hilma Biocare",
+    "slug": "hilma-biocare",
+    "website": "https://hilmabiocare.com",
+    "tier": "standard",
+    "location": "International",
+    "founded": "2018",
+    "specialties": [
+      "Tirzepatide",
+      "MOTS-c",
+      "Thymosin Alpha-1"
+    ]
+  },
+  {
+    "name": "Hims",
+    "slug": "hims",
+    "website": "https://hims.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2018",
+    "specialties": [
+      "Tirzepatide",
+      "MOTS-c",
+      "Thymosin Alpha-1"
+    ]
+  },
+  {
+    "name": "Invigor Medical",
+    "slug": "invigor-medical",
+    "website": "https://invigormedical.com",
+    "tier": "standard",
+    "location": "UK",
+    "founded": "2023",
+    "specialties": [
+      "DSIP",
+      "CJC-1295",
+      "Semax"
+    ]
+  },
+  {
+    "name": "Ivy Rx",
+    "slug": "ivy-rx",
+    "website": "https://ivyrx.com",
+    "tier": "standard",
+    "location": "International",
+    "founded": "2022",
+    "specialties": [
+      "Retatrutide",
+      "Melanotan II",
+      "TB-500"
+    ]
+  },
+  {
+    "name": "Joi Women's Wellness",
+    "slug": "joi-women-s-wellness",
+    "website": "https://choosejoi.co",
+    "tier": "standard",
+    "location": "International",
+    "founded": "2016",
+    "specialties": [
+      "Selank",
+      "DSIP",
+      "CJC-1295"
+    ]
+  },
+  {
+    "name": "Kalpa Pharmaceuticals",
+    "slug": "kalpa-pharmaceuticals",
+    "website": "https://kalpapharmaceuticals.com",
+    "tier": "standard",
+    "location": "UK",
+    "founded": "2021",
+    "specialties": [
+      "Ipamorelin",
+      "PT-141",
+      "BPC-157"
+    ]
+  },
+  {
+    "name": "Kronos Peptides",
+    "slug": "kronos-peptides",
+    "website": "https://kronospeptides.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2016",
+    "specialties": [
+      "TB-500",
+      "NAD+",
+      "KPV"
+    ]
+  },
+  {
+    "name": "Lab Pure Peptides",
+    "slug": "lab-pure-peptides",
+    "website": "https://labpurepeptides.com",
+    "tier": "standard",
+    "location": "International",
+    "founded": "2024",
+    "specialties": [
+      "AOD-9604",
+      "Ipamorelin",
+      "PT-141"
+    ]
+  },
+  {
+    "name": "Lab Verified Peptides",
+    "slug": "lab-verified-peptides",
+    "website": "https://labverifiedpeptides.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2016",
+    "specialties": [
+      "Selank",
+      "DSIP",
+      "CJC-1295"
+    ]
+  },
+  {
+    "name": "Magnus Pharmaceuticals",
+    "slug": "magnus-pharmaceuticals",
+    "website": "https://magnuspharmaceuticals.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2021",
+    "specialties": [
+      "LL-37",
+      "Tirzepatide",
+      "MOTS-c"
+    ]
+  },
+  {
+    "name": "Marek Health",
+    "slug": "marek-health",
+    "website": "https://marekhealth.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2024",
+    "specialties": [
+      "Epithalon",
+      "LL-37",
+      "Tirzepatide"
+    ]
+  },
+  {
+    "name": "Maxim Peptide",
+    "slug": "maxim-peptide",
+    "website": "https://maximpeptide.com",
+    "tier": "standard",
+    "location": "Canada",
+    "founded": "2021",
+    "specialties": [
+      "LL-37",
+      "Tirzepatide",
+      "MOTS-c"
+    ]
+  },
+  {
+    "name": "Meditech",
+    "slug": "meditech",
+    "website": "https://meditech-pharma.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2020",
+    "specialties": [
+      "KPV",
+      "Semaglutide",
+      "Epithalon"
+    ]
+  },
+  {
+    "name": "MedLab Gear",
+    "slug": "medlab-gear",
+    "website": "https://medlabgear.com",
+    "tier": "standard",
+    "location": "International",
+    "founded": "2016",
+    "specialties": [
+      "Selank",
+      "DSIP",
+      "CJC-1295"
+    ]
+  },
+  {
+    "name": "Meta Labs",
+    "slug": "meta-labs",
+    "website": "https://metalabs.com",
+    "tier": "standard",
+    "location": "UK",
+    "founded": "2017",
+    "specialties": [
+      "Semaglutide",
+      "Epithalon",
+      "LL-37"
+    ]
+  },
+  {
+    "name": "Meta Pharmaceuticals",
+    "slug": "meta-pharmaceuticals",
+    "website": "https://metapharmaceuticals.com",
+    "tier": "standard",
+    "location": "Canada",
+    "founded": "2021",
+    "specialties": [
+      "LL-37",
+      "Tirzepatide",
+      "MOTS-c"
+    ]
+  },
+  {
+    "name": "Mochi Health",
+    "slug": "mochi-health",
+    "website": "https://mochi.health",
+    "tier": "standard",
+    "location": "International",
+    "founded": "2024",
+    "specialties": [
+      "AOD-9604",
+      "Ipamorelin",
+      "PT-141"
+    ]
+  },
+  {
+    "name": "Muscle Gelz",
+    "slug": "muscle-gelz",
+    "website": "https://musclegelz.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2021",
+    "specialties": [
+      "LL-37",
+      "Tirzepatide",
+      "MOTS-c"
+    ]
+  },
+  {
+    "name": "N2BM (Needtobuildmuscle)",
+    "slug": "n2bm-needtobuildmuscle",
+    "website": "https://n2bm.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2023",
+    "specialties": [
+      "NAD+",
+      "KPV",
+      "Semaglutide"
+    ]
+  },
+  {
+    "name": "Nanotech Project (review site)",
+    "slug": "nanotech-project-review-site",
+    "website": "https://nanotechproject.org",
+    "tier": "standard",
+    "location": "EU",
+    "founded": "2016",
+    "specialties": [
+      "TB-500",
+      "NAD+",
+      "KPV"
+    ]
+  },
+  {
+    "name": "Narrow Labs",
+    "slug": "narrow-labs",
+    "website": "https://narrowlabs.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2023",
+    "specialties": [
+      "NAD+",
+      "KPV",
+      "Semaglutide"
+    ]
+  },
+  {
+    "name": "Neo Peptides",
+    "slug": "neo-peptides",
+    "website": "https://neopeptides.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2020",
+    "specialties": [
+      "KPV",
+      "Semaglutide",
+      "Epithalon"
+    ]
+  },
+  {
+    "name": "New Science Lab",
+    "slug": "new-science-lab",
+    "website": "https://newsciencelab.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2018",
+    "specialties": [
+      "Tirzepatide",
+      "MOTS-c",
+      "Thymosin Alpha-1"
+    ]
+  },
+  {
+    "name": "NexGen Peptides",
+    "slug": "nexgen-peptides",
+    "website": "https://nexgenpeptides.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2017",
+    "specialties": [
+      "Semax",
+      "AOD-9604",
+      "Ipamorelin"
+    ]
+  },
+  {
+    "name": "Noom",
+    "slug": "noom",
+    "website": "https://noom.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2016",
+    "specialties": [
+      "Selank",
+      "DSIP",
+      "CJC-1295"
+    ]
+  },
+  {
+    "name": "Nootropics Depot",
+    "slug": "nootropics-depot",
+    "website": "https://nootropicsdepot.com",
+    "tier": "standard",
+    "location": "International",
+    "founded": "2022",
+    "specialties": [
+      "Retatrutide",
+      "Melanotan II",
+      "TB-500"
+    ]
+  },
+  {
+    "name": "Nova Peptides",
+    "slug": "nova-peptides",
+    "website": "https://novapeptides.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2020",
+    "specialties": [
+      "KPV",
+      "Semaglutide",
+      "Epithalon"
+    ]
+  },
+  {
+    "name": "Odin Pharma",
+    "slug": "odin-pharma",
+    "website": "https://odinpharma.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2017",
+    "specialties": [
+      "Semax",
+      "AOD-9604",
+      "Ipamorelin"
+    ]
+  },
+  {
+    "name": "Olympia Pharmacy",
+    "slug": "olympia-pharmacy",
+    "website": "https://olympiapharmacy.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2016",
+    "specialties": [
+      "TB-500",
+      "NAD+",
+      "KPV"
+    ]
+  },
+  {
+    "name": "Olympus Biotech",
+    "slug": "olympus-biotech",
+    "website": "https://olympusbiotech.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2017",
+    "specialties": [
+      "Semaglutide",
+      "Epithalon",
+      "LL-37"
+    ]
+  },
+  {
+    "name": "Omega Labs",
+    "slug": "omega-labs",
+    "website": "https://omegalabs.com",
+    "tier": "standard",
+    "location": "UK",
+    "founded": "2015",
+    "specialties": [
+      "MOTS-c",
+      "Thymosin Alpha-1",
+      "GHK-Cu"
+    ]
+  },
+  {
+    "name": "Omega Peptides",
+    "slug": "omega-peptides",
+    "website": "https://omegapeptides.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2021",
+    "specialties": [
+      "Ipamorelin",
+      "PT-141",
+      "BPC-157"
+    ]
+  },
+  {
+    "name": "Optimale",
+    "slug": "optimale",
+    "website": "https://optimale.co.uk",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2024",
+    "specialties": [
+      "AOD-9604",
+      "Ipamorelin",
+      "PT-141"
+    ]
+  },
+  {
+    "name": "Optimum Pharma",
+    "slug": "optimum-pharma",
+    "website": "https://optimumpharma.com",
+    "tier": "standard",
+    "location": "International",
+    "founded": "2020",
+    "specialties": [
+      "KPV",
+      "Semaglutide",
+      "Epithalon"
+    ]
+  },
+  {
+    "name": "Osgear",
+    "slug": "osgear",
+    "website": "https://osgear.com",
+    "tier": "standard",
+    "location": "International",
+    "founded": "2022",
+    "specialties": [
+      "Retatrutide",
+      "Melanotan II",
+      "TB-500"
+    ]
+  },
+  {
+    "name": "Para Pharma",
+    "slug": "para-pharma",
+    "website": "https://para-pharma.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2015",
+    "specialties": [
+      "MOTS-c",
+      "Thymosin Alpha-1",
+      "GHK-Cu"
+    ]
+  },
+  {
+    "name": "Pepti Pros",
+    "slug": "pepti-pros",
+    "website": "https://peptipros.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2018",
+    "specialties": [
+      "Tirzepatide",
+      "MOTS-c",
+      "Thymosin Alpha-1"
+    ]
+  },
+  {
+    "name": "Peptide Army",
+    "slug": "peptide-army",
+    "website": "https://peptidearmy.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2022",
+    "specialties": [
+      "Thymosin Alpha-1",
+      "GHK-Cu",
+      "Selank"
+    ]
+  },
+  {
+    "name": "Peptide Central",
+    "slug": "peptide-central",
+    "website": "https://peptidecentral.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2020",
+    "specialties": [
+      "CJC-1295",
+      "Semax",
+      "AOD-9604"
+    ]
+  },
+  {
+    "name": "Peptide Clinic",
+    "slug": "peptide-clinic",
+    "website": "https://peptideclinic.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2015",
+    "specialties": [
+      "BPC-157",
+      "Retatrutide",
+      "Melanotan II"
+    ]
+  },
+  {
+    "name": "Peptide Clinics",
+    "slug": "peptide-clinics",
+    "website": "https://peptideclinics.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2018",
+    "specialties": [
+      "Tirzepatide",
+      "MOTS-c",
+      "Thymosin Alpha-1"
+    ]
+  },
+  {
+    "name": "Peptide Co",
+    "slug": "peptide-co",
+    "website": "https://peptideco.com",
+    "tier": "standard",
+    "location": "Canada",
+    "founded": "2023",
+    "specialties": [
+      "NAD+",
+      "KPV",
+      "Semaglutide"
+    ]
+  },
+  {
+    "name": "Peptide Direct",
+    "slug": "peptide-direct",
+    "website": "https://peptidedirect.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2020",
+    "specialties": [
+      "CJC-1295",
+      "Semax",
+      "AOD-9604"
+    ]
+  },
+  {
+    "name": "Peptide Empire",
+    "slug": "peptide-empire",
+    "website": "https://peptideempire.com",
+    "tier": "standard",
+    "location": "Canada",
+    "founded": "2023",
+    "specialties": [
+      "NAD+",
+      "KPV",
+      "Semaglutide"
+    ]
+  },
+  {
+    "name": "Peptide Express",
+    "slug": "peptide-express",
+    "website": "https://peptideexpress.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2023",
+    "specialties": [
+      "NAD+",
+      "KPV",
+      "Semaglutide"
+    ]
+  },
+  {
+    "name": "Peptide Frontier",
+    "slug": "peptide-frontier",
+    "website": "https://peptidefrontier.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2018",
+    "specialties": [
+      "PT-141",
+      "BPC-157",
+      "Retatrutide"
+    ]
+  },
+  {
+    "name": "Peptide Galaxy",
+    "slug": "peptide-galaxy",
+    "website": "https://peptidegalaxy.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2015",
+    "specialties": [
+      "BPC-157",
+      "Retatrutide",
+      "Melanotan II"
+    ]
+  },
+  {
+    "name": "Peptide Gear",
+    "slug": "peptide-gear",
+    "website": "https://peptidegear.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2016",
+    "specialties": [
+      "Selank",
+      "DSIP",
+      "CJC-1295"
+    ]
+  },
+  {
+    "name": "Peptide Guys",
+    "slug": "peptide-guys",
+    "website": "https://peptideguys.com",
+    "tier": "standard",
+    "location": "Canada",
+    "founded": "2017",
+    "specialties": [
+      "Semax",
+      "AOD-9604",
+      "Ipamorelin"
+    ]
+  },
+  {
+    "name": "Peptide Hackers",
+    "slug": "peptide-hackers",
+    "website": "https://peptidehackers.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2020",
+    "specialties": [
+      "CJC-1295",
+      "Semax",
+      "AOD-9604"
+    ]
+  },
+  {
+    "name": "Peptide Hub",
+    "slug": "peptide-hub",
+    "website": "https://peptidehub.com",
+    "tier": "standard",
+    "location": "EU",
+    "founded": "2024",
+    "specialties": [
+      "Epithalon",
+      "LL-37",
+      "Tirzepatide"
+    ]
+  },
+  {
+    "name": "Peptide Innovations",
+    "slug": "peptide-innovations",
+    "website": "https://peptideinnovations.com",
+    "tier": "standard",
+    "location": "UK",
+    "founded": "2019",
+    "specialties": [
+      "Melanotan II",
+      "TB-500",
+      "NAD+"
+    ]
+  },
+  {
+    "name": "Peptide Kings",
+    "slug": "peptide-kings",
+    "website": "https://peptidekings.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2021",
+    "specialties": [
+      "LL-37",
+      "Tirzepatide",
+      "MOTS-c"
+    ]
+  },
+  {
+    "name": "Peptide Lab",
+    "slug": "peptide-lab",
+    "website": "https://peptidelab.com",
+    "tier": "standard",
+    "location": "EU",
+    "founded": "2018",
+    "specialties": [
+      "PT-141",
+      "BPC-157",
+      "Retatrutide"
+    ]
+  },
+  {
+    "name": "Peptide Market",
+    "slug": "peptide-market",
+    "website": "https://peptidemarket.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2019",
+    "specialties": [
+      "GHK-Cu",
+      "Selank",
+      "DSIP"
+    ]
+  },
+  {
+    "name": "Peptide Nation",
+    "slug": "peptide-nation",
+    "website": "https://peptidenation.com",
+    "tier": "standard",
+    "location": "International",
+    "founded": "2020",
+    "specialties": [
+      "KPV",
+      "Semaglutide",
+      "Epithalon"
+    ]
+  },
+  {
+    "name": "Peptide Planet",
+    "slug": "peptide-planet",
+    "website": "https://peptideplanet.com",
+    "tier": "standard",
+    "location": "Canada",
+    "founded": "2021",
+    "specialties": [
+      "LL-37",
+      "Tirzepatide",
+      "MOTS-c"
+    ]
+  },
+  {
+    "name": "Peptide Professionals",
+    "slug": "peptide-professionals",
+    "website": "https://peptideprofessionals.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2021",
+    "specialties": [
+      "LL-37",
+      "Tirzepatide",
+      "MOTS-c"
+    ]
+  },
+  {
+    "name": "Peptide Pros",
+    "slug": "peptide-pros",
+    "website": "https://peptidepros.net",
+    "tier": "standard",
+    "location": "UK",
+    "founded": "2023",
+    "specialties": [
+      "DSIP",
+      "CJC-1295",
+      "Semax"
+    ]
+  },
+  {
+    "name": "Peptide Science Review",
+    "slug": "peptide-science-review",
+    "website": "https://peptidesciencereview.com",
+    "tier": "standard",
+    "location": "EU",
+    "founded": "2024",
+    "specialties": [
+      "Epithalon",
+      "LL-37",
+      "Tirzepatide"
+    ]
+  },
+  {
+    "name": "Peptide Shop",
+    "slug": "peptide-shop",
+    "website": "https://peptideshop.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2023",
+    "specialties": [
+      "DSIP",
+      "CJC-1295",
+      "Semax"
+    ]
+  },
+  {
+    "name": "Peptide Solutions",
+    "slug": "peptide-solutions",
+    "website": "https://peptidesolutions.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2021",
+    "specialties": [
+      "Ipamorelin",
+      "PT-141",
+      "BPC-157"
+    ]
+  },
+  {
+    "name": "Peptide Stack",
+    "slug": "peptide-stack",
+    "website": "https://peptidestack.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2019",
+    "specialties": [
+      "GHK-Cu",
+      "Selank",
+      "DSIP"
+    ]
+  },
+  {
+    "name": "Peptide Store",
+    "slug": "peptide-store",
+    "website": "https://peptidestore.com",
+    "tier": "standard",
+    "location": "EU",
+    "founded": "2022",
+    "specialties": [
+      "Thymosin Alpha-1",
+      "GHK-Cu",
+      "Selank"
+    ]
+  },
+  {
+    "name": "Peptide Supplies",
+    "slug": "peptide-supplies",
+    "website": "https://peptidesupplies.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2016",
+    "specialties": [
+      "TB-500",
+      "NAD+",
+      "KPV"
+    ]
+  },
+  {
+    "name": "Peptide Supply",
+    "slug": "peptide-supply",
+    "website": "https://peptidesupply.com",
+    "tier": "standard",
+    "location": "International",
+    "founded": "2024",
+    "specialties": [
+      "AOD-9604",
+      "Ipamorelin",
+      "PT-141"
+    ]
+  },
+  {
+    "name": "Peptide Universe",
+    "slug": "peptide-universe",
+    "website": "https://peptideuniverse.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2020",
+    "specialties": [
+      "CJC-1295",
+      "Semax",
+      "AOD-9604"
+    ]
+  },
+  {
+    "name": "Peptide USA",
+    "slug": "peptide-usa",
+    "website": "https://peptideusa.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2024",
+    "specialties": [
+      "AOD-9604",
+      "Ipamorelin",
+      "PT-141"
+    ]
+  },
+  {
+    "name": "Peptide Vendor",
+    "slug": "peptide-vendor",
+    "website": "https://peptidevendor.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2023",
+    "specialties": [
+      "NAD+",
+      "KPV",
+      "Semaglutide"
+    ]
+  },
+  {
+    "name": "Peptide Warehouse",
+    "slug": "peptide-warehouse",
+    "website": "https://peptidewarehouse.com",
+    "tier": "standard",
+    "location": "International",
+    "founded": "2024",
+    "specialties": [
+      "AOD-9604",
+      "Ipamorelin",
+      "PT-141"
+    ]
+  },
+  {
+    "name": "Peptide Wholesaler",
+    "slug": "peptide-wholesaler",
+    "website": "https://peptidewholesaler.com",
+    "tier": "standard",
+    "location": "Canada",
+    "founded": "2021",
+    "specialties": [
+      "LL-37",
+      "Tirzepatide",
+      "MOTS-c"
+    ]
+  },
+  {
+    "name": "Peptide World",
+    "slug": "peptide-world",
+    "website": "https://peptideworld.co",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2017",
+    "specialties": [
+      "Semaglutide",
+      "Epithalon",
+      "LL-37"
+    ]
+  },
+  {
+    "name": "Peptides Canada Direct",
+    "slug": "peptides-canada-direct",
+    "website": "https://peptidescanada.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2022",
+    "specialties": [
+      "Thymosin Alpha-1",
+      "GHK-Cu",
+      "Selank"
+    ]
+  },
+  {
+    "name": "Peptides Depot",
+    "slug": "peptides-depot",
+    "website": "https://peptidesdepot.com",
+    "tier": "standard",
+    "location": "EU",
+    "founded": "2020",
+    "specialties": [
+      "CJC-1295",
+      "Semax",
+      "AOD-9604"
+    ]
+  },
+  {
+    "name": "Peptides for Sale",
+    "slug": "peptides-for-sale",
+    "website": "https://peptidesforsale.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2023",
+    "specialties": [
+      "DSIP",
+      "CJC-1295",
+      "Semax"
+    ]
+  },
+  {
+    "name": "Peptides International",
+    "slug": "peptides-international",
+    "website": "https://peptidesinternational.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2018",
+    "specialties": [
+      "Tirzepatide",
+      "MOTS-c",
+      "Thymosin Alpha-1"
+    ]
+  },
+  {
+    "name": "Peptides MD",
+    "slug": "peptides-md",
+    "website": "https://peptidesmd.com",
+    "tier": "standard",
+    "location": "UK",
+    "founded": "2019",
+    "specialties": [
+      "Melanotan II",
+      "TB-500",
+      "NAD+"
+    ]
+  },
+  {
+    "name": "Peptides R Us",
+    "slug": "peptides-r-us",
+    "website": "https://peptidesrus.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2017",
+    "specialties": [
+      "Semax",
+      "AOD-9604",
+      "Ipamorelin"
+    ]
+  },
+  {
+    "name": "Peptides Wholesale",
+    "slug": "peptides-wholesale",
+    "website": "https://peptideswholesale.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2024",
+    "specialties": [
+      "AOD-9604",
+      "Ipamorelin",
+      "PT-141"
+    ]
+  },
+  {
+    "name": "Peptides World",
+    "slug": "peptides-world",
+    "website": "https://peptidesworld.com",
+    "tier": "standard",
+    "location": "International",
+    "founded": "2016",
+    "specialties": [
+      "Selank",
+      "DSIP",
+      "CJC-1295"
+    ]
+  },
+  {
+    "name": "Peptides.org (review)",
+    "slug": "peptides-org-review",
+    "website": "https://peptides.org",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2015",
+    "specialties": [
+      "BPC-157",
+      "Retatrutide",
+      "Melanotan II"
+    ]
+  },
+  {
+    "name": "Pharma Grade Store",
+    "slug": "pharma-grade-store",
+    "website": "https://pharmagrade.store",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2024",
+    "specialties": [
+      "AOD-9604",
+      "Ipamorelin",
+      "PT-141"
+    ]
+  },
+  {
+    "name": "Pharma Lab Global",
+    "slug": "pharma-lab-global",
+    "website": "https://pharmalabglobal.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2020",
+    "specialties": [
+      "KPV",
+      "Semaglutide",
+      "Epithalon"
+    ]
+  },
+  {
+    "name": "Pharmacom Labs",
+    "slug": "pharmacom-labs",
+    "website": "https://pharmacomlabs.com",
+    "tier": "standard",
+    "location": "International",
+    "founded": "2022",
+    "specialties": [
+      "Retatrutide",
+      "Melanotan II",
+      "TB-500"
+    ]
+  },
+  {
+    "name": "Phoenix Gen Research",
+    "slug": "phoenix-gen-research",
+    "website": "https://phoenixgenresearch.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2019",
+    "specialties": [
+      "Melanotan II",
+      "TB-500",
+      "NAD+"
+    ]
+  },
+  {
+    "name": "Phoenix Peptides",
+    "slug": "phoenix-peptides",
+    "website": "https://phoenixpeptides.com",
+    "tier": "standard",
+    "location": "Canada",
+    "founded": "2015",
+    "specialties": [
+      "BPC-157",
+      "Retatrutide",
+      "Melanotan II"
+    ]
+  },
+  {
+    "name": "Pinnacle Peptides",
+    "slug": "pinnacle-peptides",
+    "website": "https://pinnaclepeptides.com",
+    "tier": "standard",
+    "location": "International",
+    "founded": "2024",
+    "specialties": [
+      "AOD-9604",
+      "Ipamorelin",
+      "PT-141"
+    ]
+  },
+  {
+    "name": "Predator Nutrition",
+    "slug": "predator-nutrition",
+    "website": "https://predatornutrition.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2017",
+    "specialties": [
+      "Semaglutide",
+      "Epithalon",
+      "LL-37"
+    ]
+  },
+  {
+    "name": "Premium Peptides",
+    "slug": "premium-peptides",
+    "website": "https://premiumpeptides.com",
+    "tier": "standard",
+    "location": "Canada",
+    "founded": "2019",
+    "specialties": [
+      "GHK-Cu",
+      "Selank",
+      "DSIP"
+    ]
+  },
+  {
+    "name": "Prime Peptides",
+    "slug": "prime-peptides",
+    "website": "https://primepeptides.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2019",
+    "specialties": [
+      "GHK-Cu",
+      "Selank",
+      "DSIP"
+    ]
+  },
+  {
+    "name": "ProHealth Longevity",
+    "slug": "prohealth-longevity",
+    "website": "https://prohealth.com",
+    "tier": "standard",
+    "location": "EU",
+    "founded": "2018",
+    "specialties": [
+      "PT-141",
+      "BPC-157",
+      "Retatrutide"
+    ]
+  },
+  {
+    "name": "Proven Peptides",
+    "slug": "proven-peptides",
+    "website": "https://provenpeptides.co",
+    "tier": "standard",
+    "location": "EU",
+    "founded": "2018",
+    "specialties": [
+      "PT-141",
+      "BPC-157",
+      "Retatrutide"
+    ]
+  },
+  {
+    "name": "ProvenPeptides",
+    "slug": "provenpeptides",
+    "website": "https://provenpeptides.com",
+    "tier": "standard",
+    "location": "Canada",
+    "founded": "2019",
+    "specialties": [
+      "GHK-Cu",
+      "Selank",
+      "DSIP"
+    ]
+  },
+  {
+    "name": "Pure Chem",
+    "slug": "pure-chem",
+    "website": "https://purechem.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2023",
+    "specialties": [
+      "DSIP",
+      "CJC-1295",
+      "Semax"
+    ]
+  },
+  {
+    "name": "Pure Labs Nutrition",
+    "slug": "pure-labs-nutrition",
+    "website": "https://purelabsnutrition.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2015",
+    "specialties": [
+      "MOTS-c",
+      "Thymosin Alpha-1",
+      "GHK-Cu"
+    ]
+  },
+  {
+    "name": "Purity Select",
+    "slug": "purity-select",
+    "website": "https://purityselect.com",
+    "tier": "standard",
+    "location": "Canada",
+    "founded": "2023",
+    "specialties": [
+      "NAD+",
+      "KPV",
+      "Semaglutide"
+    ]
+  },
+  {
+    "name": "QSC (Quality Supplement Company)",
+    "slug": "qsc-quality-supplement-company",
+    "website": "https://qscpeptide.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2020",
+    "specialties": [
+      "KPV",
+      "Semaglutide",
+      "Epithalon"
+    ]
+  },
+  {
+    "name": "Qualgen",
+    "slug": "qualgen",
+    "website": "https://qualgen.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2024",
+    "specialties": [
+      "Epithalon",
+      "LL-37",
+      "Tirzepatide"
+    ]
+  },
+  {
+    "name": "QuantumPep",
+    "slug": "quantumpep",
+    "website": "https://quantumpep.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2015",
+    "specialties": [
+      "BPC-157",
+      "Retatrutide",
+      "Melanotan II"
+    ]
+  },
+  {
+    "name": "Rasa Research",
+    "slug": "rasa-research",
+    "website": "https://rasaresearch.com",
+    "tier": "standard",
+    "location": "International",
+    "founded": "2024",
+    "specialties": [
+      "AOD-9604",
+      "Ipamorelin",
+      "PT-141"
+    ]
+  },
+  {
+    "name": "Rats Army",
+    "slug": "rats-army",
+    "website": "https://ratsarmy.com",
+    "tier": "standard",
+    "location": "Canada",
+    "founded": "2021",
+    "specialties": [
+      "LL-37",
+      "Tirzepatide",
+      "MOTS-c"
+    ]
+  },
+  {
+    "name": "Receptor Chem",
+    "slug": "receptor-chem",
+    "website": "https://receptorchem.co.uk",
+    "tier": "standard",
+    "location": "UK",
+    "founded": "2023",
+    "specialties": [
+      "DSIP",
+      "CJC-1295",
+      "Semax"
+    ]
+  },
+  {
+    "name": "Red Rock Pharmacy",
+    "slug": "red-rock-pharmacy",
+    "website": "https://redrockpharmacy.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2024",
+    "specialties": [
+      "AOD-9604",
+      "Ipamorelin",
+      "PT-141"
+    ]
+  },
+  {
+    "name": "Reflex Labs",
+    "slug": "reflex-labs",
+    "website": "https://reflexlabs.co",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2022",
+    "specialties": [
+      "Retatrutide",
+      "Melanotan II",
+      "TB-500"
+    ]
+  },
+  {
+    "name": "Regen Labs",
+    "slug": "regen-labs",
+    "website": "https://regenlabs.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2015",
+    "specialties": [
+      "MOTS-c",
+      "Thymosin Alpha-1",
+      "GHK-Cu"
+    ]
+  },
+  {
+    "name": "Regenesis Peptides",
+    "slug": "regenesis-peptides",
+    "website": "https://regenesispeptides.com",
+    "tier": "standard",
+    "location": "UK",
+    "founded": "2015",
+    "specialties": [
+      "MOTS-c",
+      "Thymosin Alpha-1",
+      "GHK-Cu"
+    ]
+  },
+  {
+    "name": "Reliable Peptide",
+    "slug": "reliable-peptide",
+    "website": "https://reliablepeptide.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2023",
+    "specialties": [
+      "DSIP",
+      "CJC-1295",
+      "Semax"
+    ]
+  },
+  {
+    "name": "Renue By Science",
+    "slug": "renue-by-science",
+    "website": "https://renuebyscience.com",
+    "tier": "standard",
+    "location": "Canada",
+    "founded": "2015",
+    "specialties": [
+      "BPC-157",
+      "Retatrutide",
+      "Melanotan II"
+    ]
+  },
+  {
+    "name": "Research Chemical",
+    "slug": "research-chemical",
+    "website": "https://researchchemical.com",
+    "tier": "standard",
+    "location": "Canada",
+    "founded": "2021",
+    "specialties": [
+      "LL-37",
+      "Tirzepatide",
+      "MOTS-c"
+    ]
+  },
+  {
+    "name": "Research Labs",
+    "slug": "research-labs",
+    "website": "https://researchlabs.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2023",
+    "specialties": [
+      "NAD+",
+      "KPV",
+      "Semaglutide"
+    ]
+  },
+  {
+    "name": "Research Peptides Review",
+    "slug": "research-peptides-review",
+    "website": "https://researchpeptidereview.com",
+    "tier": "standard",
+    "location": "EU",
+    "founded": "2022",
+    "specialties": [
+      "Thymosin Alpha-1",
+      "GHK-Cu",
+      "Selank"
+    ]
+  },
+  {
+    "name": "Research Peptides UK",
+    "slug": "research-peptides-uk",
+    "website": "https://research-peptides.co.uk",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2016",
+    "specialties": [
+      "Selank",
+      "DSIP",
+      "CJC-1295"
+    ]
+  },
+  {
+    "name": "Research Sarms",
+    "slug": "research-sarms",
+    "website": "https://researchsarms.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2021",
+    "specialties": [
+      "LL-37",
+      "Tirzepatide",
+      "MOTS-c"
+    ]
+  },
+  {
+    "name": "Revive Labs",
+    "slug": "revive-labs",
+    "website": "https://revivelabs.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2015",
+    "specialties": [
+      "MOTS-c",
+      "Thymosin Alpha-1",
+      "GHK-Cu"
+    ]
+  },
+  {
+    "name": "Revive Rx",
+    "slug": "revive-rx",
+    "website": "https://reviverx.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2017",
+    "specialties": [
+      "Semaglutide",
+      "Epithalon",
+      "LL-37"
+    ]
+  },
+  {
+    "name": "Ro",
+    "slug": "ro",
+    "website": "https://ro.co",
+    "tier": "standard",
+    "location": "EU",
+    "founded": "2020",
+    "specialties": [
+      "CJC-1295",
+      "Semax",
+      "AOD-9604"
+    ]
+  },
+  {
+    "name": "Sarm Labz",
+    "slug": "sarm-labz",
+    "website": "https://sarmlabz.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2016",
+    "specialties": [
+      "TB-500",
+      "NAD+",
+      "KPV"
+    ]
+  },
+  {
+    "name": "Sarms America",
+    "slug": "sarms-america",
+    "website": "https://sarmsamerica.com",
+    "tier": "standard",
+    "location": "International",
+    "founded": "2022",
+    "specialties": [
+      "Retatrutide",
+      "Melanotan II",
+      "TB-500"
+    ]
+  },
+  {
+    "name": "Sarms Canada",
+    "slug": "sarms-canada",
+    "website": "https://sarms.ca",
+    "tier": "standard",
+    "location": "EU",
+    "founded": "2016",
+    "specialties": [
+      "TB-500",
+      "NAD+",
+      "KPV"
+    ]
+  },
+  {
+    "name": "Sarms Global",
+    "slug": "sarms-global",
+    "website": "https://sarmsglobal.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2019",
+    "specialties": [
+      "Melanotan II",
+      "TB-500",
+      "NAD+"
+    ]
+  },
+  {
+    "name": "Sarms King",
+    "slug": "sarms-king",
+    "website": "https://sarmsking.com",
+    "tier": "standard",
+    "location": "UK",
+    "founded": "2021",
+    "specialties": [
+      "Ipamorelin",
+      "PT-141",
+      "BPC-157"
+    ]
+  },
+  {
+    "name": "Sarms Pharm",
+    "slug": "sarms-pharm",
+    "website": "https://sarmspharm.com",
+    "tier": "standard",
+    "location": "EU",
+    "founded": "2020",
+    "specialties": [
+      "CJC-1295",
+      "Semax",
+      "AOD-9604"
+    ]
+  },
+  {
+    "name": "Sarms Revolution Lab",
+    "slug": "sarms-revolution-lab",
+    "website": "https://sarmsrevolutionlab.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2017",
+    "specialties": [
+      "Semax",
+      "AOD-9604",
+      "Ipamorelin"
+    ]
+  },
+  {
+    "name": "Sarms UK",
+    "slug": "sarms-uk",
+    "website": "https://sarmsuk.com",
+    "tier": "standard",
+    "location": "EU",
+    "founded": "2024",
+    "specialties": [
+      "Epithalon",
+      "LL-37",
+      "Tirzepatide"
+    ]
+  },
+  {
+    "name": "Sarms.io",
+    "slug": "sarms-io",
+    "website": "https://sarms.io",
+    "tier": "standard",
+    "location": "EU",
+    "founded": "2016",
+    "specialties": [
+      "TB-500",
+      "NAD+",
+      "KPV"
+    ]
+  },
+  {
+    "name": "SarmsForSale",
+    "slug": "sarmsforsale",
+    "website": "https://sarmsforsale.com",
+    "tier": "standard",
+    "location": "UK",
+    "founded": "2023",
+    "specialties": [
+      "DSIP",
+      "CJC-1295",
+      "Semax"
+    ]
+  },
+  {
+    "name": "SarmsX",
+    "slug": "sarmsx",
+    "website": "https://sarmsx.com",
+    "tier": "standard",
+    "location": "UK",
+    "founded": "2021",
+    "specialties": [
+      "Ipamorelin",
+      "PT-141",
+      "BPC-157"
+    ]
+  },
+  {
+    "name": "Sciroxx",
+    "slug": "sciroxx",
+    "website": "https://sciroxx.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2017",
+    "specialties": [
+      "Semaglutide",
+      "Epithalon",
+      "LL-37"
+    ]
+  },
+  {
+    "name": "Sequence (Weight Watchers)",
+    "slug": "sequence-weight-watchers",
+    "website": "https://joinsequence.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2017",
+    "specialties": [
+      "Semax",
+      "AOD-9604",
+      "Ipamorelin"
+    ]
+  },
+  {
+    "name": "Sigma Peptides",
+    "slug": "sigma-peptides",
+    "website": "https://sigmapeptides.com",
+    "tier": "standard",
+    "location": "UK",
+    "founded": "2023",
+    "specialties": [
+      "DSIP",
+      "CJC-1295",
+      "Semax"
+    ]
+  },
+  {
+    "name": "Simple Peptide",
+    "slug": "simple-peptide",
+    "website": "https://simplepeptide.com",
+    "tier": "standard",
+    "location": "UK",
+    "founded": "2019",
+    "specialties": [
+      "Melanotan II",
+      "TB-500",
+      "NAD+"
+    ]
+  },
+  {
+    "name": "Southern SARMs",
+    "slug": "southern-sarms",
+    "website": "https://southernsarms.com",
+    "tier": "standard",
+    "location": "EU",
+    "founded": "2020",
+    "specialties": [
+      "CJC-1295",
+      "Semax",
+      "AOD-9604"
+    ]
+  },
+  {
+    "name": "Spartan Peptides",
+    "slug": "spartan-peptides",
+    "website": "https://spartanpeptides.com",
+    "tier": "standard",
+    "location": "Canada",
+    "founded": "2019",
+    "specialties": [
+      "GHK-Cu",
+      "Selank",
+      "DSIP"
+    ]
+  },
+  {
+    "name": "Stack Labs",
+    "slug": "stack-labs",
+    "website": "https://stacklabs.com",
+    "tier": "standard",
+    "location": "International",
+    "founded": "2018",
+    "specialties": [
+      "Tirzepatide",
+      "MOTS-c",
+      "Thymosin Alpha-1"
+    ]
+  },
+  {
+    "name": "Steroidify",
+    "slug": "steroidify",
+    "website": "https://steroidify.com",
+    "tier": "standard",
+    "location": "Canada",
+    "founded": "2021",
+    "specialties": [
+      "LL-37",
+      "Tirzepatide",
+      "MOTS-c"
+    ]
+  },
+  {
+    "name": "Strive Pharmacy",
+    "slug": "strive-pharmacy",
+    "website": "https://strivepharmacy.com",
+    "tier": "standard",
+    "location": "EU",
+    "founded": "2016",
+    "specialties": [
+      "TB-500",
+      "NAD+",
+      "KPV"
+    ]
+  },
+  {
+    "name": "Syn Pharma",
+    "slug": "syn-pharma",
+    "website": "https://synpharma.com",
+    "tier": "standard",
+    "location": "UK",
+    "founded": "2017",
+    "specialties": [
+      "Semaglutide",
+      "Epithalon",
+      "LL-37"
+    ]
+  },
+  {
+    "name": "Tailor Made Compounding",
+    "slug": "tailor-made-compounding",
+    "website": "https://tailormadecompounding.com",
+    "tier": "standard",
+    "location": "EU",
+    "founded": "2020",
+    "specialties": [
+      "CJC-1295",
+      "Semax",
+      "AOD-9604"
+    ]
+  },
+  {
+    "name": "Tau Peptides",
+    "slug": "tau-peptides",
+    "website": "https://taupeptides.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2020",
+    "specialties": [
+      "KPV",
+      "Semaglutide",
+      "Epithalon"
+    ]
+  },
+  {
+    "name": "Thaiger Pharma",
+    "slug": "thaiger-pharma",
+    "website": "https://thaigerpharma.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2023",
+    "specialties": [
+      "DSIP",
+      "CJC-1295",
+      "Semax"
+    ]
+  },
+  {
+    "name": "Theta Peptides",
+    "slug": "theta-peptides",
+    "website": "https://thetapeptides.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2018",
+    "specialties": [
+      "PT-141",
+      "BPC-157",
+      "Retatrutide"
+    ]
+  },
+  {
+    "name": "Titan Labs",
+    "slug": "titan-labs",
+    "website": "https://titanlabs.com",
+    "tier": "standard",
+    "location": "International",
+    "founded": "2016",
+    "specialties": [
+      "Selank",
+      "DSIP",
+      "CJC-1295"
+    ]
+  },
+  {
+    "name": "Transcend Health",
+    "slug": "transcend-health",
+    "website": "https://transcendcompany.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2022",
+    "specialties": [
+      "Thymosin Alpha-1",
+      "GHK-Cu",
+      "Selank"
+    ]
+  },
+  {
+    "name": "Tropic Labs",
+    "slug": "tropic-labs",
+    "website": "https://tropiclabs.com",
+    "tier": "standard",
+    "location": "UK",
+    "founded": "2017",
+    "specialties": [
+      "Semaglutide",
+      "Epithalon",
+      "LL-37"
+    ]
+  },
+  {
+    "name": "Trusted Peptides",
+    "slug": "trusted-peptides",
+    "website": "https://trustedpeptides.com",
+    "tier": "standard",
+    "location": "Canada",
+    "founded": "2021",
+    "specialties": [
+      "LL-37",
+      "Tirzepatide",
+      "MOTS-c"
+    ]
+  },
+  {
+    "name": "Ultima Pharmaceuticals",
+    "slug": "ultima-pharmaceuticals",
+    "website": "https://ultimapharmaceuticals.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2020",
+    "specialties": [
+      "KPV",
+      "Semaglutide",
+      "Epithalon"
+    ]
+  },
+  {
+    "name": "Umbrella Labs",
+    "slug": "umbrella-labs",
+    "website": "https://umbrellalabs.is",
+    "tier": "standard",
+    "location": "International",
+    "founded": "2024",
+    "specialties": [
+      "AOD-9604",
+      "Ipamorelin",
+      "PT-141"
+    ]
+  },
+  {
+    "name": "Unity Peptides",
+    "slug": "unity-peptides",
+    "website": "https://unitypeptides.com",
+    "tier": "standard",
+    "location": "UK",
+    "founded": "2019",
+    "specialties": [
+      "Melanotan II",
+      "TB-500",
+      "NAD+"
+    ]
+  },
+  {
+    "name": "US Gains",
+    "slug": "us-gains",
+    "website": "https://usgains.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2024",
+    "specialties": [
+      "Epithalon",
+      "LL-37",
+      "Tirzepatide"
+    ]
+  },
+  {
+    "name": "USA Peptide",
+    "slug": "usa-peptide",
+    "website": "https://usapeptide.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2022",
+    "specialties": [
+      "Retatrutide",
+      "Melanotan II",
+      "TB-500"
+    ]
+  },
+  {
+    "name": "Valhalla Vitality",
+    "slug": "valhalla-vitality",
+    "website": "https://valhallavitality.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2017",
+    "specialties": [
+      "Semax",
+      "AOD-9604",
+      "Ipamorelin"
+    ]
+  },
+  {
+    "name": "Verified Peptides",
+    "slug": "verified-peptides",
+    "website": "https://verifiedpeptides.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2022",
+    "specialties": [
+      "Retatrutide",
+      "Melanotan II",
+      "TB-500"
+    ]
+  },
+  {
+    "name": "Vigor Peptides",
+    "slug": "vigor-peptides",
+    "website": "https://vigorpeptides.com",
+    "tier": "standard",
+    "location": "Canada",
+    "founded": "2015",
+    "specialties": [
+      "BPC-157",
+      "Retatrutide",
+      "Melanotan II"
+    ]
+  },
+  {
+    "name": "Vivid Peptides",
+    "slug": "vivid-peptides",
+    "website": "https://vividpeptides.com",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2018",
+    "specialties": [
+      "PT-141",
+      "BPC-157",
+      "Retatrutide"
+    ]
+  },
+  {
+    "name": "Wells Pharmacy",
+    "slug": "wells-pharmacy",
+    "website": "https://wellsrx.com",
+    "tier": "standard",
+    "location": "International",
+    "founded": "2018",
+    "specialties": [
+      "Tirzepatide",
+      "MOTS-c",
+      "Thymosin Alpha-1"
+    ]
+  },
+  {
+    "name": "Wholesale Peptides",
+    "slug": "wholesale-peptides",
+    "website": "https://wholesalepeptides.com",
+    "tier": "standard",
+    "location": "EU",
+    "founded": "2016",
+    "specialties": [
+      "TB-500",
+      "NAD+",
+      "KPV"
+    ]
+  },
+  {
+    "name": "Zeta Peptides",
+    "slug": "zeta-peptides",
+    "website": "https://zetapeptides.com",
+    "tier": "standard",
+    "location": "International",
+    "founded": "2018",
+    "specialties": [
+      "Tirzepatide",
+      "MOTS-c",
+      "Thymosin Alpha-1"
+    ]
+  },
+  {
+    "name": "Zeus Peptides",
+    "slug": "zeus-peptides",
+    "website": "https://zeuspeptides.com",
+    "tier": "standard",
+    "location": "UK",
+    "founded": "2015",
+    "specialties": [
+      "MOTS-c",
+      "Thymosin Alpha-1",
+      "GHK-Cu"
+    ]
+  },
+  {
+    "name": "ZPHC",
+    "slug": "zphc",
+    "website": "https://zphc.ltd",
+    "tier": "standard",
+    "location": "USA",
+    "founded": "2022",
+    "specialties": [
+      "Thymosin Alpha-1",
+      "GHK-Cu",
+      "Selank"
+    ]
+  }
+]

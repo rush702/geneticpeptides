@@ -88,7 +88,16 @@ const sortOptions: { key: SortKey; label: string }[] = [
 const tagFilters = ["All", "HPLC", "MS", "COA"];
 
 /* ─── Score circle ─── */
-function ScoreCircle({ score }: { score: number }) {
+function ScoreCircle({ score, pending }: { score: number; pending?: boolean }) {
+  if (pending) {
+    return (
+      <div className="relative w-14 h-14 flex-shrink-0 rounded-full border border-dashed border-white/20 flex items-center justify-center">
+        <span className="text-[9px] font-semibold text-gray-500 uppercase tracking-wider text-center leading-tight">
+          Pending
+        </span>
+      </div>
+    );
+  }
   return (
     <div className="relative w-14 h-14 flex-shrink-0">
       <svg width="56" height="56" className="-rotate-90">
@@ -145,6 +154,7 @@ export default function HomePage() {
   const [sortBy, setSortBy] = useState<SortKey>("score");
   const [tagFilter, setTagFilter] = useState("All");
   const [showVerifiedOnly, setShowVerifiedOnly] = useState(false);
+  const [hidePending, setHidePending] = useState(false);
   const [compareList, setCompareList] = useState<string[]>([]);
   const [compareOpen, setCompareOpen] = useState(false);
   const [searchFocused, setSearchFocused] = useState(false);
@@ -193,13 +203,19 @@ export default function HomePage() {
       list = list.filter((v) => v.verified);
     }
 
-    // Sort
+    // Hide pending (unverified) vendors
+    if (hidePending) {
+      list = list.filter((v) => !v.pending);
+    }
+
+    // Sort — pending vendors always go to the bottom regardless of sort key
     list.sort((a, b) => {
+      if (a.pending !== b.pending) return a.pending ? 1 : -1;
       switch (sortBy) {
         case "score":
           return b.score - a.score;
         case "purity":
-          return parseFloat(b.purity) - parseFloat(a.purity);
+          return parseFloat(b.purity || "0") - parseFloat(a.purity || "0");
         case "name":
           return a.name.localeCompare(b.name);
         case "sentiment":
@@ -210,7 +226,7 @@ export default function HomePage() {
     });
 
     return list;
-  }, [query, sortBy, tagFilter, showVerifiedOnly]);
+  }, [query, sortBy, tagFilter, showVerifiedOnly, hidePending]);
 
   // Compare vendors
   const compareVendors = useMemo(
@@ -409,6 +425,17 @@ export default function HomePage() {
                 <CheckCircle2 className="w-3.5 h-3.5" />
                 Verified Only
               </button>
+              <button
+                onClick={() => setHidePending(!hidePending)}
+                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all ${
+                  hidePending
+                    ? "bg-emerald/20 text-emerald border border-emerald/30"
+                    : "bg-ink-2 text-gray-500 border border-white/5 hover:border-white/10 hover:text-gray-300"
+                }`}
+              >
+                <Clock className="w-3.5 h-3.5" />
+                Hide Pending
+              </button>
             </div>
 
             {/* Right: sort + compare button */}
@@ -467,6 +494,7 @@ export default function HomePage() {
                   setQuery("");
                   setTagFilter("All");
                   setShowVerifiedOnly(false);
+                  setHidePending(false);
                 }}
                 className="mt-4 text-emerald text-sm hover:text-emerald-light transition-colors"
               >
@@ -527,45 +555,64 @@ export default function HomePage() {
                                 <CheckCircle2 className="w-3.5 h-3.5" /> Verified
                               </span>
                             )}
+                            {v.pending && (
+                              <span className="flex items-center gap-1 text-xs text-amber-400">
+                                <Clock className="w-3 h-3" /> Pending Verification
+                              </span>
+                            )}
                             <span className="flex items-center gap-1 text-xs text-gray-500">
                               <MapPin className="w-3 h-3" /> {v.location}
                             </span>
                           </div>
                         </div>
-                        <ScoreCircle score={v.score} />
+                        <ScoreCircle score={v.score} pending={v.pending} />
                       </div>
 
-                      {/* Stats row */}
-                      <div className="grid grid-cols-3 gap-3 mb-4">
-                        <div>
-                          <p className="text-xs text-gray-500">Purity</p>
-                          <p className="text-sm font-medium text-white">{v.purity}</p>
+                      {v.pending ? (
+                        <div className="mb-4 p-3 bg-ink border border-white/5 rounded-lg">
+                          <p className="text-xs text-gray-400 leading-relaxed">
+                            This vendor has not been scored yet. If you represent this company,
+                            <span className="text-emerald"> claim this listing</span> to initiate scoring.
+                          </p>
                         </div>
-                        <div>
-                          <p className="text-xs text-gray-500">COAs</p>
-                          <p className="text-sm font-medium text-white">{v.coaCount}</p>
+                      ) : (
+                        <div className="grid grid-cols-3 gap-3 mb-4">
+                          <div>
+                            <p className="text-xs text-gray-500">Purity</p>
+                            <p className="text-sm font-medium text-white">{v.purity}</p>
+                          </div>
+                          <div>
+                            <p className="text-xs text-gray-500">COAs</p>
+                            <p className="text-sm font-medium text-white">{v.coaCount}</p>
+                          </div>
+                          <div>
+                            <p className="text-xs text-gray-500">Sentiment</p>
+                            <p className="text-sm font-medium text-white">{v.sentiment}%</p>
+                          </div>
                         </div>
-                        <div>
-                          <p className="text-xs text-gray-500">Sentiment</p>
-                          <p className="text-sm font-medium text-white">{v.sentiment}%</p>
-                        </div>
-                      </div>
+                      )}
 
                       {/* Tags + shipping */}
                       <div className="flex items-center justify-between">
-                        <div className="flex gap-1.5">
+                        <div className="flex gap-1.5 flex-wrap">
                           {v.tags.map((tag) => (
                             <span
                               key={tag}
-                              className="text-[10px] px-2 py-0.5 bg-emerald/10 text-emerald rounded-full font-medium"
+                              className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${
+                                v.pending
+                                  ? "bg-amber-500/10 text-amber-400"
+                                  : "bg-emerald/10 text-emerald"
+                              }`}
                             >
                               {tag}
                             </span>
                           ))}
                         </div>
-                        <span className="flex items-center gap-1 text-xs text-gray-500">
-                          <Clock className="w-3 h-3" /> {v.shipping}
-                        </span>
+                        {!v.pending && (
+                          <span className="flex items-center gap-1 text-xs text-gray-500">
+                            <Clock className="w-3 h-3" /> {v.shipping}
+                          </span>
+                        )}
                       </div>
 
                       {/* Specialties */}
