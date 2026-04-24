@@ -40,7 +40,7 @@ export default function ActivityFeed({ items }: ActivityFeedProps) {
   if (items.length === 0) {
     return (
       <div className="text-center py-8">
-        <Bell className="w-8 h-8 text-gray-600 mx-auto mb-3" />
+        <Bell className="w-8 h-8 text-gray-400 mx-auto mb-3" />
         <p className="text-sm text-gray-500">No recent activity</p>
       </div>
     );
@@ -65,7 +65,7 @@ export default function ActivityFeed({ items }: ActivityFeedProps) {
               <p className="text-sm text-white">{item.title}</p>
               <p className="text-xs text-gray-500 truncate">{item.description}</p>
             </div>
-            <span className="text-xs text-gray-600 flex-shrink-0 mt-1">{item.time}</span>
+            <span className="text-xs text-gray-400 flex-shrink-0 mt-1">{item.time}</span>
           </motion.div>
         );
       })}

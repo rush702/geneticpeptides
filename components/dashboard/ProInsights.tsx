@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { createBrowserClient } from '@/lib/supabase/client'
+import { createClient } from '@/lib/supabase/client'
 
 interface Props {
   vendorId: string
@@ -47,7 +47,7 @@ interface COAStatus {
 }
 
 export default function ProInsights({ vendorId, vendorName, tier }: Props) {
-  const supabase = createBrowserClient()
+  const supabase = createClient()
   const isPro = tier === 'pro' || tier === 'enterprise'
 
   const [score, setScore] = useState<ScoreBreakdown | null>(null)
@@ -78,12 +78,12 @@ export default function ProInsights({ vendorId, vendorName, tier }: Props) {
     const d7 = new Date(now); d7.setDate(d7.getDate()-7)
     const today = new Date(now); today.setHours(0,0,0,0)
     const { data } = await supabase.from('vendor_clicks').select('clicked_at').eq('vendor_id',vendorId).gte('clicked_at',d30.toISOString())
-    if (data) setClicks({ last_30_days: data.length, last_7_days: data.filter(r=>new Date(r.clicked_at)>=d7).length, today: data.filter(r=>new Date(r.clicked_at)>=today).length })
+    if (data) setClicks({ last_30_days: data.length, last_7_days: data.filter((r: any)=>new Date(r.clicked_at)>=d7).length, today: data.filter((r: any)=>new Date(r.clicked_at)>=today).length })
   }
 
   async function loadRank() {
     const { data } = await supabase.from('vendors').select('id,name,pvs_score').order('pvs_score',{ascending:false}).limit(100)
-    if (data) { const i = data.findIndex(v=>v.id===vendorId); setRank({ rank: i+1, total: data.length, above: data.slice(Math.max(0,i-2),i).map(v=>v.name), below: data.slice(i+1,i+3).map(v=>v.name) }) }
+    if (data) { const i = data.findIndex((v: any)=>v.id===vendorId); setRank({ rank: i+1, total: data.length, above: data.slice(Math.max(0,i-2),i).map((v: any)=>v.name), below: data.slice(i+1,i+3).map((v: any)=>v.name) }) }
   }
 
   async function loadSentiment() {
@@ -93,7 +93,7 @@ export default function ProInsights({ vendorId, vendorName, tier }: Props) {
 
   async function loadCOA() {
     const { data } = await supabase.from('coa_documents').select('status,uploaded_at').eq('vendor_id',vendorId)
-    if (data) { const sorted = data.sort((a,b)=>new Date(b.uploaded_at).getTime()-new Date(a.uploaded_at).getTime()); setCoa({ verified: data.filter(d=>d.status==='verified').length, pending: data.filter(d=>d.status==='pending').length, missing: 0, total: data.length, latest_upload: sorted[0]?.uploaded_at??null }) }
+    if (data) { const sorted = data.sort((a: any,b: any)=>new Date(b.uploaded_at).getTime()-new Date(a.uploaded_at).getTime()); setCoa({ verified: data.filter((d: any)=>d.status==='verified').length, pending: data.filter((d: any)=>d.status==='pending').length, missing: 0, total: data.length, latest_upload: sorted[0]?.uploaded_at??null }) }
   }
 
   if (!isPro) return (
@@ -142,7 +142,7 @@ export default function ProInsights({ vendorId, vendorName, tier }: Props) {
       <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
         <h3 className="text-white font-semibold mb-4"><span className="text-orange-400">💮</span> Recent Reddit Mentions</h3>
         {sentiment.length === 0 ? <p className="text-gray-500 text-sm">No recent mentions. Our BERT model scans Reddit daily.</p> : sentiment.map((item, i) => (
-          <div key={i} className="bg-gray-800 rounded-lg p-3 mb-3"><div className="flex items-start justify-between gap-2"><p className="text-gray-300 text-sm flex-1">"{item.text}"</p><span className={`text-xs font-bold px-2 py-0.5 rounded shrink-0 ${item.score>0.6?'bg-green-900 text-green-300':item.score<0.4?'bg-red-900 text-red-300':'bg-gray-700 text-gray-300'}`}>{item.score>0.6?'+ Positive':item.score<0.4?'✂ Negative':'�~ Neutral'}</span></div></div>
+          <div key={i} className="bg-gray-800 rounded-lg p-3 mb-3"><div className="flex items-start justify-between gap-2"><p className="text-gray-300 text-sm flex-1">"{item.text}"</p><span className={`text-xs font-bold px-2 py-0.5 rounded shrink-0 ${item.score>0.6?'bg-green-900 text-green-300':item.score<0.4?'bg-red-900 text-red-300':'bg-gray-700 text-gray-300'}`}>{item.score>0.6?'+ Positive':item.score<0.4?'✂ Negative':'�~ Neutral'}</span></div></div>
         ))}
       </div>
       {coa && (

@@ -151,7 +151,7 @@ export default function AccountPage() {
           <p className="text-gray-400 mb-6">You need to sign in to view your account.</p>
           <Link
             href="/login"
-            className="btn-glow inline-flex px-6 py-3 bg-emerald text-white font-medium rounded-lg"
+            className="btn-glow inline-flex px-6 py-3 bg-emerald text-ink font-medium rounded-lg"
           >
             Sign In
           </Link>
@@ -239,7 +239,7 @@ export default function AccountPage() {
                         className="w-full pl-10 pr-4 py-3 bg-ink border border-white/10 rounded-lg text-white/50 cursor-not-allowed"
                       />
                     </div>
-                    <p className="text-xs text-gray-600 mt-1">Email cannot be changed here.</p>
+                    <p className="text-xs text-gray-400 mt-1">Email cannot be changed here.</p>
                   </div>
                   <div>
                     <label className="block text-xs font-medium text-gray-400 uppercase tracking-wider mb-2">
@@ -259,7 +259,7 @@ export default function AccountPage() {
                   <button
                     onClick={handleProfileSave}
                     disabled={profileSaving}
-                    className="btn-glow flex items-center gap-2 px-5 py-2.5 bg-emerald text-white font-medium rounded-lg hover:bg-emerald-light disabled:opacity-50"
+                    className="btn-glow flex items-center gap-2 px-5 py-2.5 bg-emerald text-ink font-medium rounded-lg hover:bg-emerald-light disabled:opacity-50"
                   >
                     {profileSaving ? (
                       <Loader2 className="w-4 h-4 animate-spin" />
@@ -345,7 +345,7 @@ export default function AccountPage() {
                   <button
                     onClick={handlePasswordChange}
                     disabled={passwordSaving || !newPassword}
-                    className="btn-glow flex items-center gap-2 px-5 py-2.5 bg-emerald text-white font-medium rounded-lg hover:bg-emerald-light disabled:opacity-50"
+                    className="btn-glow flex items-center gap-2 px-5 py-2.5 bg-emerald text-ink font-medium rounded-lg hover:bg-emerald-light disabled:opacity-50"
                   >
                     {passwordSaving ? (
                       <Loader2 className="w-4 h-4 animate-spin" />
@@ -464,9 +464,9 @@ export default function AccountPage() {
                 </h3>
                 {savedVendors.length === 0 ? (
                   <div className="text-center py-8">
-                    <BookmarkCheck className="w-10 h-10 text-gray-600 mx-auto mb-3" />
+                    <BookmarkCheck className="w-10 h-10 text-gray-400 mx-auto mb-3" />
                     <p className="text-gray-400 mb-1">No saved vendors</p>
-                    <p className="text-sm text-gray-600 mb-4">Browse vendors and save your favorites.</p>
+                    <p className="text-sm text-gray-400 mb-4">Browse vendors and save your favorites.</p>
                     <Link href="/#vendors" className="text-sm text-emerald hover:text-emerald-light transition-colors">
                       Browse Vendors &rarr;
                     </Link>

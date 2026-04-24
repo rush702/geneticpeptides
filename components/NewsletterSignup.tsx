@@ -70,7 +70,7 @@ export default function NewsletterSignup() {
               <button
                 type="submit"
                 disabled={loading || !email}
-                className="flex-shrink-0 px-3 py-2 bg-emerald text-white rounded-lg hover:bg-emerald-light disabled:opacity-50 transition-all"
+                className="flex-shrink-0 px-3 py-2 bg-emerald text-ink rounded-lg hover:bg-emerald-light disabled:opacity-50 transition-all"
                 aria-label="Subscribe"
               >
                 {loading ? (
@@ -86,7 +86,7 @@ export default function NewsletterSignup() {
                 <span>{error}</span>
               </div>
             )}
-            <p className="text-[10px] text-gray-600">
+            <p className="text-[10px] text-gray-400">
               No spam, unsubscribe anytime.
             </p>
           </motion.form>

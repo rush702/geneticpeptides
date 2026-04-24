@@ -119,7 +119,7 @@ export default function PeptidesPage() {
         {/* Peptide grid */}
         {filtered.length === 0 ? (
           <div className="text-center py-16">
-            <FlaskConical className="w-10 h-10 text-gray-600 mx-auto mb-4" />
+            <FlaskConical className="w-10 h-10 text-gray-400 mx-auto mb-4" />
             <p className="text-gray-400">No peptides found.</p>
             <button
               onClick={() => { setQuery(""); setCategory("All"); }}
@@ -172,8 +172,8 @@ export default function PeptidesPage() {
                       ))}
                     </div>
                     <div className="flex items-center justify-between pt-3 border-t border-white/5">
-                      <span className="text-xs text-gray-600">{p.molecularWeight}</span>
-                      <ArrowRight className="w-4 h-4 text-gray-600 group-hover:text-emerald group-hover:translate-x-1 transition-all" />
+                      <span className="text-xs text-gray-400">{p.molecularWeight}</span>
+                      <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-emerald group-hover:translate-x-1 transition-all" />
                     </div>
                   </Link>
                 </motion.div>
@@ -183,7 +183,7 @@ export default function PeptidesPage() {
         )}
 
         {filtered.length > 0 && (
-          <p className="mt-8 text-center text-sm text-gray-600">
+          <p className="mt-8 text-center text-sm text-gray-400">
             Showing {filtered.length} of {peptides.length} peptides
           </p>
         )}

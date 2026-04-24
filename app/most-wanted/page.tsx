@@ -192,7 +192,7 @@ export default function MostWantedPage() {
           <h2 className="text-xl font-display font-bold text-white">Leaderboard</h2>
           <Link
             href="/nominate"
-            className="btn-glow flex items-center gap-2 px-5 py-2.5 bg-emerald text-white font-medium rounded-lg hover:bg-emerald-light"
+            className="btn-glow flex items-center gap-2 px-5 py-2.5 bg-emerald text-ink font-medium rounded-lg hover:bg-emerald-light"
           >
             <UserPlus className="w-4 h-4" />
             Nominate a Vendor
@@ -284,7 +284,7 @@ export default function MostWantedPage() {
                     )}
                   </button>
                   <span className="text-sm font-bold text-white">{nom.voteCount}</span>
-                  <span className="text-[10px] text-gray-600">votes</span>
+                  <span className="text-[10px] text-gray-400">votes</span>
                 </div>
               </div>
             );
@@ -298,7 +298,7 @@ export default function MostWantedPage() {
           </p>
           <Link
             href="/nominate"
-            className="btn-glow inline-flex items-center gap-2 px-8 py-4 bg-emerald text-white font-semibold text-lg rounded-xl hover:bg-emerald-light"
+            className="btn-glow inline-flex items-center gap-2 px-8 py-4 bg-emerald text-ink font-semibold text-lg rounded-xl hover:bg-emerald-light"
           >
             <UserPlus className="w-5 h-5" />
             Nominate a Vendor

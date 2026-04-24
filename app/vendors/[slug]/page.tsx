@@ -156,7 +156,7 @@ export default async function VendorDetailPage({
                   href={`/go/${vendor.slug}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-glow flex items-center gap-2 px-5 py-2.5 bg-emerald text-white font-medium rounded-lg hover:bg-emerald-light"
+                  className="btn-glow flex items-center gap-2 px-5 py-2.5 bg-emerald text-ink font-medium rounded-lg hover:bg-emerald-light"
                 >
                   <Globe className="w-4 h-4" />
                   Visit Verified Source
@@ -287,7 +287,7 @@ export default async function VendorDetailPage({
                       style={{ width: `${Math.min(100, metrics.defectRate * 4)}%` }}
                     />
                   </div>
-                  <p className="text-[10px] text-gray-600 mt-1">
+                  <p className="text-[10px] text-gray-400 mt-1">
                     {metrics.defectCount} of {metrics.totalTested} tested batches
                   </p>
                 </div>
@@ -380,7 +380,7 @@ export default async function VendorDetailPage({
                             {g.grade}
                           </span>
                         </div>
-                        <p className="text-[10px] text-gray-600">{g.gradeLabel} · Rank #{g.rankInPeptide}</p>
+                        <p className="text-[10px] text-gray-400">{g.gradeLabel} · Rank #{g.rankInPeptide}</p>
                         {g.badges.length > 0 && (
                           <div className="flex gap-1 mt-1">
                             {g.badges.map((b) => (
@@ -447,7 +447,7 @@ export default async function VendorDetailPage({
                       <div className="flex items-center gap-4">
                         <span className="text-xs text-gray-500">{coa.method}</span>
                         <span className="text-sm text-emerald font-medium">{coa.purity}</span>
-                        <span className="text-xs text-gray-600 hidden sm:inline">{coa.date}</span>
+                        <span className="text-xs text-gray-400 hidden sm:inline">{coa.date}</span>
                       </div>
                     </div>
                   );
@@ -616,7 +616,7 @@ export default async function VendorDetailPage({
                   );
                 })}
               </div>
-              <div className="flex items-center justify-between text-xs text-gray-600">
+              <div className="flex items-center justify-between text-xs text-gray-400">
                 <span>13 months ago</span>
                 <span>Today</span>
               </div>
@@ -642,7 +642,7 @@ export default async function VendorDetailPage({
                   >
                     <CheckCircle2
                       className={`w-4 h-4 flex-shrink-0 mt-0.5 ${
-                        m.active ? "text-emerald" : "text-gray-600"
+                        m.active ? "text-emerald" : "text-gray-400"
                       }`}
                     />
                     <div>

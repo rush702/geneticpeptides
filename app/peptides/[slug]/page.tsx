@@ -56,7 +56,7 @@ export default async function PeptideDetailPage({
             {peptide.description}
           </p>
           {peptide.synonyms.length > 0 && (
-            <p className="text-sm text-gray-600 mt-3">
+            <p className="text-sm text-gray-400 mt-3">
               Also known as: {peptide.synonyms.join(", ")}
             </p>
           )}
@@ -184,13 +184,13 @@ export default async function PeptideDetailPage({
                         </div>
                       </div>
 
-                      <ArrowRight className="w-4 h-4 text-gray-600 group-hover:text-emerald group-hover:translate-x-0.5 transition-all flex-shrink-0" />
+                      <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-emerald group-hover:translate-x-0.5 transition-all flex-shrink-0" />
                     </Link>
                   ))}
                 </div>
               )}
 
-              <p className="text-xs text-gray-600 mt-4 pt-4 border-t border-white/5">
+              <p className="text-xs text-gray-400 mt-4 pt-4 border-t border-white/5">
                 Ranked by PVS Score — our independent verification quality metric.
               </p>
             </section>

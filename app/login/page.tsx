@@ -75,7 +75,7 @@ function LoginForm() {
         <button
           type="submit"
           disabled={loading}
-          className="btn-glow w-full py-3 bg-emerald text-white font-medium rounded-lg hover:bg-emerald-light disabled:opacity-50 flex items-center justify-center gap-2"
+          className="btn-glow w-full py-3 bg-emerald text-ink font-medium rounded-lg hover:bg-emerald-light disabled:opacity-50 flex items-center justify-center gap-2"
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Sign In"}
         </button>

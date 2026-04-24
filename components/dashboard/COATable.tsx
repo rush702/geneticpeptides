@@ -51,9 +51,9 @@ export default function COATable({ coas }: COATableProps) {
   if (coas.length === 0) {
     return (
       <div className="text-center py-12">
-        <FlaskConical className="w-10 h-10 text-gray-600 mx-auto mb-4" />
+        <FlaskConical className="w-10 h-10 text-gray-400 mx-auto mb-4" />
         <p className="text-gray-400 mb-1">No COAs uploaded yet</p>
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-gray-400">
           Upload your first certificate of analysis to start building your verification profile.
         </p>
       </div>

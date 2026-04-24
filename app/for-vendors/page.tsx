@@ -275,7 +275,7 @@ export default function ForVendorsPage() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <button
                 onClick={handleClaimClick}
-                className="btn-glow px-8 py-4 bg-emerald text-white font-semibold text-lg rounded-xl hover:bg-emerald-light flex items-center gap-2"
+                className="btn-glow px-8 py-4 bg-emerald text-ink font-semibold text-lg rounded-xl hover:bg-emerald-light flex items-center gap-2"
               >
                 {user ? "Claim Free Listing Now" : "Sign Up to Claim Your Listing"}
                 <ArrowRight className="w-5 h-5" />
@@ -359,7 +359,7 @@ export default function ForVendorsPage() {
             <div className="flex items-center justify-center gap-2 mb-12 text-sm">
               <CheckCircle2 className="w-4 h-4 text-emerald" />
               <span className="text-emerald font-medium">Step 1 complete</span>
-              <span className="text-gray-600">&mdash;</span>
+              <span className="text-gray-400">&mdash;</span>
               <span className="text-gray-400">You&apos;re signed in. Ready to claim your listing.</span>
             </div>
           )}
@@ -405,7 +405,7 @@ export default function ForVendorsPage() {
                           )}
                         </div>
                         <div className={`absolute -top-2 -right-2 w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold ${
-                          isComplete ? "bg-emerald text-white" : isCurrent ? "bg-emerald text-white" : "bg-ink-3 text-gray-500 border border-white/10"
+                          isComplete ? "bg-emerald text-ink" : isCurrent ? "bg-emerald text-ink" : "bg-ink-3 text-gray-500 border border-white/10"
                         }`}>
                           {isComplete ? <CheckCircle2 className="w-4 h-4" /> : i + 1}
                         </div>
@@ -417,7 +417,7 @@ export default function ForVendorsPage() {
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           onClick={handleClaimClick}
-                          className="btn-glow px-5 py-2 bg-emerald text-white text-sm font-medium rounded-lg hover:bg-emerald-light"
+                          className="btn-glow px-5 py-2 bg-emerald text-ink text-sm font-medium rounded-lg hover:bg-emerald-light"
                         >
                           {step.cta} &rarr;
                         </motion.button>
@@ -460,7 +460,7 @@ export default function ForVendorsPage() {
                     )}
                   </div>
                   <div className={`absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold ${
-                    isComplete || isCurrent ? "bg-emerald text-white" : "bg-ink-3 text-gray-500"
+                    isComplete || isCurrent ? "bg-emerald text-ink" : "bg-ink-3 text-gray-500"
                   }`}>
                     {isComplete ? <CheckCircle2 className="w-3 h-3" /> : i + 1}
                   </div>
@@ -475,7 +475,7 @@ export default function ForVendorsPage() {
                   {isCurrent && (
                     <button
                       onClick={handleClaimClick}
-                      className="btn-glow px-4 py-1.5 bg-emerald text-white text-xs font-medium rounded-lg hover:bg-emerald-light"
+                      className="btn-glow px-4 py-1.5 bg-emerald text-ink text-xs font-medium rounded-lg hover:bg-emerald-light"
                     >
                       {step.cta} &rarr;
                     </button>
@@ -525,7 +525,7 @@ export default function ForVendorsPage() {
                     }`}
                   >
                     {tier.popular && (
-                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-emerald text-white text-xs font-bold rounded-full uppercase tracking-wider flex items-center gap-1">
+                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-emerald text-ink text-xs font-bold rounded-full uppercase tracking-wider flex items-center gap-1">
                         <Star className="w-3 h-3" /> Most Popular
                       </div>
                     )}
@@ -578,7 +578,7 @@ export default function ForVendorsPage() {
                       <button
                         onClick={() => handleUpgrade(tier.stripePlan!)}
                         disabled={checkoutLoading !== null}
-                        className="btn-glow w-full py-3 bg-emerald text-white font-semibold rounded-xl hover:bg-emerald-light disabled:opacity-50"
+                        className="btn-glow w-full py-3 bg-emerald text-ink font-semibold rounded-xl hover:bg-emerald-light disabled:opacity-50"
                       >
                         {checkoutLoading === tier.stripePlan
                           ? "Redirecting..."
@@ -608,7 +608,7 @@ export default function ForVendorsPage() {
               </p>
               <button
                 onClick={() => setAuthOpen(true)}
-                className="btn-glow px-8 py-3.5 bg-emerald text-white font-semibold rounded-xl hover:bg-emerald-light flex items-center gap-2 mx-auto"
+                className="btn-glow px-8 py-3.5 bg-emerald text-ink font-semibold rounded-xl hover:bg-emerald-light flex items-center gap-2 mx-auto"
               >
                 Sign Up or Log In
                 <ArrowRight className="w-5 h-5" />
@@ -746,7 +746,7 @@ export default function ForVendorsPage() {
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <button
                   onClick={handleClaimClick}
-                  className="btn-glow px-8 py-4 bg-emerald text-white font-semibold text-lg rounded-xl hover:bg-emerald-light flex items-center gap-2"
+                  className="btn-glow px-8 py-4 bg-emerald text-ink font-semibold text-lg rounded-xl hover:bg-emerald-light flex items-center gap-2"
                 >
                   Claim Your Free Listing
                   <ArrowRight className="w-5 h-5" />
@@ -771,7 +771,7 @@ export default function ForVendorsPage() {
         onAuth={() => {
           setAuthOpen(false);
           // Wait for auth state to propagate before opening claim modal
-          const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+          const { data: { subscription } } = supabase.auth.onAuthStateChange((event: any) => {
             if (event === "SIGNED_IN") {
               setClaimOpen(true);
               subscription.unsubscribe();

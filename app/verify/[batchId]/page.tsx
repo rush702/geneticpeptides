@@ -114,7 +114,7 @@ export default async function VerifyBatchPage({
             <div className="flex items-center justify-center gap-3">
               <Link
                 href="/"
-                className="btn-glow px-6 py-3 bg-emerald text-white font-medium rounded-lg"
+                className="btn-glow px-6 py-3 bg-emerald text-ink font-medium rounded-lg"
               >
                 Browse Vendors
               </Link>
@@ -250,7 +250,7 @@ export default async function VerifyBatchPage({
               <p className="text-xs text-gray-500">
                 Verification ID: <code className="text-gray-400">{batch.batchId}</code>
               </p>
-              <p className="text-xs text-gray-600">
+              <p className="text-xs text-gray-400">
                 pepassure.com/verify/{batch.batchId}
               </p>
             </div>

@@ -157,13 +157,13 @@ export default function MethodologyPage() {
                 <span className="text-emerald">PVS</span>
                 <span className="text-gray-500">=</span>
                 <span className="text-white">(COA × 0.30)</span>
-                <span className="text-gray-600">+</span>
+                <span className="text-gray-400">+</span>
                 <span className="text-white">(Purity × 0.25)</span>
-                <span className="text-gray-600">+</span>
+                <span className="text-gray-400">+</span>
                 <span className="text-white">(Sentiment × 0.20)</span>
-                <span className="text-gray-600">+</span>
+                <span className="text-gray-400">+</span>
                 <span className="text-white">(Transparency × 0.15)</span>
-                <span className="text-gray-600">+</span>
+                <span className="text-gray-400">+</span>
                 <span className="text-white">(Experience × 0.10)</span>
               </div>
             </div>
@@ -183,7 +183,7 @@ export default function MethodologyPage() {
             {pillars.map((p) => (
               <div key={p.name}>
                 <div className="text-gray-300 font-medium">{p.name}</div>
-                <div className="text-gray-600">{p.weight}</div>
+                <div className="text-gray-400">{p.weight}</div>
               </div>
             ))}
           </div>
@@ -354,7 +354,7 @@ export default function MethodologyPage() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/"
-              className="btn-glow flex items-center gap-2 px-6 py-3 bg-emerald text-white font-semibold rounded-xl hover:bg-emerald-light"
+              className="btn-glow flex items-center gap-2 px-6 py-3 bg-emerald text-ink font-semibold rounded-xl hover:bg-emerald-light"
             >
               <TrendingUp className="w-4 h-4" />
               View Rankings
