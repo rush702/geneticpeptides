@@ -123,7 +123,7 @@ export default function BlogPage() {
                           {" · "}
                           {formatDate(post.date)}
                         </div>
-                        <ArrowRight className="w-4 h-4 text-gray-600 group-hover:text-emerald group-hover:translate-x-1 transition-all" />
+                        <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-emerald group-hover:translate-x-1 transition-all" />
                       </div>
                     </Link>
                   </motion.div>
@@ -165,9 +165,9 @@ export default function BlogPage() {
         {/* Posts list */}
         {filtered.length === 0 ? (
           <div className="text-center py-16">
-            <BookOpen className="w-10 h-10 text-gray-600 mx-auto mb-4" />
+            <BookOpen className="w-10 h-10 text-gray-400 mx-auto mb-4" />
             <p className="text-gray-400 text-lg mb-2">No articles found</p>
-            <p className="text-gray-600 text-sm">Try a different category or search term.</p>
+            <p className="text-gray-400 text-sm">Try a different category or search term.</p>
             <button
               onClick={() => { setActiveCategory("all"); setSearchQuery(""); }}
               className="mt-4 text-emerald text-sm hover:text-emerald-light transition-colors"
@@ -196,7 +196,7 @@ export default function BlogPage() {
                           <CatIcon className="w-3 h-3" />
                           {post.category}
                         </span>
-                        <span className="text-xs text-gray-600">{formatDate(post.date)}</span>
+                        <span className="text-xs text-gray-400">{formatDate(post.date)}</span>
                       </div>
                       <h3 className="text-base font-semibold text-white mb-1.5 group-hover:text-emerald transition-colors">
                         {post.title}
@@ -209,7 +209,7 @@ export default function BlogPage() {
                       <span className="flex items-center gap-1 text-xs text-gray-500">
                         <Clock className="w-3 h-3" /> {post.readTime}
                       </span>
-                      <span className="text-xs text-gray-600">{post.author.name}</span>
+                      <span className="text-xs text-gray-400">{post.author.name}</span>
                     </div>
                   </Link>
                 </motion.div>

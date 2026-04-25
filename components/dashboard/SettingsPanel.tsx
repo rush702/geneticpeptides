@@ -105,7 +105,7 @@ export default function SettingsPanel({ profile, userEmail }: SettingsPanelProps
           <button
             onClick={handleSave}
             disabled={saving}
-            className="btn-glow flex items-center gap-2 px-5 py-2.5 bg-emerald text-white font-medium rounded-lg hover:bg-emerald-light disabled:opacity-50 transition-all"
+            className="btn-glow flex items-center gap-2 px-5 py-2.5 bg-emerald text-ink font-medium rounded-lg hover:bg-emerald-light disabled:opacity-50 transition-all"
           >
             {saving ? (
               <Loader2 className="w-4 h-4 animate-spin" />

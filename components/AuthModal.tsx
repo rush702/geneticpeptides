@@ -34,7 +34,7 @@ export default function AuthModal({ open, onClose, onAuth }: AuthModalProps) {
   // Listen for auth state changes (user confirms email in another tab)
   useEffect(() => {
     if (!open || !emailSent) return;
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event: any) => {
       if (event === "SIGNED_IN") {
         onAuth();
         onClose();
@@ -252,7 +252,7 @@ export default function AuthModal({ open, onClose, onAuth }: AuthModalProps) {
                     <button
                       onClick={handleResend}
                       disabled={resendCooldown > 0 || loading}
-                      className="flex items-center gap-1.5 text-emerald hover:text-emerald-light transition-colors font-medium disabled:text-gray-600 disabled:cursor-not-allowed"
+                      className="flex items-center gap-1.5 text-emerald hover:text-emerald-light transition-colors font-medium disabled:text-gray-500 disabled:cursor-not-allowed"
                     >
                       <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
                       {resendCooldown > 0 ? `Resend in ${resendCooldown}s` : "Resend email"}
@@ -310,7 +310,7 @@ export default function AuthModal({ open, onClose, onAuth }: AuthModalProps) {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="btn-glow w-full py-3 bg-emerald text-white font-semibold rounded-lg hover:bg-emerald-light disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    className="btn-glow w-full py-3 bg-emerald text-ink font-semibold rounded-lg hover:bg-emerald-light disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
                     {loading ? (
                       <Loader2 className="w-4 h-4 animate-spin" />
@@ -366,7 +366,7 @@ export default function AuthModal({ open, onClose, onAuth }: AuthModalProps) {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="btn-glow w-full py-3 bg-emerald text-white font-semibold rounded-lg hover:bg-emerald-light disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    className="btn-glow w-full py-3 bg-emerald text-ink font-semibold rounded-lg hover:bg-emerald-light disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
                     {loading ? (
                       <Loader2 className="w-4 h-4 animate-spin" />
@@ -383,7 +383,7 @@ export default function AuthModal({ open, onClose, onAuth }: AuthModalProps) {
 
             {/* Trust signal */}
             {!emailSent && (
-              <div className="flex items-center justify-center gap-2 mt-4 text-[11px] text-gray-600">
+              <div className="flex items-center justify-center gap-2 mt-4 text-[11px] text-gray-400">
                 <Shield className="w-3 h-3" />
                 Free forever &middot; No credit card required
               </div>

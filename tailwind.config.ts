@@ -22,8 +22,6 @@ const config: Config = {
           glow: "rgba(16, 185, 129, 0.35)",
           "glow-sm": "rgba(16, 185, 129, 0.15)",
         },
-        cream: "#F5F3EE",
-        muted: "#6B7280",
       },
       fontFamily: {
         display: ["Playfair Display", "Georgia", "serif"],

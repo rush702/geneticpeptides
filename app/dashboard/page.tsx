@@ -241,7 +241,7 @@ function DashboardContent() {
           <p className="text-gray-400 mb-6">You need to sign in to view your dashboard.</p>
           <Link
             href="/for-vendors"
-            className="btn-glow inline-flex px-6 py-3 bg-emerald text-white font-medium rounded-lg"
+            className="btn-glow inline-flex px-6 py-3 bg-emerald text-ink font-medium rounded-lg"
           >
             Sign In
           </Link>
@@ -339,7 +339,7 @@ function DashboardContent() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => setUploadOpen(true)}
-              className="btn-glow flex items-center gap-2 px-5 py-2.5 bg-emerald text-white font-medium rounded-xl hover:bg-emerald-light"
+              className="btn-glow flex items-center gap-2 px-5 py-2.5 bg-emerald text-ink font-medium rounded-xl hover:bg-emerald-light"
             >
               <Upload className="w-4 h-4" />
               Upload COA
@@ -428,7 +428,7 @@ function DashboardContent() {
                           <div className="flex items-center gap-2">
                             <p.icon className="w-4 h-4 text-emerald" />
                             <span className="text-sm text-gray-300">{p.name}</span>
-                            <span className="text-xs text-gray-600">({p.weight})</span>
+                            <span className="text-xs text-gray-400">({p.weight})</span>
                           </div>
                           <span className="text-sm font-semibold text-white">{p.score}</span>
                         </div>
@@ -490,8 +490,8 @@ function DashboardContent() {
                     })}
                   </div>
                   <div className="flex justify-between mt-2">
-                    <span className="text-xs text-gray-600">{timeRange === "30d" ? "30d ago" : "90d ago"}</span>
-                    <span className="text-xs text-gray-600">Today</span>
+                    <span className="text-xs text-gray-400">{timeRange === "30d" ? "30d ago" : "90d ago"}</span>
+                    <span className="text-xs text-gray-400">Today</span>
                   </div>
                 </div>
               </div>
@@ -539,7 +539,7 @@ function DashboardContent() {
                   </h3>
                   {tier === "free" ? (
                     <div className="text-center py-8">
-                      <Lock className="w-10 h-10 text-gray-600 mx-auto mb-3" />
+                      <Lock className="w-10 h-10 text-gray-400 mx-auto mb-3" />
                       <p className="text-sm text-gray-500 mb-4">Upgrade to Pro to see how you stack up.</p>
                       <Link href="/for-vendors#pricing" className="text-sm text-emerald hover:text-emerald-light transition-colors">
                         View Plans &rarr;
@@ -624,7 +624,7 @@ function DashboardContent() {
                     </div>
                     <Link
                       href="/for-vendors#pricing"
-                      className="btn-glow flex-shrink-0 px-6 py-3 bg-emerald text-white font-semibold rounded-xl hover:bg-emerald-light flex items-center gap-2"
+                      className="btn-glow flex-shrink-0 px-6 py-3 bg-emerald text-ink font-semibold rounded-xl hover:bg-emerald-light flex items-center gap-2"
                     >
                       {tier === "free" ? "Upgrade to Pro" : "Go Enterprise"}
                       <ArrowRight className="w-4 h-4" />
@@ -652,7 +652,7 @@ function DashboardContent() {
                 </div>
                 <button
                   onClick={() => setUploadOpen(true)}
-                  className="btn-glow flex items-center gap-2 px-5 py-2.5 bg-emerald text-white font-medium rounded-xl hover:bg-emerald-light"
+                  className="btn-glow flex items-center gap-2 px-5 py-2.5 bg-emerald text-ink font-medium rounded-xl hover:bg-emerald-light"
                 >
                   <Upload className="w-4 h-4" />
                   Upload COA

@@ -370,7 +370,7 @@ export default function HomePage() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
               href="#vendors"
-              className="btn-glow px-8 py-4 bg-emerald text-white font-semibold text-lg rounded-xl hover:bg-emerald-light inline-flex items-center gap-2"
+              className="btn-glow px-8 py-4 bg-emerald text-ink font-semibold text-lg rounded-xl hover:bg-emerald-light inline-flex items-center gap-2"
             >
               Browse Vendors
               <ArrowRight className="w-5 h-5" />
@@ -460,7 +460,7 @@ export default function HomePage() {
               {compareList.length >= 2 && (
                 <button
                   onClick={() => setCompareOpen(true)}
-                  className="btn-glow flex items-center gap-2 px-4 py-2 bg-emerald text-white text-sm font-medium rounded-lg"
+                  className="btn-glow flex items-center gap-2 px-4 py-2 bg-emerald text-ink text-sm font-medium rounded-lg"
                 >
                   <GitCompareArrows className="w-4 h-4" />
                   Compare ({compareList.length})
@@ -484,9 +484,9 @@ export default function HomePage() {
           {/* ─── Vendor grid ─── */}
           {filtered.length === 0 ? (
             <div className="text-center py-16">
-              <Search className="w-10 h-10 text-gray-600 mx-auto mb-4" />
+              <Search className="w-10 h-10 text-gray-400 mx-auto mb-4" />
               <p className="text-gray-400 text-lg mb-2">No vendors found</p>
-              <p className="text-gray-600 text-sm">
+              <p className="text-gray-400 text-sm">
                 Try adjusting your search or filters
               </p>
               <button
@@ -530,7 +530,7 @@ export default function HomePage() {
                         className={`absolute top-3 right-3 z-10 w-6 h-6 rounded-md border flex items-center justify-center transition-all ${
                           isSelected
                             ? "bg-emerald border-emerald text-white"
-                            : "border-white/10 text-transparent hover:border-white/30 hover:text-gray-600"
+                            : "border-white/10 text-transparent hover:border-white/30 hover:text-gray-400"
                         }`}
                         title={
                           isSelected
@@ -638,7 +638,7 @@ export default function HomePage() {
 
           {/* Results count */}
           {filtered.length > 0 && (
-            <p className="mt-6 text-center text-sm text-gray-600">
+            <p className="mt-6 text-center text-sm text-gray-400">
               Showing {filtered.length} of {vendors.length} vendors
               {query && (
                 <>
@@ -692,7 +692,7 @@ export default function HomePage() {
               </p>
               <Link
                 href="/for-vendors"
-                className="btn-glow inline-flex items-center gap-2 px-8 py-4 bg-emerald text-white font-semibold text-lg rounded-xl hover:bg-emerald-light"
+                className="btn-glow inline-flex items-center gap-2 px-8 py-4 bg-emerald text-ink font-semibold text-lg rounded-xl hover:bg-emerald-light"
               >
                 Claim Your Listing
                 <ArrowRight className="w-5 h-5" />
@@ -905,7 +905,7 @@ export default function HomePage() {
             {compareList.length >= 2 && (
               <button
                 onClick={() => setCompareOpen(true)}
-                className="btn-glow px-4 py-1.5 bg-emerald text-white text-sm font-medium rounded-lg"
+                className="btn-glow px-4 py-1.5 bg-emerald text-ink text-sm font-medium rounded-lg"
               >
                 Compare
               </button>

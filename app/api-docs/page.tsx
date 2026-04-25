@@ -173,7 +173,7 @@ function CodeBlock({ code, language }: { code: string; language?: string }) {
   return (
     <div className="relative group">
       {language && (
-        <div className="absolute top-3 left-4 text-[10px] uppercase tracking-wider text-gray-600">
+        <div className="absolute top-3 left-4 text-[10px] uppercase tracking-wider text-gray-400">
           {language}
         </div>
       )}
@@ -376,11 +376,11 @@ X-RateLimit-Reset: 1712793600`}
 
                 <div className="space-y-3">
                   <div>
-                    <p className="text-xs text-gray-600 uppercase tracking-wider mb-2">Example request</p>
+                    <p className="text-xs text-gray-400 uppercase tracking-wider mb-2">Example request</p>
                     <CodeBlock code={endpoint.example} />
                   </div>
                   <div>
-                    <p className="text-xs text-gray-600 uppercase tracking-wider mb-2">Example response</p>
+                    <p className="text-xs text-gray-400 uppercase tracking-wider mb-2">Example response</p>
                     <CodeBlock code={endpoint.response} />
                   </div>
                 </div>
@@ -417,7 +417,7 @@ X-RateLimit-Reset: 1712793600`}
             ))}
           </div>
 
-          <p className="text-xs text-gray-600 uppercase tracking-wider mb-2">Example payload</p>
+          <p className="text-xs text-gray-400 uppercase tracking-wider mb-2">Example payload</p>
           <CodeBlock
             language="json"
             code={`{
@@ -473,7 +473,7 @@ X-RateLimit-Reset: 1712793600`}
           </div>
 
           <div className="mt-6">
-            <p className="text-xs text-gray-600 uppercase tracking-wider mb-2">Error response format</p>
+            <p className="text-xs text-gray-400 uppercase tracking-wider mb-2">Error response format</p>
             <CodeBlock
               language="json"
               code={`{
@@ -501,7 +501,7 @@ X-RateLimit-Reset: 1712793600`}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/for-vendors#pricing"
-              className="btn-glow flex items-center gap-2 px-6 py-3 bg-emerald text-white font-semibold rounded-xl hover:bg-emerald-light"
+              className="btn-glow flex items-center gap-2 px-6 py-3 bg-emerald text-ink font-semibold rounded-xl hover:bg-emerald-light"
             >
               <Crown className="w-4 h-4" />
               View Enterprise Plan

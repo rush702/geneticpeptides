@@ -108,7 +108,7 @@ export default function Nav() {
           ) : (
             <Link
               href="/for-vendors"
-              className="btn-glow px-5 py-2.5 bg-emerald text-white text-sm font-medium rounded-lg hover:bg-emerald-light"
+              className="btn-glow px-5 py-2.5 bg-emerald text-ink text-sm font-medium rounded-lg hover:bg-emerald-light"
             >
               Claim Listing
             </Link>
@@ -148,7 +148,7 @@ export default function Nav() {
             <Link
               href="/for-vendors"
               onClick={() => setMobileOpen(false)}
-              className="block bg-emerald text-white text-center py-3 rounded-lg font-medium"
+              className="block bg-emerald text-ink text-center py-3 rounded-lg font-medium"
             >
               Claim Listing
             </Link>

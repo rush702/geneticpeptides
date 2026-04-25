@@ -100,7 +100,7 @@ export default function NominatePage() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <Link
                 href="/most-wanted"
-                className="btn-glow flex items-center gap-2 px-6 py-3 bg-emerald text-white font-semibold rounded-xl"
+                className="btn-glow flex items-center gap-2 px-6 py-3 bg-emerald text-ink font-semibold rounded-xl"
               >
                 <TrendingUp className="w-4 h-4" />
                 View Leaderboard
@@ -242,7 +242,7 @@ export default function NominatePage() {
             <button
               type="submit"
               disabled={loading || !name}
-              className="btn-glow w-full py-4 bg-emerald text-white font-semibold text-lg rounded-xl hover:bg-emerald-light disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="btn-glow w-full py-4 bg-emerald text-ink font-semibold text-lg rounded-xl hover:bg-emerald-light disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
@@ -257,7 +257,7 @@ export default function NominatePage() {
               )}
             </button>
 
-            <p className="text-xs text-gray-600 text-center">
+            <p className="text-xs text-gray-400 text-center">
               No paid placements — ever. Nominations are community-driven and
               help us prioritize which vendors to verify next.
             </p>

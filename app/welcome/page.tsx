@@ -55,7 +55,7 @@ export default function WelcomePage() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/"
-              className="btn-glow px-8 py-4 bg-emerald text-white font-semibold text-lg rounded-xl hover:bg-emerald-light flex items-center gap-2"
+              className="btn-glow px-8 py-4 bg-emerald text-ink font-semibold text-lg rounded-xl hover:bg-emerald-light flex items-center gap-2"
             >
               Browse Vendor Rankings
               <ArrowRight className="w-5 h-5" />
@@ -142,7 +142,7 @@ export default function WelcomePage() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/"
-              className="btn-glow flex items-center gap-2 px-8 py-4 bg-emerald text-white font-semibold rounded-xl hover:bg-emerald-light"
+              className="btn-glow flex items-center gap-2 px-8 py-4 bg-emerald text-ink font-semibold rounded-xl hover:bg-emerald-light"
             >
               <Shield className="w-5 h-5" />
               Browse Rankings

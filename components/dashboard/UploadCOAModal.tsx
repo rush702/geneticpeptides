@@ -189,11 +189,11 @@ export default function UploadCOAModal({ open, onClose, onUpload }: UploadCOAMod
                       </div>
                     ) : (
                       <>
-                        <Upload className="w-8 h-8 text-gray-600 mx-auto mb-2" />
+                        <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
                         <p className="text-sm text-gray-400">
                           Drop your PDF here or <span className="text-emerald">browse</span>
                         </p>
-                        <p className="text-xs text-gray-600 mt-1">PDF only, max 10MB</p>
+                        <p className="text-xs text-gray-400 mt-1">PDF only, max 10MB</p>
                       </>
                     )}
                   </div>
@@ -209,7 +209,7 @@ export default function UploadCOAModal({ open, onClose, onUpload }: UploadCOAMod
                 <button
                   type="submit"
                   disabled={uploading || !file || !peptideName || !batchId}
-                  className="btn-glow w-full py-3.5 bg-emerald text-white font-semibold rounded-lg hover:bg-emerald-light disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  className="btn-glow w-full py-3.5 bg-emerald text-ink font-semibold rounded-lg hover:bg-emerald-light disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   {uploading ? (
                     <>

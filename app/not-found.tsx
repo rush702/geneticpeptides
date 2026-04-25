@@ -42,7 +42,7 @@ export default function NotFound() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-12">
           <Link
             href="/"
-            className="btn-glow flex items-center gap-2 px-6 py-3 bg-emerald text-white font-semibold rounded-xl hover:bg-emerald-light"
+            className="btn-glow flex items-center gap-2 px-6 py-3 bg-emerald text-ink font-semibold rounded-xl hover:bg-emerald-light"
           >
             <Home className="w-4 h-4" />
             Back to Home

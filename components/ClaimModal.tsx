@@ -73,10 +73,10 @@ function StepIndicator({ current, total }: { current: number; total: number }) {
           <div
             className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 ${
               i < current
-                ? "bg-emerald text-white"
+                ? "bg-emerald text-ink"
                 : i === current
                 ? "bg-emerald/20 text-emerald border-2 border-emerald"
-                : "bg-ink-3 text-gray-600 border border-white/10"
+                : "bg-ink-3 text-gray-400 border border-white/10"
             }`}
           >
             {i < current ? <CheckCircle2 className="w-4 h-4" /> : i + 1}
@@ -276,13 +276,13 @@ export default function ClaimModal({ open, onClose, prefillVendorName, prefillWe
                           className="w-full pl-10 pr-4 py-3 bg-ink border border-white/10 rounded-lg text-white/60 focus:outline-none transition-all cursor-not-allowed"
                         />
                       </div>
-                      <p className="mt-1 text-xs text-gray-600">From your account</p>
+                      <p className="mt-1 text-xs text-gray-400">From your account</p>
                     </div>
 
                     {/* Message */}
                     <div>
                       <label className="block text-xs font-medium text-gray-400 uppercase tracking-wider mb-2">
-                        Message <span className="text-gray-600">(optional)</span>
+                        Message <span className="text-gray-400">(optional)</span>
                       </label>
                       <div className="relative">
                         <MessageSquare className="absolute left-3 top-3 w-4 h-4 text-gray-500" />
@@ -299,7 +299,7 @@ export default function ClaimModal({ open, onClose, prefillVendorName, prefillWe
 
                   <button
                     onClick={handleNext}
-                    className="btn-glow w-full mt-6 py-3.5 bg-emerald text-white font-semibold rounded-lg hover:bg-emerald-light flex items-center justify-center gap-2 text-base"
+                    className="btn-glow w-full mt-6 py-3.5 bg-emerald text-ink font-semibold rounded-lg hover:bg-emerald-light flex items-center justify-center gap-2 text-base"
                   >
                     Review &amp; Submit
                     <ArrowRight className="w-5 h-5" />
@@ -378,7 +378,7 @@ export default function ClaimModal({ open, onClose, prefillVendorName, prefillWe
                     <button
                       onClick={handleSubmit}
                       disabled={loading}
-                      className="btn-glow flex-[2] py-3 bg-emerald text-white font-semibold rounded-lg hover:bg-emerald-light disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                      className="btn-glow flex-[2] py-3 bg-emerald text-ink font-semibold rounded-lg hover:bg-emerald-light disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                     >
                       {loading ? (
                         <>
@@ -466,7 +466,7 @@ export default function ClaimModal({ open, onClose, prefillVendorName, prefillWe
           {/* Footer trust signals */}
           {step < 2 && (
             <div className="px-6 pb-4">
-              <p className="text-[11px] text-gray-600 text-center">
+              <p className="text-[11px] text-gray-400 text-center">
                 Free forever &middot; No credit card &middot; No documents needed &middot; Review within 48h
               </p>
             </div>

@@ -224,7 +224,7 @@ export default function ReviewModal({
                     maxLength={80}
                     className="w-full px-4 py-3 bg-ink border border-white/10 rounded-lg text-white placeholder-gray-600 focus:outline-none focus:border-emerald/50 focus:ring-1 focus:ring-emerald/20 transition-all"
                   />
-                  <p className="mt-1 text-xs text-gray-600">{title.length}/80</p>
+                  <p className="mt-1 text-xs text-gray-400">{title.length}/80</p>
                 </div>
 
                 {/* Body */}
@@ -245,8 +245,8 @@ export default function ReviewModal({
                     />
                   </div>
                   <div className="flex items-center justify-between mt-1">
-                    <p className="text-xs text-gray-600">Minimum 20 characters</p>
-                    <p className="text-xs text-gray-600">{body.length}/1000</p>
+                    <p className="text-xs text-gray-400">Minimum 20 characters</p>
+                    <p className="text-xs text-gray-400">{body.length}/1000</p>
                   </div>
                 </div>
 
@@ -260,7 +260,7 @@ export default function ReviewModal({
                 <button
                   type="submit"
                   disabled={loading || rating === 0 || title.length < 3 || body.length < 20}
-                  className="btn-glow w-full py-3.5 bg-emerald text-white font-semibold rounded-lg hover:bg-emerald-light disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  className="btn-glow w-full py-3.5 bg-emerald text-ink font-semibold rounded-lg hover:bg-emerald-light disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   {loading ? (
                     <>

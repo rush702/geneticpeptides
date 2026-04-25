@@ -217,7 +217,7 @@ export default async function BlogPostPage({
                         <RCatIcon className="w-3 h-3" />
                         {r.category}
                       </span>
-                      <span className="text-xs text-gray-600">{r.readTime}</span>
+                      <span className="text-xs text-gray-400">{r.readTime}</span>
                     </div>
                     <h4 className="text-sm font-semibold text-white group-hover:text-emerald transition-colors mb-1">
                       {r.title}
